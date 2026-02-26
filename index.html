@@ -237,7 +237,7 @@ window.addEventListener('wheel', e => {
   if (wheelLock) return;
   wheelLock = true;
   setTimeout(() => wheelLock = false, 700);
-  if (e.deltaY < 0) goTo(currentIndex + 1); // scroll UP = suivante
+  if (e.deltaY > 0) goTo(currentIndex + 1); // scroll UP = suivante
   else goTo(currentIndex - 1);              // scroll DOWN = précédente
 }, { passive: false });
 
