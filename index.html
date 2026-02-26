@@ -330,11 +330,6 @@ function buildFeed() {
     iframe.style.cssText = 'width:100%;height:100%;border:none;background:#000;';
     slide.appendChild(iframe);
 
-    // Couche invisible pour capturer le swipe par-dessus l'iframe
-    const touchLayer = document.createElement('div');
-    touchLayer.style.cssText = 'position:absolute;inset:0;z-index:3;';
-    slide.appendChild(touchLayer);
-
     const info = document.createElement('div');
     info.className = 'slide-info';
     info.innerHTML = `<div class="slide-num">VIDÉO ${i+1} / ${shuffled.length}</div><div class="slide-title">${vid.name}</div>`;
@@ -409,19 +404,19 @@ function updateUI() {
 function bindSwipe() {
   const el = document.getElementById('feed');
 
-  // Touch sur le feed ET sur chaque touch layer au dessus des iframes
-  const addTouch = (target) => {
-    target.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
-    target.addEventListener('touchmove', e => { e.preventDefault(); }, { passive: false });
-    target.addEventListener('touchend', e => {
-      const diff = startY - e.changedTouches[0].clientY;
-      if (Math.abs(diff) > 40) diff > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
-    }, { passive: true });
-  };
+  // Zone de swipe en haut de l'écran (50px) — ne bloque pas les contrôles en bas
+  const swipeZone = document.createElement('div');
+  swipeZone.style.cssText = 'position:fixed;top:0;left:0;right:0;height:60%;z-index:10;';
+  document.getElementById('feed').appendChild(swipeZone);
 
-  addTouch(el);
-  // Ajouter aussi sur tous les touch layers
-  document.querySelectorAll('.slide > div[style*="z-index:3"]').forEach(addTouch);
+  swipeZone.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+  swipeZone.addEventListener('touchend', e => {
+    const diff = startY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 40) diff > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
+  }, { passive: true });
+
+  // Souris/trackpad
+  el.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
 
   let wheelLock = false;
   el.addEventListener('wheel', e => {
