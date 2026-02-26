@@ -84,6 +84,31 @@
   .bdot { width: 3px; height: 18px; border-radius: 10px; background: rgba(255,255,255,0.1); transition: all 0.3s; }
   .bdot.active { background: var(--gold); height: 28px; }
 
+  /* NAV BUTTONS */
+  #navUp, #navDown {
+    position: fixed; right: 30px; z-index: 100;
+    background: rgba(245,200,66,0.15);
+    border: 2px solid rgba(245,200,66,0.4);
+    color: var(--gold); font-size: 1.4rem;
+    width: 50px; height: 50px; border-radius: 50%;
+    cursor: pointer; backdrop-filter: blur(10px);
+    transition: background 0.2s, transform 0.1s;
+    display: none;
+  }
+  #navUp { top: 50%; margin-top: -60px; }
+  #navDown { top: 50%; margin-top: 10px; }
+  #navUp:hover, #navDown:hover { background: rgba(245,200,66,0.35); transform: scale(1.1); }
+  #feed:hover #navUp, #feed:hover #navDown { display: block; }
+
+  #fsBtn {
+    position: fixed; bottom: 20px; right: 20px; z-index: 100;
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(245,200,66,0.3);
+    color: var(--gold); font-size: 1rem;
+    width: 40px; height: 40px; border-radius: 10px;
+    cursor: pointer; display: none;
+  }
+  #feed:hover #fsBtn { display: block; }
+
   /* hint */
   #hint {
     position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
@@ -110,6 +135,9 @@
 
 <!-- FEED -->
 <div id="feed">
+  <button id="navUp" onclick="goTo(currentIndex + 1)" title="Vidéo suivante">↑</button>
+  <button id="navDown" onclick="goTo(currentIndex - 1)" title="Vidéo précédente">↓</button>
+  <button id="fsBtn" onclick="toggleFS()" title="Plein écran (F)">⛶</button>
   <div id="topbar">
     <div class="brand">MP<span>.</span>co</div>
     <div id="counter"></div>
@@ -135,6 +163,11 @@ let shuffled = [];
 let currentIndex = 0;
 let slides = [];
 let wheelLock = false;
+
+function toggleFS() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen();
+}
 
 function shuffle(arr) {
   const a = [...arr];
@@ -264,30 +297,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Bouton plein écran
-const fsBtn = document.createElement('button');
-fsBtn.textContent = '⛶';
-fsBtn.title = 'Plein écran (F)';
-fsBtn.style.cssText = `
-  position: fixed; bottom: 20px; right: 20px; z-index: 100;
-  background: rgba(0,0,0,0.6); border: 1px solid rgba(245,200,66,0.3);
-  color: var(--gold); font-size: 1.2rem;
-  width: 40px; height: 40px; border-radius: 10px;
-  cursor: pointer; backdrop-filter: blur(10px);
-  display: none;
-`;
-fsBtn.onclick = () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(()=>{});
-  } else {
-    document.exitFullscreen();
-  }
-};
-document.body.appendChild(fsBtn);
 
-document.getElementById('feed').addEventListener('mouseover', () => {
-  fsBtn.style.display = 'block';
-});
 </script>
 </body>
 </html>
