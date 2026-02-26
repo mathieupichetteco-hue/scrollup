@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mathieu Pichette · Scroll Up</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root { --gold: #F5C842; --dark: #080808; }
+
+  body {
+    background: var(--dark); color: white;
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden; height: 100vh; width: 100vw;
+    user-select: none;
+  }
+
+  /* SPLASH */
+  #splash {
+    position: fixed; inset: 0; background: var(--dark);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 1000; gap: 10px; text-align: center; padding: 30px;
+  }
+  .eyebrow { font-size: 0.68rem; letter-spacing: 4px; text-transform: uppercase; color: #444; margin-bottom: 4px; }
+  #splash h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(3rem, 13vw, 5rem);
+    letter-spacing: 3px; line-height: 0.95;
+  }
+  #splash h1 em { color: var(--gold); font-style: normal; display: block; font-size: 68%; }
+  .scroll-hint {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    margin: 16px 0; animation: floatUp 2s ease-in-out infinite; color: var(--gold);
+  }
+  .scroll-hint svg { width: 28px; }
+  .scroll-hint span { font-size: 0.62rem; letter-spacing: 4px; text-transform: uppercase; }
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-7px); opacity: 1; }
+  }
+  #startBtn {
+    background: var(--gold); color: var(--dark); border: none;
+    font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: 3px;
+    padding: 15px 44px; border-radius: 50px; cursor: pointer; margin-top: 6px;
+    transition: transform 0.1s;
+  }
+  #startBtn:active { transform: scale(0.95); }
+
+  /* FEED */
+  #feed { position: fixed; inset: 0; display: none; overflow: hidden; background: #000; }
+
+  .slide {
+    position: absolute; inset: 0;
+    transition: transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94);
+    background: #000;
+    overflow: hidden;
+  }
+  .slide iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1;
+  }
+  .slide-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 16px 16px 44px;
+    z-index: 2;
+    background: linear-gradient(transparent, rgba(0,0,0,0.88));
+    pointer-events: none;
+  }
+  .slide-num { font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+  .slide-title { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
+
+  #topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 14px 12px;
+    background: linear-gradient(rgba(0,0,0,0.7), transparent);
+    pointer-events: none;
+  }
+  .brand { font-family: 'Anton', sans-serif; font-size: 0.95rem; letter-spacing: 1px; }
+  .brand span { color: var(--gold); }
+  #counter { font-size: 0.68rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+
+  #scrollBar {
+    position: fixed; right: 8px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 4px; z-index: 50; pointer-events: none;
+  }
+  .bdot { width: 3px; height: 18px; border-radius: 10px; background: rgba(255,255,255,0.1); transition: all 0.3s; }
+  .bdot.active { background: var(--gold); height: 28px; }
+
+  #addBtn {
+    position: fixed; top: 12px; right: 12px; z-index: 100;
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(245,200,66,0.3);
+    color: var(--gold); font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem; letter-spacing: 1.5px;
+    padding: 7px 13px; border-radius: 20px; cursor: pointer;
+    backdrop-filter: blur(10px);
+  }
+
+  /* ADD PANEL */
+  #addPanel {
+    position: fixed; inset: 0; background: #080808; z-index: 200;
+    display: none; flex-direction: column; overflow-y: auto;
+    padding: 20px 18px 50px;
+  }
+  #addPanel.open { display: flex; }
+  .mp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .mp-header h2 { font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 2px; }
+  .mp-header h2 span { color: var(--gold); }
+  #closeAdd {
+    background: none; border: 1px solid #2a2a2a; color: white;
+    width: 34px; height: 34px; border-radius: 50%; font-size: 1rem; cursor: pointer;
+  }
+
+  .add-box {
+    border: 2px dashed rgba(245,200,66,0.28); border-radius: 16px;
+    padding: 26px 20px; text-align: center;
+    margin-bottom: 20px; background: rgba(245,200,66,0.02);
+  }
+  .add-icon { font-size: 2.4rem; margin-bottom: 8px; }
+  .add-box h3 { font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 14px; }
+
+  .field {
+    background: #111; border: 1px solid #2a2a2a; color: white;
+    padding: 10px 14px; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; width: 100%; outline: none; margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+  .field:focus { border-color: var(--gold); }
+
+  .btn-add {
+    background: var(--gold); color: #080808; border: none;
+    font-family: 'Anton', sans-serif; font-size: 0.9rem; letter-spacing: 2px;
+    padding: 13px; border-radius: 10px; width: 100%; cursor: pointer;
+    margin-top: 4px; transition: opacity 0.2s;
+  }
+  .btn-add:active { opacity: 0.8; }
+
+  .section-label { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: #3a3a3a; margin-bottom: 12px; }
+
+  .vid-list { display: flex; flex-direction: column; gap: 9px; }
+  .vid-item {
+    display: flex; align-items: center; gap: 11px;
+    background: #111; border: 1px solid #1c1c1c; border-radius: 12px; padding: 10px 12px;
+  }
+  .vid-thumb {
+    width: 64px; height: 44px; border-radius: 7px; background: #1a1a1a;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .vid-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .vid-info { flex: 1; min-width: 0; }
+  .vid-name {
+    font-size: 0.82rem; font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;
+  }
+  .vid-file { font-size: 0.65rem; color: #3a3a3a; margin-top: 2px; }
+  .del-btn {
+    background: rgba(255,50,50,0.07); border: 1px solid rgba(255,50,50,0.2);
+    color: #ff4444; width: 30px; height: 30px; border-radius: 8px;
+    font-size: 0.85rem; cursor: pointer; flex-shrink: 0;
+  }
+  .empty-msg { text-align: center; color: #252525; font-size: 0.8rem; padding: 40px 20px; letter-spacing: 1px; }
+
+  /* NO VIDEOS */
+  #noVideos {
+    position: fixed; inset: 0; background: var(--dark);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; text-align: center; padding: 30px;
+  }
+  #noVideos h2 { font-family: 'Anton', sans-serif; font-size: 2rem; letter-spacing: 3px; }
+  #noVideos p { color: #444; font-size: 0.85rem; line-height: 1.6; }
+  .btn-gold {
+    background: var(--gold); color: var(--dark); border: none;
+    font-family: 'Anton', sans-serif; font-size: 0.9rem; letter-spacing: 2px;
+    padding: 14px 30px; border-radius: 12px; cursor: pointer; margin-top: 8px;
+  }
+
+  /* hint overlay */
+  #hint {
+    position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+    background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.25);
+    color: var(--gold); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    padding: 8px 18px; border-radius: 20px; z-index: 50; pointer-events: none;
+    animation: fadeHint 3s ease forwards;
+  }
+  @keyframes fadeHint { 0%,60% { opacity:1; } 100% { opacity:0; } }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="eyebrow">ton espace personnel</div>
+  <h1>MATHIEU<br>PICHETTE<em>.co</em></h1>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+    <span>scroll up</span>
+  </div>
+  <button id="startBtn" onclick="startApp()">ENTRER →</button>
+</div>
+
+<!-- FEED -->
+<div id="feed">
+  <div id="topbar">
+    <div class="brand">MP<span>.</span>co</div>
+    <div id="counter"></div>
+  </div>
+  <button id="addBtn" onclick="openAdd()">+ GÉRER</button>
+  <div id="scrollBar"></div>
+</div>
+
+<!-- NO VIDEOS -->
+<div id="noVideos">
+  <h2>AUCUNE<br>VIDÉO</h2>
+  <p>Ajoute tes fichiers MP4<br>pour démarrer ton feed!</p>
+  <button class="btn-gold" onclick="openAdd()">+ AJOUTER DES VIDÉOS</button>
+</div>
+
+<!-- ADD PANEL -->
+<div id="addPanel">
+  <div class="mp-header">
+    <h2>MES VIDÉOS <span>↑</span></h2>
+    <button id="closeAdd" onclick="closeAdd()">✕</button>
+  </div>
+
+  <div class="add-box">
+    <div class="add-icon">🎬</div>
+    <h3>AJOUTER DES VIDÉOS MP4</h3>
+    <input class="field" id="vidName" type="text" placeholder="Nom (ex: Naruto vs Pain — DUB)">
+    <input class="field" id="vidFile" type="text" placeholder="Nom du fichier (ex: naruto-pain.mp4)">
+    <button class="btn-add" onclick="addVideo()">AJOUTER AU FEED ↑</button>
+    <p style="font-size:0.68rem; color:#333; margin-top:12px; line-height:1.5;">
+      Le fichier MP4 doit être dans le même dossier que ce fichier HTML
+    </p>
+  </div>
+
+  <div class="section-label">MES VIDÉOS (<span id="vidCount">0</span>)</div>
+  <div id="vidList" class="vid-list">
+    <div class="empty-msg">Aucune vidéo encore!</div>
+  </div>
+</div>
+
+<script>
+// ── LISTE DES VIDÉOS ──────────────────────────────────────────
+// Pour ajouter des vidéos : mets le fichier MP4 dans le même dossier
+// que ce fichier index.html, puis ajoute une ligne ici :
+// { name: "Nom de ta vidéo", file: "nom-du-fichier.mp4" }
+
+const VIDEOS_PERMANENTES = [
+  { name: "Madara Uchiha vs Shinobi Alliance Full Fight English Dub", file: "https://streamable.com/e/m2w0x2?autoplay=1" },
+  { name: "Pains Cycle of Hatred (English Dub)", file: "https://streamable.com/e/hcncn6?autoplay=1" },
+  { name: "Itachi vs Orochimaru English Dub", file: "https://streamable.com/e/c4704j?autoplay=1" },
+  { name: "Vidéo 4", file: "https://streamable.com/e/xdcnyz?autoplay=1" },
+  { name: "Vidéo 5", file: "https://streamable.com/e/i7v1qy?autoplay=1" },
+  { name: "Vidéo 6", file: "https://streamable.com/e/mbe5nd?autoplay=1" },
+  { name: "Vidéo 7", file: "https://streamable.com/e/u0lirg?autoplay=1" },
+  { name: "Vidéo 8", file: "https://streamable.com/e/hvjt49?autoplay=1" },
+  { name: "Vidéo 9", file: "https://streamable.com/e/z1mmtr?autoplay=1" },
+  { name: "Vidéo 10", file: "https://streamable.com/e/hdkukx?autoplay=1" },
+];
+
+// ─────────────────────────────────────────────────────────────
+
+let videos = [...VIDEOS_PERMANENTES.map((v,i) => ({ id: i+1, name: v.name, file: v.file }))];
+
+// Charger les extras ajoutés via l'interface (sauvegardés dans localStorage)
+function loadExtras() {
+  try {
+    const extras = JSON.parse(localStorage.getItem('mp_extras') || '[]');
+    extras.forEach(v => { if (!videos.find(x => x.file === v.file)) videos.push(v); });
+  } catch(e) {}
+}
+
+function saveExtras() {
+  const permanent_files = VIDEOS_PERMANENTES.map(v => v.file);
+  const extras = videos.filter(v => !permanent_files.includes(v.file));
+  localStorage.setItem('mp_extras', JSON.stringify(extras));
+}
+
+let shuffled = [];
+let currentIndex = 0;
+let slides = [];
+let startY = 0;
+
+// ── START ──
+function startApp() {
+  loadExtras();
+  document.getElementById('splash').style.display = 'none';
+  if (videos.length === 0) {
+    document.getElementById('noVideos').style.display = 'flex';
+  } else {
+    showFeed();
+  }
+}
+
+function showFeed() {
+  document.getElementById('noVideos').style.display = 'none';
+  document.getElementById('feed').style.display = 'block';
+  buildFeed();
+}
+
+// ── BUILD FEED ──
+// On crée les slides SANS src — on charge seulement la vidéo active (lazy loading)
+function buildFeed() {
+  const feed = document.getElementById('feed');
+  slides.forEach(s => s.remove());
+  slides = [];
+  shuffled = shuffle([...videos]);
+  currentIndex = 0;
+
+  shuffled.forEach((vid, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    slide.dataset.file = vid.file;
+    slide.dataset.name = vid.name;
+    slide.dataset.index = i;
+
+    // Iframe Streamable — src chargé seulement quand actif
+    const iframe = document.createElement('iframe');
+    iframe.src = 'about:blank';
+    iframe.allow = 'fullscreen;autoplay';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'width:100%;height:100%;border:none;background:#000;';
+    slide.appendChild(iframe);
+
+    // Couche invisible pour capturer le swipe par-dessus l'iframe
+    const touchLayer = document.createElement('div');
+    touchLayer.style.cssText = 'position:absolute;inset:0;z-index:3;';
+    slide.appendChild(touchLayer);
+
+    const info = document.createElement('div');
+    info.className = 'slide-info';
+    info.innerHTML = `<div class="slide-num">VIDÉO ${i+1} / ${shuffled.length}</div><div class="slide-title">${vid.name}</div>`;
+    slide.appendChild(info);
+
+    slide.style.transform = `translateY(${-i * 100}%)`;
+    feed.appendChild(slide);
+    slides.push(slide);
+  });
+
+  updateUI();
+  bindSwipe();
+
+  // Charge et joue seulement la première vidéo
+  loadAndPlay(0);
+
+  // hint
+  const hint = document.createElement('div');
+  hint.id = 'hint';
+  hint.textContent = '↑ scroll up pour la prochaine';
+  document.body.appendChild(hint);
+  setTimeout(() => hint.remove(), 3200);
+}
+
+function loadAndPlay(idx) {
+  const slide = slides[idx];
+  if (!slide) return;
+  const iframe = slide.querySelector('iframe');
+  if (!iframe) return;
+  // Charger iframe seulement quand active
+  if (!iframe.src || iframe.src === 'about:blank') {
+    iframe.src = slide.dataset.file;
+  }
+}
+
+function stopAll() {
+  // Stopper toutes les iframes sauf la courante
+  slides.forEach((s, i) => {
+    if (i !== currentIndex) {
+      const iframe = s.querySelector('iframe');
+      if (iframe) iframe.src = 'about:blank';
+    }
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0 || idx >= slides.length) return;
+  currentIndex = idx;
+  slides.forEach((s, i) => {
+    const offset = (currentIndex - i) * 100;
+    s.style.transform = `translateY(${offset}%)`;
+  });
+  updateUI();
+  stopAll();
+  loadAndPlay(currentIndex);
+}
+
+function updateUI() {
+  document.getElementById('counter').textContent = `${currentIndex + 1} / ${shuffled.length}`;
+  const bar = document.getElementById('scrollBar');
+  bar.innerHTML = '';
+  const total = Math.min(shuffled.length, 12);
+  const rel = Math.round((currentIndex / Math.max(shuffled.length - 1, 1)) * (total - 1));
+  for (let i = total - 1; i >= 0; i--) {
+    const d = document.createElement('div');
+    d.className = 'bdot' + (i === (total - 1 - rel) ? ' active' : '');
+    bar.appendChild(d);
+  }
+}
+
+// ── SWIPE + KEYBOARD + SCROLL ──
+function bindSwipe() {
+  const el = document.getElementById('feed');
+
+  // Touch sur le feed ET sur chaque touch layer au dessus des iframes
+  const addTouch = (target) => {
+    target.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    target.addEventListener('touchmove', e => { e.preventDefault(); }, { passive: false });
+    target.addEventListener('touchend', e => {
+      const diff = startY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 40) diff > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
+    }, { passive: true });
+  };
+
+  addTouch(el);
+  // Ajouter aussi sur tous les touch layers
+  document.querySelectorAll('.slide > div[style*="z-index:3"]').forEach(addTouch);
+
+  let wheelLock = false;
+  el.addEventListener('wheel', e => {
+    e.preventDefault();
+    if (wheelLock) return;
+    wheelLock = true;
+    setTimeout(() => wheelLock = false, 600);
+    // SCROLL UP (deltaY négatif) = vidéo suivante
+    e.deltaY < 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
+  }, { passive: false });
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('feed').style.display === 'none') return;
+  // FLÈCHE UP = vidéo suivante
+  if (e.key === 'ArrowUp')   { e.preventDefault(); goTo(currentIndex + 1); }
+  if (e.key === 'ArrowDown') { e.preventDefault(); goTo(currentIndex - 1); }
+});
+
+// ── ADD PANEL ──
+function openAdd() {
+  renderVidList();
+  document.getElementById('addPanel').classList.add('open');
+}
+
+function closeAdd() {
+  document.getElementById('addPanel').classList.remove('open');
+  if (videos.length > 0) showFeed();
+  else {
+    document.getElementById('feed').style.display = 'none';
+    document.getElementById('noVideos').style.display = 'flex';
+  }
+}
+
+function addVideo() {
+  const name = document.getElementById('vidName').value.trim();
+  const file = document.getElementById('vidFile').value.trim();
+  if (!name || !file) { alert('Mets un nom et un nom de fichier!'); return; }
+  const id = Date.now();
+  videos.push({ id, name, file });
+  saveExtras();
+  document.getElementById('vidName').value = '';
+  document.getElementById('vidFile').value = '';
+  renderVidList();
+}
+
+function renderVidList() {
+  const list = document.getElementById('vidList');
+  document.getElementById('vidCount').textContent = videos.length;
+  if (!videos.length) {
+    list.innerHTML = '<div class="empty-msg">Aucune vidéo encore!</div>';
+    return;
+  }
+  list.innerHTML = '';
+  videos.forEach(v => {
+    const item = document.createElement('div');
+    item.className = 'vid-item';
+
+    const thumb = document.createElement('div');
+    thumb.className = 'vid-thumb';
+    // Try to show video thumbnail
+    const tv = document.createElement('video');
+    tv.src = v.file; tv.muted = true; tv.preload = 'metadata';
+    tv.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+    thumb.appendChild(tv);
+
+    const info = document.createElement('div');
+    info.className = 'vid-info';
+    info.innerHTML = `<div class="vid-name">${v.name}</div><div class="vid-file">${v.file}</div>`;
+
+    const del = document.createElement('button');
+    del.className = 'del-btn';
+    del.textContent = '✕';
+    del.onclick = () => {
+      videos = videos.filter(x => x.id !== v.id);
+      saveExtras();
+      renderVidList();
+    };
+
+    item.appendChild(thumb);
+    item.appendChild(info);
+    item.appendChild(del);
+    list.appendChild(item);
+  });
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+</script>
+</body>
+</html>
