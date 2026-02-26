@@ -242,10 +242,51 @@ window.addEventListener('wheel', e => {
 }, { passive: false });
 
 // FLÈCHES CLAVIER — UP = vidéo suivante
+// Re-focus sur le body quand on clique ailleurs pour garder le contrôle
+document.addEventListener('click', () => {
+  setTimeout(() => document.body.focus(), 100);
+});
+
+document.body.setAttribute('tabindex', '0');
+document.body.focus();
+
 document.addEventListener('keydown', e => {
   if (document.getElementById('feed').style.display === 'none') return;
-  if (e.key === 'ArrowUp')   { e.preventDefault(); goTo(currentIndex + 1); }
-  if (e.key === 'ArrowDown') { e.preventDefault(); goTo(currentIndex - 1); }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); document.body.focus(); goTo(currentIndex + 1); }
+  if (e.key === 'ArrowDown') { e.preventDefault(); document.body.focus(); goTo(currentIndex - 1); }
+  // F = plein écran
+  if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(()=>{});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+});
+
+// Bouton plein écran
+const fsBtn = document.createElement('button');
+fsBtn.textContent = '⛶';
+fsBtn.title = 'Plein écran (F)';
+fsBtn.style.cssText = `
+  position: fixed; bottom: 20px; right: 20px; z-index: 100;
+  background: rgba(0,0,0,0.6); border: 1px solid rgba(245,200,66,0.3);
+  color: var(--gold); font-size: 1.2rem;
+  width: 40px; height: 40px; border-radius: 10px;
+  cursor: pointer; backdrop-filter: blur(10px);
+  display: none;
+`;
+fsBtn.onclick = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(()=>{});
+  } else {
+    document.exitFullscreen();
+  }
+};
+document.body.appendChild(fsBtn);
+
+document.getElementById('feed').addEventListener('mouseover', () => {
+  fsBtn.style.display = 'block';
 });
 </script>
 </body>
