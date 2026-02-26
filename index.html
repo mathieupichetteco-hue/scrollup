@@ -167,6 +167,31 @@
   }
   .empty-msg { text-align: center; color: #252525; font-size: 0.8rem; padding: 40px 20px; letter-spacing: 1px; }
 
+  /* TAP TO START */
+  #tapStart {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.85);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px;
+  }
+  #tapStart h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: 2rem; letter-spacing: 3px; color: white;
+  }
+  #tapStart p { font-size: 0.8rem; color: #555; letter-spacing: 2px; text-transform: uppercase; }
+  #tapStartBtn {
+    background: var(--gold); color: var(--dark);
+    border: none; font-family: 'Anton', sans-serif;
+    font-size: 1.2rem; letter-spacing: 3px;
+    padding: 18px 50px; border-radius: 50px; cursor: pointer;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
   /* NO VIDEOS */
   #noVideos {
     position: fixed; inset: 0; background: var(--dark);
@@ -204,6 +229,14 @@
     <span>scroll up</span>
   </div>
   <button id="startBtn" onclick="startApp()">ENTRER →</button>
+</div>
+
+<!-- TAP TO START -->
+<div id="tapStart" style="display:none;">
+  <p>ton espace motivation</p>
+  <h2>MATHIEU<br>PICHETTE</h2>
+  <button id="tapStartBtn" onclick="dismissTap()">▶ TAP TO START</button>
+  <p style="font-size:0.65rem; margin-top:8px;">swipe ↑ pour scroller</p>
 </div>
 
 <!-- FEED -->
@@ -289,6 +322,13 @@ let currentIndex = 0;
 let slides = [];
 let startY = 0;
 
+// ── TAP TO START ──
+function dismissTap() {
+  document.getElementById('tapStart').style.display = 'none';
+  // Reload current iframe to trigger autoplay with sound now unlocked
+  loadAndPlay(currentIndex);
+}
+
 // ── START ──
 function startApp() {
   loadExtras();
@@ -345,6 +385,11 @@ function buildFeed() {
 
   // Charge et joue seulement la première vidéo
   loadAndPlay(0);
+
+  // Sur mobile, montrer le tap to start pour débloquer le son
+  if ('ontouchstart' in window) {
+    document.getElementById('tapStart').style.display = 'flex';
+  }
 
   // hint
   const hint = document.createElement('div');
@@ -404,18 +449,28 @@ function updateUI() {
 function bindSwipe() {
   const el = document.getElementById('feed');
 
-  // Zone de swipe en haut de l'écran (50px) — ne bloque pas les contrôles en bas
-  const swipeZone = document.createElement('div');
-  swipeZone.style.cssText = 'position:fixed;top:0;left:0;right:0;height:60%;z-index:10;';
-  document.getElementById('feed').appendChild(swipeZone);
+  // Zones de swipe sur les côtés — laisse le centre libre pour les contrôles
+  ['left','right'].forEach(side => {
+    const zone = document.createElement('div');
+    zone.style.cssText = `position:fixed;top:0;${side}:0;width:22%;height:100%;z-index:10;`;
+    document.getElementById('feed').appendChild(zone);
+    zone.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    zone.addEventListener('touchend', e => {
+      const diff = startY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 40) diff > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
+    }, { passive: true });
+  });
 
-  swipeZone.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
-  swipeZone.addEventListener('touchend', e => {
+  // Zone en haut pour swipe aussi
+  const topZone = document.createElement('div');
+  topZone.style.cssText = 'position:fixed;top:0;left:22%;right:22%;height:15%;z-index:10;';
+  document.getElementById('feed').appendChild(topZone);
+  topZone.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+  topZone.addEventListener('touchend', e => {
     const diff = startY - e.changedTouches[0].clientY;
     if (Math.abs(diff) > 40) diff > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
   }, { passive: true });
 
-  // Souris/trackpad
   el.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
 
   let wheelLock = false;
