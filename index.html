@@ -111,6 +111,23 @@
     color:var(--gold); font-weight:600;
   }
 
+  /* Single intention block in splash */
+  .splash-single-intention {
+    width:100%; max-width:420px;
+    font-size:0.72rem; line-height:1.8; letter-spacing:0.3px;
+    color:#ffffff; text-transform:uppercase; font-weight:600;
+    text-align:center; padding-top:14px;
+    border-top:1px solid rgba(245,200,66,0.3);
+  }
+  .intention-label {
+    color:var(--gold); font-size:0.75rem; letter-spacing:2px;
+    font-weight:700; margin-bottom:6px; display:block;
+  }
+  .intention-author {
+    color:var(--gold); font-size:0.68rem; letter-spacing:1px;
+    font-weight:700; margin-top:8px; display:block;
+  }
+
   /* ═══════════════════ FEED ═══════════════════ */
   #feed { position:fixed; inset:0; display:none; background:#000; overflow:hidden; }
 
@@ -139,12 +156,13 @@
     pointer-events:none;
   }
   .topbar-left {
-    flex:1; padding-right:10px;
-    font-size:0.38rem; line-height:1.6; letter-spacing:0.5px;
-    color:rgba(255,255,255,0.75); text-transform:uppercase;
-    font-weight:600; max-width:220px;
+    flex:1; padding-right:8px;
+    font-size:0.5rem; line-height:1.75; letter-spacing:0.3px;
+    color:#ffffff; text-transform:uppercase;
+    font-weight:700; max-width:235px;
+    text-shadow:0 1px 6px rgba(0,0,0,1), 0 0 12px rgba(0,0,0,1);
   }
-  .topbar-left span { color:var(--gold); display:block; margin-bottom:2px; font-size:0.4rem; letter-spacing:1px; }
+  .topbar-left span { color:var(--gold); display:block; margin-bottom:3px; font-size:0.52rem; letter-spacing:1px; text-shadow:0 1px 6px rgba(0,0,0,1); }
   .topbar-right {
     display:flex; align-items:center; flex-shrink:0;
   }
@@ -215,9 +233,9 @@
 <div id="feed">
   <div id="topbar">
     <div class="topbar-left">
-      <span>Intention ▲</span>
-      The chamber of my intention that will ensure that all of society — therefore the entire life, yes the entire world — is from now on and for eternity at 0% energy destruction for 100% energy construction, and constantly more energy evolution in its best and fastest possible way. Triangle!
-      <span style="margin-top:4px;">Mathieu Pichette.co — King and God of Energy, Main Player Character</span>
+      <span>INTENTION:</span>
+      THE CHAMBER OF MY INTENTION THAT WILL ENSURE THAT ALL OF SOCIETY — THEREFORE THE ENTIRE LIFE, YES THE ENTIRE WORLD — IS FROM NOW ON AND FOR ETERNITY AT 0% ENERGY DESTRUCTION FOR 100% ENERGY CONSTRUCTION, AND CONSTANTLY MORE ENERGY EVOLUTION IN ITS BEST AND FASTEST POSSIBLE WAY. TRIANGLE!
+      <span style="margin-top:4px;">MATHIEU PICHETTE.CO (KING AND GOD OF ENERGY, MAIN PLAYER CHARACTER)</span>
     </div>
     <div class="topbar-right">
       <div class="brand">Mathieu Pichette<em>.co</em><span class="tri"></span></div>
