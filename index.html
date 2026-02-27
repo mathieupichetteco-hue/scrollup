@@ -38,9 +38,11 @@
   }
   #startBtn {
     background: var(--gold); color: var(--dark); border: none;
-    font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: 3px;
-    padding: 15px 44px; border-radius: 50px; cursor: pointer; margin-top: 6px;
-    transition: transform 0.1s;
+    font-family: 'Anton', sans-serif; font-size: 1.1rem; letter-spacing: 3px;
+    padding: 20px 50px; border-radius: 50px; cursor: pointer; margin-top: 6px;
+    transition: transform 0.1s; position: relative; z-index: 9999;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   #startBtn:hover { transform: scale(1.03); }
 
