@@ -7,99 +7,98 @@
 <title>Mathieu Pichette · Scroll Up</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;600&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  :root { --gold: #F5C842; --dark: #080808; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root { --gold:#F5C842; --dark:#080808; }
 
   html, body {
-    background: var(--dark); color: white;
-    font-family: 'DM Sans', sans-serif;
-    overflow: hidden; height: 100%; width: 100%;
-    position: fixed; top: 0; left: 0;
+    background:var(--dark); color:white;
+    font-family:'DM Sans',sans-serif;
+    overflow:hidden; height:100%; width:100%;
+    position:fixed; top:0; left:0;
   }
 
   /* SPLASH */
   #splash {
-    position: fixed; inset: 0; background: var(--dark);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    z-index: 1000; gap: 10px; text-align: center; padding: 30px;
+    position:fixed; inset:0; background:var(--dark);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    z-index:1000; gap:10px; text-align:center; padding:30px;
   }
-  .eyebrow { font-size: 0.68rem; letter-spacing: 4px; text-transform: uppercase; color: #444; margin-bottom: 4px; }
-  #splash h1 { font-family: 'Anton', sans-serif; font-size: 5rem; letter-spacing: 3px; line-height: 0.95; }
-  #splash h1 em { color: var(--gold); font-style: normal; display: block; font-size: 68%; }
-
+  .eyebrow { font-size:0.68rem; letter-spacing:4px; text-transform:uppercase; color:#444; margin-bottom:4px; }
+  #splash h1 { font-family:'Anton',sans-serif; font-size:5rem; letter-spacing:3px; line-height:0.95; }
+  #splash h1 em { color:var(--gold); font-style:normal; display:block; font-size:68%; }
   .scroll-hint {
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
-    margin: 16px 0; animation: floatDown 2s ease-in-out infinite; color: var(--gold);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    margin:16px 0; animation:bob 2s ease-in-out infinite; color:var(--gold);
   }
-  .scroll-hint svg { width: 28px; }
-  .scroll-hint span { font-size: 0.62rem; letter-spacing: 4px; text-transform: uppercase; }
-  @keyframes floatDown {
-    0%,100% { transform: translateY(0); opacity: 0.5; }
-    50% { transform: translateY(7px); opacity: 1; }
+  .scroll-hint svg { width:28px; }
+  .scroll-hint span { font-size:0.62rem; letter-spacing:4px; text-transform:uppercase; }
+  @keyframes bob {
+    0%,100% { transform:translateY(0); opacity:0.5; }
+    50%      { transform:translateY(7px); opacity:1; }
   }
-
   #startBtn {
-    background: var(--gold); color: var(--dark); border: none;
-    font-family: 'Anton', sans-serif; font-size: 1.2rem; letter-spacing: 3px;
-    padding: 22px 55px; border-radius: 50px; cursor: pointer; margin-top: 10px;
-    touch-action: manipulation; -webkit-touch-callout: none;
-    user-select: none; -webkit-user-select: none;
-    display: block; position: relative; z-index: 9999;
-    min-width: 220px; min-height: 65px;
+    background:var(--gold); color:var(--dark); border:none;
+    font-family:'Anton',sans-serif; font-size:1.2rem; letter-spacing:3px;
+    padding:22px 55px; border-radius:50px; cursor:pointer; margin-top:10px;
+    touch-action:manipulation; user-select:none; -webkit-user-select:none;
+    min-width:220px; min-height:65px; position:relative; z-index:9999;
   }
-  #startBtn:active { background: #d4a820; transform: scale(0.96); }
+  #startBtn:active { background:#d4a820; transform:scale(0.96); }
 
   /* FEED */
-  #feed { position: fixed; inset: 0; display: none; overflow: hidden; background: #000; }
+  #feed { position:fixed; inset:0; display:none; background:#000; overflow:hidden; }
 
-  /* Chaque slide occupe tout l'écran, positionnée avec translateY */
+  /* ── SLIDER CONTAINER ── */
+  /* 
+    Logique identique à TikTok MAIS inversée :
+    TikTok  : slides empilées vers le BAS  → swipe UP   pour avancer
+    Nous    : slides empilées vers le HAUT → swipe DOWN pour avancer
+    
+    Concrètement : slide 0 = translateY(0), slide 1 = translateY(-100%), slide 2 = translateY(-200%) ...
+    Pour aller à la slide N : on translateY le container de +N*100vh
+  */
+  #slider {
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    will-change:transform;
+  }
+
   .slide {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: #000;
-    will-change: transform;
+    position:absolute; left:0; width:100%; height:100%;
+    background:#000;
   }
-  /* Transition fluide SEULEMENT quand on anime, pas pendant le swipe live */
-  .slide.animating {
-    transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
-  }
-
   .slide video {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: contain; background: #000;
-    z-index: 1;
+    width:100%; height:100%;
+    object-fit:contain; background:#000;
+    display:block;
   }
   .slide-info {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 16px 16px 50px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
-    pointer-events: none; z-index: 2;
+    position:absolute; bottom:0; left:0; right:0;
+    padding:16px 16px 50px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.9));
+    pointer-events:none;
   }
-  .slide-num { font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
-  .slide-title { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
+  .slide-num { font-size:0.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
+  .slide-title { font-size:0.95rem; font-weight:600; line-height:1.3; }
 
-  /* Topbar */
   #topbar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 14px 12px;
-    background: linear-gradient(rgba(0,0,0,0.65), transparent);
-    pointer-events: none;
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 14px 12px;
+    background:linear-gradient(rgba(0,0,0,0.65),transparent);
+    pointer-events:none;
   }
-  .brand { font-family: 'Anton', sans-serif; font-size: 0.95rem; letter-spacing: 1px; }
-  .brand span { color: var(--gold); }
-  #counter { font-size: 0.68rem; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
+  .brand { font-family:'Anton',sans-serif; font-size:0.95rem; letter-spacing:1px; }
+  .brand span { color:var(--gold); }
+  #counter { font-size:0.68rem; color:rgba(255,255,255,0.4); letter-spacing:1px; }
 
-  /* Hint */
   #hint {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-    background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.25);
-    color: var(--gold); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
-    padding: 8px 18px; border-radius: 20px; z-index: 50; pointer-events: none;
-    white-space: nowrap; animation: fadeHint 4s ease forwards;
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+    background:rgba(245,200,66,0.12); border:1px solid rgba(245,200,66,0.25);
+    color:var(--gold); font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
+    padding:8px 18px; border-radius:20px; z-index:50; pointer-events:none;
+    white-space:nowrap; animation:fadeHint 4s ease forwards;
   }
   @keyframes fadeHint { 0%,60%{opacity:1} 100%{opacity:0} }
 </style>
@@ -110,7 +109,9 @@
   <div class="eyebrow">ton espace personnel</div>
   <h1>MATHIEU<br>PICHETTE<em>.co</em></h1>
   <div class="scroll-hint">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
     <span>swipe down</span>
   </div>
   <button id="startBtn">ENTRER →</button>
@@ -121,6 +122,7 @@
     <div class="brand">MP<span>.</span>co</div>
     <div id="counter"></div>
   </div>
+  <div id="slider"></div>
 </div>
 
 <script>
@@ -139,16 +141,162 @@ var VIDEOS = [
     url: "https://ia600606.us.archive.org/9/items/naruto-vs-kurama-full-fight-english-dub-hd/Naruto%20vs%20Kurama%20Full%20Fight%20English%20Dub%20HD.mp4" },
 ];
 
-var currentIndex = 0;
-var slides = [];
-var isAnimating = false;
+var list = [];        // vidéos mélangées
+var current = 0;      // index actuel
 var appStarted = false;
 
-/* ── Live swipe tracking ───────────────────────── */
-var touchStartY = 0;
-var isDragging = false;
+// Touch state
+var tStartY = 0;
+var tCurY = 0;
+var dragging = false;
+var settling = false;  // pendant l'animation finale
 
-/* ── BOUTON ENTRER ─────────────────────────────── */
+var slider = document.getElementById('slider');
+var H = window.innerHeight;
+
+/* ── Shuffle ─────────────────────────────── */
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length-1; i > 0; i--) {
+    var j = Math.floor(Math.random()*(i+1));
+    var t = a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+
+/* ── Position du slider ──────────────────── */
+// offset = déplacement en px du container
+// slide N est à top: N*100vh dans le container
+// pour afficher slide N : container.translateY = -N*100vh + offset_live
+function setSlider(px, animate) {
+  var base = -current * H;
+  var total = base + px;
+  if (animate) {
+    slider.style.transition = 'transform 0.42s cubic-bezier(0.25,1,0.5,1)';
+  } else {
+    slider.style.transition = 'none';
+  }
+  slider.style.transform = 'translateY(' + total + 'px)';
+}
+
+/* ── Build feed ──────────────────────────── */
+function buildFeed() {
+  slider.innerHTML = '';
+  list = shuffle(VIDEOS);
+  current = 0;
+
+  list.forEach(function(vid, idx) {
+    var slide = document.createElement('div');
+    slide.className = 'slide';
+    // Empiler vers le HAUT : slide 0 en bas, slide 1 au-dessus, etc.
+    // top = idx * 100vh  → mais on inverse : slide 0 = top:0, slide 1 = top:-100vh...
+    // En fait on les empile NORMALEMENT et on inverse la direction de scroll
+    slide.style.top = (idx * 100) + 'vh';
+
+    var video = document.createElement('video');
+    video.setAttribute('playsinline','');
+    video.setAttribute('webkit-playsinline','');
+    video.controls = true;
+    video.preload = 'none';
+    video.src = vid.url;
+    slide.appendChild(video);
+
+    var info = document.createElement('div');
+    info.className = 'slide-info';
+    info.innerHTML =
+      '<div class="slide-num">VIDÉO '+(idx+1)+' / '+list.length+'</div>'+
+      '<div class="slide-title">'+vid.name+'</div>';
+    slide.appendChild(info);
+
+    slider.appendChild(slide);
+  });
+
+  setSlider(0, false);
+  playVideo(0);
+  updateCounter();
+
+  var hint = document.createElement('div');
+  hint.id = 'hint';
+  hint.textContent = '↓ swipe down · prochaine vidéo';
+  document.body.appendChild(hint);
+  setTimeout(function(){ if(hint.parentNode) hint.remove(); }, 4200);
+}
+
+function getVideo(idx) {
+  return slider.querySelectorAll('.slide')[idx].querySelector('video');
+}
+
+function playVideo(idx) {
+  var v = getVideo(idx);
+  var p = v.play();
+  if (p) p.catch(function(){});
+}
+
+function stopVideo(idx) {
+  var v = getVideo(idx);
+  v.pause(); v.currentTime = 0;
+}
+
+function updateCounter() {
+  document.getElementById('counter').textContent = (current+1)+' / '+list.length;
+}
+
+/* ── Touch handlers ──────────────────────── */
+document.addEventListener('touchstart', function(e) {
+  if (!appStarted) return;
+  if (e.target.closest('#startBtn')) return;
+  if (settling) return;
+  tStartY = e.touches[0].clientY;
+  tCurY   = tStartY;
+  dragging = true;
+  slider.style.transition = 'none'; // live tracking, pas d'animation
+}, { passive: true });
+
+document.addEventListener('touchmove', function(e) {
+  if (!dragging || settling) return;
+  e.preventDefault();
+  tCurY = e.touches[0].clientY;
+  var dy = tCurY - tStartY; // positif = doigt descend
+
+  // On permet uniquement swipe vers le bas ET seulement s'il y a une prochaine vidéo
+  if (dy > 0 && current < list.length - 1) {
+    setSlider(dy, false);
+  } else if (dy < 0) {
+    // Bloquer complètement le swipe vers le haut
+    setSlider(0, false);
+  }
+}, { passive: false });
+
+document.addEventListener('touchend', function(e) {
+  if (!dragging) return;
+  dragging = false;
+  if (settling) return;
+
+  var dy = e.changedTouches[0].clientY - tStartY;
+
+  if (dy > 60 && current < list.length - 1) {
+    // Swipe suffisant → vidéo suivante
+    settling = true;
+    stopVideo(current);
+    current++;
+    updateCounter();
+    setSlider(0, true); // snap à la nouvelle position avec animation
+    setTimeout(function() {
+      settling = false;
+      playVideo(current);
+    }, 430);
+  } else {
+    // Pas assez → revenir en place
+    setSlider(0, true);
+  }
+}, { passive: true });
+
+/* Bloquer scroll natif */
+document.addEventListener('touchmove', function(e) {
+  if (appStarted) e.preventDefault();
+}, { passive: false });
+
+/* ── Bouton ENTRER ───────────────────────── */
 var btn = document.getElementById('startBtn');
 btn.addEventListener('touchstart', function(e) {
   e.preventDefault(); e.stopPropagation();
@@ -161,186 +309,9 @@ btn.addEventListener('click', function() {
 function startApp() {
   document.getElementById('splash').style.display = 'none';
   document.getElementById('feed').style.display = 'block';
+  H = window.innerHeight;
   buildFeed();
 }
-
-function buildFeed() {
-  var feed = document.getElementById('feed');
-  slides.forEach(function(s){ s.remove(); });
-  slides = [];
-  currentIndex = 0;
-
-  /* Mélanger aléatoirement à chaque ouverture */
-  var shuffled = VIDEOS.slice();
-  for (var s = shuffled.length - 1; s > 0; s--) {
-    var r = Math.floor(Math.random() * (s + 1));
-    var tmp = shuffled[s]; shuffled[s] = shuffled[r]; shuffled[r] = tmp;
-  }
-
-  shuffled.forEach(function(vid, idx) {
-    var slide = document.createElement('div');
-    slide.className = 'slide';
-
-    var video = document.createElement('video');
-    video.controls = true;
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.preload = 'none';
-    video.src = vid.url;
-    slide.appendChild(video);
-
-    var info = document.createElement('div');
-    info.className = 'slide-info';
-    info.innerHTML =
-      '<div class="slide-num">VIDÉO ' + (idx+1) + ' / ' + shuffled.length + '</div>' +
-      '<div class="slide-title">' + vid.name + '</div>';
-    slide.appendChild(info);
-
-    /* Position initiale : slide 0 à 0%, les autres EN DESSOUS (+100% chacune) */
-    /* IMPORTANT: la nouvelle vidéo arrive du BAS, l'ancienne part vers le HAUT */
-    setPos(slide, idx * 100);
-    feed.appendChild(slide);
-    slides.push(slide);
-  });
-
-  /* Charger la première vidéo */
-  playSlide(0);
-  updateCounter();
-
-  var hint = document.createElement('div');
-  hint.id = 'hint';
-  hint.textContent = '↓ swipe down pour la prochaine vidéo';
-  document.body.appendChild(hint);
-  setTimeout(function(){ if(hint.parentNode) hint.remove(); }, 4200);
-}
-
-function setPos(slide, pct) {
-  slide.style.transform = 'translateY(' + pct + '%)';
-}
-
-function playSlide(idx) {
-  var video = slides[idx].querySelector('video');
-  var p = video.play();
-  if (p) p.catch(function(){});
-}
-
-function stopSlide(idx) {
-  var video = slides[idx].querySelector('video');
-  video.pause();
-  video.currentTime = 0;
-}
-
-function updateCounter() {
-  document.getElementById('counter').textContent = (currentIndex + 1) + ' / ' + VIDEOS.length;
-}
-
-/* ── Animation de transition ───────────────────── */
-function goNext() {
-  if (isAnimating) return;
-  if (currentIndex >= slides.length - 1) return;
-
-  isAnimating = true;
-  var prev = currentIndex;
-  var next = currentIndex + 1;
-
-  /* Ajouter la classe d'animation */
-  slides[prev].classList.add('animating');
-  slides[next].classList.add('animating');
-
-  /* Slide actuelle part vers le HAUT (-100%) */
-  setPos(slides[prev], -100);
-  /* Nouvelle slide arrive du BAS (de +100% → 0%) */
-  setPos(slides[next], 0);
-
-  stopSlide(prev);
-  currentIndex = next;
-  updateCounter();
-
-  setTimeout(function() {
-    slides[prev].classList.remove('animating');
-    slides[next].classList.remove('animating');
-    isAnimating = false;
-    playSlide(currentIndex);
-  }, 460);
-}
-
-/* ── SWIPE LIVE avec suivi du doigt ─────────────── */
-document.addEventListener('touchstart', function(e) {
-  if (!appStarted) return;
-  if (e.target.closest('#startBtn')) return;
-  if (isAnimating) return;
-  touchStartY = e.touches[0].clientY;
-  isDragging = true;
-}, { passive: true });
-
-document.addEventListener('touchmove', function(e) {
-  if (!isDragging || isAnimating) return;
-  e.preventDefault();
-
-  var dy = e.touches[0].clientY - touchStartY;
-
-  /* Seulement si doigt descend (dy > 0) ET qu'il y a une vidéo suivante */
-  if (dy > 0 && currentIndex < slides.length - 1) {
-    var pct = (dy / window.innerHeight) * 100;
-    /* Slide actuelle suit le doigt vers le bas */
-    setPos(slides[currentIndex], pct);
-    /* Slide suivante suit depuis le bas */
-    setPos(slides[currentIndex + 1], 100 - pct);
-  }
-}, { passive: false });
-
-document.addEventListener('touchend', function(e) {
-  if (!isDragging) return;
-  isDragging = false;
-  if (isAnimating) return;
-
-  var dy = e.changedTouches[0].clientY - touchStartY;
-
-  if (dy > 80 && currentIndex < slides.length - 1) {
-    /* Swipe suffisant → compléter l'animation */
-    isAnimating = true;
-    var prev = currentIndex;
-    var next = currentIndex + 1;
-
-    slides[prev].classList.add('animating');
-    slides[next].classList.add('animating');
-    setPos(slides[prev], 100);
-    setPos(slides[next], 0);
-
-    stopSlide(prev);
-    currentIndex = next;
-    updateCounter();
-
-    setTimeout(function() {
-      slides[prev].classList.remove('animating');
-      slides[next].classList.remove('animating');
-      isAnimating = false;
-      playSlide(currentIndex);
-    }, 460);
-
-  } else {
-    /* Swipe annulé → revenir en position */
-    slides[currentIndex].classList.add('animating');
-    if (currentIndex < slides.length - 1) {
-      slides[currentIndex + 1].classList.add('animating');
-    }
-    setPos(slides[currentIndex], 0);
-    if (currentIndex < slides.length - 1) {
-      setPos(slides[currentIndex + 1], 100);
-    }
-    setTimeout(function() {
-      slides[currentIndex].classList.remove('animating');
-      if (currentIndex < slides.length - 1) {
-        slides[currentIndex + 1].classList.remove('animating');
-      }
-    }, 460);
-  }
-}, { passive: true });
-
-/* ── Bloquer scroll natif du browser ──────────── */
-document.addEventListener('touchmove', function(e) {
-  if (appStarted) e.preventDefault();
-}, { passive: false });
 </script>
 </body>
 </html>
