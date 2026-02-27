@@ -241,6 +241,8 @@ function stopSlide(idx) {
 
 function goTo(idx) {
   if (idx < 0 || idx >= slides.length) return;
+  // Sur mobile iPhone — scroll UP seulement, jamais en arrière
+  if ('ontouchstart' in window && idx < currentIndex) return;
   stopSlide(currentIndex);
   currentIndex = idx;
   slides.forEach((s, i) => {
@@ -263,16 +265,56 @@ function updateUI() {
   }
 }
 
-// SCROLL MOLETTE — UP = vidéo suivante
+// TOUCH MOBILE (iPhone) — swipe UP = vidéo suivante uniquement
+let touchStartY = 0;
+document.addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  if (document.getElementById('feed').style.display === 'none') return;
+  const diff = touchStartY - e.changedTouches[0].clientY;
+  // Seulement swipe UP (diff > 0 = doigt monté)
+  if (diff > 50) goTo(currentIndex + 1);
+}, { passive: true });
+
+// Bloquer le scroll natif du browser sur iOS
+document.addEventListener('touchmove', e => {
+  if (document.getElementById('feed').style.display !== 'none') {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+// SCROLL MOLETTE — UP = vidéo suivante (laptop)
 window.addEventListener('wheel', e => {
   if (document.getElementById('feed').style.display === 'none') return;
   e.preventDefault();
   if (wheelLock) return;
   wheelLock = true;
   setTimeout(() => wheelLock = false, 700);
-  if (e.deltaY > 0) goTo(currentIndex + 1); // scroll UP = suivante
-  else goTo(currentIndex - 1);              // scroll DOWN = précédente
+  if (e.deltaY > 0) goTo(currentIndex + 1);
+  else goTo(currentIndex - 1);
 }, { passive: false });
+
+// TOUCH SWIPE — iPhone XR — swipe UP = vidéo suivante uniquement
+let touchStartY = 0;
+let touchLock = false;
+
+document.addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  if (touchLock) return;
+  const diff = touchStartY - e.changedTouches[0].clientY;
+  // Swipe UP = doigt monte = diff positif = vidéo suivante SEULEMENT
+  if (diff > 50) {
+    touchLock = true;
+    setTimeout(() => touchLock = false, 700);
+    goTo(currentIndex + 1);
+  }
+  // Pas de swipe down — on revient jamais en arrière sur mobile
+}, { passive: true });
 
 // FLÈCHES CLAVIER — UP = vidéo suivante
 // Re-focus sur le body quand on clique ailleurs pour garder le contrôle
