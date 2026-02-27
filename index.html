@@ -147,16 +147,9 @@
 
 <script>
 const VIDEOS = [
-  { name: "Madara Uchiha vs Shinobi Alliance Full Fight English Dub", url: "https://streamable.com/e/m2w0x2?autoplay=1&controls=1" },
-  { name: "Pains Cycle of Hatred (English Dub)", url: "https://streamable.com/e/hcncn6?autoplay=1&controls=1" },
-  { name: "Itachi vs Orochimaru English Dub", url: "https://streamable.com/e/c4704j?autoplay=1&controls=1" },
-  { name: "Vidéo 4", url: "https://streamable.com/e/xdcnyz?autoplay=1&controls=1" },
-  { name: "Vidéo 5", url: "https://streamable.com/e/i7v1qy?autoplay=1&controls=1" },
-  { name: "Vidéo 6", url: "https://streamable.com/e/mbe5nd?autoplay=1&controls=1" },
-  { name: "Vidéo 7", url: "https://streamable.com/e/u0lirg?autoplay=1&controls=1" },
-  { name: "Vidéo 8", url: "https://streamable.com/e/hvjt49?autoplay=1&controls=1" },
-  { name: "Vidéo 9", url: "https://streamable.com/e/z1mmtr?autoplay=1&controls=1" },
-  { name: "Vidéo 10", url: "https://streamable.com/e/hdkukx?autoplay=1&controls=1" },
+  { name: "Madara Uchiha vs Shinobi Alliance Full Fight English Dub", url: "https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4" },
+  { name: "Madara vs 5 Kage Full Fight English Dub", url: "https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4" },
+  { name: "Naruto vs 3rd Raikage Full Fight English Dub", url: "https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4" },
 ];
 
 let shuffled = [];
@@ -196,11 +189,12 @@ function buildFeed() {
     slide.className = 'slide';
     slide.dataset.url = vid.url;
 
-    const iframe = document.createElement('iframe');
-    iframe.src = 'about:blank';
-    iframe.allow = 'fullscreen; autoplay';
-    iframe.allowFullscreen = true;
-    slide.appendChild(iframe);
+    const video = document.createElement('video');
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'none';
+    video.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;background:#000;object-fit:contain;z-index:1;';
+    slide.appendChild(video);
 
     const info = document.createElement('div');
     info.className = 'slide-info';
@@ -226,17 +220,19 @@ function buildFeed() {
 function loadSlide(idx) {
   const slide = slides[idx];
   if (!slide) return;
-  const iframe = slide.querySelector('iframe');
-  if (iframe.src === 'about:blank') {
-    iframe.src = slide.dataset.url;
+  const video = slide.querySelector('video');
+  if (!video.src) {
+    video.src = slide.dataset.url;
+    video.load();
   }
+  video.play().catch(() => {});
 }
 
 function stopSlide(idx) {
   const slide = slides[idx];
   if (!slide) return;
-  const iframe = slide.querySelector('iframe');
-  iframe.src = 'about:blank';
+  const video = slide.querySelector('video');
+  if (video) { video.pause(); video.currentTime = 0; }
 }
 
 function goTo(idx) {
