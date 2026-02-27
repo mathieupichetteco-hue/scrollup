@@ -279,10 +279,10 @@ document.addEventListener('touchmove', function(e) {
 
   var H = window.innerHeight;
 
-  // Slide courante : part vers le bas depuis 0
-  setPosPx(slides[current],   dy);
-  // Slide suivante : arrive du haut (-H → dy - H)
-  setPosPx(slides[current+1], dy - H);
+  // Slide courante : descend avec le doigt
+  setPosPx(slides[current], dy);
+  // Slide suivante : arrive du haut (commence à -H, suit le doigt)
+  setPosPx(slides[current+1], -(H - dy));
 
 }, { passive: false });
 
@@ -304,9 +304,9 @@ document.addEventListener('touchend', function(e) {
     current = next;
     updateCounter();
 
-    // Slide précédente → finit de partir en bas (100vh)
+    // Slide précédente → finit de partir en bas (+100vh)
     animateTo(slides[prev], 100, null);
-    // Slide suivante  → finit d'arriver à 0
+    // Slide suivante  → finit d'arriver à 0 depuis le haut
     animateTo(slides[next], 0, function() {
       settling = false;
       playVideo(current);
