@@ -49,25 +49,26 @@
   /* FEED */
   #feed { position:fixed; inset:0; display:none; background:#000; overflow:hidden; }
 
-  /* ── SLIDER CONTAINER ── */
-  /* 
-    Logique identique à TikTok MAIS inversée :
-    TikTok  : slides empilées vers le BAS  → swipe UP   pour avancer
-    Nous    : slides empilées vers le HAUT → swipe DOWN pour avancer
+  /*
+    MÉCANIQUE :
+    - Slide COURANTE  → position 0  (visible, à l'écran)
+    - Slide SUIVANTE  → position -100vh (AU-DESSUS, cachée en haut)
+    - Slides déjà vues → +100vh, +200vh... (EN DESSOUS, jetées)
+
+    Quand tu swipes vers le BAS :
+    → la courante descend (vers +100vh, jetée en bas)
+    → la suivante descend aussi (de -100vh vers 0, elle arrive du haut)
     
-    Concrètement : slide 0 = translateY(0), slide 1 = translateY(-100%), slide 2 = translateY(-200%) ...
-    Pour aller à la slide N : on translateY le container de +N*100vh
+    Illusion : les vidéos sont empilées AU-DESSUS, tu les tires vers toi.
   */
-  #slider {
-    position:absolute; inset:0;
+
+  .slide {
+    position:absolute; left:0; top:0;
     width:100%; height:100%;
+    background:#000;
     will-change:transform;
   }
 
-  .slide {
-    position:absolute; left:0; width:100%; height:100%;
-    background:#000;
-  }
   .slide video {
     width:100%; height:100%;
     object-fit:contain; background:#000;
@@ -122,83 +123,85 @@
     <div class="brand">MP<span>.</span>co</div>
     <div id="counter"></div>
   </div>
-  <div id="slider"></div>
 </div>
 
 <script>
 var VIDEOS = [
-  { name: "Madara Uchiha vs Shinobi Alliance Full Fight English Dub",
-    url: "https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4" },
-  { name: "Madara vs 5 Kage Full Fight English Dub",
-    url: "https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4" },
-  { name: "Naruto vs 3rd Raikage Full Fight English Dub",
-    url: "https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4" },
-  { name: "Kakashi vs Obito Full Fight English Dub",
-    url: "https://ia601604.us.archive.org/19/items/kakashi-vs-obito-full-fight-english-dub/Kakashi%20vs%20Obito%20Full%20Fight%20English%20Dub.mp4" },
-  { name: "Itachi and Shisui vs Anbu Full Fight English Dub",
-    url: "https://ia600502.us.archive.org/4/items/itachi-and-shisui-vs-anbu-full-fight..-english-dub-naruto-shippuden-./Itachi%20and%20Shisui%20vs%20Anbu%20Full%20Fight..%5BEnglish%20Dub%5D%20%20Naruto%20Shippuden%20..mp4" },
-  { name: "Naruto vs Kurama Full Fight English Dub HD",
-    url: "https://ia600606.us.archive.org/9/items/naruto-vs-kurama-full-fight-english-dub-hd/Naruto%20vs%20Kurama%20Full%20Fight%20English%20Dub%20HD.mp4" },
+  { name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",
+    url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4" },
+  { name:"Madara vs 5 Kage Full Fight English Dub",
+    url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4" },
+  { name:"Naruto vs 3rd Raikage Full Fight English Dub",
+    url:"https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4" },
+  { name:"Kakashi vs Obito Full Fight English Dub",
+    url:"https://ia601604.us.archive.org/19/items/kakashi-vs-obito-full-fight-english-dub/Kakashi%20vs%20Obito%20Full%20Fight%20English%20Dub.mp4" },
+  { name:"Itachi and Shisui vs Anbu Full Fight English Dub",
+    url:"https://ia600502.us.archive.org/4/items/itachi-and-shisui-vs-anbu-full-fight..-english-dub-naruto-shippuden-./Itachi%20and%20Shisui%20vs%20Anbu%20Full%20Fight..%5BEnglish%20Dub%5D%20%20Naruto%20Shippuden%20..mp4" },
+  { name:"Naruto vs Kurama Full Fight English Dub HD",
+    url:"https://ia600606.us.archive.org/9/items/naruto-vs-kurama-full-fight-english-dub-hd/Naruto%20vs%20Kurama%20Full%20Fight%20English%20Dub%20HD.mp4" },
 ];
 
-var list = [];        // vidéos mélangées
-var current = 0;      // index actuel
+var list = [];
+var current = 0;
+var slides = [];
 var appStarted = false;
-
-// Touch state
-var tStartY = 0;
-var tCurY = 0;
+var settling = false;
 var dragging = false;
-var settling = false;  // pendant l'animation finale
+var tStartY = 0;
+var feed = document.getElementById('feed');
 
-var slider = document.getElementById('slider');
-var H = window.innerHeight;
-
-/* ── Shuffle ─────────────────────────────── */
+/* ── Shuffle ── */
 function shuffle(arr) {
   var a = arr.slice();
-  for (var i = a.length-1; i > 0; i--) {
-    var j = Math.floor(Math.random()*(i+1));
-    var t = a[i]; a[i]=a[j]; a[j]=t;
+  for (var i=a.length-1; i>0; i--) {
+    var j=Math.floor(Math.random()*(i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
   }
   return a;
 }
 
-/* ── Position du slider ──────────────────── */
-// offset = déplacement en px du container
-// slide N est à top: N*100vh dans le container
-// pour afficher slide N : container.translateY = -N*100vh + offset_live
-function setSlider(px, animate) {
-  var base = -current * H;
-  var total = base + px;
-  if (animate) {
-    slider.style.transition = 'transform 0.42s cubic-bezier(0.25,1,0.5,1)';
-  } else {
-    slider.style.transition = 'none';
-  }
-  slider.style.transform = 'translateY(' + total + 'px)';
+/* ── Positionner une slide sans animation ── */
+function setPos(el, vh) {
+  el.style.transition = 'none';
+  el.style.transform  = 'translateY(' + vh + 'vh)';
 }
 
-/* ── Build feed ──────────────────────────── */
+/* ── Positionner une slide AVEC animation ── */
+function animateTo(el, vh, cb) {
+  el.style.transition = 'transform 0.42s cubic-bezier(0.25,1,0.5,1)';
+  el.style.transform  = 'translateY(' + vh + 'vh)';
+  if (cb) {
+    el.addEventListener('transitionend', function done() {
+      el.removeEventListener('transitionend', done);
+      cb();
+    });
+  }
+}
+
+/* ── Positionner avec px live (pendant le drag) ── */
+function setPosPx(el, px) {
+  el.style.transition = 'none';
+  el.style.transform  = 'translateY(' + px + 'px)';
+}
+
+/* ── Build ── */
 function buildFeed() {
-  slider.innerHTML = '';
+  // Vider
+  slides.forEach(function(s){ s.remove(); });
+  slides = [];
   list = shuffle(VIDEOS);
   current = 0;
 
   list.forEach(function(vid, idx) {
     var slide = document.createElement('div');
     slide.className = 'slide';
-    // Empiler vers le HAUT : slide 0 en bas, slide 1 au-dessus, etc.
-    // top = idx * 100vh  → mais on inverse : slide 0 = top:0, slide 1 = top:-100vh...
-    // En fait on les empile NORMALEMENT et on inverse la direction de scroll
-    slide.style.top = (idx * 100) + 'vh';
 
     var video = document.createElement('video');
     video.setAttribute('playsinline','');
     video.setAttribute('webkit-playsinline','');
     video.controls = true;
-    video.preload = 'none';
-    video.src = vid.url;
+    video.preload  = 'none';
+    video.src      = vid.url;
     slide.appendChild(video);
 
     var info = document.createElement('div');
@@ -208,10 +211,19 @@ function buildFeed() {
       '<div class="slide-title">'+vid.name+'</div>';
     slide.appendChild(info);
 
-    slider.appendChild(slide);
+    feed.appendChild(slide);
+    slides.push(slide);
+
+    /*
+      Position initiale :
+      idx 0 → 0vh   (à l'écran, visible)
+      idx 1 → -100vh (AU-DESSUS, cachée — prête à être tirée vers le bas)
+      idx 2 → -200vh (encore plus haut)
+      ...
+    */
+    setPos(slide, idx === 0 ? 0 : -100 * idx);
   });
 
-  setSlider(0, false);
   playVideo(0);
   updateCounter();
 
@@ -222,16 +234,13 @@ function buildFeed() {
   setTimeout(function(){ if(hint.parentNode) hint.remove(); }, 4200);
 }
 
-function getVideo(idx) {
-  return slider.querySelectorAll('.slide')[idx].querySelector('video');
-}
+function getVideo(idx) { return slides[idx].querySelector('video'); }
 
 function playVideo(idx) {
   var v = getVideo(idx);
   var p = v.play();
   if (p) p.catch(function(){});
 }
-
 function stopVideo(idx) {
   var v = getVideo(idx);
   v.pause(); v.currentTime = 0;
@@ -241,30 +250,40 @@ function updateCounter() {
   document.getElementById('counter').textContent = (current+1)+' / '+list.length;
 }
 
-/* ── Touch handlers ──────────────────────── */
+/* ── Touch ── */
 document.addEventListener('touchstart', function(e) {
-  if (!appStarted) return;
+  if (!appStarted || settling) return;
   if (e.target.closest('#startBtn')) return;
-  if (settling) return;
-  tStartY = e.touches[0].clientY;
-  tCurY   = tStartY;
+  tStartY  = e.touches[0].clientY;
   dragging = true;
-  slider.style.transition = 'none'; // live tracking, pas d'animation
 }, { passive: true });
 
 document.addEventListener('touchmove', function(e) {
   if (!dragging || settling) return;
   e.preventDefault();
-  tCurY = e.touches[0].clientY;
-  var dy = tCurY - tStartY; // positif = doigt descend
 
-  // On permet uniquement swipe vers le bas ET seulement s'il y a une prochaine vidéo
-  if (dy > 0 && current < list.length - 1) {
-    setSlider(dy, false);
-  } else if (dy < 0) {
-    // Bloquer complètement le swipe vers le haut
-    setSlider(0, false);
+  var dy = e.touches[0].clientY - tStartY; // positif = doigt descend
+
+  if (dy <= 0) {
+    // Swipe vers le haut = interdit, on bloque
+    setPos(slides[current], 0);
+    if (current < slides.length-1) {
+      setPos(slides[current+1], -100 * (slides.length - current - 1) );
+      // Remettre la suivante à sa place
+      setPos(slides[current+1], -100);
+    }
+    return;
   }
+
+  if (current >= list.length-1) return; // plus de vidéo suivante
+
+  var H = window.innerHeight;
+
+  // Slide courante : part vers le bas depuis 0
+  setPosPx(slides[current],   dy);
+  // Slide suivante : arrive du haut (-H → dy - H)
+  setPosPx(slides[current+1], dy - H);
+
 }, { passive: false });
 
 document.addEventListener('touchend', function(e) {
@@ -273,21 +292,34 @@ document.addEventListener('touchend', function(e) {
   if (settling) return;
 
   var dy = e.changedTouches[0].clientY - tStartY;
+  var H  = window.innerHeight;
 
-  if (dy > 60 && current < list.length - 1) {
-    // Swipe suffisant → vidéo suivante
+  if (dy > 80 && current < list.length-1) {
+    // ✅ Swipe suffisant → compléter la transition
     settling = true;
-    stopVideo(current);
-    current++;
+    var prev = current;
+    var next = current + 1;
+
+    stopVideo(prev);
+    current = next;
     updateCounter();
-    setSlider(0, true); // snap à la nouvelle position avec animation
-    setTimeout(function() {
+
+    // Slide précédente → finit de partir en bas (100vh)
+    animateTo(slides[prev], 100, null);
+    // Slide suivante  → finit d'arriver à 0
+    animateTo(slides[next], 0, function() {
       settling = false;
       playVideo(current);
-    }, 430);
+    });
+
   } else {
-    // Pas assez → revenir en place
-    setSlider(0, true);
+    // ❌ Swipe annulé → tout revient en place
+    if (dy > 0 && current < list.length-1) {
+      animateTo(slides[current],   0,    null);
+      animateTo(slides[current+1], -100, null);
+    } else {
+      setPos(slides[current], 0);
+    }
   }
 }, { passive: true });
 
@@ -296,7 +328,7 @@ document.addEventListener('touchmove', function(e) {
   if (appStarted) e.preventDefault();
 }, { passive: false });
 
-/* ── Bouton ENTRER ───────────────────────── */
+/* ── Bouton ENTRER ── */
 var btn = document.getElementById('startBtn');
 btn.addEventListener('touchstart', function(e) {
   e.preventDefault(); e.stopPropagation();
@@ -308,8 +340,7 @@ btn.addEventListener('click', function() {
 
 function startApp() {
   document.getElementById('splash').style.display = 'none';
-  document.getElementById('feed').style.display = 'block';
-  H = window.innerHeight;
+  feed.style.display = 'block';
   buildFeed();
 }
 </script>
