@@ -271,13 +271,13 @@ document.addEventListener('touchend', function(e) {
   if (document.getElementById('feed').style.display === 'none') return;
   if (touchLock) return;
   var diff = touchStartY - e.changedTouches[0].clientY;
-  // SEULEMENT swipe up (doigt monte, diff positif)
-  if (diff > 50) {
+  // SEULEMENT swipe down (doigt descend, diff négatif) = contraire de TikTok
+  if (diff < -50) {
     touchLock = true;
     setTimeout(function() { touchLock = false; }, 700);
     goNext();
   }
-  // Swipe down = RIEN, bloqué
+  // Swipe up = RIEN, bloqué
 }, { passive: true });
 
 // Bloquer le scroll natif
