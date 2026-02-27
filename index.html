@@ -170,7 +170,14 @@ function buildFeed() {
   slides = [];
   currentIndex = 0;
 
-  VIDEOS.forEach(function(vid, idx) {
+  /* Mélanger aléatoirement à chaque ouverture */
+  var shuffled = VIDEOS.slice();
+  for (var s = shuffled.length - 1; s > 0; s--) {
+    var r = Math.floor(Math.random() * (s + 1));
+    var tmp = shuffled[s]; shuffled[s] = shuffled[r]; shuffled[r] = tmp;
+  }
+
+  shuffled.forEach(function(vid, idx) {
     var slide = document.createElement('div');
     slide.className = 'slide';
 
@@ -185,7 +192,7 @@ function buildFeed() {
     var info = document.createElement('div');
     info.className = 'slide-info';
     info.innerHTML =
-      '<div class="slide-num">VIDÉO ' + (idx+1) + ' / ' + VIDEOS.length + '</div>' +
+      '<div class="slide-num">VIDÉO ' + (idx+1) + ' / ' + shuffled.length + '</div>' +
       '<div class="slide-title">' + vid.name + '</div>';
     slide.appendChild(info);
 
