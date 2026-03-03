@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Mathieu Pichette.co · Scroll Up</title>
-<!-- 87 videos -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -18,7 +17,7 @@
     position:fixed; top:0; left:0;
   }
 
-  /* ═══════════════════ SPLASH ═══════════════════ */
+  /* ═══ SPLASH ═══ */
   #splash {
     position:fixed; inset:0; background:var(--dark);
     display:flex; flex-direction:column;
@@ -26,35 +25,29 @@
     z-index:1000; padding:28px 18px 20px;
     overflow-y:auto;
   }
-
   .splash-center {
     display:flex; flex-direction:column;
     align-items:center; text-align:center; gap:10px;
     flex:1; justify-content:center; padding:10px 0;
   }
-
   #splash h1 {
     font-family:'Anton',sans-serif; font-size:3.8rem;
     letter-spacing:3px; line-height:0.92; margin:0;
   }
   #splash h1 em { color:var(--gold); font-style:normal; display:block; font-size:65%; }
-
   .app-subtitle {
     font-size:0.75rem; letter-spacing:6px; text-transform:uppercase;
     color:rgba(255,255,255,0.6); margin-top:2px;
   }
-
   .scroll-hint {
     display:flex; flex-direction:column; align-items:center; gap:3px;
     animation:bob 2s ease-in-out infinite; color:var(--gold);
   }
   .scroll-hint svg { width:20px; }
-  .scroll-hint span { display:none; }
   @keyframes bob {
-    0%,100% { transform:translateY(0); opacity:0.6; }
-    50%      { transform:translateY(6px); opacity:1; }
+    0%,100%{transform:translateY(0);opacity:0.6;}
+    50%{transform:translateY(6px);opacity:1;}
   }
-
   #startBtn {
     background:var(--gold); color:var(--dark); border:none;
     font-family:'Anton',sans-serif; font-size:1.1rem; letter-spacing:3px;
@@ -63,7 +56,6 @@
     min-width:190px; min-height:54px; position:relative; z-index:9999;
   }
   #startBtn:active { background:#d4a820; transform:scale(0.96); }
-
   .splash-single-intention {
     width:100%; max-width:420px;
     font-size:0.72rem; line-height:1.8; letter-spacing:0.3px;
@@ -80,12 +72,11 @@
     font-weight:700; margin-top:8px; display:block;
   }
 
-  /* ═══════════════════ FEED ═══════════════════ */
+  /* ═══ FEED ═══ */
   #feed { position:fixed; inset:0; display:none; background:#000; overflow:hidden; }
 
   .slide {
-    position:absolute; left:0; top:0;
-    width:100%; height:100%;
+    position:absolute; left:0; top:0; width:100%; height:100%;
     background:#000; will-change:transform;
   }
   .slide video {
@@ -95,11 +86,12 @@
   .slide-info {
     position:absolute; bottom:0; left:0; right:0;
     padding:16px 16px 50px;
-    background:linear-gradient(transparent, rgba(0,0,0,0.9));
+    background:linear-gradient(transparent,rgba(0,0,0,0.9));
     pointer-events:none;
   }
   .slide-title { font-size:0.95rem; font-weight:600; line-height:1.3; }
 
+  /* ═══ TOPBAR ═══ */
   #topbar {
     position:fixed; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:flex-start; justify-content:space-between;
@@ -110,14 +102,11 @@
   .topbar-left {
     flex:1; padding-right:8px;
     font-size:0.5rem; line-height:1.75; letter-spacing:0.3px;
-    color:#ffffff; text-transform:uppercase;
-    font-weight:700; max-width:235px;
-    text-shadow:0 1px 6px rgba(0,0,0,1), 0 0 12px rgba(0,0,0,1);
+    color:#ffffff; text-transform:uppercase; font-weight:700; max-width:235px;
+    text-shadow:0 1px 6px rgba(0,0,0,1),0 0 12px rgba(0,0,0,1);
   }
-  .topbar-left span { color:var(--gold); display:block; margin-bottom:3px; font-size:0.52rem; letter-spacing:1px; text-shadow:0 1px 6px rgba(0,0,0,1); }
-  .topbar-right {
-    display:flex; align-items:center; flex-shrink:0;
-  }
+  .topbar-left span { color:var(--gold); display:block; margin-bottom:3px; font-size:0.52rem; letter-spacing:1px; }
+  .topbar-right { display:flex; align-items:center; flex-shrink:0; }
   .brand {
     font-family:'Anton',sans-serif; font-size:0.82rem; letter-spacing:1px;
     display:flex; align-items:center; gap:4px;
@@ -125,33 +114,69 @@
   .brand em { color:var(--gold); font-style:normal; }
   .tri {
     width:0; height:0;
-    border-left:5px solid transparent;
-    border-right:5px solid transparent;
+    border-left:5px solid transparent; border-right:5px solid transparent;
     border-bottom:9px solid var(--gold);
     display:inline-block; margin-left:3px;
   }
 
-
+  /* ═══ ÉCHELLE ═══ */
+  #scale {
+    position:fixed; right:10px; top:50%; transform:translateY(-50%);
+    z-index:60; display:flex; flex-direction:column;
+    align-items:center; gap:4px; pointer-events:none;
+  }
+  .scale-tri {
+    width:0; height:0;
+    border-left:7px solid transparent; border-right:7px solid transparent;
+    border-bottom:12px solid var(--gold);
+    filter:drop-shadow(0 0 4px var(--gold));
+  }
+  .scale-top-label {
+    font-family:'Anton',sans-serif; font-size:0.32rem; letter-spacing:0.8px;
+    text-transform:uppercase; color:var(--gold); text-align:center;
+    line-height:1.5; max-width:36px;
+    text-shadow:0 1px 6px rgba(0,0,0,1);
+  }
+  .scale-bar {
+    width:7px; height:160px; border-radius:4px;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(245,200,66,0.35);
+    position:relative; overflow:hidden;
+  }
+  .scale-fill {
+    position:absolute; bottom:0; left:0; right:0;
+    height:0.03%; /* 3/10000 = 0.03% */
+    background:linear-gradient(to top, var(--gold), #fffbe0);
+    border-radius:4px;
+    box-shadow:0 0 6px var(--gold);
+  }
+  .scale-pts {
+    font-family:'Anton',sans-serif; font-size:0.65rem; color:var(--gold);
+    letter-spacing:1px; text-align:center; line-height:1.2;
+    text-shadow:0 0 8px var(--gold),0 1px 6px rgba(0,0,0,1);
+  }
+  .scale-bottom-label {
+    font-family:'Anton',sans-serif; font-size:0.3rem; letter-spacing:0.8px;
+    text-transform:uppercase; color:rgba(255,255,255,0.45); text-align:center;
+    line-height:1.5; max-width:36px;
+    text-shadow:0 1px 6px rgba(0,0,0,1);
+  }
 </style>
 </head>
 <body>
 
-<!-- ═══ SPLASH ════════════════════════════════════════ -->
+<!-- ═══ SPLASH ═══ -->
 <div id="splash">
-
   <div class="splash-center">
     <h1>MATHIEU<br>PICHETTE<em>.co</em></h1>
     <div class="app-subtitle">Scroll Up</div>
-
     <div class="scroll-hint">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
-
     <button id="startBtn">ENTER →</button>
   </div>
-
   <div class="splash-single-intention">
     <span class="intention-label">INTENTION:</span>
     THE CHAMBER OF MY INTENTION THAT WILL ENSURE THAT ALL OF SOCIETY — THEREFORE THE ENTIRE LIFE, YES THE ENTIRE WORLD — IS FROM NOW ON AND FOR ETERNITY AT 0% ENERGY DESTRUCTION FOR 100% ENERGY CONSTRUCTION, AND CONSTANTLY MORE ENERGY EVOLUTION IN ITS BEST AND FASTEST POSSIBLE WAY. TRIANGLE!
@@ -159,14 +184,16 @@
   </div>
 </div>
 
-<!-- ═══ FEED ══════════════════════════════════════════ -->
+<!-- ═══ FEED ═══ -->
 <div id="feed">
+
+  <!-- ÉCHELLE -->
   <div id="scale">
-    <div class="scale-triangle"></div>
-    <div class="scale-top">PEAK<br>TRIANGLE<br>SUMMIT</div>
+    <div class="scale-tri"></div>
+    <div class="scale-top-label">PEAK<br>TRIANGLE<br>SUMMIT</div>
     <div class="scale-bar"><div class="scale-fill"></div></div>
     <div class="scale-pts">3</div>
-    <div class="scale-label">OF<br>10 000<br>PTS</div>
+    <div class="scale-bottom-label">OF<br>10 000<br>PTS</div>
   </div>
 
   <div id="topbar">
@@ -179,11 +206,12 @@
       <div class="brand">Mathieu Pichette<em>.co</em><span class="tri"></span></div>
     </div>
   </div>
+
 </div>
 
 <script>
 var VIDEOS = [
-  // ── NARUTO (original 74) ──
+  // ── NARUTO (original 66) ──
   { name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",
     url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4" },
   { name:"Madara vs 5 Kage Full Fight English Dub",
@@ -314,8 +342,6 @@ var VIDEOS = [
     url:"https://ia601408.us.archive.org/16/items/sasuke-find-out-the-truth-about-itachi-revealed-by-madara-uchihas-real-voice-eng-1080p/Sasuke%20Find%20Out%20The%20Truth%20About%20Itachi%20revealed%20by%20Madara%20Uchiha%27s%20real%20voice%20ENG%201080p.mp4" },
   { name:"Sasuke vs Danzo Full Fight English Dub",
     url:"https://ia600803.us.archive.org/16/items/sasuke-vs-danzo-full-fight-english-dubbed/sasuke%20vs%20danzo%20full%20fight%20English%20dubbed.mp4" },
-
-  // ── NARUTO (8 nouveaux) ──
   { name:"Sasuke vs Deidara Full Fight Eng Dub",
     url:"https://ia600106.us.archive.org/0/items/sasuke-vs-deidara-full-fight-eng-dub_202603/SASUKE%20VS%20DEIDARA%20FULL%20FIGHT%20%20%20Eng%20Dub.mp4" },
   { name:"Sasuke vs Itachi Full Fight Eng Dub - Itachi Susanoo",
@@ -337,7 +363,7 @@ var VIDEOS = [
   { name:"Without You I'll Never Be King Of The Pirates! (English Dub)",
     url:"https://ia600904.us.archive.org/12/items/without-you-ill-never-be-king-of-the-pirates-english-dub/Without%20You%20I%27ll%20Never%20Be%20King%20Of%20The%20Pirates%21%20%20%28English%20Dub%29.mp4" },
 
-  // ── AUTRES ANIMES (5 nouveaux) ──
+  // ── MY HERO ACADEMIA / TOKYO GHOUL ──
   { name:"Tokyo Ghoul - Kaneki vs Jason [4K Dub Blu-Ray]",
     url:"https://ia600609.us.archive.org/5/items/4-k-dub-tokyo-ghoul-kaneki-vs-jason-blu-ray/%5B4K%5D%20%5BDub%5D%20Tokyo%20Ghoul%20-%20Kaneki%20VS%20Jason%20%5BBlu-Ray%5D.mp4" },
   { name:"All Might vs All For One Full Fight English Dubbed - My Hero Academia S3 E11",
@@ -387,7 +413,6 @@ function buildFeed(){
     setPos(slide, idx===0 ? 0 : -100*idx);
   });
   playVideo(0);
-
 }
 
 function getVideo(idx){return slides[idx].querySelector('video');}
@@ -395,11 +420,10 @@ function playVideo(idx){
   var v=getVideo(idx);
   v.loop=true;
   var p=v.play();if(p)p.catch(function(){});
-  // précharge la suivante
   if(idx+1<slides.length){
-    var next=getVideo(idx+1);
-    next.preload='auto';
-    next.load();
+    var nxt=getVideo(idx+1);
+    nxt.preload='auto';
+    nxt.load();
   }
 }
 function stopVideo(idx){var v=getVideo(idx);v.pause();v.currentTime=0;}
