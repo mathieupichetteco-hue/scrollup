@@ -387,6 +387,12 @@ function playVideo(idx){
   var v=getVideo(idx);
   v.loop=true;
   var p=v.play();if(p)p.catch(function(){});
+  // précharge la suivante
+  if(idx+1<slides.length){
+    var next=getVideo(idx+1);
+    next.preload='auto';
+    next.load();
+  }
 }
 function stopVideo(idx){var v=getVideo(idx);v.pause();v.currentTime=0;}
 
