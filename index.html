@@ -357,9 +357,9 @@ function shuffle(arr){
 }
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
 function animateTo(el,vh,cb){
-  el.style.transition='none';
+  el.style.transition='transform 0.18s cubic-bezier(0.2,0.9,0.4,1)';
   el.style.transform='translateY('+vh+'vh)';
-  if(cb){requestAnimationFrame(cb);}
+  if(cb){el.addEventListener('transitionend',function done(){el.removeEventListener('transitionend',done);cb();});}
 }
 function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
 
@@ -416,7 +416,8 @@ document.addEventListener('touchend',function(e){
     var prev=current,next=current+1;
     stopVideo(prev); current=next;
     animateTo(slides[prev],100,null);
-    animateTo(slides[next],0,function(){settling=false;playVideo(current);});
+    playVideo(current);
+    animateTo(slides[next],0,function(){settling=false;});
   } else {
     if(dy>0&&current<list.length-1){animateTo(slides[current],0,null);animateTo(slides[current+1],-100,null);}
     else{setPos(slides[current],0);}
