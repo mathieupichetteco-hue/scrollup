@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Mathieu Pichette.co · Scroll Up</title>
+<!-- 87 videos -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root { --gold:#F5C842; --dark:#080808; }
+
+  html, body {
+    background:var(--dark); color:white;
+    font-family:'DM Sans',sans-serif;
+    overflow:hidden; height:100%; width:100%;
+    position:fixed; top:0; left:0;
+  }
+
+  /* ═══════════════════ SPLASH ═══════════════════ */
+  #splash {
+    position:fixed; inset:0; background:var(--dark);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:space-between;
+    z-index:1000; padding:28px 18px 20px;
+    overflow-y:auto;
+  }
+
+  .splash-center {
+    display:flex; flex-direction:column;
+    align-items:center; text-align:center; gap:10px;
+    flex:1; justify-content:center; padding:10px 0;
+  }
+
+  #splash h1 {
+    font-family:'Anton',sans-serif; font-size:3.8rem;
+    letter-spacing:3px; line-height:0.92; margin:0;
+  }
+  #splash h1 em { color:var(--gold); font-style:normal; display:block; font-size:65%; }
+
+  .app-subtitle {
+    font-size:0.75rem; letter-spacing:6px; text-transform:uppercase;
+    color:rgba(255,255,255,0.6); margin-top:2px;
+  }
+
+  .scroll-hint {
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    animation:bob 2s ease-in-out infinite; color:var(--gold);
+  }
+  .scroll-hint svg { width:20px; }
+  .scroll-hint span { display:none; }
+  @keyframes bob {
+    0%,100% { transform:translateY(0); opacity:0.6; }
+    50%      { transform:translateY(6px); opacity:1; }
+  }
+
+  #startBtn {
+    background:var(--gold); color:var(--dark); border:none;
+    font-family:'Anton',sans-serif; font-size:1.1rem; letter-spacing:3px;
+    padding:16px 48px; border-radius:50px; cursor:pointer;
+    touch-action:manipulation; user-select:none; -webkit-user-select:none;
+    min-width:190px; min-height:54px; position:relative; z-index:9999;
+  }
+  #startBtn:active { background:#d4a820; transform:scale(0.96); }
+
+  .splash-single-intention {
+    width:100%; max-width:420px;
+    font-size:0.72rem; line-height:1.8; letter-spacing:0.3px;
+    color:#ffffff; text-transform:uppercase; font-weight:600;
+    text-align:center; padding-top:14px;
+    border-top:1px solid rgba(245,200,66,0.3);
+  }
+  .intention-label {
+    color:var(--gold); font-size:0.75rem; letter-spacing:2px;
+    font-weight:700; margin-bottom:6px; display:block;
+  }
+  .intention-author {
+    color:var(--gold); font-size:0.68rem; letter-spacing:1px;
+    font-weight:700; margin-top:8px; display:block;
+  }
+
+  /* ═══════════════════ FEED ═══════════════════ */
+  #feed { position:fixed; inset:0; display:none; background:#000; overflow:hidden; }
+
+  .slide {
+    position:absolute; left:0; top:0;
+    width:100%; height:100%;
+    background:#000; will-change:transform;
+  }
+  .slide video {
+    width:100%; height:100%;
+    object-fit:contain; background:#000; display:block;
+  }
+  .slide-info {
+    position:absolute; bottom:0; left:0; right:0;
+    padding:16px 16px 50px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.9));
+    pointer-events:none;
+  }
+  .slide-title { font-size:0.95rem; font-weight:600; line-height:1.3; }
+
+  #topbar {
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:flex-start; justify-content:space-between;
+    padding:10px 12px;
+    background:linear-gradient(rgba(0,0,0,0.75),transparent);
+    pointer-events:none;
+  }
+  .topbar-left {
+    flex:1; padding-right:8px;
+    font-size:0.5rem; line-height:1.75; letter-spacing:0.3px;
+    color:#ffffff; text-transform:uppercase;
+    font-weight:700; max-width:235px;
+    text-shadow:0 1px 6px rgba(0,0,0,1), 0 0 12px rgba(0,0,0,1);
+  }
+  .topbar-left span { color:var(--gold); display:block; margin-bottom:3px; font-size:0.52rem; letter-spacing:1px; text-shadow:0 1px 6px rgba(0,0,0,1); }
+  .topbar-right {
+    display:flex; align-items:center; flex-shrink:0;
+  }
+  .brand {
+    font-family:'Anton',sans-serif; font-size:0.82rem; letter-spacing:1px;
+    display:flex; align-items:center; gap:4px;
+  }
+  .brand em { color:var(--gold); font-style:normal; }
+  .tri {
+    width:0; height:0;
+    border-left:5px solid transparent;
+    border-right:5px solid transparent;
+    border-bottom:9px solid var(--gold);
+    display:inline-block; margin-left:3px;
+  }
+
+  #hint {
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+    background:rgba(245,200,66,0.12); border:1px solid rgba(245,200,66,0.25);
+    color:var(--gold); font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
+    padding:8px 18px; border-radius:20px; z-index:50; pointer-events:none;
+    white-space:nowrap; animation:fadeHint 4s ease forwards;
+  }
+  @keyframes fadeHint { 0%,60%{opacity:1} 100%{opacity:0} }
+</style>
+</head>
+<body>
+
+<!-- ═══ SPLASH ════════════════════════════════════════ -->
+<div id="splash">
+
+  <div class="splash-center">
+    <h1>MATHIEU<br>PICHETTE<em>.co</em></h1>
+    <div class="app-subtitle">Scroll Up</div>
+
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+
+    <button id="startBtn">ENTER →</button>
+  </div>
+
+  <div class="splash-single-intention">
+    <span class="intention-label">INTENTION:</span>
+    THE CHAMBER OF MY INTENTION THAT WILL ENSURE THAT ALL OF SOCIETY — THEREFORE THE ENTIRE LIFE, YES THE ENTIRE WORLD — IS FROM NOW ON AND FOR ETERNITY AT 0% ENERGY DESTRUCTION FOR 100% ENERGY CONSTRUCTION, AND CONSTANTLY MORE ENERGY EVOLUTION IN ITS BEST AND FASTEST POSSIBLE WAY. TRIANGLE!
+    <span class="intention-author">MATHIEU PICHETTE.CO (KING AND GOD OF ENERGY, MAIN PLAYER CHARACTER)</span>
+  </div>
+</div>
+
+<!-- ═══ FEED ══════════════════════════════════════════ -->
+<div id="feed">
+  <div id="topbar">
+    <div class="topbar-left">
+      <span>INTENTION:</span>
+      THE CHAMBER OF MY INTENTION THAT WILL ENSURE THAT ALL OF SOCIETY — THEREFORE THE ENTIRE LIFE, YES THE ENTIRE WORLD — IS FROM NOW ON AND FOR ETERNITY AT 0% ENERGY DESTRUCTION FOR 100% ENERGY CONSTRUCTION, AND CONSTANTLY MORE ENERGY EVOLUTION IN ITS BEST AND FASTEST POSSIBLE WAY. TRIANGLE!
+      <span style="margin-top:4px;">MATHIEU PICHETTE.CO (KING AND GOD OF ENERGY, MAIN PLAYER CHARACTER)</span>
+    </div>
+    <div class="topbar-right">
+      <div class="brand">Mathieu Pichette<em>.co</em><span class="tri"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var VIDEOS = [
+  // ── NARUTO (original 74) ──
+  { name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",
+    url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4" },
+  { name:"Madara vs 5 Kage Full Fight English Dub",
+    url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4" },
+  { name:"Naruto vs 3rd Raikage Full Fight English Dub",
+    url:"https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4" },
+  { name:"Kakashi vs Obito Full Fight English Dub",
+    url:"https://ia601604.us.archive.org/19/items/kakashi-vs-obito-full-fight-english-dub/Kakashi%20vs%20Obito%20Full%20Fight%20English%20Dub.mp4" },
+  { name:"Itachi and Shisui vs Anbu Full Fight English Dub",
+    url:"https://ia600502.us.archive.org/4/items/itachi-and-shisui-vs-anbu-full-fight..-english-dub-naruto-shippuden-./Itachi%20and%20Shisui%20vs%20Anbu%20Full%20Fight..%5BEnglish%20Dub%5D%20%20Naruto%20Shippuden%20..mp4" },
+  { name:"Naruto vs Kurama Full Fight English Dub HD",
+    url:"https://ia600606.us.archive.org/9/items/naruto-vs-kurama-full-fight-english-dub-hd/Naruto%20vs%20Kurama%20Full%20Fight%20English%20Dub%20HD.mp4" },
+  { name:"Konan vs Tobi English Dub",
+    url:"https://ia600500.us.archive.org/10/items/konan-vs-tobi-naruto-english-dub/Konan%20vs%20Tobi%20%20Naruto%20%20-%20%5BEnglish%20Dub%5D.mp4" },
+  { name:"Naruto First Shows Kyuubi Chakra Form in Front of Shinobi Alliance",
+    url:"https://ia600605.us.archive.org/21/items/naruto-first-shows-kyuubi-chakra-form-in-front-of-shinobi-alliance-hinata-calls-herself-useless-1/Naruto%20First%20Shows%20Kyuubi%20Chakra%20Form%20in%20Front%20of%20Shinobi%20Alliance%20-%20Hinata%20Calls%20Herself%20Useless%20%281%29.mp4" },
+  { name:"Naruto vs Pain English Dub HD",
+    url:"https://ia902903.us.archive.org/11/items/naruto-vs-pain-english-dub-hd/Naruto%20Vs%20Pain%20English%20Dub%20-%20HD.mp4" },
+  { name:"Let It Out - Episode 82 English Dub",
+    url:"https://ia600804.us.archive.org/29/items/let-it-out.-ep-82-english-dubbed/%E2%80%9CLet%20it%20out.%E2%80%9D%20%28Ep%2082%29%20%28English%20Dubbed%29.mp4" },
+  { name:"Asuma Edo Tensei vs Team Asuma - Naruto Shippuden English Dub",
+    url:"https://ia601407.us.archive.org/14/items/asuma-edo-tensei-vs-choiji-shikamaru-ino-team-asuma-childhood-naruto-shippuden-english-dub/Asuma%20Edo%20Tensei%20vs%20Choiji%2C%20Shikamaru%2C%20Ino%2C%20Team%20Asuma%20Childhood%2C%20Naruto%20Shippuden%20English%20Dub.mp4" },
+  { name:"Asuma vs Hidan - Asuma's Death English Dub HD",
+    url:"https://ia601500.us.archive.org/30/items/asuma-vs-hidan-asumas-death-great-fight-hd-english-dubbed-naruto-shippuden/Asuma%20Vs%20Hidan%20Asumas%20Death%20Great%20Fight%20HD%20English%20Dubbed%20-%20Naruto%20Shippuden.mp4" },
+  { name:"Guy vs Madara Full Fight English Dub 1080p",
+    url:"https://ia601002.us.archive.org/22/items/guy-vs-madara-full-fight-english-dub-1080p-might-guy-vs-madara-naruto/Guy%20vs%20Madara%20Full%20Fight%20English%20Dub%201080p%20%20%20Might%20Guy%20vs%20Madara%20%20%20Naruto.mp4" },
+  { name:"Kakashi and Team 10 vs Kakuzu and Hidan English Dub",
+    url:"https://ia600904.us.archive.org/23/items/hatake-kakashi-and-team-10-vs-kakuzu-and-hidan-naruto-english-dub/Hatake%20Kakashi%20and%20Team%2010%20vs%20Kakuzu%20and%20Hidan%20%20Naruto%20%20-%20%5BEnglish%20Dub%5D.mp4" },
+  { name:"Jiraiya vs Pain Full Fight English Dub",
+    url:"https://ia600502.us.archive.org/26/items/jiraiya-vs-pain-all-mighty-push-full-fight-english-dub/Jiraiya%20vs%20Pain%20%27All%20Mighty%20Push%27%20%20Full%20Fight%20%28English%20DUB%29.mp4" },
+  { name:"Kakashi vs Deidara English Dub",
+    url:"https://ia600609.us.archive.org/35/items/kakashi-vs-deidara-english-dubbed/Kakashi%20Vs%20Deidara%20English%20Dubbed.mp4" },
+  { name:"Kakashi's Team vs Reanimated Zabuza, Haku and 7 Ninja Swordsmen English Dub",
+    url:"https://ia600804.us.archive.org/28/items/kakashis-team-vs-reanimated-zabuza-haku-gari-pakura-and-7-ninja-swordmen-naruto-english-dub/Kakashi%27s%20Team%20vs%20Reanimated%20zabuza%2C%20Haku%2C%20Gari%2C%20Pakura%20And%207%20Ninja%20Swordmen%20Naruto%20English%20Dub.mp4" },
+  { name:"Lee vs Shira - Eight Gates vs Seven Heavens English Dub",
+    url:"https://ia600408.us.archive.org/28/items/lee-attempts-to-open-the-eight-gates-vs-shira-activates-the-seven-heavens-breathing-method-engdub/Lee%20attempts%20to%20open%20the%20Eight%20Gates%20vs%20Shira%20activates%20the%20Seven%20Heavens%20Breathing%20Method%20Engdub.mp4" },
+  { name:"Madara vs Shinobi Alliance Full Episode English Dub",
+    url:"https://ia601508.us.archive.org/29/items/madara-vs-shinobi-alliance-full-episode-english-dub/Madara%20vs%20Shinobi%20Alliance%20Full%20Episode%20%28English%20Dub%29.mp4" },
+  { name:"Madara's Speech to the Five Kage English Dub",
+    url:"https://ia903201.us.archive.org/8/items/madaras-speech-to-the-five-kage-english-dubbed/Madaras%20Speech%20to%20the%20Five%20Kage%20English%20Dubbed.mp4" },
+  { name:"Might Guy Opens 8th Gate - Guy vs Madara Full Fight English Dub",
+    url:"https://ia600902.us.archive.org/19/items/might-guy-opens-8th-gate-guy-vs-madara-full-fight-english-dub-1/Might%20Guy%20Opens%208th%20Gate%20-%20Guy%20vs%20Madara%20Full%20Fight%20English%20Dub%20%281%29.mp4" },
+  { name:"Might Guy vs Kisame Full Fight English Dub",
+    url:"https://ia601604.us.archive.org/14/items/might-guy-vs-kisame-full-fight-english-dub/Might%20Guy%20Vs%20Kisame%20Full%20Fight%20%5BEnglish%20Dub%5D.mp4" },
+  { name:"Naruto and Sasuke vs Zaku Full Fight English Dub",
+    url:"https://ia903100.us.archive.org/4/items/naruto-sasuke-vs.-zaku-full-fight-english-dubbed/Naruto%20%20Sasuke%20Vs.%20Zaku%20Full%20Fight%20%28English%20Dubbed%29.mp4" },
+  { name:"Naruto and Sasuke vs Kaguya Otsutsuki English Dub",
+    url:"https://ia600706.us.archive.org/18/items/naruto-sasuke-vs-kaguya-otsutsuki-english-dub/Naruto%20%26%20Sasuke%20vs%20Kaguya%20Otsutsuki%20%20%20ENGLISH%20DUB.mp4" },
+  { name:"Naruto and Hinata Wedding English Dub",
+    url:"https://ia903103.us.archive.org/6/items/naruto-and-hinata-wedding-english-dub-naruto-wedding/Naruto%20And%20Hinata%20Wedding%20English%20Dub%20%20%20naruto%20wedding.mp4" },
+  { name:"Naruto and Killer Bee Fight Itachi and Nagato - Itachi Activates Kotoamatsukami",
+    url:"https://ia600106.us.archive.org/18/items/naruto-and-killer-bee-fight-itachi-and-nagato-itachi-activates-shisuis-kotoamatsukami/Naruto%20and%20Killer%20Bee%20Fight%20Itachi%20and%20Nagato%20%20Itachi%20Activates%20Shisui%27s%20Kotoamatsukami.mp4" },
+  { name:"Naruto and Minato Last Moments English Dub",
+    url:"https://ia600606.us.archive.org/16/items/naruto-and-minato-last-moments-english-dub-naruto-shippuden/Naruto%20and%20Minato%20last%20moments%20%28English%20Dub%29%20%23NarutoShippuden.mp4" },
+  { name:"Naruto and Sasuke vs Haku and Zabuza Full Fight English Dub",
+    url:"https://ia600500.us.archive.org/33/items/naruto-and-sasuke-vs-haku-and-zabuza-full-fight-l-eng-dub-l-narutoshippuden-naruto-sasuke-zabuza/Naruto%20and%20Sasuke%20vs%20haku%20and%20zabuza%20Full%20Fight%20l%20Eng%20Dub%20l%20%23narutoshippuden%20%23naruto%20%23sasuke%20%23zabuza.mp4" },
+  { name:"Naruto Asks Iruka To Be His Dad English Dub",
+    url:"https://ia600803.us.archive.org/24/items/naruto-asks-iruka-to-be-his-dad-english-dub/Naruto%20Asks%20Iruka%20To%20Be%20His%20Dad%20%28English%20Dub%29.mp4" },
+  { name:"Naruto Emotional and Sad Moments English Dub",
+    url:"https://ia600505.us.archive.org/31/items/naruto-emotional-sad-moments-english-dub/Naruto%20emotional%20%26%20sad%20moments%20%28English%20dub%29.mp4" },
+  { name:"Naruto Finds Out Jiraiya's Dead",
+    url:"https://ia600106.us.archive.org/1/items/naruto-finds-out-jiraiyas-dead/Naruto%20finds%20out%20jiraiya%27s%20dead.mp4" },
+  { name:"Sasuke Says Sorry and Team 7 Reunited English Dub",
+    url:"https://ia601604.us.archive.org/14/items/naruto-shippuden-sasuke-says-sorry-and-team-7-reunited-english-dub/Naruto%20Shippuden%20-%20Sasuke%20Says%20Sorry%20and%20Team%207%20Reunited%20-%20English%20Dub.mp4" },
+  { name:"Gaara's Speech - Naruto Shippuden EP261",
+    url:"https://ia601508.us.archive.org/16/items/naruto-shippuden-ep-261-gaaras-speech/Naruto%20Shippuden%20EP261%20Gaara%27s%20Speech.mp4" },
+  { name:"Naruto Surpasses Fourth Raikage's Max Speed English Dub",
+    url:"https://ia601507.us.archive.org/26/items/naruto-surpasses-fourth-raikages-max-speed-minato-fights-killer-bee-and-4th-raikage-english-dub/Naruto%20Surpasses%20Fourth%20Raikages%20Max%20Speed%2C%20Minato%20Fights%20Killer%20Bee%20And%204th%20Raikage%20%20English%20DUB.mp4" },
+  { name:"Naruto Saves Iruka and Destroys Mizuki English Dub",
+    url:"https://ia600105.us.archive.org/9/items/naruto-transfermation-and-save-iruka-sensei-and-destroy-mizuki-english-dubbednarutonarutoshippuden/Naruto%20transfermation%20and%20save%20iruka%20sensei%20and%20destroy%20mizuki%20English%20dubbed%23naruto%23narutoshippuden.mp4" },
+  { name:"Hashirama Senju vs Madara Uchiha Full Fight English Dub",
+    url:"https://ia601407.us.archive.org/9/items/hashirama-senju-vs-madara-uchiha-full-fight-english-dubbed/Hashirama%20Senju%20Vs%20Madara%20Uchiha%20Full%20Fight%20English%20Dubbed.mp4" },
+  { name:"Itachi's Final Farewell and Itachi Tells the Truth to Sasuke",
+    url:"https://ia600904.us.archive.org/5/items/itachis-final-farewell-and-itachi-tells-the-truth-to-sasuke_202603/Itachi%27s%20final%20Farewell%20and%20itachi%20tells%20the%20truth%20to%20sasuke.mp4" },
+  { name:"Itachi's Speech On Reality",
+    url:"https://ia600604.us.archive.org/5/items/itachis-speech-on-reality/Itachi%27s%20Speech%20On%20Reality.mp4" },
+  { name:"Kaguya Comes to Earth - Hagoromo Awakens Sharingan English Dub",
+    url:"https://ia902803.us.archive.org/28/items/kaguya-comes-to-earth-hagoromo-learns-sage-power-hagoromo-awakens-sharingan-english-dub/Kaguya%20comes%20to%20earth%2C%20Hagoromo%20learns%20sage%20power%2C%20Hagoromo%20awakens%20sharingan%20%28English%20Dub%29.mp4" },
+  { name:"Kaguya's Story - Hagoromo vs Hamura English Dub",
+    url:"https://ia600803.us.archive.org/23/items/kaguyas-story-hagoromo-vs-hamura-naruto-shippuden-english-dub/Kaguya%27s%20Story%2C%20Hagoromo%20Vs%20Hamura%20Naruto%20Shippuden%20English%20Dub.mp4" },
+  { name:"Madara Gets Rejected by Hashirama English Dub",
+    url:"https://ia600105.us.archive.org/5/items/madara-gets-rejected-by-hashirama-dubbed/madara%20gets%20rejected%20by%20hashirama%20%5Bdubbed%5D.mp4" },
+  { name:"Madara vs Hashirama Full Fight English Dub",
+    url:"https://ia600404.us.archive.org/25/items/madara-vs-hashirama-full-fight-english-dub/Madara%20vs%20Hashirama%20FULL%20FIGHT%20%28English%20DUB%29.mp4" },
+  { name:"Madara vs Hashirama Senju Full Fight English Dub",
+    url:"https://ia902803.us.archive.org/13/items/madara-vs-hashirama-senju-full-fight-english-dub-naruto-shippuden_202603/Madara%20vs%20hashirama%20senju%20full%20fight%20English%20dub%20naruto%20shippuden.mp4" },
+  { name:"Itachi's Final Words to Sasuke English Dub",
+    url:"https://ia600901.us.archive.org/5/items/naruto-shippuden-itachis-final-words-to-sasuke-eng-dub/Naruto%20Shippuden%20Itachi%27s%20final%20words%20to%20Sasuke%20%28Eng%20Dub%29.mp4" },
+  { name:"Naruto Uses Talk No Jutsu on Obito English Dub",
+    url:"https://ia600403.us.archive.org/31/items/naruto-use-talk-no-jutsu-on-obito-english-dub-naruto-shippuden-ultimate-ninja-storm-4-1080p/Naruto%20Use%20Talk%20No%20Jutsu%20On%20Obito%20%28English%20Dub%29%20-%20Naruto%20Shippuden%20Ultimate%20Ninja%20Storm%204%201080p.mp4" },
+  { name:"Naruto Uses Power of Kyuubi Against Orochimaru English Dub",
+    url:"https://ia903105.us.archive.org/23/items/naruto-uses-power-of-kyuubi-against-orochimaru-sakura-cries-desperately-for-naruto-english_202603/Naruto%20Uses%20Power%20Of%20Kyuubi%20Against%20Orochimaru%2C%20Sakura%20Cries%20Desperately%20For%20Naruto%20English.mp4" },
+  { name:"Naruto vs Kabuto Full Fight English Dub",
+    url:"https://ia600105.us.archive.org/9/items/naruto-vs-kabuto-full-fight-english-dub-anime-naruto/Naruto%20VS%20Kabuto%20Full%20Fight%20%28English%20Dub%29%20%23anime%20%23naruto.mp4" },
+  { name:"Naruto vs Neji - Nine Tails Chakra Chunin Exams Full Fight",
+    url:"https://ia600609.us.archive.org/22/items/naruto-vs-neji-naruto-uses-the-nine-tail-fox-chakra-and-beats-neji-on-the-chunin-exams-full-fight/Naruto%20vs%20Neji%2C%20Naruto%20uses%20the%20nine%20tail%20fox%20chakra%20and%20beats%20Neji%20on%20the%20chunin%20exams%2C%20full%20fight.mp4" },
+  { name:"Naruto vs Sasuke Final Battle Full Fight English Dub Ultra HD 4K",
+    url:"https://ia601504.us.archive.org/10/items/naruto-vs-sasuke-final-battle-full-fight-english-dub-ultra-hd-4-k/Naruto%20VS%20Sasuke%20%20Final%20Battle%20%20%5BFULL%20FIGHT%5D%20English%20Dub%20%20ULTRA%20HD%20%204K%20.mp4" },
+  { name:"Naruto vs Sasuke 4K Full Fight English Dub",
+    url:"https://ia902808.us.archive.org/35/items/naruto-vs-sasuke-4-k-full-fight-english-dub-naruto-anime-sasuke-1/Naruto%20vs%20Sasuke%204K%20Full%20fight%20english%20dub%20%20%20%20%20%20%23naruto%20%23anime%20%23sasuke%20%281%29.mp4" },
+  { name:"Naruto vs Sasuke English Dub 1080p 60FPS",
+    url:"https://ia600604.us.archive.org/31/items/naruto-vs-sasuke-english-dub-1080p-60-fps/Naruto%20vs%20Sasuke%20English%20Dub%20%5B1080p%5D%20%2860FPS%29.mp4" },
+  { name:"Naruto vs Sasuke Final Battle Full Fight English Dub Episodes 476-478",
+    url:"https://ia902808.us.archive.org/31/items/naruto-vs-sasuke-final-battle-full-fight-english-dub-naruto-shippuden-episode-number-476-478/Naruto%20vs%20Sasuke%20final%20battle%20%28%20Full%20fight%20English%20dub%29%20Naruto%20shippuden%20episode%20number%20476-478.mp4" },
+  { name:"Naruto vs Sasuke Valley of the End English Dub Full Fight",
+    url:"https://ia903100.us.archive.org/19/items/naruto-vs-sasuke-valley-of-the-end-english-dub-full-fight-anime-naruto-sasuke/Naruto%20vs%20Sasuke%20Valley%20of%20the%20end%20English%20Dub%20Full%20fight%20%23anime%20%23naruto%20%23sasuke.mp4" },
+  { name:"Naruto's Speech to Zabuza - Sadness and Sorrow English Dub",
+    url:"https://ia600104.us.archive.org/32/items/narutos-speech-to-zabuza-sadness-and-sorrow-dub-720p/Narutos%20Speech%20to%20Zabuza%20Sadness%20and%20Sorrow%20%28Dub720p%29.mp4" },
+  { name:"Naruto's Tearful Speech for Gaara",
+    url:"https://ia902808.us.archive.org/2/items/narutos-tearful-speech-for-gaara/Naruto%27s%20Tearful%20Speech%20for%20Gaara.mp4" },
+  { name:"Obito Becomes Ten Tails - Naruto and Sasuke vs Juubito English Dub",
+    url:"https://ia600105.us.archive.org/15/items/obito-becomes-ten-tails-kakashi-vs-obito-naruto-and-sasuke-vs-juubito-english-dub/Obito%20becomes%20ten%20tails%2C%20Kakashi%20vs%20Obito%2C%20Naruto%20and%20Sasuke%20vs%20Juubito%20%28English%20Dub%29.mp4" },
+  { name:"Obito Fights Naruto Tailed Mode and Sasuke Susanoo English Dub",
+    url:"https://ia600409.us.archive.org/15/items/obito-fights-naruto-tailed-mode-and-sasuke-susanoo-full-body-hashiramas-dream-is-revealed-eng-dub/Obito%20fights%20Naruto%20tailed%20mode%20and%20Sasuke%20susanoo%20full%20body%2C%20Hashiramas%20dream%20is%20revealed%20EngDub.mp4" },
+  { name:"Obito's Death English Dub",
+    url:"https://ia903201.us.archive.org/12/items/obitos-death-english-dubbed/Obito%E2%80%99s%20Death%20%28English%20Dubbed%29.mp4" },
+  { name:"Orochimaru vs Sarutobi 3rd Hokage Full Fight English Dub",
+    url:"https://ia601409.us.archive.org/10/items/orochimaru-vs-sarutobi-3-hokage-full-fight-english-dub-orochimaru-attacks-kanoha-1080p/Orochimaru%20vs%20Sarutobi%203%20Hokage%20Full%20Fight%20English%20Dub%20Orochimaru%20attacks%20kanoha%201080p.mp4" },
+  { name:"Rock Lee vs Gaara Full Fight English Dub",
+    url:"https://ia902808.us.archive.org/28/items/rock-lee-vs-gaara-full-fight-english-dub-naruto-shippuden/Rock%20Lee%20Vs%20Gaara%20Full%20Fight%20English%20Dub%20Naruto%20Shippuden.mp4" },
+  { name:"Sakura and Chiyo vs Sasori - Three Minutes Between Life and Death",
+    url:"https://ia902904.us.archive.org/3/items/sakura-and-chiyo-vs-sasori-three-minutes-between-life-and-death-naruto-shippuuden/Sakura%20And%20Chiyo%20Vs%20Sasori%20Three%20Minutes%20Between%20Life%20and%20Death%20Naruto%20Shippuuden.mp4" },
+  { name:"Sasuke Admits He Lost to Naruto English Dub",
+    url:"https://ia903201.us.archive.org/3/items/sasuke-admits-he-lost-to-naruto-english-dub_202603/Sasuke%20Admits%20He%20Lost%20To%20Naruto%20%20%20English%20Dub.mp4" },
+  { name:"Sasuke Attacks the Kage Summit - Raikage vs Sasuke English Dub",
+    url:"https://ia600105.us.archive.org/33/items/sasuke-attacks-the-kage-summit-raikage-vs-sasuke-at-5-kage-summit_20260303/sasuke%20attacks%20the%20kage%20summit%20%20Raikage%20vs%20Sasuke%20at%205%20Kage%20summit.mp4" },
+  { name:"Sasuke Finds Out the Truth About Itachi - Revealed by Madara English Dub 1080p",
+    url:"https://ia601408.us.archive.org/16/items/sasuke-find-out-the-truth-about-itachi-revealed-by-madara-uchihas-real-voice-eng-1080p/Sasuke%20Find%20Out%20The%20Truth%20About%20Itachi%20revealed%20by%20Madara%20Uchiha%27s%20real%20voice%20ENG%201080p.mp4" },
+  { name:"Sasuke vs Danzo Full Fight English Dub",
+    url:"https://ia600803.us.archive.org/16/items/sasuke-vs-danzo-full-fight-english-dubbed/sasuke%20vs%20danzo%20full%20fight%20English%20dubbed.mp4" },
+
+  // ── NARUTO (8 nouveaux) ──
+  { name:"Sasuke vs Deidara Full Fight Eng Dub",
+    url:"https://ia600106.us.archive.org/0/items/sasuke-vs-deidara-full-fight-eng-dub_202603/SASUKE%20VS%20DEIDARA%20FULL%20FIGHT%20%20%20Eng%20Dub.mp4" },
+  { name:"Sasuke vs Itachi Full Fight Eng Dub - Itachi Susanoo",
+    url:"https://ia600403.us.archive.org/17/items/sasuke-vs-itachi-full-fight-eng-dub...-itachi-susanoo/Sasuke%20vs%20Itachi%20full%20fight%20eng%20dub...%20Itachi%20Susanoo.mp4" },
+  { name:"Sasuke vs Itachi - Itachi Goes Crazy, Sasuke Curse Mark Removed English Dubbed",
+    url:"https://ia601504.us.archive.org/33/items/sasuke-vs-itachi-itachi-goes-crazy-sasuke-curse-mark-removed-english-dubbed/sasuke%20vs%20itachi%2C%20itachi%20goes%20crazy%2C%20sasuke%20curse%20mark%20removed%2C%20English%20dubbed.mp4" },
+  { name:"Sasuke Wants to Become Hokage For Some Reason (Dub)",
+    url:"https://ia902908.us.archive.org/0/items/sasuke-wants-to-become-hokage-for-some-reason-dub/Sasuke%20Wants%20To%20Become%20Hokage%20For%20Some%20Reason%20%28Dub%29.mp4" },
+  { name:"Shikamaru Cheers Naruto Up After Jiraiya's Death (Dub)",
+    url:"https://ia600104.us.archive.org/24/items/shikamaru-cheers-naruto-up-after-jiraiyas-death-dub/Shikamaru%20Cheers%20Naruto%20Up%20After%20Jiraiya%27s%20Death%20%28DUB%29.mp4" },
+  { name:"Shikamaru Wants to Become the Advisor of Naruto EPIC",
+    url:"https://ia600709.us.archive.org/16/items/shikamaru-wants-to-become-the-advisor-of-naruto-epic/Shikamaru%20want%27s%20to%20become%20the%20advisor%20of%20Naruto%20EPIC%21.mp4" },
+  { name:"Team 7 vs Zabuza - Kakashi, Naruto and Sasuke vs Zabuza Full Fight English Dub",
+    url:"https://ia601509.us.archive.org/6/items/team-7-vs-zabuza-kakashi-naruto-and-sasuke-vs-zabuza-full-fight-english-dub/Team%207%20vs%20Zabuza%20%28Kakashi%2C%20Naruto%20and%20Sasuke%20vs%20Zabuza%29%2C%20full%20fight%2C%20english%20dub.mp4" },
+  { name:"YOU SCAREDY CAT - Naruto and Sasuke vs Orochimaru Full Fight English Dub",
+    url:"https://ia903200.us.archive.org/21/items/you-scaredy-cat-naruto-and-sasuke-vs-orochimaru-full-fight-english-dub/YOU%20SCAREDY%20CAT%20%20Naruto%20and%20Sasuke%20vs%20Orochimaru%20%20Full%20Fight%20English%20Dub.mp4" },
+
+  // ── ONE PIECE ──
+  { name:"Without You I'll Never Be King Of The Pirates! (English Dub)",
+    url:"https://ia600904.us.archive.org/12/items/without-you-ill-never-be-king-of-the-pirates-english-dub/Without%20You%20I%27ll%20Never%20Be%20King%20Of%20The%20Pirates%21%20%20%28English%20Dub%29.mp4" },
+
+  // ── AUTRES ANIMES (5 nouveaux) ──
+  { name:"Tokyo Ghoul - Kaneki vs Jason [4K Dub Blu-Ray]",
+    url:"https://ia600609.us.archive.org/5/items/4-k-dub-tokyo-ghoul-kaneki-vs-jason-blu-ray/%5B4K%5D%20%5BDub%5D%20Tokyo%20Ghoul%20-%20Kaneki%20VS%20Jason%20%5BBlu-Ray%5D.mp4" },
+  { name:"All Might vs All For One Full Fight English Dubbed - My Hero Academia S3 E11",
+    url:"https://ia600104.us.archive.org/11/items/all-might-vs-all-for-one-full-fight-english-dubbed-my-hero-academia-season-3-episode-11/All%20might%20vs%20all%20for%20one%20Full%20fight%20%20%20English%20Dubbed%20%20%20MY%20hero%20Academia%20Season%203%20episode%2011.mp4" },
+  { name:"All Might vs Noumu English Dub Full Fight",
+    url:"https://ia600803.us.archive.org/24/items/all-might-vs-noumu-english-dub-full-fight/All%20Might%20vs%20Noumu%20%20%20English%20Dub%20%20%20Full%20Fight.mp4" },
+  { name:"All Might vs All For One Pt.2 English Dub",
+    url:"https://ia601406.us.archive.org/25/items/all-might-vs.-all-for-one-pt.-2-english-dub/ALL%20MIGHT%20vs.%20ALL%20FOR%20ONE%20-%20Pt.2%20%20%5BEnglish%20Dub%5D.mp4" },
+  { name:"Bakugo's Return English Dub - My Hero Academia Final Season (4K)",
+    url:"https://ia600609.us.archive.org/30/items/bakugos-return-english-dub-my-hero-academia-final-season-4-k/Bakugo%27s%20Return%20English%20Dub%20%20%20My%20Hero%20Academia%20Final%20Season%20%284K%29.mp4" },
+  { name:"Everyone vs All For One (Dub) 4K - My Hero Academia S8 EP8",
+    url:"https://ia903105.us.archive.org/26/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4" },
+];
+
+var list=[], current=0, slides=[];
+var appStarted=false, settling=false, dragging=false, tStartY=0;
+var feed=document.getElementById('feed');
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
+function animateTo(el,vh,cb){
+  el.style.transition='transform 0.42s cubic-bezier(0.25,1,0.5,1)';
+  el.style.transform='translateY('+vh+'vh)';
+  if(cb){el.addEventListener('transitionend',function done(){el.removeEventListener('transitionend',done);cb();});}
+}
+function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
+
+function buildFeed(){
+  slides.forEach(function(s){s.remove();}); slides=[];
+  list=shuffle(VIDEOS); current=0;
+  list.forEach(function(vid,idx){
+    var slide=document.createElement('div'); slide.className='slide';
+    var video=document.createElement('video');
+    video.setAttribute('playsinline',''); video.setAttribute('webkit-playsinline','');
+    video.controls=true; video.preload='none'; video.src=vid.url;
+    slide.appendChild(video);
+    var info=document.createElement('div'); info.className='slide-info';
+    info.innerHTML='<div class="slide-title">'+vid.name+'</div>';
+    slide.appendChild(info);
+    feed.appendChild(slide); slides.push(slide);
+    setPos(slide, idx===0 ? 0 : -100*idx);
+  });
+  playVideo(0);
+  var hint=document.createElement('div'); hint.id='hint';
+  hint.textContent='↓ Swipe down for the next video';
+  document.body.appendChild(hint);
+  setTimeout(function(){if(hint.parentNode)hint.remove();},4200);
+}
+
+function getVideo(idx){return slides[idx].querySelector('video');}
+function playVideo(idx){var v=getVideo(idx);var p=v.play();if(p)p.catch(function(){});}
+function stopVideo(idx){var v=getVideo(idx);v.pause();v.currentTime=0;}
+
+document.addEventListener('touchstart',function(e){
+  if(!appStarted||settling)return;
+  if(e.target.closest('#startBtn'))return;
+  tStartY=e.touches[0].clientY; dragging=true;
+},{passive:true});
+
+document.addEventListener('touchmove',function(e){
+  if(!dragging||settling)return;
+  e.preventDefault();
+  var dy=e.touches[0].clientY-tStartY;
+  if(dy<=0){setPos(slides[current],0);if(current<slides.length-1)setPos(slides[current+1],-100);return;}
+  if(current>=list.length-1)return;
+  var H=window.innerHeight;
+  setPosPx(slides[current],dy);
+  setPosPx(slides[current+1],-(H-dy));
+},{passive:false});
+
+document.addEventListener('touchend',function(e){
+  if(!dragging)return; dragging=false;
+  if(settling)return;
+  var dy=e.changedTouches[0].clientY-tStartY;
+  if(dy>80&&current<list.length-1){
+    settling=true;
+    var prev=current,next=current+1;
+    stopVideo(prev); current=next;
+    animateTo(slides[prev],100,null);
+    animateTo(slides[next],0,function(){settling=false;playVideo(current);});
+  } else {
+    if(dy>0&&current<list.length-1){animateTo(slides[current],0,null);animateTo(slides[current+1],-100,null);}
+    else{setPos(slides[current],0);}
+  }
+},{passive:true});
+
+document.addEventListener('touchmove',function(e){if(appStarted)e.preventDefault();},{passive:false});
+
+var btn=document.getElementById('startBtn');
+btn.addEventListener('touchstart',function(e){e.preventDefault();e.stopPropagation();if(!appStarted){appStarted=true;startApp();}},{passive:false});
+btn.addEventListener('click',function(){if(!appStarted){appStarted=true;startApp();}});
+
+function startApp(){
+  document.getElementById('splash').style.display='none';
+  feed.style.display='block';
+  buildFeed();
+}
+</script>
+</body>
+</html>
