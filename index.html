@@ -364,9 +364,9 @@ function shuffle(arr){
 }
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
 function animateTo(el,vh,cb){
-  el.style.transition='transform 0.18s cubic-bezier(0.2,0.9,0.4,1)';
+  el.style.transition='none';
   el.style.transform='translateY('+vh+'vh)';
-  if(cb){el.addEventListener('transitionend',function done(){el.removeEventListener('transitionend',done);cb();});}
+  if(cb){requestAnimationFrame(cb);}
 }
 function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
 
