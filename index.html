@@ -364,7 +364,7 @@ function shuffle(arr){
 }
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
 function animateTo(el,vh,cb){
-  el.style.transition='transform 0.42s cubic-bezier(0.25,1,0.5,1)';
+  el.style.transition='transform 0.18s cubic-bezier(0.2,0.9,0.4,1)';
   el.style.transform='translateY('+vh+'vh)';
   if(cb){el.addEventListener('transitionend',function done(){el.removeEventListener('transitionend',done);cb();});}
 }
@@ -386,14 +386,15 @@ function buildFeed(){
     setPos(slide, idx===0 ? 0 : -100*idx);
   });
   playVideo(0);
-  var hint=document.createElement('div'); hint.id='hint';
-  hint.textContent='↓ Swipe down for the next video';
-  document.body.appendChild(hint);
-  setTimeout(function(){if(hint.parentNode)hint.remove();},4200);
+
 }
 
 function getVideo(idx){return slides[idx].querySelector('video');}
-function playVideo(idx){var v=getVideo(idx);var p=v.play();if(p)p.catch(function(){});}
+function playVideo(idx){
+  var v=getVideo(idx);
+  v.loop=true;
+  var p=v.play();if(p)p.catch(function(){});
+}
 function stopVideo(idx){var v=getVideo(idx);v.pause();v.currentTime=0;}
 
 document.addEventListener('touchstart',function(e){
