@@ -7,190 +7,155 @@
 <title>Mathieu Pichette.co · Scroll Up</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  :root { --gold:#F5C842; --dark:#080808; }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  :root{--gold:#F5C842;--dark:#080808;}
+  html,body{background:#000;color:white;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
 
-  html, body {
-    background:var(--dark); color:white;
-    font-family:'DM Sans',sans-serif;
-    overflow:hidden; height:100%; width:100%;
-    position:fixed; top:0; left:0;
-  }
+  #feed{position:fixed;inset:0;background:#000;overflow:hidden;}
 
-  /* ═══ ENTER BTN ═══ */
-  #startBtn {
-    position:fixed; inset:0; z-index:1000;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.5);
-    border:none; cursor:pointer;
-    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
-  }
-  #startBtn span {
-    background:var(--gold); color:var(--dark);
-    font-family:'Anton',sans-serif; font-size:1rem; letter-spacing:3px;
-    padding:18px 36px; border-radius:50px;
-    pointer-events:none;
-  }
-  #startBtn:active span { background:#d4a820; transform:scale(0.96); }
+  .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
+  .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
 
-  #feed { position:fixed; inset:0; background:#000; overflow:hidden; }
-
-  .slide {
-    position:absolute; left:0; top:0;
-    width:100%; height:100%;
-    background:#000; will-change:transform;
+  /* ENTER BTN */
+  #startBtn{
+    position:fixed;inset:0;z-index:1000;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    background:rgba(0,0,0,0.75);border:none;cursor:pointer;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
   }
-  .slide video {
-    width:100%; height:100%;
-    object-fit:contain; background:#000; display:block;
+  #startBtn .btn-label{
+    background:var(--gold);color:var(--dark);
+    font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;
+    padding:16px 32px;border-radius:50px;pointer-events:none;
+    text-align:center;max-width:280px;line-height:1.4;
   }
 
-  #topbar {
-    position:fixed; top:0; left:0; right:0; z-index:50;
-    display:flex; flex-direction:column; align-items:center;
-    padding:14px 56px 10px;
-    background:linear-gradient(rgba(0,0,0,0.85),transparent);
-    pointer-events:none; text-align:center;
+  /* TOPBAR */
+  #topbar{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;flex-direction:column;align-items:center;
+    padding:10px 52px 8px;
+    background:linear-gradient(rgba(0,0,0,0.88),transparent);
+    pointer-events:none;text-align:center;
   }
-  .top-brand {
-    font-family:'Anton',sans-serif; font-size:1.1rem; letter-spacing:3px;
+  .top-brand{
+    font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:2px;
     color:var(--gold);
-    text-shadow:0 0 12px rgba(245,200,66,0.6), 0 2px 6px rgba(0,0,0,1);
-    margin-bottom:4px;
+    text-shadow:0 0 10px rgba(245,200,66,0.6),0 2px 4px rgba(0,0,0,1);
+    margin-bottom:3px;
   }
-  .top-intention {
-    font-size:0.6rem; line-height:1.75; letter-spacing:0.4px;
-    color:#ffffff; text-transform:uppercase; font-weight:600;
-    max-width:290px;
-    text-shadow:0 1px 8px rgba(0,0,0,1), 0 0 3px rgba(0,0,0,1);
+  .top-intention{
+    font-size:0.5rem;line-height:1.7;letter-spacing:0.4px;
+    color:#fff;text-transform:uppercase;font-weight:600;
+    max-width:260px;
+    text-shadow:0 1px 6px rgba(0,0,0,1);
   }
 
-  /* ═══ ÉCHELLE MONTAGNE ═══ */
-  #scale {
-    position:fixed; right:0; top:0; bottom:0; width:50px; z-index:60;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    pointer-events:none; gap:4px;
-    background:linear-gradient(to left,rgba(0,0,0,0.65),transparent);
-    padding:10px 0;
+  /* ÉCHELLE DROITE */
+  #scale{
+    position:fixed;right:0;top:0;bottom:0;width:48px;z-index:60;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    pointer-events:none;gap:3px;
+    background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);
+    padding:8px 0;
   }
-  .scale-title {
-    font-family:'Anton',sans-serif; font-size:0.29rem; letter-spacing:0.5px;
-    text-transform:uppercase; color:var(--gold); text-align:center;
-    line-height:1.55; max-width:44px; padding:0 3px;
-    text-shadow:0 0 8px rgba(245,200,66,0.7), 0 1px 4px rgba(0,0,0,1);
+  .scale-title{
+    font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;
+    text-transform:uppercase;color:var(--gold);text-align:center;
+    line-height:1.5;max-width:42px;padding:0 3px;
+    text-shadow:0 0 6px rgba(245,200,66,0.7),0 1px 3px rgba(0,0,0,1);
   }
-  .mountain-wrap {
-    position:relative; width:40px; height:200px;
-  }
-  .mountain-wrap svg { position:absolute; bottom:0; left:0; width:100%; height:100%; }
-  .climber {
-    position:absolute; width:8px; height:8px; border-radius:50%;
-    background:var(--gold);
-    box-shadow:0 0 10px var(--gold), 0 0 20px var(--gold);
-    left:50%; transform:translateX(-50%);
-    bottom:2%;
+  .mountain-wrap{position:relative;width:38px;height:180px;}
+  .mountain-wrap svg{position:absolute;bottom:0;left:0;width:100%;height:100%;}
+  .climber{
+    position:absolute;width:7px;height:7px;border-radius:50%;
+    background:var(--gold);box-shadow:0 0 8px var(--gold),0 0 16px var(--gold);
+    left:50%;transform:translateX(-50%);bottom:2%;
     animation:climb 5s ease-in-out infinite alternate;
   }
-  @keyframes climb {
-    0%  { bottom:2%; opacity:0.8; }
-    100%{ bottom:5%; opacity:1; box-shadow:0 0 16px var(--gold),0 0 32px rgba(245,200,66,0.5); }
-  }
-  .peak-flag {
-    position:absolute; top:-2px; left:50%; transform:translateX(-60%);
-    font-size:0.6rem;
-    filter:drop-shadow(0 0 5px var(--gold));
+  @keyframes climb{0%{bottom:2%;}100%{bottom:5%;box-shadow:0 0 14px var(--gold),0 0 28px rgba(245,200,66,0.5);}}
+  .peak-flag{
+    position:absolute;top:-2px;left:50%;transform:translateX(-60%);
+    font-size:0.55rem;filter:drop-shadow(0 0 4px var(--gold));
     animation:flagwave 1.6s ease-in-out infinite alternate;
   }
-  @keyframes flagwave {
-    0%  { transform:translateX(-60%) rotate(-10deg); }
-    100%{ transform:translateX(-60%) rotate(10deg); }
-  }
-  .scale-pts {
-    font-family:'Anton',sans-serif; font-size:0.75rem; color:var(--gold);
-    text-align:center; letter-spacing:1px;
-    text-shadow:0 0 10px var(--gold), 0 1px 6px rgba(0,0,0,1);
+  @keyframes flagwave{0%{transform:translateX(-60%) rotate(-10deg);}100%{transform:translateX(-60%) rotate(10deg);}}
+  .scale-pts{
+    font-family:'Anton',sans-serif;font-size:0.7rem;color:var(--gold);
+    text-align:center;letter-spacing:1px;
+    text-shadow:0 0 8px var(--gold),0 1px 4px rgba(0,0,0,1);
     animation:pulse 2s ease-in-out infinite;
   }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.55;} }
-  .scale-sub {
-    font-family:'Anton',sans-serif; font-size:0.28rem; color:rgba(255,255,255,0.6);
-    text-align:center; letter-spacing:0.5px; max-width:44px; padding:0 3px;
-    line-height:1.6;
-    text-shadow:0 1px 4px rgba(0,0,0,1);
-  }
-
-  /* ═══ BARRE ÉNERGIE BAS ═══ */
-  #energy-bar {
-    position:fixed; bottom:52px; left:0; right:52px; z-index:60;
-    padding:6px 10px 8px;
-    background:rgba(0,0,0,0.82);
-    border-top:1px solid rgba(245,200,66,0.2);
-    pointer-events:none;
-  }
-  .ebar-title {
-    font-family:'Anton',sans-serif; font-size:0.28rem; letter-spacing:0.6px;
-    text-transform:uppercase; color:var(--gold); text-align:center;
-    margin-bottom:4px;
-    text-shadow:0 0 6px rgba(245,200,66,0.6), 0 1px 3px rgba(0,0,0,1);
-  }
-  .ebar-track {
-    position:relative; height:6px; border-radius:3px;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(245,200,66,0.25);
-  }
-  .ebar-fill {
-    position:absolute; left:0; top:0; bottom:0;
-    width:0.03%; /* 3/10000 */
-    background:linear-gradient(to right, var(--gold), #fff8b0);
-    border-radius:3px;
-    box-shadow:0 0 6px var(--gold);
-  }
-  .ebar-runner {
-    position:absolute; top:50%; transform:translate(-50%,-50%);
-    left:0.03%;
-    font-size:0.7rem; line-height:1;
-    filter:drop-shadow(0 0 4px var(--gold));
-  }
-  .ebar-labels {
-    display:flex; justify-content:space-between; align-items:center;
-    margin-top:3px;
-  }
-  .ebar-left {
-    font-family:'Anton',sans-serif; font-size:0.35rem; color:rgba(255,255,255,0.5);
+  .scale-sub{
+    font-family:'Anton',sans-serif;font-size:0.27rem;color:rgba(255,255,255,0.55);
+    text-align:center;max-width:42px;padding:0 3px;line-height:1.5;
     text-shadow:0 1px 3px rgba(0,0,0,1);
   }
-  .ebar-pts {
-    font-family:'Anton',sans-serif; font-size:0.55rem; color:var(--gold);
-    text-shadow:0 0 8px var(--gold), 0 1px 3px rgba(0,0,0,1);
-    animation:pulse 2s ease-in-out infinite;
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+
+  /* BARRE HORIZONTALE BAS */
+  #energy-bar{
+    position:fixed;bottom:0;left:0;right:48px;z-index:70;
+    padding:5px 8px 8px;
+    background:rgba(0,0,0,0.88);
+    border-top:1px solid rgba(245,200,66,0.3);
+    pointer-events:none;
   }
-  .ebar-right {
-    font-family:'Anton',sans-serif; font-size:0.35rem; color:var(--gold);
-    text-shadow:0 0 6px rgba(245,200,66,0.5), 0 1px 3px rgba(0,0,0,1);
-    display:flex; align-items:center; gap:2px;
+  .ebar-title{
+    font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;
+    text-transform:uppercase;color:var(--gold);text-align:center;
+    margin-bottom:4px;
+    text-shadow:0 0 5px rgba(245,200,66,0.6);
   }
-  #milestone {
-    position:fixed; inset:0; z-index:200;
-    display:flex; align-items:center; justify-content:center;
+  .ebar-track{
+    position:relative;height:5px;border-radius:3px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(245,200,66,0.2);
+    margin-bottom:3px;
+  }
+  .ebar-fill{
+    position:absolute;left:0;top:0;bottom:0;
+    width:0.03%;
+    background:linear-gradient(to right,var(--gold),#fff8b0);
+    border-radius:3px;box-shadow:0 0 5px var(--gold);
+  }
+  .ebar-runner{
+    position:absolute;top:50%;left:2px;
+    transform:translateY(-50%) scaleX(-1);
+    font-size:0.75rem;line-height:1;
+  }
+  .ebar-labels{
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ebar-left{font-family:'Anton',sans-serif;font-size:0.32rem;color:rgba(255,255,255,0.5);text-shadow:0 1px 3px rgba(0,0,0,1);}
+  .ebar-pts{font-family:'Anton',sans-serif;font-size:0.5rem;color:var(--gold);text-shadow:0 0 6px var(--gold);animation:pulse 2s ease-in-out infinite;}
+  .ebar-right{font-family:'Anton',sans-serif;font-size:0.32rem;color:var(--gold);text-shadow:0 0 5px rgba(245,200,66,0.5);}
+
+  /* MILESTONE */
+  #milestone{
+    position:fixed;inset:0;z-index:200;
+    display:flex;align-items:center;justify-content:center;
     background:rgba(245,200,66,0.1);
-    pointer-events:none; opacity:0; transition:opacity 0.3s;
+    pointer-events:none;opacity:0;transition:opacity 0.3s;
   }
-  #milestone.show { opacity:1; }
-  #milestone.hide { opacity:0; transition:opacity 1.2s; }
-  .milestone-text {
-    font-family:'Anton',sans-serif; font-size:1.5rem; letter-spacing:3px;
-    color:var(--gold); text-align:center; line-height:1.5;
-    text-shadow:0 0 30px var(--gold), 0 0 60px rgba(245,200,66,0.5);
+  #milestone.show{opacity:1;}
+  #milestone.hide{opacity:0;transition:opacity 1.2s;}
+  .milestone-text{
+    font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:3px;
+    color:var(--gold);text-align:center;line-height:1.5;
+    text-shadow:0 0 30px var(--gold),0 0 60px rgba(245,200,66,0.5);
     animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);
     padding:0 28px;
   }
-  @keyframes scalepop { 0%{transform:scale(0.6);} 100%{transform:scale(1);} }
+  @keyframes scalepop{0%{transform:scale(0.6);}100%{transform:scale(1);}}
 </style>
 </head>
 <body>
-
 <div id="feed">
-  <button id="startBtn"><span>I AM READY FOR ENERGY!</span></button>
+
+  <button id="startBtn">
+    <div class="btn-label">I AM READY FOR ENERGY!</div>
+  </button>
 
   <div id="topbar">
     <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
@@ -201,11 +166,11 @@
     <div class="scale-title">WORLD ENERGY POINT METER — NEXT EVOLUTIONARY ENERGY CENTER</div>
     <div class="mountain-wrap">
       <span class="peak-flag">▲</span>
-      <svg viewBox="0 0 40 200" preserveAspectRatio="none">
-        <polygon points="20,4 40,200 0,200" fill="rgba(255,255,255,0.05)" stroke="rgba(245,200,66,0.25)" stroke-width="0.8"/>
-        <polygon points="20,198.5 22,200 18,200" fill="rgba(245,200,66,0.8)"/>
-        <line x1="10" y1="100" x2="30" y2="100" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
-        <line x1="15" y1="50"  x2="25" y2="50"  stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <svg viewBox="0 0 38 180" preserveAspectRatio="none">
+        <polygon points="19,4 38,180 0,180" fill="rgba(255,255,255,0.05)" stroke="rgba(245,200,66,0.25)" stroke-width="0.8"/>
+        <polygon points="19,178 21,180 17,180" fill="rgba(245,200,66,0.8)"/>
+        <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
       </svg>
       <div class="climber"></div>
     </div>
@@ -213,14 +178,24 @@
     <div class="scale-sub">OF 10 000 PTS</div>
   </div>
 
-  <div id="milestone">
-    <div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED</div>
+  <div id="energy-bar">
+    <div class="ebar-title">WORLD ENERGY POINT METER — NEXT EVOLUTIONARY ENERGY CENTER</div>
+    <div class="ebar-track">
+      <div class="ebar-fill"></div>
+      <div class="ebar-runner">🏃‍♂️</div>
+    </div>
+    <div class="ebar-labels">
+      <div class="ebar-left">0 PT</div>
+      <div class="ebar-pts">3 / 10 000 PTS</div>
+      <div class="ebar-right">10 000 ▲</div>
+    </div>
   </div>
 
-</div>
+  <div id="milestone"><div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED</div></div>
 
+</div>
 <script>
-var VIDEOS = [
+var VIDEOS=[
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
   {name:"Naruto vs 3rd Raikage Full Fight English Dub",url:"https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4"},
@@ -302,7 +277,7 @@ var VIDEOS = [
   {name:"All Might vs All For One Pt.2 English Dub",url:"https://ia601406.us.archive.org/25/items/all-might-vs.-all-for-one-pt.-2-english-dub/ALL%20MIGHT%20vs.%20ALL%20FOR%20ONE%20-%20Pt.2%20%20%5BEnglish%20Dub%5D.mp4"},
   {name:"Bakugo's Return - My Hero Academia Final Season 4K English Dub",url:"https://ia600609.us.archive.org/30/items/bakugos-return-english-dub-my-hero-academia-final-season-4-k/Bakugo%27s%20Return%20English%20Dub%20%20%20My%20Hero%20Academia%20Final%20Season%20%284K%29.mp4"},
   {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 Dub",url:"https://ia903105.us.archive.org/26/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
-  {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 Dub (v2)",url:"https://ia600106.us.archive.org/35/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8_202603/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
+  {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 Dub v2",url:"https://ia600106.us.archive.org/35/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8_202603/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
   {name:"Endeavor vs Nomu English Dub 4K",url:"https://ia902908.us.archive.org/19/items/endeavor-vs-nomu-english-dub-2160p/Endeavor%20vs%20Nomu%20English%20Dub%20%5B2160p%5D.mp4"},
   {name:"Top 5 My Hero Academia Fights Season 1-4",url:"https://ia600805.us.archive.org/0/items/top-5-my-hero-academia-fights-season-1-4/Top%205%20My%20Hero%20Academia%20Fights%20%20%20Season%201-4.mp4"},
   {name:"Black Bulls vs Vetto Fight",url:"https://ia903103.us.archive.org/3/items/black-bulls-vs-vetto-fight_202603/Black%20Bulls%20vs%20Vetto%20fight.mp4"},
@@ -358,7 +333,8 @@ function stopVideo(idx){var v=getVideo(idx);v.pause();v.currentTime=0;}
 
 document.addEventListener('touchstart',function(e){
   if(settling)return;
-  tStartY=e.touches[0].clientY; dragging=true;
+  if(e.target.closest('#startBtn'))return;
+  tStartY=e.touches[0].clientY;dragging=true;
 },{passive:true});
 
 document.addEventListener('touchmove',function(e){
@@ -373,13 +349,13 @@ document.addEventListener('touchmove',function(e){
 },{passive:false});
 
 document.addEventListener('touchend',function(e){
-  if(!dragging)return; dragging=false;
+  if(!dragging)return;dragging=false;
   if(settling)return;
   var dy=e.changedTouches[0].clientY-tStartY;
   if(dy>80&&current<list.length-1){
     settling=true;
     var prev=current,next=current+1;
-    stopVideo(prev); current=next;
+    stopVideo(prev);current=next;
     animateTo(slides[prev],100,null);
     playVideo(current);
     animateTo(slides[next],0,function(){settling=false;});
@@ -393,12 +369,10 @@ document.addEventListener('touchmove',function(e){e.preventDefault();},{passive:
 
 var started=false;
 document.getElementById('startBtn').addEventListener('click',function(){
-  if(started)return; started=true;
+  if(started)return;started=true;
   this.remove();
   buildFeed();
 });
-
-
 </script>
 </body>
 </html>
