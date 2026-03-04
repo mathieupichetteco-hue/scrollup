@@ -282,6 +282,11 @@ var VIDEOS=[
   {name:"Top 5 My Hero Academia Fights Season 1-4",url:"https://ia600805.us.archive.org/0/items/top-5-my-hero-academia-fights-season-1-4/Top%205%20My%20Hero%20Academia%20Fights%20%20%20Season%201-4.mp4"},
   {name:"Black Bulls vs Vetto Fight",url:"https://ia903103.us.archive.org/3/items/black-bulls-vs-vetto-fight_202603/Black%20Bulls%20vs%20Vetto%20fight.mp4"},
   {name:"Black Clover - Overcoming Despair (SimulDub)",url:"https://ia600702.us.archive.org/26/items/black-clover-official-simul-dub-clip-overcoming-despair/Black%20Clover%20-%20Official%20SimulDub%20Clip%20-%20Overcoming%20Despair.mp4"},
+  // ── MOTIVATION ──
+  {name:"Kanye West Wins Grammy Best Rap Album - The College Dropout Speech 2005",url:"https://ia600803.us.archive.org/27/items/2005-kanye-west-wins-grammy-best-rap-album-the-college-dropout-speech/2005%20%20Kanye%20West%20Wins%20Grammy%20Best%20Rap%20Album%20%20The%20College%20Dropout%20Speech.mp4"},
+  {name:"Andrew Tate Funny Moments Part 2",url:"https://ia903208.us.archive.org/4/items/andrew-tate-funny-moments-part-2/ANDREW%20TATE%20%20FUNNY%20MOMENTS%20%F0%9F%A4%A3%F0%9F%A4%A3%F0%9F%A4%A3%20PART%202.mp4"},
+  {name:"Become Obsessed - Conor McGregor",url:"https://ia600803.us.archive.org/18/items/become-obsessed-conor-mc-gregor_202603/Become%20Obsessed%20%20%20Conor%20McGregor.mp4"},
+  {name:"Best of Andrew Tate - Ultimate TikTok Compilation 2022",url:"https://ia600902.us.archive.org/20/items/best-of-andrew-tate-ultimate-tiktok-compilation-2022/BEST%20of%20ANDREW%20TATE%21%20Ultimate%20TIKTOK%20Compilation%20%5B2022%5D.mp4"},
 ];
 
 var list=[],current=0,slides=[];
@@ -290,7 +295,27 @@ var feed=document.getElementById('feed');
 var milestoneEl=document.getElementById('milestone');
 var milestoneShown=false;
 
-function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+// Algo motivation — score par mots clés d'énergie évolutive
+var HYPE_WORDS=[
+  'speech','obsessed','become','motivation','king','never give up','believe',
+  'pain','death','farewell','truth','reality','last moments','tearful','sad',
+  'sorry','reunited','surpasses','opens 8th gate','vs madara','vs pain','vs sasuke final',
+  'hashirama','itachi','gaara','kanye','grammy','mcgregor','tate','peak','overcoming'
+];
+function hypeScore(v){
+  var n=v.name.toLowerCase();
+  var score=0;
+  HYPE_WORDS.forEach(function(k){if(n.indexOf(k)>-1)score++;});
+  return score;
+}
+function shuffle(a){
+  // shuffle aléatoire pur d'abord
+  var b=a.slice();
+  for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}
+  // trier par score décroissant (stable sort préserve l'aléatoire à score égal)
+  b.sort(function(x,y){return hypeScore(y)-hypeScore(x);});
+  return b;
+}
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
 function animateTo(el,vh,cb){
   el.style.transition='transform 0.18s cubic-bezier(0.2,0.9,0.4,1)';
