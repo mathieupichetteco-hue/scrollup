@@ -7,123 +7,123 @@
 <title>Mathieu Pichette.co · Scroll Up</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  :root{--gold:#F5C842;--dark:#080808;}
-  html,body{background:var(--dark);color:white;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root { --gold:#F5C842; --dark:#080808; }
 
-  /* ═══ FEED ═══ */
-  #feed{position:fixed;inset:0;background:#000;overflow:hidden;}
-  .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
-  .slide video{
-    width:100%;height:100%;object-fit:contain;background:#000;display:block;
-    /* show only the time scrubber, hide everything else */
+  html, body {
+    background:var(--dark); color:white;
+    font-family:'DM Sans',sans-serif;
+    overflow:hidden; height:100%; width:100%;
+    position:fixed; top:0; left:0;
   }
 
-  /* Custom video controls — only seekbar visible */
-  .slide video::-webkit-media-controls{display:flex!important;}
-  .slide video::-webkit-media-controls-panel{background:transparent!important;padding:0;}
-  .slide video::-webkit-media-controls-play-button{display:none!important;}
-  .slide video::-webkit-media-controls-mute-button{display:none!important;}
-  .slide video::-webkit-media-controls-volume-slider{display:none!important;}
-  .slide video::-webkit-media-controls-fullscreen-button{display:none!important;}
-  .slide video::-webkit-media-controls-timeline{display:flex!important;}
-  .slide video::-webkit-media-controls-current-time-display{display:none!important;}
-  .slide video::-webkit-media-controls-time-remaining-display{display:none!important;}
-  .slide video::-webkit-media-controls-toggle-closed-captions-button{display:none!important;}
-  .slide video::-webkit-media-controls-overflow-button{display:none!important;}
+  #feed { position:fixed; inset:0; background:#000; overflow:hidden; }
 
-  /* ═══ TOPBAR ═══ */
-  #topbar{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    display:flex;flex-direction:column;align-items:center;
-    padding:16px 56px 12px;
-    background:linear-gradient(rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
-    pointer-events:none;text-align:center;
+  .slide {
+    position:absolute; left:0; top:0;
+    width:100%; height:100%;
+    background:#000; will-change:transform;
   }
-  .top-brand{
-    font-family:'Anton',sans-serif;font-size:1.15rem;letter-spacing:3px;
+  .slide video {
+    width:100%; height:100%;
+    object-fit:contain; background:#000; display:block;
+  }
+
+  #topbar {
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; flex-direction:column; align-items:center;
+    padding:14px 56px 10px;
+    background:linear-gradient(rgba(0,0,0,0.85),transparent);
+    pointer-events:none; text-align:center;
+  }
+  .top-brand {
+    font-family:'Anton',sans-serif; font-size:1.1rem; letter-spacing:3px;
     color:var(--gold);
-    text-shadow:0 0 12px rgba(245,200,66,0.7), 0 2px 4px rgba(0,0,0,1);
-    margin-bottom:5px;
+    text-shadow:0 0 12px rgba(245,200,66,0.6), 0 2px 6px rgba(0,0,0,1);
+    margin-bottom:4px;
   }
-  .top-intention{
-    font-size:0.62rem;line-height:1.75;letter-spacing:0.5px;
-    color:#ffffff;text-transform:uppercase;font-weight:600;
-    max-width:300px;
-    text-shadow:0 1px 8px rgba(0,0,0,1), 0 0 4px rgba(0,0,0,1);
+  .top-intention {
+    font-size:0.6rem; line-height:1.75; letter-spacing:0.4px;
+    color:#ffffff; text-transform:uppercase; font-weight:600;
+    max-width:290px;
+    text-shadow:0 1px 8px rgba(0,0,0,1), 0 0 3px rgba(0,0,0,1);
   }
 
   /* ═══ ÉCHELLE MONTAGNE ═══ */
-  #scale{
-    position:fixed;right:0;top:0;bottom:0;width:52px;z-index:60;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    pointer-events:none;
-    background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);
-    padding:10px 0;gap:4px;
+  #scale {
+    position:fixed; right:0; top:0; bottom:0; width:50px; z-index:60;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    pointer-events:none; gap:4px;
+    background:linear-gradient(to left,rgba(0,0,0,0.65),transparent);
+    padding:10px 0;
   }
-  .scale-title{
-    font-family:'Anton',sans-serif;font-size:0.3rem;letter-spacing:0.6px;
-    text-transform:uppercase;color:var(--gold);text-align:center;
-    line-height:1.55;max-width:44px;padding:0 4px;
-    text-shadow:0 0 8px rgba(245,200,66,0.8), 0 1px 4px rgba(0,0,0,1);
+  .scale-title {
+    font-family:'Anton',sans-serif; font-size:0.29rem; letter-spacing:0.5px;
+    text-transform:uppercase; color:var(--gold); text-align:center;
+    line-height:1.55; max-width:44px; padding:0 3px;
+    text-shadow:0 0 8px rgba(245,200,66,0.7), 0 1px 4px rgba(0,0,0,1);
   }
-  .mountain-wrap{
-    position:relative;width:42px;height:200px;
+  .mountain-wrap {
+    position:relative; width:40px; height:200px;
   }
-  .mountain-wrap svg{position:absolute;bottom:0;left:0;width:100%;height:100%;}
-  .climber{
-    position:absolute;width:8px;height:8px;border-radius:50%;
+  .mountain-wrap svg { position:absolute; bottom:0; left:0; width:100%; height:100%; }
+  .climber {
+    position:absolute; width:8px; height:8px; border-radius:50%;
     background:var(--gold);
-    box-shadow:0 0 10px var(--gold),0 0 20px var(--gold);
-    left:50%;transform:translateX(-50%);
+    box-shadow:0 0 10px var(--gold), 0 0 20px var(--gold);
+    left:50%; transform:translateX(-50%);
     bottom:2%;
     animation:climb 5s ease-in-out infinite alternate;
   }
-  @keyframes climb{
-    0%{bottom:2%;opacity:0.8;}
-    100%{bottom:5%;opacity:1;box-shadow:0 0 16px var(--gold),0 0 32px rgba(245,200,66,0.5);}
+  @keyframes climb {
+    0%  { bottom:2%; opacity:0.8; }
+    100%{ bottom:5%; opacity:1; box-shadow:0 0 16px var(--gold),0 0 32px rgba(245,200,66,0.5); }
   }
-  .peak-flag{
-    position:absolute;top:-2px;left:50%;transform:translateX(-60%);
+  .peak-flag {
+    position:absolute; top:-2px; left:50%; transform:translateX(-60%);
     font-size:0.6rem;
     filter:drop-shadow(0 0 5px var(--gold));
     animation:flagwave 1.6s ease-in-out infinite alternate;
   }
-  @keyframes flagwave{0%{transform:translateX(-60%) rotate(-10deg);}100%{transform:translateX(-60%) rotate(10deg);}}
-  .scale-pts{
-    font-family:'Anton',sans-serif;font-size:0.75rem;color:var(--gold);
-    text-align:center;letter-spacing:1px;
+  @keyframes flagwave {
+    0%  { transform:translateX(-60%) rotate(-10deg); }
+    100%{ transform:translateX(-60%) rotate(10deg); }
+  }
+  .scale-pts {
+    font-family:'Anton',sans-serif; font-size:0.75rem; color:var(--gold);
+    text-align:center; letter-spacing:1px;
     text-shadow:0 0 10px var(--gold), 0 1px 6px rgba(0,0,0,1);
     animation:pulse 2s ease-in-out infinite;
   }
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
-  .scale-sub{
-    font-family:'Anton',sans-serif;font-size:0.28rem;color:rgba(255,255,255,0.6);
-    text-align:center;letter-spacing:0.5px;max-width:44px;padding:0 3px;
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.55;} }
+  .scale-sub {
+    font-family:'Anton',sans-serif; font-size:0.28rem; color:rgba(255,255,255,0.6);
+    text-align:center; letter-spacing:0.5px; max-width:44px; padding:0 3px;
     line-height:1.6;
     text-shadow:0 1px 4px rgba(0,0,0,1);
   }
 
   /* ═══ MILESTONE ═══ */
-  #milestone{
-    position:fixed;inset:0;z-index:200;
-    display:flex;align-items:center;justify-content:center;
+  #milestone {
+    position:fixed; inset:0; z-index:200;
+    display:flex; align-items:center; justify-content:center;
     background:rgba(245,200,66,0.1);
-    pointer-events:none;opacity:0;transition:opacity 0.3s;
+    pointer-events:none; opacity:0; transition:opacity 0.3s;
   }
-  #milestone.show{opacity:1;}
-  #milestone.hide{opacity:0;transition:opacity 1.2s;}
-  .milestone-text{
-    font-family:'Anton',sans-serif;font-size:1.5rem;letter-spacing:3px;
-    color:var(--gold);text-align:center;line-height:1.5;
-    text-shadow:0 0 30px var(--gold),0 0 60px rgba(245,200,66,0.5);
+  #milestone.show { opacity:1; }
+  #milestone.hide { opacity:0; transition:opacity 1.2s; }
+  .milestone-text {
+    font-family:'Anton',sans-serif; font-size:1.5rem; letter-spacing:3px;
+    color:var(--gold); text-align:center; line-height:1.5;
+    text-shadow:0 0 30px var(--gold), 0 0 60px rgba(245,200,66,0.5);
     animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);
     padding:0 28px;
   }
-  @keyframes scalepop{0%{transform:scale(0.6);}100%{transform:scale(1);}}
+  @keyframes scalepop { 0%{transform:scale(0.6);} 100%{transform:scale(1);} }
 </style>
 </head>
 <body>
+
 <div id="feed">
 
   <div id="topbar">
@@ -135,11 +135,11 @@
     <div class="scale-title">WORLD ENERGY POINT METER — NEXT EVOLUTIONARY ENERGY CENTER</div>
     <div class="mountain-wrap">
       <span class="peak-flag">▲</span>
-      <svg viewBox="0 0 42 200" preserveAspectRatio="none">
-        <polygon points="21,4 42,200 0,200" fill="rgba(255,255,255,0.05)" stroke="rgba(245,200,66,0.25)" stroke-width="0.8"/>
-        <polygon points="21,198.5 23,200 19,200" fill="rgba(245,200,66,0.8)"/>
-        <line x1="11" y1="100" x2="31" y2="100" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
-        <line x1="16" y1="50" x2="26" y2="50" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <svg viewBox="0 0 40 200" preserveAspectRatio="none">
+        <polygon points="20,4 40,200 0,200" fill="rgba(255,255,255,0.05)" stroke="rgba(245,200,66,0.25)" stroke-width="0.8"/>
+        <polygon points="20,198.5 22,200 18,200" fill="rgba(245,200,66,0.8)"/>
+        <line x1="10" y1="100" x2="30" y2="100" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="15" y1="50"  x2="25" y2="50"  stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
       </svg>
       <div class="climber"></div>
     </div>
@@ -147,12 +147,14 @@
     <div class="scale-sub">OF 10 000 PTS</div>
   </div>
 
-  <div id="milestone"><div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED</div></div>
+  <div id="milestone">
+    <div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED</div>
+  </div>
 
 </div>
 
 <script>
-var VIDEOS=[
+var VIDEOS = [
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
   {name:"Naruto vs 3rd Raikage Full Fight English Dub",url:"https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4"},
@@ -163,7 +165,7 @@ var VIDEOS=[
   {name:"Naruto First Shows Kyuubi Chakra Form in Front of Shinobi Alliance",url:"https://ia600605.us.archive.org/21/items/naruto-first-shows-kyuubi-chakra-form-in-front-of-shinobi-alliance-hinata-calls-herself-useless-1/Naruto%20First%20Shows%20Kyuubi%20Chakra%20Form%20in%20Front%20of%20Shinobi%20Alliance%20-%20Hinata%20Calls%20Herself%20Useless%20%281%29.mp4"},
   {name:"Naruto vs Pain English Dub HD",url:"https://ia902903.us.archive.org/11/items/naruto-vs-pain-english-dub-hd/Naruto%20Vs%20Pain%20English%20Dub%20-%20HD.mp4"},
   {name:"Let It Out - Episode 82 English Dub",url:"https://ia600804.us.archive.org/29/items/let-it-out.-ep-82-english-dubbed/%E2%80%9CLet%20it%20out.%E2%80%9D%20%28Ep%2082%29%20%28English%20Dubbed%29.mp4"},
-  {name:"Asuma Edo Tensei vs Team Asuma",url:"https://ia601407.us.archive.org/14/items/asuma-edo-tensei-vs-choiji-shikamaru-ino-team-asuma-childhood-naruto-shippuden-english-dub/Asuma%20Edo%20Tensei%20vs%20Choiji%2C%20Shikamaru%2C%20Ino%2C%20Team%20Asuma%20Childhood%2C%20Naruto%20Shippuden%20English%20Dub.mp4"},
+  {name:"Asuma Edo Tensei vs Team Asuma English Dub",url:"https://ia601407.us.archive.org/14/items/asuma-edo-tensei-vs-choiji-shikamaru-ino-team-asuma-childhood-naruto-shippuden-english-dub/Asuma%20Edo%20Tensei%20vs%20Choiji%2C%20Shikamaru%2C%20Ino%2C%20Team%20Asuma%20Childhood%2C%20Naruto%20Shippuden%20English%20Dub.mp4"},
   {name:"Asuma vs Hidan - Asuma's Death English Dub HD",url:"https://ia601500.us.archive.org/30/items/asuma-vs-hidan-asumas-death-great-fight-hd-english-dubbed-naruto-shippuden/Asuma%20Vs%20Hidan%20Asumas%20Death%20Great%20Fight%20HD%20English%20Dubbed%20-%20Naruto%20Shippuden.mp4"},
   {name:"Guy vs Madara Full Fight English Dub 1080p",url:"https://ia601002.us.archive.org/22/items/guy-vs-madara-full-fight-english-dub-1080p-might-guy-vs-madara-naruto/Guy%20vs%20Madara%20Full%20Fight%20English%20Dub%201080p%20%20%20Might%20Guy%20vs%20Madara%20%20%20Naruto.mp4"},
   {name:"Kakashi and Team 10 vs Kakuzu and Hidan English Dub",url:"https://ia600904.us.archive.org/23/items/hatake-kakashi-and-team-10-vs-kakuzu-and-hidan-naruto-english-dub/Hatake%20Kakashi%20and%20Team%2010%20vs%20Kakuzu%20and%20Hidan%20%20Naruto%20%20-%20%5BEnglish%20Dub%5D.mp4"},
@@ -227,12 +229,15 @@ var VIDEOS=[
   {name:"Team 7 vs Zabuza Full Fight English Dub",url:"https://ia601509.us.archive.org/6/items/team-7-vs-zabuza-kakashi-naruto-and-sasuke-vs-zabuza-full-fight-english-dub/Team%207%20vs%20Zabuza%20%28Kakashi%2C%20Naruto%20and%20Sasuke%20vs%20Zabuza%29%2C%20full%20fight%2C%20english%20dub.mp4"},
   {name:"Naruto and Sasuke vs Orochimaru Full Fight English Dub",url:"https://ia903200.us.archive.org/21/items/you-scaredy-cat-naruto-and-sasuke-vs-orochimaru-full-fight-english-dub/YOU%20SCAREDY%20CAT%20%20Naruto%20and%20Sasuke%20vs%20Orochimaru%20%20Full%20Fight%20English%20Dub.mp4"},
   {name:"Without You I'll Never Be King Of The Pirates! (English Dub)",url:"https://ia600904.us.archive.org/12/items/without-you-ill-never-be-king-of-the-pirates-english-dub/Without%20You%20I%27ll%20Never%20Be%20King%20Of%20The%20Pirates%21%20%20%28English%20Dub%29.mp4"},
+  {name:"Every Strawhat Says Luffy Will Be King Of The Pirates (Dub)",url:"https://ia902803.us.archive.org/24/items/every-strawhat-says-luffy-will-be-the-king-of-the-pirates-dub/Every%20Strawhat%20Says%20Luffy%20Will%20Be%20The%20King%20Of%20The%20Pirates%28Dub%29.mp4"},
   {name:"Tokyo Ghoul - Kaneki vs Jason 4K Dub",url:"https://ia600609.us.archive.org/5/items/4-k-dub-tokyo-ghoul-kaneki-vs-jason-blu-ray/%5B4K%5D%20%5BDub%5D%20Tokyo%20Ghoul%20-%20Kaneki%20VS%20Jason%20%5BBlu-Ray%5D.mp4"},
   {name:"All Might vs All For One - My Hero Academia S3 E11 English Dub",url:"https://ia600104.us.archive.org/11/items/all-might-vs-all-for-one-full-fight-english-dubbed-my-hero-academia-season-3-episode-11/All%20might%20vs%20all%20for%20one%20Full%20fight%20%20%20English%20Dubbed%20%20%20MY%20hero%20Academia%20Season%203%20episode%2011.mp4"},
   {name:"All Might vs Noumu English Dub Full Fight",url:"https://ia600803.us.archive.org/24/items/all-might-vs-noumu-english-dub-full-fight/All%20Might%20vs%20Noumu%20%20%20English%20Dub%20%20%20Full%20Fight.mp4"},
   {name:"All Might vs All For One Pt.2 English Dub",url:"https://ia601406.us.archive.org/25/items/all-might-vs.-all-for-one-pt.-2-english-dub/ALL%20MIGHT%20vs.%20ALL%20FOR%20ONE%20-%20Pt.2%20%20%5BEnglish%20Dub%5D.mp4"},
   {name:"Bakugo's Return - My Hero Academia Final Season 4K English Dub",url:"https://ia600609.us.archive.org/30/items/bakugos-return-english-dub-my-hero-academia-final-season-4-k/Bakugo%27s%20Return%20English%20Dub%20%20%20My%20Hero%20Academia%20Final%20Season%20%284K%29.mp4"},
   {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 Dub",url:"https://ia903105.us.archive.org/26/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
+  {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 Dub (v2)",url:"https://ia600106.us.archive.org/35/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8_202603/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
+  {name:"Endeavor vs Nomu English Dub 4K",url:"https://ia902908.us.archive.org/19/items/endeavor-vs-nomu-english-dub-2160p/Endeavor%20vs%20Nomu%20English%20Dub%20%5B2160p%5D.mp4"},
   {name:"Top 5 My Hero Academia Fights Season 1-4",url:"https://ia600805.us.archive.org/0/items/top-5-my-hero-academia-fights-season-1-4/Top%205%20My%20Hero%20Academia%20Fights%20%20%20Season%201-4.mp4"},
   {name:"Black Bulls vs Vetto Fight",url:"https://ia903103.us.archive.org/3/items/black-bulls-vs-vetto-fight_202603/Black%20Bulls%20vs%20Vetto%20fight.mp4"},
   {name:"Black Clover - Overcoming Despair (SimulDub)",url:"https://ia600702.us.archive.org/26/items/black-clover-official-simul-dub-clip-overcoming-despair/Black%20Clover%20-%20Official%20SimulDub%20Clip%20-%20Overcoming%20Despair.mp4"},
@@ -259,8 +264,12 @@ function buildFeed(){
   list.forEach(function(vid,idx){
     var slide=document.createElement('div');slide.className='slide';
     var video=document.createElement('video');
-    video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');
-    video.controls=true;video.preload='none';video.src=vid.url;
+    video.setAttribute('playsinline','');
+    video.setAttribute('webkit-playsinline','');
+    video.controls=true;
+    video.loop=true;
+    video.preload='none';
+    video.src=vid.url;
     slide.appendChild(video);
     feed.appendChild(slide);slides.push(slide);
     setPos(slide,idx===0?0:-100*idx);
@@ -271,7 +280,6 @@ function buildFeed(){
 function getVideo(idx){return slides[idx].querySelector('video');}
 function playVideo(idx){
   var v=getVideo(idx);
-  v.loop=true;
   var p=v.play();if(p)p.catch(function(){});
   if(idx+1<slides.length){var nxt=getVideo(idx+1);nxt.preload='auto';nxt.load();}
   if(!milestoneShown&&idx>=Math.floor(list.length*0.5)){
@@ -284,7 +292,7 @@ function stopVideo(idx){var v=getVideo(idx);v.pause();v.currentTime=0;}
 
 document.addEventListener('touchstart',function(e){
   if(settling)return;
-  tStartY=e.touches[0].clientY;dragging=true;
+  tStartY=e.touches[0].clientY; dragging=true;
 },{passive:true});
 
 document.addEventListener('touchmove',function(e){
@@ -299,13 +307,13 @@ document.addEventListener('touchmove',function(e){
 },{passive:false});
 
 document.addEventListener('touchend',function(e){
-  if(!dragging)return;dragging=false;
+  if(!dragging)return; dragging=false;
   if(settling)return;
   var dy=e.changedTouches[0].clientY-tStartY;
   if(dy>80&&current<list.length-1){
     settling=true;
     var prev=current,next=current+1;
-    stopVideo(prev);current=next;
+    stopVideo(prev); current=next;
     animateTo(slides[prev],100,null);
     playVideo(current);
     animateTo(slides[next],0,function(){settling=false;});
