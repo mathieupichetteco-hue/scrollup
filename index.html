@@ -17,33 +17,23 @@
     position:fixed; top:0; left:0;
   }
 
-  /* ═══ SPLASH ═══ */
-  #splash {
-    position:fixed; inset:0; background:var(--dark);
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    z-index:1000; gap:20px;
-  }
-  .splash-brand {
-    font-family:'Anton',sans-serif; font-size:2.8rem;
-    letter-spacing:3px; line-height:1; color:var(--gold);
-    text-align:center;
-    text-shadow:0 0 20px rgba(245,200,66,0.5);
-  }
-  .splash-sub {
-    font-size:0.7rem; letter-spacing:5px; text-transform:uppercase;
-    color:rgba(255,255,255,0.5);
-  }
+  /* ═══ ENTER BTN ═══ */
   #startBtn {
-    background:var(--gold); color:var(--dark); border:none;
-    font-family:'Anton',sans-serif; font-size:1.1rem; letter-spacing:3px;
-    padding:16px 52px; border-radius:50px; cursor:pointer;
-    touch-action:manipulation; user-select:none; -webkit-user-select:none;
-    min-width:200px; min-height:54px;
+    position:fixed; inset:0; z-index:1000;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.5);
+    border:none; cursor:pointer;
+    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
   }
-  #startBtn:active { background:#d4a820; transform:scale(0.96); }
+  #startBtn span {
+    background:var(--gold); color:var(--dark);
+    font-family:'Anton',sans-serif; font-size:1.2rem; letter-spacing:4px;
+    padding:18px 56px; border-radius:50px;
+    pointer-events:none;
+  }
+  #startBtn:active span { background:#d4a820; transform:scale(0.96); }
 
-  #feed { position:fixed; inset:0; display:none; background:#000; overflow:hidden; }
+  #feed { position:fixed; inset:0; background:#000; overflow:hidden; }
 
   .slide {
     position:absolute; left:0; top:0;
@@ -150,13 +140,8 @@
 </head>
 <body>
 
-<div id="splash">
-  <div class="splash-brand">Mathieu Pichette<span style="color:white">.co</span></div>
-  <div class="splash-sub">Scroll Up</div>
-  <button id="startBtn">ENTER →</button>
-</div>
-
 <div id="feed">
+  <button id="startBtn"><span>ENTER →</span></button>
 
   <div id="topbar">
     <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
@@ -360,8 +345,7 @@ document.addEventListener('touchmove',function(e){e.preventDefault();},{passive:
 var started=false;
 document.getElementById('startBtn').addEventListener('click',function(){
   if(started)return; started=true;
-  document.getElementById('splash').style.display='none';
-  document.getElementById('feed').style.display='block';
+  this.remove();
   buildFeed();
 });
 
