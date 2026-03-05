@@ -370,11 +370,12 @@ document.addEventListener('touchmove',function(e){
   if(!dragging||settling)return;
   e.preventDefault();
   var dy=e.touches[0].clientY-tStartY;
-  if(dy<=0){setPos(slides[current],0);if(current<slides.length-1)setPos(slides[current+1],-100);return;}
+  var nextSlide=getSlide(current+1);
+  if(dy<=0){setPos(getSlide(current),0);if(nextSlide)setPos(nextSlide,-100);return;}
   if(current>=list.length-1)return;
   var H=window.innerHeight;
-  setPosPx(slides[current],dy);
-  setPosPx(slides[current+1],-(H-dy));
+  setPosPx(getSlide(current),dy);
+  if(nextSlide)setPosPx(nextSlide,-(H-dy));
 },{passive:false});
 
 document.addEventListener('touchend',function(e){
@@ -385,12 +386,16 @@ document.addEventListener('touchend',function(e){
     settling=true;
     var prev=current,next=current+1;
     stopVideo(prev);current=next;
-    animateTo(slides[prev],100,null);
+    var prevSlide=getSlide(prev),nextSlide=getSlide(next);
+    if(prevSlide)animateTo(prevSlide,100,null);
+    syncSlides();
     playVideo(current);
-    animateTo(slides[next],0,function(){settling=false;});
+    if(nextSlide)animateTo(nextSlide,0,function(){settling=false;});
+    else settling=false;
   } else {
-    if(dy>0&&current<list.length-1){animateTo(slides[current],0,null);animateTo(slides[current+1],-100,null);}
-    else{setPos(slides[current],0);}
+    var cs=getSlide(current),ns=getSlide(current+1);
+    if(dy>0&&current<list.length-1){if(cs)animateTo(cs,0,null);if(ns)animateTo(ns,-100,null);}
+    else{if(cs)setPos(cs,0);}
   }
 },{passive:true});
 
