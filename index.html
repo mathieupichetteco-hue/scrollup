@@ -16,6 +16,29 @@
   .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
   .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
 
+  /* TITRE VIDEO */
+  #video-title{
+    position:fixed;left:0;right:48px;z-index:65;
+    bottom:52px;
+    padding:6px 12px;
+    pointer-events:none;
+    text-align:left;
+  }
+  #video-title .vtitle-text{
+    display:inline-block;
+    font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:600;
+    color:#fff;
+    background:rgba(0,0,0,0.72);
+    border-left:2px solid var(--gold);
+    padding:5px 10px;
+    border-radius:0 6px 6px 0;
+    letter-spacing:0.2px;
+    line-height:1.4;
+    text-shadow:0 1px 4px rgba(0,0,0,1);
+    max-width:100%;
+    word-break:break-word;
+  }
+
   /* ENTER BTN */
   #startBtn{
     position:fixed;inset:0;z-index:1000;
@@ -191,6 +214,9 @@
     </div>
   </div>
 
+  <!-- TITRE VIDEO -->
+  <div id="video-title"><span class="vtitle-text"></span></div>
+
   <div id="milestone"><div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED</div></div>
 
 </div>
@@ -232,7 +258,6 @@ var VIDEOS=[
   {name:"Naruto Surpasses Fourth Raikage's Max Speed English Dub",url:"https://ia601507.us.archive.org/26/items/naruto-surpasses-fourth-raikages-max-speed-minato-fights-killer-bee-and-4th-raikage-english-dub/Naruto%20Surpasses%20Fourth%20Raikages%20Max%20Speed%2C%20Minato%20Fights%20Killer%20Bee%20And%204th%20Raikage%20%20English%20DUB.mp4"},
   {name:"Naruto Saves Iruka and Destroys Mizuki English Dub",url:"https://ia600105.us.archive.org/9/items/naruto-transfermation-and-save-iruka-sensei-and-destroy-mizuki-english-dubbednarutonarutoshippuden/Naruto%20transfermation%20and%20save%20iruka%20sensei%20and%20destroy%20mizuki%20English%20dubbed%23naruto%23narutoshippuden.mp4"},
   {name:"Hashirama Senju vs Madara Uchiha Full Fight English Dub",url:"https://ia601407.us.archive.org/9/items/hashirama-senju-vs-madara-uchiha-full-fight-english-dubbed/Hashirama%20Senju%20Vs%20Madara%20Uchiha%20Full%20Fight%20English%20Dubbed.mp4"},
-
   {name:"Itachi's Final Farewell and Itachi Tells the Truth to Sasuke",url:"https://ia601506.us.archive.org/20/items/itachis-final-farewell-and-itachi-tells-the-truth-to-sasuke-1/Itachi%27s%20final%20Farewell%20and%20itachi%20tells%20the%20truth%20to%20sasuke%20%281%29.mp4"},
   {name:"Itachi's Speech On Reality",url:"https://ia600604.us.archive.org/5/items/itachis-speech-on-reality/Itachi%27s%20Speech%20On%20Reality.mp4"},
   {name:"Kaguya Comes to Earth - Hagoromo Awakens Sharingan English Dub",url:"https://ia902803.us.archive.org/28/items/kaguya-comes-to-earth-hagoromo-learns-sage-power-hagoromo-awakens-sharingan-english-dub/Kaguya%20comes%20to%20earth%2C%20Hagoromo%20learns%20sage%20power%2C%20Hagoromo%20awakens%20sharingan%20%28English%20Dub%29.mp4"},
@@ -283,7 +308,6 @@ var VIDEOS=[
   {name:"Top 5 My Hero Academia Fights Season 1-4",url:"https://ia600805.us.archive.org/0/items/top-5-my-hero-academia-fights-season-1-4/Top%205%20My%20Hero%20Academia%20Fights%20%20%20Season%201-4.mp4"},
   {name:"Black Bulls vs Vetto Fight",url:"https://ia903103.us.archive.org/3/items/black-bulls-vs-vetto-fight_202603/Black%20Bulls%20vs%20Vetto%20fight.mp4"},
   {name:"Black Clover - Overcoming Despair (SimulDub)",url:"https://ia600702.us.archive.org/26/items/black-clover-official-simul-dub-clip-overcoming-despair/Black%20Clover%20-%20Official%20SimulDub%20Clip%20-%20Overcoming%20Despair.mp4"},
-  // ── MOTIVATION ──
   {name:"Kanye West Wins Grammy Best Rap Album - The College Dropout Speech 2005",url:"https://ia600803.us.archive.org/27/items/2005-kanye-west-wins-grammy-best-rap-album-the-college-dropout-speech/2005%20%20Kanye%20West%20Wins%20Grammy%20Best%20Rap%20Album%20%20The%20College%20Dropout%20Speech.mp4"},
   {name:"Andrew Tate Funny Moments Part 2",url:"https://ia903208.us.archive.org/4/items/andrew-tate-funny-moments-part-2/ANDREW%20TATE%20%20FUNNY%20MOMENTS%20%F0%9F%A4%A3%F0%9F%A4%A3%F0%9F%A4%A3%20PART%202.mp4"},
   {name:"Become Obsessed - Conor McGregor",url:"https://ia600803.us.archive.org/18/items/become-obsessed-conor-mc-gregor_202603/Become%20Obsessed%20%20%20Conor%20McGregor.mp4"},
@@ -294,13 +318,13 @@ var list=[],current=0,slides=[];
 var settling=false,dragging=false,tStartY=0;
 var feed=document.getElementById('feed');
 var milestoneEl=document.getElementById('milestone');
-var milestoneShown=false;
+var videoTitleEl=document.getElementById('video-title');
+var videoTitleText=videoTitleEl.querySelector('.vtitle-text');
 
 function shuffle(a){
   var b=a.slice();
-  // Fisher-Yates avec seed temps+random pour vrai aléatoire
   for(var i=b.length-1;i>0;i--){
-    var j=Math.floor((Math.random()+Date.now()%1000/1000)/2*(i+1))%( i+1);
+    var j=Math.floor((Math.random()+Date.now()%1000/1000)/2*(i+1))%(i+1);
     var t=b[i];b[i]=b[j];b[j]=t;
   }
   return b;
@@ -312,6 +336,8 @@ function animateTo(el,vh,cb){
   if(cb){el.addEventListener('transitionend',function done(){el.removeEventListener('transitionend',done);cb();});}
 }
 function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
+
+function getSlide(idx){return slides[idx]||null;}
 
 function buildFeed(){
   slides.forEach(function(s){s.remove();}); slides=[];
@@ -333,12 +359,19 @@ function buildFeed(){
 }
 
 function getVideo(idx){return slides[idx].querySelector('video');}
+
+function updateTitle(idx){
+  var name=list[idx]?list[idx].name:'';
+  videoTitleText.textContent=name;
+}
+
 function playVideo(idx){
   var v=getVideo(idx);
   var p=v.play();if(p)p.catch(function(){});
   if(idx+1<slides.length){var nxt=getVideo(idx+1);nxt.preload='auto';nxt.load();}
 
-  // runner progresse — à 100% des vidéos il est à la fin
+  updateTitle(idx);
+
   var pct=list.length>1?(idx/(list.length-1))*100:0;
   var runner=document.querySelector('.ebar-runner');
   var track=document.querySelector('.ebar-track');
@@ -348,7 +381,6 @@ function playVideo(idx){
     runner.style.left=leftPx+'px';
   }
 
-  // flash toutes les 8% avec bon pourcentage
   var step=Math.round(list.length*0.08);
   if(step>0&&idx>0&&idx%step===0){
     var pctLabel=Math.round((idx/(list.length-1))*100);
@@ -388,7 +420,6 @@ document.addEventListener('touchend',function(e){
     stopVideo(prev);current=next;
     var prevSlide=getSlide(prev),nextSlide=getSlide(next);
     if(prevSlide)animateTo(prevSlide,100,null);
-    syncSlides();
     playVideo(current);
     if(nextSlide)animateTo(nextSlide,0,function(){settling=false;});
     else settling=false;
