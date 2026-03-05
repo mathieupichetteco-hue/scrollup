@@ -10,181 +10,50 @@
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   :root{--gold:#F5C842;--dark:#080808;}
   html,body{background:#000;color:white;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
-
   #feed{position:fixed;inset:0;background:#000;overflow:hidden;}
-
   .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
   .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
-
-  /* TITRE VIDEO */
-  #video-title{
-    position:fixed;left:0;right:48px;z-index:65;
-    bottom:52px;
-    padding:6px 12px;
-    pointer-events:none;
-    text-align:left;
-  }
-  #video-title .vtitle-text{
-    display:inline-block;
-    font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:600;
-    color:#fff;
-    background:rgba(0,0,0,0.72);
-    border-left:2px solid var(--gold);
-    padding:5px 10px;
-    border-radius:0 6px 6px 0;
-    letter-spacing:0.2px;
-    line-height:1.4;
-    text-shadow:0 1px 4px rgba(0,0,0,1);
-    max-width:100%;
-    word-break:break-word;
-  }
-
-  /* ENTER BTN */
-  #startBtn{
-    position:fixed;inset:0;z-index:1000;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-    background:rgba(0,0,0,0.75);border:none;cursor:pointer;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  #startBtn .btn-label{
-    background:var(--gold);color:var(--dark);
-    font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;
-    padding:16px 32px;border-radius:50px;pointer-events:none;
-    text-align:center;max-width:280px;line-height:1.4;
-  }
-
-  /* TOPBAR */
-  #topbar{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    display:flex;flex-direction:column;align-items:center;
-    padding:10px 52px 8px;
-    background:linear-gradient(rgba(0,0,0,0.88),transparent);
-    pointer-events:none;text-align:center;
-  }
-  .top-brand{
-    font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:2px;
-    color:var(--gold);
-    text-shadow:0 0 10px rgba(245,200,66,0.6),0 2px 4px rgba(0,0,0,1);
-    margin-bottom:3px;
-  }
-  .top-intention{
-    font-size:0.5rem;line-height:1.7;letter-spacing:0.4px;
-    color:#fff;text-transform:uppercase;font-weight:600;
-    max-width:260px;
-    text-shadow:0 1px 6px rgba(0,0,0,1);
-  }
-
-  /* ÉCHELLE DROITE */
-  #scale{
-    position:fixed;right:0;top:0;bottom:0;width:48px;z-index:60;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    pointer-events:none;gap:3px;
-    background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);
-    padding:8px 0;
-  }
-  .scale-title{
-    font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;
-    text-transform:uppercase;color:var(--gold);text-align:center;
-    line-height:1.5;max-width:42px;padding:0 3px;
-    text-shadow:0 0 6px rgba(245,200,66,0.7),0 1px 3px rgba(0,0,0,1);
-  }
+  #video-title{position:fixed;left:0;right:48px;z-index:65;bottom:52px;padding:6px 12px;pointer-events:none;text-align:left;}
+  #video-title .vtitle-text{display:inline-block;font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:600;color:#fff;background:rgba(0,0,0,0.72);border-left:2px solid var(--gold);padding:5px 10px;border-radius:0 6px 6px 0;letter-spacing:0.2px;line-height:1.4;text-shadow:0 1px 4px rgba(0,0,0,1);max-width:100%;word-break:break-word;}
+  #startBtn{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.75);border:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  #startBtn .btn-label{background:var(--gold);color:var(--dark);font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;padding:16px 32px;border-radius:50px;pointer-events:none;text-align:center;max-width:280px;line-height:1.4;}
+  #topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-direction:column;align-items:center;padding:10px 52px 8px;background:linear-gradient(rgba(0,0,0,0.88),transparent);pointer-events:none;text-align:center;}
+  .top-brand{font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.6),0 2px 4px rgba(0,0,0,1);margin-bottom:3px;}
+  .top-intention{font-size:0.5rem;line-height:1.7;letter-spacing:0.4px;color:#fff;text-transform:uppercase;font-weight:600;max-width:260px;text-shadow:0 1px 6px rgba(0,0,0,1);}
+  #scale{position:fixed;right:0;top:0;bottom:0;width:48px;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);padding:8px 0;}
+  .scale-title{font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);text-align:center;line-height:1.5;max-width:42px;padding:0 3px;text-shadow:0 0 6px rgba(245,200,66,0.7),0 1px 3px rgba(0,0,0,1);}
   .mountain-wrap{position:relative;width:38px;height:180px;}
   .mountain-wrap svg{position:absolute;bottom:0;left:0;width:100%;height:100%;}
-  .climber{
-    position:absolute;width:7px;height:7px;border-radius:50%;
-    background:var(--gold);box-shadow:0 0 8px var(--gold),0 0 16px var(--gold);
-    left:50%;transform:translateX(-50%);bottom:2%;
-    animation:climb 5s ease-in-out infinite alternate;
-  }
+  .climber{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold),0 0 16px var(--gold);left:50%;transform:translateX(-50%);bottom:2%;animation:climb 5s ease-in-out infinite alternate;}
   @keyframes climb{0%{bottom:2%;}100%{bottom:5%;box-shadow:0 0 14px var(--gold),0 0 28px rgba(245,200,66,0.5);}}
-  .peak-flag{
-    position:absolute;top:-2px;left:50%;transform:translateX(-60%);
-    font-size:0.55rem;filter:drop-shadow(0 0 4px var(--gold));
-    animation:flagwave 1.6s ease-in-out infinite alternate;
-  }
+  .peak-flag{position:absolute;top:-2px;left:50%;transform:translateX(-60%);font-size:0.55rem;filter:drop-shadow(0 0 4px var(--gold));animation:flagwave 1.6s ease-in-out infinite alternate;}
   @keyframes flagwave{0%{transform:translateX(-60%) rotate(-10deg);}100%{transform:translateX(-60%) rotate(10deg);}}
-  .scale-pts{
-    font-family:'Anton',sans-serif;font-size:0.7rem;color:var(--gold);
-    text-align:center;letter-spacing:1px;
-    text-shadow:0 0 8px var(--gold),0 1px 4px rgba(0,0,0,1);
-    animation:pulse 2s ease-in-out infinite;
-  }
-  .scale-sub{
-    font-family:'Anton',sans-serif;font-size:0.27rem;color:rgba(255,255,255,0.55);
-    text-align:center;max-width:42px;padding:0 3px;line-height:1.5;
-    text-shadow:0 1px 3px rgba(0,0,0,1);
-  }
+  .scale-pts{font-family:'Anton',sans-serif;font-size:0.7rem;color:var(--gold);text-align:center;letter-spacing:1px;text-shadow:0 0 8px var(--gold),0 1px 4px rgba(0,0,0,1);animation:pulse 2s ease-in-out infinite;}
+  .scale-sub{font-family:'Anton',sans-serif;font-size:0.27rem;color:rgba(255,255,255,0.55);text-align:center;max-width:42px;padding:0 3px;line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,1);}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
-
-  /* BARRE HORIZONTALE BAS */
-  #energy-bar{
-    position:fixed;bottom:0;left:0;right:48px;z-index:70;
-    padding:5px 8px 8px;
-    background:rgba(0,0,0,0.88);
-    border-top:1px solid rgba(245,200,66,0.3);
-    pointer-events:none;
-  }
-  .ebar-title{
-    font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;
-    text-transform:uppercase;color:var(--gold);text-align:center;
-    margin-bottom:4px;
-    text-shadow:0 0 5px rgba(245,200,66,0.6);
-  }
-  .ebar-track{
-    position:relative;height:5px;border-radius:3px;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(245,200,66,0.2);
-    margin-bottom:3px;
-  }
-  .ebar-fill{
-    position:absolute;left:0;top:0;bottom:0;
-    width:0.03%;
-    background:linear-gradient(to right,var(--gold),#fff8b0);
-    border-radius:3px;box-shadow:0 0 5px var(--gold);
-  }
-  .ebar-runner{
-    position:absolute;top:50%;left:2px;
-    transform:translateY(-50%) scaleX(-1);
-    font-size:0.75rem;line-height:1;
-  }
-  .ebar-labels{
-    display:flex;justify-content:space-between;align-items:center;
-  }
+  #energy-bar{position:fixed;bottom:0;left:0;right:48px;z-index:70;padding:5px 8px 8px;background:rgba(0,0,0,0.88);border-top:1px solid rgba(245,200,66,0.3);pointer-events:none;}
+  .ebar-title{font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:4px;text-shadow:0 0 5px rgba(245,200,66,0.6);}
+  .ebar-track{position:relative;height:5px;border-radius:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(245,200,66,0.2);margin-bottom:3px;}
+  .ebar-fill{position:absolute;left:0;top:0;bottom:0;width:0.03%;background:linear-gradient(to right,var(--gold),#fff8b0);border-radius:3px;box-shadow:0 0 5px var(--gold);}
+  .ebar-runner{position:absolute;top:50%;left:2px;transform:translateY(-50%) scaleX(-1);font-size:0.75rem;line-height:1;}
+  .ebar-labels{display:flex;justify-content:space-between;align-items:center;}
   .ebar-left{font-family:'Anton',sans-serif;font-size:0.32rem;color:rgba(255,255,255,0.5);text-shadow:0 1px 3px rgba(0,0,0,1);}
   .ebar-pts{font-family:'Anton',sans-serif;font-size:0.5rem;color:var(--gold);text-shadow:0 0 6px var(--gold);animation:pulse 2s ease-in-out infinite;}
   .ebar-right{font-family:'Anton',sans-serif;font-size:0.32rem;color:var(--gold);text-shadow:0 0 5px rgba(245,200,66,0.5);}
-
-  /* MILESTONE */
-  #milestone{
-    position:fixed;inset:0;z-index:200;
-    display:flex;align-items:center;justify-content:center;
-    background:rgba(245,200,66,0.1);
-    pointer-events:none;opacity:0;transition:opacity 0.3s;
-  }
+  #milestone{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(245,200,66,0.1);pointer-events:none;opacity:0;transition:opacity 0.3s;}
   #milestone.show{opacity:1;}
   #milestone.hide{opacity:0;transition:opacity 1.2s;}
-  .milestone-text{
-    font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:3px;
-    color:var(--gold);text-align:center;line-height:1.5;
-    text-shadow:0 0 30px var(--gold),0 0 60px rgba(245,200,66,0.5);
-    animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    padding:0 28px;
-  }
+  .milestone-text{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--gold);text-align:center;line-height:1.5;text-shadow:0 0 30px var(--gold),0 0 60px rgba(245,200,66,0.5);animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);padding:0 28px;}
   @keyframes scalepop{0%{transform:scale(0.6);}100%{transform:scale(1);}}
 </style>
 </head>
 <body>
 <div id="feed">
-
-  <button id="startBtn">
-    <div class="btn-label">I AM READY FOR ENERGY!</div>
-  </button>
-
+  <button id="startBtn"><div class="btn-label">I AM READY FOR ENERGY!</div></button>
   <div id="topbar">
     <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
     <div class="top-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
-
   <div id="scale">
     <div class="scale-title">WORLD ENERGY POINT METER — NEXT EVOLUTIONARY ENERGY CENTER</div>
     <div class="mountain-wrap">
@@ -200,28 +69,21 @@
     <div class="scale-pts">10</div>
     <div class="scale-sub">OF 10 000 PTS</div>
   </div>
-
   <div id="energy-bar">
     <div class="ebar-title">WORLD ENERGY POINT METER — NEXT EVOLUTIONARY ENERGY CENTER</div>
-    <div class="ebar-track">
-      <div class="ebar-fill"></div>
-      <div class="ebar-runner">🏃‍♂️</div>
-    </div>
+    <div class="ebar-track"><div class="ebar-fill"></div><div class="ebar-runner">🏃‍♂️</div></div>
     <div class="ebar-labels">
       <div class="ebar-left">0 PT</div>
       <div class="ebar-pts">10 / 10 000 PTS</div>
       <div class="ebar-right">10 000 ▲</div>
     </div>
   </div>
-
-  <!-- TITRE VIDEO -->
   <div id="video-title"><span class="vtitle-text"></span></div>
-
   <div id="milestone"><div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED</div></div>
-
 </div>
 <script>
 var VIDEOS=[
+  // ── NARUTO ──
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
   {name:"Naruto vs 3rd Raikage Full Fight English Dub",url:"https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4"},
@@ -295,9 +157,12 @@ var VIDEOS=[
   {name:"Shikamaru Wants to Become the Advisor of Naruto EPIC",url:"https://ia600709.us.archive.org/16/items/shikamaru-wants-to-become-the-advisor-of-naruto-epic/Shikamaru%20want%27s%20to%20become%20the%20advisor%20of%20Naruto%20EPIC%21.mp4"},
   {name:"Team 7 vs Zabuza Full Fight English Dub",url:"https://ia601509.us.archive.org/6/items/team-7-vs-zabuza-kakashi-naruto-and-sasuke-vs-zabuza-full-fight-english-dub/Team%207%20vs%20Zabuza%20%28Kakashi%2C%20Naruto%20and%20Sasuke%20vs%20Zabuza%29%2C%20full%20fight%2C%20english%20dub.mp4"},
   {name:"Naruto and Sasuke vs Orochimaru Full Fight English Dub",url:"https://ia903200.us.archive.org/21/items/you-scaredy-cat-naruto-and-sasuke-vs-orochimaru-full-fight-english-dub/YOU%20SCAREDY%20CAT%20%20Naruto%20and%20Sasuke%20vs%20Orochimaru%20%20Full%20Fight%20English%20Dub.mp4"},
+  // ── ONE PIECE ──
   {name:"Without You I'll Never Be King Of The Pirates! (English Dub)",url:"https://ia600904.us.archive.org/12/items/without-you-ill-never-be-king-of-the-pirates-english-dub/Without%20You%20I%27ll%20Never%20Be%20King%20Of%20The%20Pirates%21%20%20%28English%20Dub%29.mp4"},
   {name:"Every Strawhat Says Luffy Will Be King Of The Pirates (Dub)",url:"https://ia902803.us.archive.org/24/items/every-strawhat-says-luffy-will-be-the-king-of-the-pirates-dub/Every%20Strawhat%20Says%20Luffy%20Will%20Be%20The%20King%20Of%20The%20Pirates%28Dub%29.mp4"},
+  // ── TOKYO GHOUL ──
   {name:"Tokyo Ghoul - Kaneki vs Jason 4K Dub",url:"https://ia600609.us.archive.org/5/items/4-k-dub-tokyo-ghoul-kaneki-vs-jason-blu-ray/%5B4K%5D%20%5BDub%5D%20Tokyo%20Ghoul%20-%20Kaneki%20VS%20Jason%20%5BBlu-Ray%5D.mp4"},
+  // ── MY HERO ACADEMIA ──
   {name:"All Might vs All For One - My Hero Academia S3 E11 English Dub",url:"https://ia600104.us.archive.org/11/items/all-might-vs-all-for-one-full-fight-english-dubbed-my-hero-academia-season-3-episode-11/All%20might%20vs%20all%20for%20one%20Full%20fight%20%20%20English%20Dubbed%20%20%20MY%20hero%20Academia%20Season%203%20episode%2011.mp4"},
   {name:"All Might vs Noumu English Dub",url:"https://ia601504.us.archive.org/34/items/my-heroes-academia-all-might-vs-noumu-english-dub/My%20Heroes%20Academia%20-%20All%20Might%20VS%20Noumu%20English%20Dub.mp4"},
   {name:"All Might vs All For One Pt.2 English Dub",url:"https://ia601406.us.archive.org/25/items/all-might-vs.-all-for-one-pt.-2-english-dub/ALL%20MIGHT%20vs.%20ALL%20FOR%20ONE%20-%20Pt.2%20%20%5BEnglish%20Dub%5D.mp4"},
@@ -306,12 +171,32 @@ var VIDEOS=[
   {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 Dub v2",url:"https://ia600106.us.archive.org/35/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8_202603/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
   {name:"Endeavor vs Nomu English Dub 4K",url:"https://ia902908.us.archive.org/19/items/endeavor-vs-nomu-english-dub-2160p/Endeavor%20vs%20Nomu%20English%20Dub%20%5B2160p%5D.mp4"},
   {name:"Top 5 My Hero Academia Fights Season 1-4",url:"https://ia600805.us.archive.org/0/items/top-5-my-hero-academia-fights-season-1-4/Top%205%20My%20Hero%20Academia%20Fights%20%20%20Season%201-4.mp4"},
+  // ── BLACK CLOVER ──
   {name:"Black Bulls vs Vetto Fight",url:"https://ia903103.us.archive.org/3/items/black-bulls-vs-vetto-fight_202603/Black%20Bulls%20vs%20Vetto%20fight.mp4"},
   {name:"Black Clover - Overcoming Despair (SimulDub)",url:"https://ia600702.us.archive.org/26/items/black-clover-official-simul-dub-clip-overcoming-despair/Black%20Clover%20-%20Official%20SimulDub%20Clip%20-%20Overcoming%20Despair.mp4"},
+  // ── MOTIVATION ──
   {name:"Kanye West Wins Grammy Best Rap Album - The College Dropout Speech 2005",url:"https://ia600803.us.archive.org/27/items/2005-kanye-west-wins-grammy-best-rap-album-the-college-dropout-speech/2005%20%20Kanye%20West%20Wins%20Grammy%20Best%20Rap%20Album%20%20The%20College%20Dropout%20Speech.mp4"},
   {name:"Andrew Tate Funny Moments Part 2",url:"https://ia903208.us.archive.org/4/items/andrew-tate-funny-moments-part-2/ANDREW%20TATE%20%20FUNNY%20MOMENTS%20%F0%9F%A4%A3%F0%9F%A4%A3%F0%9F%A4%A3%20PART%202.mp4"},
   {name:"Become Obsessed - Conor McGregor",url:"https://ia600803.us.archive.org/18/items/become-obsessed-conor-mc-gregor_202603/Become%20Obsessed%20%20%20Conor%20McGregor.mp4"},
   {name:"Best of Andrew Tate - Ultimate TikTok Compilation 2022",url:"https://ia600902.us.archive.org/20/items/best-of-andrew-tate-ultimate-tiktok-compilation-2022/BEST%20of%20ANDREW%20TATE%21%20Ultimate%20TIKTOK%20Compilation%20%5B2022%5D.mp4"},
+  // ── TIKTOK MOTIVATION ──
+  {name:"Basstok05 - Motivation Clip",url:"https://ia903105.us.archive.org/29/items/basstok05_1738129534_7465209420071357718/basstok05_1738129534_7465209420071357718.mp4"},
+  {name:"Discipline Over Dopamine #1",url:"https://ia903103.us.archive.org/13/items/dicipline.over.dopamine_1750148905_7516832292560440584/dicipline.over.dopamine_1750148905_7516832292560440584.mp4"},
+  {name:"Discipline Over Dopamine #2",url:"https://ia600607.us.archive.org/9/items/dicipline.over.dopamine_1755608126_7540279474559012103/dicipline.over.dopamine_1755608126_7540279474559012103.mp4"},
+  {name:"Discipline Over Dopamine #3",url:"https://ia601800.us.archive.org/6/items/dicipline.over.dopamine_1771160667_7607077124112993544/dicipline.over.dopamine_1771160667_7607077124112993544.mp4"},
+  {name:"Discipline Over Dopamine #4",url:"https://ia601403.us.archive.org/0/items/dicipline.over.dopamine_1771418554_7608184739656158482/dicipline.over.dopamine_1771418554_7608184739656158482.mp4"},
+  {name:"Discipline Over Dopamine #5",url:"https://ia601509.us.archive.org/35/items/dicipline.over.dopamine_1771764306_7609669726016408850/dicipline.over.dopamine_1771764306_7609669726016408850.mp4"},
+  {name:"Discipline Over Dopamine #6",url:"https://ia601407.us.archive.org/8/items/dicipline.over.dopamine_1771852806_7610049830315953415/dicipline.over.dopamine_1771852806_7610049830315953415.mp4"},
+  {name:"Discipline Over Dopamine #7",url:"https://ia600907.us.archive.org/24/items/dicipline.over.dopamine_1772020062_7610768194734886152/dicipline.over.dopamine_1772020062_7610768194734886152.mp4"},
+  {name:"Discipline Over Dopamine #8",url:"https://ia600604.us.archive.org/22/items/dicipline.over.dopamine_1772198550_7611534799773158664/dicipline.over.dopamine_1772198550_7611534799773158664.mp4"},
+  {name:"Discipline Over Dopamine #9",url:"https://ia601406.us.archive.org/10/items/dicipline.over.dopamine_1772540825_7613004838179278088/dicipline.over.dopamine_1772540825_7613004838179278088.mp4"},
+  {name:"Discipline Over Dopamine #10",url:"https://ia600403.us.archive.org/3/items/dicipline.over.dopamine_1772630926_7613391827416255752/dicipline.over.dopamine_1772630926_7613391827416255752.mp4"},
+  {name:"Emperors Motivation - Clip",url:"https://ia600408.us.archive.org/23/items/emperorsmotivation_1710014997_7344458379072621870/emperorsmotivation_1710014997_7344458379072621870.mp4"},
+  {name:"Hustlers University - Clip",url:"https://ia601604.us.archive.org/24/items/hustlers_uni_official_1659239259_7126378318806502662/hustlers_uni_official_1659239259_7126378318806502662.mp4"},
+  {name:"IAmPeachfit - Clip",url:"https://ia600101.us.archive.org/27/items/iampeachfit_1661732384_7137086234563792170/iampeachfit_1661732384_7137086234563792170.mp4"},
+  {name:"Motive Talks - Clip",url:"https://ia601504.us.archive.org/5/items/motivetalks7_1736191486_7456885579603578142/motivetalks7_1736191486_7456885579603578142.mp4"},
+  {name:"Rare Mind Set - Clip",url:"https://ia601604.us.archive.org/2/items/raremind.set_1733340183_7444639383292005654/raremind.set_1733340183_7444639383292005654.mp4"},
+  {name:"The Top G Mindset - Clip",url:"https://ia600106.us.archive.org/14/items/thetopgmindset1_1759395173_7556544692003818808/thetopgmindset1_1759395173_7556544692003818808.mp4"},
 ];
 
 var list=[],current=0,slides=[];
@@ -336,7 +221,6 @@ function animateTo(el,vh,cb){
   if(cb){el.addEventListener('transitionend',function done(){el.removeEventListener('transitionend',done);cb();});}
 }
 function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
-
 function getSlide(idx){return slides[idx]||null;}
 
 function buildFeed(){
@@ -361,17 +245,14 @@ function buildFeed(){
 function getVideo(idx){return slides[idx].querySelector('video');}
 
 function updateTitle(idx){
-  var name=list[idx]?list[idx].name:'';
-  videoTitleText.textContent=name;
+  videoTitleText.textContent=list[idx]?list[idx].name:'';
 }
 
 function playVideo(idx){
   var v=getVideo(idx);
   var p=v.play();if(p)p.catch(function(){});
   if(idx+1<slides.length){var nxt=getVideo(idx+1);nxt.preload='auto';nxt.load();}
-
   updateTitle(idx);
-
   var pct=list.length>1?(idx/(list.length-1))*100:0;
   var runner=document.querySelector('.ebar-runner');
   var track=document.querySelector('.ebar-track');
@@ -380,7 +261,6 @@ function playVideo(idx){
     var leftPx=Math.max(2,Math.round((pct/100)*maxLeft));
     runner.style.left=leftPx+'px';
   }
-
   var step=Math.round(list.length*0.08);
   if(step>0&&idx>0&&idx%step===0){
     var pctLabel=Math.round((idx/(list.length-1))*100);
