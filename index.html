@@ -296,7 +296,15 @@ var feed=document.getElementById('feed');
 var milestoneEl=document.getElementById('milestone');
 var milestoneShown=false;
 
-function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function shuffle(a){
+  var b=a.slice();
+  // Fisher-Yates avec seed temps+random pour vrai aléatoire
+  for(var i=b.length-1;i>0;i--){
+    var j=Math.floor((Math.random()+Date.now()%1000/1000)/2*(i+1))%( i+1);
+    var t=b[i];b[i]=b[j];b[j]=t;
+  }
+  return b;
+}
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
 function animateTo(el,vh,cb){
   el.style.transition='transform 0.18s cubic-bezier(0.2,0.9,0.4,1)';
@@ -340,9 +348,11 @@ function playVideo(idx){
     runner.style.left=leftPx+'px';
   }
 
-  // flash toutes les 8% (à chaque multiple de 8%)
+  // flash toutes les 8% avec bon pourcentage
   var step=Math.round(list.length*0.08);
   if(step>0&&idx>0&&idx%step===0){
+    var pctLabel=Math.round((idx/(list.length-1))*100);
+    document.querySelector('.milestone-text').innerHTML='⚡ '+pctLabel+'% ENERGY SURGE ⚡<br>TRIANGLE ACTIVATED';
     milestoneEl.classList.remove('hide');
     milestoneEl.classList.add('show');
     setTimeout(function(){milestoneEl.classList.remove('show');milestoneEl.classList.add('hide');},3000);
