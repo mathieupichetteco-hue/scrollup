@@ -95,6 +95,11 @@
 </head>
 <body>
 
+<!-- HOME SCREEN MUSIC -->
+<audio id="homeMusic" loop>
+  <source src="https://ia600109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3" type="audio/mpeg">
+</audio>
+
 <!-- HOME SCREEN -->
 <div id="homeScreen">
   <div class="home-brand">Mathieu Pichette.co</div>
@@ -555,25 +560,26 @@ document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='visible') requestWakeLock();
 });
 
+var homeMusic=document.getElementById('homeMusic');
+homeMusic.volume=0.6;
+homeMusic.play().catch(function(){});
+
 document.getElementById('goScrollUp').addEventListener('click',function(){
+  homeMusic.pause(); homeMusic.currentTime=0;
   document.getElementById('homeScreen').style.display='none';
   document.getElementById('feed').style.display='block';
 });
 
 document.getElementById('goDaily').addEventListener('click',function(){
+  homeMusic.pause(); homeMusic.currentTime=0;
   document.getElementById('homeScreen').style.display='none';
   document.getElementById('dailyScreen').style.display='flex';
-  var music=document.getElementById('dailyMusic');
-  music.volume=0.5;
-  music.play();
 });
 
 document.getElementById('dailyBack').addEventListener('click',function(){
   document.getElementById('dailyScreen').style.display='none';
   document.getElementById('homeScreen').style.display='flex';
-  var music=document.getElementById('dailyMusic');
-  music.pause();
-  music.currentTime=0;
+  homeMusic.play().catch(function(){});
 });
 
 document.getElementById('entry-march7').addEventListener('click',function(){
