@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Mathieu Pichette — From Zero To Hero</title>
+<title>Mathieu Pichette.co — From Zero To Hero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Bebas+Neue&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -522,7 +522,7 @@ canvas#spiders{display:none;}
       </svg>
     </div>
     <div class="splash-title">
-      Mathieu<br>Pichette
+      Mathieu<br>Pichette.co
       <span>From Zero To Hero</span>
     </div>
     <div class="splash-divider"></div>
@@ -538,7 +538,7 @@ canvas#spiders{display:none;}
   <div class="home-header">
     <div class="home-eyebrow">Triangle #600,000 — In Progress</div>
     <div class="home-name">
-      Mathieu<br>Pichette
+      Mathieu<br>Pichette.co
       <em>From Zero To Hero</em>
     </div>
     <div class="home-tagline">
@@ -1069,12 +1069,10 @@ feedEl.addEventListener('touchend',function(e){
   var dy=touchLastY-touchStartY;
   var cs=getSlide(current);
   var threshold=window.innerHeight*0.18;
-  if(dy<-threshold&&current<list.length-1){
+  // SWIPE DOWN ONLY to advance — swipe up blocked
+  if(dy>threshold&&current<list.length-1){
     if(cs){cs.style.transition='transform 0.18s ease';cs.style.transform='translateY(-100vh)';}
     goTo(current+1);
-  } else if(dy>threshold&&current>0){
-    if(cs){cs.style.transition='transform 0.18s ease';cs.style.transform='translateY(100vh)';}
-    goTo(current-1);
   } else {
     if(cs){cs.style.transition='transform 0.2s ease';cs.style.transform='translateY(0)';}
   }
