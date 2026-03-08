@@ -31,7 +31,9 @@
 
   /* DAILY SCREEN */
   #dailyScreen{position:fixed;inset:0;z-index:1500;background:#000;display:none;flex-direction:column;overflow:hidden;}
+  #dailyScreen .daily-scroll{touch-action:pan-y;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
   #dailyReader{position:fixed;inset:0;z-index:1600;background:#000;display:none;flex-direction:column;overflow:hidden;}
+  #dailyReader .daily-scroll{touch-action:pan-y;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
   .daily-topbar{flex-shrink:0;padding:18px 20px 14px;background:rgba(0,0,0,1);border-bottom:1px solid rgba(245,200,66,0.15);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
   .daily-back{background:none;border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.65rem;letter-spacing:2px;padding:8px 14px;border-radius:20px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
   .daily-topbrand{font-family:'Anton',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.5);}
@@ -536,10 +538,7 @@ document.addEventListener('touchend',function(e){
 },{passive:true});
 
 document.addEventListener('touchmove',function(e){
-  var dailyScrolls=document.querySelectorAll('.daily-scroll');
-  for(var i=0;i<dailyScrolls.length;i++){
-    if(dailyScrolls[i].contains(e.target)) return;
-  }
+  if(document.getElementById('dailyReader').style.display==='flex') return;
   e.preventDefault();
 },{passive:false});
 
