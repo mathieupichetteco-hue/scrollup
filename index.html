@@ -4,17 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Mathieu Pichette.co · Scroll Up</title>
+<title>Mathieu Pichette.co</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   :root{--gold:#F5C842;--dark:#080808;}
   html,body{background:#000;color:white;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
-  #feed{position:fixed;inset:0;background:#000;overflow:hidden;}
+
+  /* HOME SCREEN */
+  #homeScreen{position:fixed;inset:0;z-index:2000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:32px 24px;}
+  .home-brand{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--gold);text-align:center;text-shadow:0 0 20px rgba(245,200,66,0.6);margin-bottom:8px;}
+  .home-sub{font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:48px;}
+  .home-cards{display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px;}
+  .home-card{background:rgba(245,200,66,0.04);border:1px solid rgba(245,200,66,0.25);border-radius:16px;padding:24px 20px;cursor:pointer;touch-action:manipulation;transition:all 0.2s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;}
+  .home-card:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
+  .home-card-tag{font-size:0.52rem;color:rgba(245,200,66,0.45);line-height:1.6;margin-bottom:8px;font-style:italic;}
+  .home-card-title{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.4);}
+  .home-card-desc{font-size:0.65rem;color:rgba(255,255,255,0.45);line-height:1.6;margin-top:4px;}
+  .home-card-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:rgba(245,200,66,0.3);}
+  .home-card.daily .home-card-title{color:var(--gold);}
+  .home-card.daily .home-card-tag{color:rgba(245,200,66,0.45);}
+  .home-card.daily{border-color:rgba(245,200,66,0.25);cursor:pointer;}
+  .home-card.daily:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
+  .home-card.daily .home-card-arrow{display:block;}
+  .coming-soon{display:none;}
+
+  /* DAILY SCREEN */
+  #dailyScreen{position:fixed;inset:0;z-index:1500;background:#000;display:none;flex-direction:column;overflow:hidden;}
+  #dailyReader{position:fixed;inset:0;z-index:1600;background:#000;display:none;flex-direction:column;overflow:hidden;}
+  .daily-topbar{flex-shrink:0;padding:18px 20px 14px;background:rgba(0,0,0,1);border-bottom:1px solid rgba(245,200,66,0.15);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
+  .daily-back{background:none;border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.65rem;letter-spacing:2px;padding:8px 14px;border-radius:20px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
+  .daily-topbrand{font-family:'Anton',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.5);}
+  .daily-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 20px 60px;position:relative;z-index:2;}
+  .daily-intention{font-size:0.55rem;color:rgba(245,200,66,0.5);font-style:italic;line-height:1.8;text-align:center;margin-bottom:28px;padding:14px 16px;border:1px solid rgba(245,200,66,0.1);border-radius:12px;}
+  .daily-list{display:flex;flex-direction:column;gap:12px;}
+  .daily-entry{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border:1px solid rgba(245,200,66,0.25);border-radius:14px;cursor:pointer;touch-action:manipulation;background:rgba(0,0,0,0.6);transition:all 0.2s;}
+  .daily-entry:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
+  .daily-entry-date{font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:2px;color:var(--gold);}
+  .daily-entry-arrow{font-size:1.2rem;color:rgba(245,200,66,0.4);}
+  .daily-date{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.4);margin-bottom:24px;}
+  .daily-body{font-size:0.78rem;color:rgba(255,255,255,0.85);line-height:2;white-space:pre-wrap;}
+  .daily-body .caps{font-family:'Anton',sans-serif;font-size:0.72rem;letter-spacing:1px;color:#fff;line-height:2;}
+  .daily-sig{font-family:'Anton',sans-serif;font-size:0.75rem;letter-spacing:2px;color:var(--gold);margin-top:28px;text-shadow:0 0 8px rgba(245,200,66,0.5);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(245,200,66,0.3);padding-bottom:4px;display:inline-block;}
+
+  /* SPIDERS */
+  #spiderCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+
+  /* DAILY SCALE */
+  #dailyScale{position:absolute;right:0;top:0;bottom:0;width:48px;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.5),transparent);padding:8px 0;}
+
+
+  /* FEED */
+  #feed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;}
   .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
   .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
   #startBtn{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.75);border:none;cursor:pointer;touch-action:manipulation;}
-  #startBtn .btn-label{background:var(--gold);color:var(--dark);font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;padding:16px 32px;border-radius:50px;pointer-events:none;text-align:center;max-width:280px;line-height:1.4;}
+  #startBtn .btn-intention{font-size:0.6rem;color:rgba(255,255,255,0.7);font-style:italic;text-align:center;max-width:280px;line-height:1.7;letter-spacing:0.3px;margin-bottom:16px;padding:0 16px;}
+  #startBtn .btn-label{background:var(--gold);color:var(--dark);font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:2px;padding:16px 28px;border-radius:50px;pointer-events:none;text-align:center;max-width:280px;line-height:1.5;}
   #topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-direction:column;align-items:center;padding:10px 52px 8px;background:linear-gradient(rgba(0,0,0,0.88),transparent);pointer-events:none;text-align:center;}
   .top-brand{font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.6),0 2px 4px rgba(0,0,0,1);margin-bottom:3px;}
   .top-intention{font-size:0.5rem;line-height:1.7;letter-spacing:0.4px;color:#fff;text-transform:uppercase;font-weight:600;max-width:260px;text-shadow:0 1px 6px rgba(0,0,0,1);}
@@ -46,14 +92,98 @@
 </style>
 </head>
 <body>
+
+<!-- HOME SCREEN -->
+<div id="homeScreen">
+  <div class="home-brand">Mathieu Pichette.co</div>
+  <div class="home-sub">Evolve the energy of the world — eternally</div>
+  <div class="home-cards">
+    <div class="home-card daily" id="goDaily">
+      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+      <div class="home-card-title">Mathieu Pichette.co Daily</div>
+      <div class="home-card-desc">Evolve the energy of life daily — your philosophy, your evolution, eternally at your best.</div>
+      <div class="coming-soon">Coming soon</div>
+    </div>
+    <div class="home-card" id="goScrollUp">
+      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+      <div class="home-card-title">Mathieu Pichette.co Scroll Up</div>
+      <div class="home-card-desc">Evolve the energy of the entire world — at your best, in your fastest way, eternally.</div>
+      <div class="home-card-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY SCREEN - DATE LIST -->
+<div id="dailyScreen">
+  <canvas id="spiderCanvas"></canvas>
+  <div id="dailyScale">
+    <div class="scale-title" style="color:rgba(255,255,255,0.7);">TRIANGLE #2 OF LIFE</div>
+    <div class="mountain-wrap">
+      <span class="peak-flag">▲</span>
+      <svg viewBox="0 0 38 180" preserveAspectRatio="none">
+        <polygon points="19,4 38,180 0,180" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+        <polygon points="19,178 21,180 17,180" fill="rgba(255,255,255,0.6)"/>
+        <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      </svg>
+      <div class="climber" style="background:#fff;box-shadow:0 0 8px #fff,0 0 16px #fff;"></div>
+    </div>
+    <div class="scale-pts" style="color:#fff;text-shadow:0 0 8px #fff;">3%</div>
+    <div class="scale-sub" style="color:rgba(255,255,255,0.6);">/ 100%</div>
+  </div>
+  <div class="daily-topbar">
+    <button class="daily-back" id="dailyBack">← BACK</button>
+    <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
+  </div>
+  <div class="daily-scroll">
+    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="daily-list">
+      <div class="daily-entry" id="entry-march7">
+        <div class="daily-entry-date">Saturday, March 7, 2026</div>
+        <div class="daily-entry-arrow">›</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY READER -->
+<div id="dailyReader">
+  <div class="daily-topbar">
+    <button class="daily-back" id="readerBack">← BACK</button>
+    <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
+  </div>
+  <div class="daily-scroll">
+    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="daily-date">Saturday, March 7, 2026</div>
+    <div class="daily-body">Hey you, I know, yes yes I know! You are wondering — what is this? Why? It is blocked energy — that is the reason for illness and all of that. I know you don't believe me. I just want to help and that is all. Leave thats all. I will never give up on helping! So leave. The end!
+
+The evolutionary energy however is the only solution, because it is like looking for a problem where the problem is not — the solution is energetic, the problem is energetic!
+
+Welcome to a place where I just want to help! Yes that is all! I am Mathieu and I want to help.
+
+END!
+
+I am 27 years old, I have blonde hair, blue eyes and a pure aura I think! I want to help — if it helps even one single person the way it helps me to focus on the positive, then great!
+
+<span class="caps">I AM SEEKING TO BE STRONG, BUT TRULY STRONG, MENTALLY STRONG — BECAUSE THIS ONE ACT ALONE, BEING MENTALLY STRONG, I NEED IT AND I BELIEVE YOU DO TOO, TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC — AKA BLOCKED ENERGY! AND MAYBE YOU DON'T UNDERSTAND ME BUT YOU DON'T NEED TO — I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS — BUT HERE, IT IS A SPACE OF HELP, TRUE HELP, CARE OF THE SOUL. YOU SEE THERE ARE PSYCHOLOGISTS BUT THERE IS NO SCHOOL FOR THE SOUL! I WANT TO HELP — I WON'T CREATE A SCHOOL HAHA — BUT HELP WHERE THE PROBLEMS TRULY ARE, NOT JUST PUT A BANDAGE BUT HEAL ETERNALLY AND BECOME STRONG.
+
+STRENGTH = EVOLVE
+EVOLVE = ENERGY THAT EVOLVES!</span></div>
+    <div class="daily-sig" id="sigLink">Mathieu <span style="text-decoration:underline;">Pichette.co</span> ( THE GOD OF ENERGY, LET ME BE YOUR GOD )</div>
+  </div>
+</div>
+
+<!-- SCROLL UP FEED -->
 <div id="feed">
-  <button id="startBtn"><div class="btn-label">I WILL NOW AS ALWAYS EVOLVE AT MY BEST THE ENERGY OF THE WORLD, OF ALL THINGS, ETERNALLY!</div></button>
+  <button id="startBtn">
+    <div class="btn-label">MY INTENTION ETERNALLY IS TO EVOLVE THE ENERGY OF LIFE CONSTANTLY AND ETERNALLY AT MY BEST AND IN MY FASTEST WAY. YES THEREFORE AT MY BEST AND IN MY FASTEST WAY TO EVOLVE THE ENERGY OF LIFE THEREFORE THE ENTIRE WORLD THEREFORE ALL THINGS ETERNALLY YES! YES, ETERNALLY!</div>
+  </button>
   <div id="topbar">
     <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
     <div class="top-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
   <div id="scale">
-    <div class="scale-title">TRIANGLE #2 OF LIFE — SUMMIT 100%</div>
+    <div class="scale-title">EVOLVE THE ENERGY OF THE WORLD ETERNALLY — TRIANGLE #2</div>
     <div class="mountain-wrap">
       <span class="peak-flag">▲</span>
       <svg viewBox="0 0 38 180" preserveAspectRatio="none">
@@ -65,18 +195,18 @@
       <div class="climber"></div>
     </div>
     <div class="scale-pts">3%</div>
-    <div class="scale-sub">TO 100%</div>
+    <div class="scale-sub">AT MY BEST ETERNALLY</div>
   </div>
   <div id="energy-bar">
-    <div class="ebar-title">TRIANGLE #2 OF LIFE — SUMMIT 100%</div>
+    <div class="ebar-title">MY INTENTION ETERNALLY — EVOLVE THE ENERGY OF LIFE — THE ENTIRE WORLD — ALL THINGS — ETERNALLY!</div>
     <div class="ebar-track"><div class="ebar-fill"></div><div class="ebar-runner">🏃‍♂️</div></div>
     <div class="ebar-labels">
       <div class="ebar-left">0%</div>
       <div class="ebar-pts">3% / 100% ▲</div>
-      <div class="ebar-right">SUMMIT 100%</div>
+      <div class="ebar-right">ETERNALLY ▲</div>
     </div>
   </div>
-  <div id="milestone"><div class="milestone-text">⚡ 50% ENERGY SURGE ⚡<br>TRIANGLE #2 ACTIVATED</div></div>
+  <div id="milestone"><div class="milestone-text">⚡ ENERGY SURGE ⚡<br>EVOLVE THE ENERGY OF THE WORLD<br>AT MY BEST — ETERNALLY!</div></div>
 </div>
 <script>
 var VIDEOS=[
@@ -331,7 +461,7 @@ function playVideo(idx){
   var step=Math.round(list.length*0.08);
   if(step>0&&idx>0&&idx%step===0){
     var pctLabel=Math.round((idx/(list.length-1))*100);
-    document.querySelector('.milestone-text').innerHTML='⚡ '+pctLabel+'% ENERGY SURGE ⚡<br>TRIANGLE #2 ACTIVATED';
+    document.querySelector('.milestone-text').innerHTML='⚡ '+pctLabel+'% ⚡<br>EVOLVE THE ENERGY OF THE WORLD<br>ETERNALLY AT YOUR BEST!';
     milestoneEl.classList.remove('hide');
     milestoneEl.classList.add('show');
     setTimeout(function(){milestoneEl.classList.remove('show');milestoneEl.classList.add('hide');},3000);
@@ -416,6 +546,96 @@ async function requestWakeLock(){
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='visible') requestWakeLock();
 });
+
+document.getElementById('goScrollUp').addEventListener('click',function(){
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('feed').style.display='block';
+});
+
+document.getElementById('goDaily').addEventListener('click',function(){
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('dailyScreen').style.display='flex';
+});
+
+document.getElementById('dailyBack').addEventListener('click',function(){
+  document.getElementById('dailyScreen').style.display='none';
+  document.getElementById('homeScreen').style.display='flex';
+});
+
+document.getElementById('entry-march7').addEventListener('click',function(){
+  document.getElementById('dailyScreen').style.display='none';
+  document.getElementById('dailyReader').style.display='flex';
+});
+
+document.getElementById('readerBack').addEventListener('click',function(){
+  document.getElementById('dailyReader').style.display='none';
+  document.getElementById('dailyScreen').style.display='flex';
+});
+
+document.getElementById('sigLink').addEventListener('click',function(){
+  document.getElementById('dailyReader').style.display='none';
+  document.getElementById('feed').style.display='block';
+});
+
+// SPIDER ANIMATION
+(function(){
+  var canvas=document.getElementById('spiderCanvas');
+  var ctx=canvas.getContext('2d');
+  var spiders=[];
+  var NUM=100;
+
+  function resize(){
+    canvas.width=document.getElementById('dailyScreen').offsetWidth;
+    canvas.height=document.getElementById('dailyScreen').offsetHeight;
+  }
+
+  function Spider(){
+    this.x=Math.random()*(canvas.width||400);
+    this.y=Math.random()*(canvas.height||800);
+    this.vx=(Math.random()-0.5)*1.2;
+    this.vy=(Math.random()-0.5)*1.2;
+    this.size=Math.random()*4+2;
+    this.legAnim=Math.random()*Math.PI*2;
+  }
+
+  Spider.prototype.update=function(){
+    this.x+=this.vx;
+    this.y+=this.vy;
+    this.legAnim+=0.15;
+    if(this.x<0||this.x>canvas.width) this.vx*=-1;
+    if(this.y<0||this.y>canvas.height) this.vy*=-1;
+  };
+
+  Spider.prototype.draw=function(){
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.beginPath();ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fillStyle='rgba(180,0,0,0.85)';ctx.fill();
+    ctx.beginPath();ctx.arc(0,-this.size*1.3,this.size*0.6,0,Math.PI*2);ctx.fillStyle='rgba(140,0,0,0.9)';ctx.fill();
+    ctx.strokeStyle='rgba(180,0,0,0.7)';ctx.lineWidth=0.8;
+    for(var i=0;i<4;i++){
+      var a1=(-0.4+i*0.25)+Math.sin(this.legAnim+i)*0.2;
+      var a2=(Math.PI+0.4-i*0.25)+Math.sin(this.legAnim+i)*0.2;
+      var lx1=Math.cos(a1)*this.size*2, ly1=Math.sin(a1)*this.size*2;
+      var lx2=Math.cos(a2)*this.size*2, ly2=Math.sin(a2)*this.size*2;
+      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(lx1,ly1);ctx.lineTo(lx1+Math.cos(a1)*this.size*1.5,ly1+this.size*1.2);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(lx2,ly2);ctx.lineTo(lx2+Math.cos(a2)*this.size*1.5,ly2+this.size*1.2);ctx.stroke();
+    }
+    ctx.restore();
+  };
+
+  for(var i=0;i<NUM;i++) spiders.push(new Spider());
+
+  function loop(){
+    if(document.getElementById('dailyScreen').style.display==='flex'){
+      resize();
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      spiders.forEach(function(s){s.update();s.draw();});
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
 document.getElementById('startBtn').addEventListener('click',function(){
   if(started)return; started=true;
   this.remove();
