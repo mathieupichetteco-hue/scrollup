@@ -2,254 +2,720 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Mathieu Pichette.co</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mathieu Pichette — From Zero To Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Bebas+Neue&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  :root{--gold:#F5C842;--dark:#080808;}
-  html,body{background:#000;color:white;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
+:root {
+  --black: #000000;
+  --deep: #080808;
+  --surface: #111111;
+  --border: #1a1a1a;
+  --gold: #C9A84C;
+  --gold-light: #E8CC7A;
+  --gold-dim: rgba(201,168,76,0.15);
+  --crimson: #8B0000;
+  --crimson-bright: #CC1111;
+  --white: #F5F0E8;
+  --white-dim: rgba(245,240,232,0.5);
+  --white-faint: rgba(245,240,232,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--black);}
+body{font-family:'Montserrat',sans-serif;color:var(--white);}
 
-  /* HOME SCREEN */
-  #homeScreen{position:fixed;inset:0;z-index:2000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:32px 24px;}
-  .home-brand{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--gold);text-align:center;text-shadow:0 0 20px rgba(245,200,66,0.6);margin-bottom:8px;}
-  .home-sub{font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:48px;}
-  .home-cards{display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px;}
-  .home-card{background:rgba(245,200,66,0.04);border:1px solid rgba(245,200,66,0.25);border-radius:16px;padding:24px 20px;cursor:pointer;touch-action:manipulation;transition:all 0.2s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;}
-  .home-card:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
-  .home-card-tag{font-size:0.52rem;color:rgba(245,200,66,0.45);line-height:1.6;margin-bottom:8px;font-style:italic;}
-  .home-card-title{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.4);}
-  .home-card-desc{font-size:0.65rem;color:rgba(255,255,255,0.45);line-height:1.6;margin-top:4px;}
-  .home-card-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:rgba(245,200,66,0.3);}
-  .home-card.daily .home-card-title{color:var(--gold);}
-  .home-card.daily .home-card-tag{color:rgba(245,200,66,0.45);}
-  .home-card.daily{border-color:rgba(245,200,66,0.25);cursor:pointer;}
-  .home-card.daily:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
-  .home-card.daily .home-card-arrow{display:block;}
-  .coming-soon{display:none;}
+/* ═══════════════════════════════════════
+   GLOBAL SCALE — ALWAYS ON TOP
+═══════════════════════════════════════ */
+#globalScale{
+  position:fixed;right:0;top:50%;transform:translateY(-50%);
+  z-index:9999;width:44px;
+  display:flex;flex-direction:column;align-items:center;
+  padding:12px 0;gap:4px;
+  background:rgba(0,0,0,0.92);
+  border-left:1px solid var(--gold-dim);
+}
+.gs-label{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:9px;letter-spacing:2px;color:var(--gold);
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  margin-bottom:4px;opacity:0.8;
+}
+.gs-track{
+  width:2px;height:160px;background:rgba(255,255,255,0.07);
+  position:relative;border-radius:1px;
+}
+.gs-fill{
+  position:absolute;bottom:0;left:0;width:100%;
+  background:linear-gradient(to top,var(--crimson-bright),var(--gold));
+  border-radius:1px;height:15%;
+  transition:height 0.5s ease;
+}
+.gs-dot{
+  position:absolute;bottom:15%;left:50%;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);
+  transform:translate(-50%,50%);
+  box-shadow:0 0 8px var(--gold);
+}
+.gs-pct{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:13px;color:var(--gold);letter-spacing:1px;
+  margin-top:4px;
+}
+.gs-num{
+  font-family:'Montserrat',sans-serif;
+  font-size:7px;color:var(--white-dim);letter-spacing:1px;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  margin-top:2px;
+}
 
-  /* DAILY SCREEN */
-  #dailyScreen{position:fixed;inset:0;z-index:1500;background:#000;display:none;flex-direction:column;overflow:hidden;}
-  #dailyScreen .daily-scroll{touch-action:pan-y;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
-  #feedBack{position:absolute;top:10px;left:10px;background:none;border:1px solid rgba(245,200,66,0.4);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:2px;padding:6px 12px;border-radius:20px;cursor:pointer;touch-action:manipulation;z-index:100;pointer-events:all;}
-  #dailyReader{
-    position:fixed;inset:0;z-index:1600;background:#000;
-    display:none;
-    overflow-y:scroll;
-    -webkit-overflow-scrolling:touch;
-  }
-  #dailyReader .daily-topbar{
-    position:sticky;top:0;z-index:10;background:#000;
-    flex-shrink:0;
-  }
-  #dailyReader .daily-scroll{
-    padding:24px 20px 200px;
-  }
-  .daily-topbar{flex-shrink:0;padding:18px 20px 14px;background:rgba(0,0,0,1);border-bottom:1px solid rgba(245,200,66,0.15);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
-  .daily-back{background:none;border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.65rem;letter-spacing:2px;padding:8px 14px;border-radius:20px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
-  .daily-topbrand{font-family:'Anton',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.5);}
-  .daily-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 20px 60px;position:relative;z-index:2;}
-  .daily-intention{font-size:0.55rem;color:rgba(245,200,66,0.5);font-style:italic;line-height:1.8;text-align:center;margin-bottom:28px;padding:14px 16px;border:1px solid rgba(245,200,66,0.1);border-radius:12px;}
-  .daily-list{display:flex;flex-direction:column;gap:12px;}
-  .daily-entry{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border:1px solid rgba(245,200,66,0.25);border-radius:14px;cursor:pointer;touch-action:manipulation;background:rgba(0,0,0,0.6);transition:all 0.2s;}
-  .daily-entry:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
-  .daily-entry-date{font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:2px;color:var(--gold);}
-  .daily-entry-arrow{font-size:1.2rem;color:rgba(245,200,66,0.4);}
-  .daily-date{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.4);margin-bottom:24px;}
-  .daily-body{font-size:0.78rem;color:rgba(255,255,255,0.85);line-height:2;white-space:pre-wrap;}
-  .daily-body .caps{font-family:'Anton',sans-serif;font-size:0.72rem;letter-spacing:1px;color:#fff;line-height:2;}
-  .daily-sig{font-family:'Anton',sans-serif;font-size:0.75rem;letter-spacing:2px;color:var(--gold);margin-top:28px;text-shadow:0 0 8px rgba(245,200,66,0.5);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(245,200,66,0.3);padding-bottom:4px;display:inline-block;}
+/* ═══════════════════════════════════════
+   SCREEN BASE
+═══════════════════════════════════════ */
+.screen{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
 
-  /* SPLASH SCREEN */
-  #splashScreen{position:fixed;inset:0;z-index:3000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;cursor:pointer;touch-action:manipulation;}
-  .splash-brand{font-family:'Anton',sans-serif;font-size:1.6rem;letter-spacing:4px;color:var(--gold);text-align:center;text-shadow:0 0 30px rgba(245,200,66,0.8);margin-bottom:20px;animation:pulse 2s ease-in-out infinite;}
-  .splash-welcome{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:40px;}
-  .splash-intention{font-size:0.72rem;color:rgba(255,255,255,0.9);line-height:2;text-align:center;max-width:300px;font-style:italic;}
-  .splash-tap{font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:3px;color:rgba(245,200,66,0.5);text-align:center;margin-top:48px;animation:pulse 1.5s ease-in-out infinite;}
-  #spiderCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+/* ═══════════════════════════════════════
+   SPLASH SCREEN
+═══════════════════════════════════════ */
+#splashScreen{
+  z-index:3000;
+  background:var(--black);
+  justify-content:center;align-items:center;
+  cursor:pointer;
+}
+.splash-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 60%, rgba(139,0,0,0.12) 0%, transparent 70%);
+}
+.splash-line-h{
+  position:absolute;top:50%;left:0;right:0;height:1px;
+  background:linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  transform:translateY(-50%);
+}
+.splash-content{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  gap:32px;padding:40px 32px;text-align:center;
+}
+.splash-eyebrow{
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:6px;color:var(--gold);opacity:0.7;
+  text-transform:uppercase;
+}
+.splash-logo-wrap{
+  position:relative;width:80px;height:80px;
+}
+.splash-logo-wrap svg{
+  width:100%;height:100%;
+}
+.splash-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(42px,10vw,68px);
+  line-height:0.9;letter-spacing:4px;
+  color:var(--white);
+  text-transform:uppercase;
+}
+.splash-title span{
+  display:block;font-size:0.45em;
+  letter-spacing:8px;color:var(--gold);
+  margin-top:8px;
+}
+.splash-divider{
+  width:40px;height:1px;background:var(--gold);opacity:0.5;
+}
+.splash-intention{
+  font-family:'Cormorant Garamond',sans-serif;font-weight:300;
+  font-size:13px;line-height:1.8;
+  color:var(--white-dim);
+  max-width:300px;font-style:italic;
+}
+.splash-tap{
+  font-family:'Montserrat',sans-serif;font-size:9px;
+  letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;
+  animation:pulse 2s ease-in-out infinite;
+  margin-top:8px;
+}
+@keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
 
-  /* DAILY SCALE */
-  #dailyScale{position:absolute;right:0;top:0;bottom:0;width:48px;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.5),transparent);padding:8px 0;}
+/* ═══════════════════════════════════════
+   HOME SCREEN
+═══════════════════════════════════════ */
+#homeScreen{
+  z-index:2000;
+  background:var(--black);
+  justify-content:space-between;
+  padding:0 0 env(safe-area-inset-bottom,16px);
+  display:none;
+}
+.home-header{
+  padding:48px 28px 0;
+  display:flex;flex-direction:column;
+  gap:12px;
+}
+.home-eyebrow{
+  font-size:9px;letter-spacing:6px;color:var(--gold);opacity:0.6;
+  text-transform:uppercase;
+}
+.home-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,13vw,80px);
+  line-height:0.85;letter-spacing:2px;
+  color:var(--white);
+}
+.home-name em{
+  display:block;font-style:normal;
+  color:var(--gold);font-size:0.38em;
+  letter-spacing:6px;margin-top:10px;
+}
+.home-tagline{
+  font-family:'Cormorant Garamond',sans-serif;font-size:13px;
+  color:var(--white-dim);font-style:italic;line-height:1.6;
+  margin-top:4px;max-width:280px;
+}
+.home-triangle-row{
+  display:flex;align-items:center;gap:8px;
+  margin-top:8px;
+}
+.home-tri-badge{
+  font-size:8px;letter-spacing:3px;color:var(--crimson-bright);
+  text-transform:uppercase;
+  border:1px solid rgba(204,17,17,0.3);
+  padding:4px 10px;
+}
+.home-progress-bar{
+  flex:1;height:1px;
+  background:rgba(255,255,255,0.06);
+  position:relative;overflow:visible;
+}
+.home-progress-fill{
+  height:100%;width:15%;
+  background:linear-gradient(to right,var(--crimson),var(--gold));
+}
+.home-progress-pct{
+  font-size:8px;letter-spacing:2px;color:var(--gold);
+  white-space:nowrap;
+}
+.home-cards{
+  padding:0 20px 40px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.home-card{
+  position:relative;overflow:hidden;
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:28px 24px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.home-card::before{
+  content:'';position:absolute;
+  top:0;left:0;width:3px;height:100%;
+  background:var(--gold);
+  transition:width 0.3s ease;
+}
+.home-card:active::before{width:6px;}
+.home-card:active{background:#151515;}
+.home-card-label{
+  font-size:8px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:8px;
+  opacity:0.7;
+}
+.home-card-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;letter-spacing:2px;
+  color:var(--white);line-height:1;
+}
+.home-card-sub{
+  font-size:10px;color:var(--white-dim);
+  margin-top:6px;letter-spacing:1px;
+}
+.home-card-arrow{
+  position:absolute;right:24px;top:50%;transform:translateY(-50%);
+  font-size:20px;color:var(--gold);opacity:0.4;
+}
+.home-card-accent{
+  position:absolute;bottom:0;right:0;
+  width:80px;height:80px;
+  background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);
+}
+.card-daily::before{background:var(--crimson-bright);}
+.card-daily .home-card-label{color:var(--crimson-bright);}
 
+/* ═══════════════════════════════════════
+   DAILY SCREEN
+═══════════════════════════════════════ */
+#dailyScreen{
+  z-index:1500;
+  background:var(--black);
+  display:none;
+}
+.daily-header{
+  position:relative;z-index:2;
+  padding:52px 28px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;gap:6px;
+  flex-shrink:0;
+}
+.daily-back{
+  font-size:8px;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;cursor:pointer;
+  margin-bottom:4px;opacity:0.7;
+  display:inline-block;
+  -webkit-tap-highlight-color:transparent;
+}
+.daily-back:active{opacity:1;}
+.daily-eyebrow{
+  font-size:8px;letter-spacing:5px;color:var(--crimson-bright);
+  text-transform:uppercase;
+}
+.daily-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:40px;letter-spacing:2px;color:var(--white);
+}
+.daily-list{
+  flex:1;overflow-y:auto;
+  padding:16px 0;
+  -webkit-overflow-scrolling:touch;
+}
+.daily-list::-webkit-scrollbar{display:none;}
+.daily-entry{
+  padding:20px 28px;border-bottom:1px solid var(--border);
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  -webkit-tap-highlight-color:transparent;
+  transition:background 0.2s;
+}
+.daily-entry:active{background:var(--white-faint);}
+.daily-entry-left{display:flex;flex-direction:column;gap:4px;}
+.daily-entry-date{
+  font-size:8px;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;opacity:0.7;
+}
+.daily-entry-title{
+  font-family:'Cormorant Garamond',sans-serif;font-size:18px;
+  font-weight:600;color:var(--white);line-height:1.2;
+}
+.daily-entry-preview{
+  font-size:10px;color:var(--white-dim);
+  margin-top:2px;letter-spacing:0.5px;
+}
+.daily-entry-arrow{
+  font-size:16px;color:var(--gold);opacity:0.3;
+  flex-shrink:0;margin-left:16px;
+}
 
-  /* FEED */
-  #feed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;}
-  .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
-  .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
-  #startBtn{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.75);border:none;cursor:pointer;touch-action:manipulation;}
-  #startBtn .btn-intention{font-size:0.6rem;color:rgba(255,255,255,0.7);font-style:italic;text-align:center;max-width:280px;line-height:1.7;letter-spacing:0.3px;margin-bottom:16px;padding:0 16px;}
-  #startBtn .btn-label{background:var(--gold);color:var(--dark);font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:2px;padding:16px 28px;border-radius:50px;pointer-events:none;text-align:center;max-width:280px;line-height:1.5;}
-  #topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-direction:column;align-items:center;padding:10px 52px 8px;background:linear-gradient(rgba(0,0,0,0.88),transparent);pointer-events:none;text-align:center;}
-  .top-brand{font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.6),0 2px 4px rgba(0,0,0,1);margin-bottom:3px;}
-  .top-intention{font-size:0.5rem;line-height:1.7;letter-spacing:0.4px;color:#fff;text-transform:uppercase;font-weight:600;max-width:260px;text-shadow:0 1px 6px rgba(0,0,0,1);}
-  #scale{position:fixed;right:0;top:0;bottom:0;width:48px;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);padding:8px 0;}
-  .scale-title{font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);text-align:center;line-height:1.5;max-width:42px;padding:0 3px;text-shadow:0 0 6px rgba(245,200,66,0.7),0 1px 3px rgba(0,0,0,1);}
-  .mountain-wrap{position:relative;width:38px;height:180px;}
-  .mountain-wrap svg{position:absolute;bottom:0;left:0;width:100%;height:100%;}
-  .climber{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold),0 0 16px var(--gold);left:50%;transform:translateX(-50%);bottom:2%;animation:climb 5s ease-in-out infinite alternate;}
-  @keyframes climb{0%{bottom:2%;}100%{bottom:5%;box-shadow:0 0 14px var(--gold),0 0 28px rgba(245,200,66,0.5);}}
-  .peak-flag{position:absolute;top:-2px;left:50%;transform:translateX(-60%);font-size:0.55rem;filter:drop-shadow(0 0 4px var(--gold));animation:flagwave 1.6s ease-in-out infinite alternate;}
-  @keyframes flagwave{0%{transform:translateX(-60%) rotate(-10deg);}100%{transform:translateX(-60%) rotate(10deg);}}
-  .scale-pts{font-family:'Anton',sans-serif;font-size:0.7rem;color:var(--gold);text-align:center;letter-spacing:1px;text-shadow:0 0 8px var(--gold),0 1px 4px rgba(0,0,0,1);animation:pulse 2s ease-in-out infinite;}
-  .scale-sub{font-family:'Anton',sans-serif;font-size:0.27rem;color:rgba(255,255,255,0.55);text-align:center;max-width:42px;padding:0 3px;line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,1);}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
-  #energy-bar{position:fixed;bottom:0;left:0;right:48px;z-index:70;padding:5px 8px 8px;background:rgba(0,0,0,0.88);border-top:1px solid rgba(245,200,66,0.3);pointer-events:none;}
-  .ebar-title{font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:4px;text-shadow:0 0 5px rgba(245,200,66,0.6);}
-  .ebar-track{position:relative;height:5px;border-radius:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(245,200,66,0.2);margin-bottom:3px;}
-  .ebar-fill{position:absolute;left:0;top:0;bottom:0;width:0.03%;background:linear-gradient(to right,var(--gold),#fff8b0);border-radius:3px;box-shadow:0 0 5px var(--gold);}
-  .ebar-runner{position:absolute;top:50%;left:2px;transform:translateY(-50%) scaleX(-1);font-size:0.75rem;line-height:1;}
-  .ebar-labels{display:flex;justify-content:space-between;align-items:center;}
-  .ebar-left{font-family:'Anton',sans-serif;font-size:0.32rem;color:rgba(255,255,255,0.5);text-shadow:0 1px 3px rgba(0,0,0,1);}
-  .ebar-pts{font-family:'Anton',sans-serif;font-size:0.5rem;color:var(--gold);text-shadow:0 0 6px var(--gold);animation:pulse 2s ease-in-out infinite;}
-  .ebar-right{font-family:'Anton',sans-serif;font-size:0.32rem;color:var(--gold);text-shadow:0 0 5px rgba(245,200,66,0.5);}
-  #milestone{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(245,200,66,0.1);pointer-events:none;opacity:0;transition:opacity 0.3s;}
-  #milestone.show{opacity:1;}
-  #milestone.hide{opacity:0;transition:opacity 1.2s;}
-  .milestone-text{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--gold);text-align:center;line-height:1.5;text-shadow:0 0 30px var(--gold),0 0 60px rgba(245,200,66,0.5);animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);padding:0 28px;}
-  @keyframes scalepop{0%{transform:scale(0.6);}100%{transform:scale(1);}}
+/* ═══════════════════════════════════════
+   DAILY READER
+═══════════════════════════════════════ */
+#dailyReader{
+  position:fixed;inset:0;
+  z-index:1600;
+  background:var(--black);
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+}
+.reader-header{
+  padding:52px 28px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;gap:6px;
+  flex-shrink:0;
+}
+.reader-back{
+  font-size:8px;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;cursor:pointer;
+  margin-bottom:4px;opacity:0.7;
+  -webkit-tap-highlight-color:transparent;
+}
+.reader-back:active{opacity:1;}
+.reader-date{
+  font-size:8px;letter-spacing:5px;color:var(--crimson-bright);
+  text-transform:uppercase;
+}
+.reader-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;letter-spacing:2px;color:var(--white);line-height:1;
+}
+.reader-body{
+  flex:1;
+  overflow-y:scroll;
+  -webkit-overflow-scrolling:touch;
+  padding:32px 28px;
+  display:block;
+}
+.reader-body::-webkit-scrollbar{display:none;}
+.reader-text{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:17px;line-height:1.9;
+  color:rgba(245,240,232,0.85);font-weight:300;
+}
+.reader-text p{margin-bottom:24px;}
+.reader-text .caps{
+  font-family:'Montserrat',sans-serif;font-size:11px;
+  font-weight:500;letter-spacing:1.5px;
+  color:var(--white-dim);line-height:1.8;
+  display:block;margin-bottom:24px;
+}
+.reader-signature{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:14px;font-weight:600;
+  color:var(--gold);margin-top:32px;
+  border-top:1px solid var(--border);
+  padding-top:24px;cursor:pointer;
+  font-style:italic;
+}
+.reader-signature:hover{color:var(--gold-light);}
+.reader-music-note{
+  font-size:9px;letter-spacing:3px;color:var(--white-dim);
+  text-transform:uppercase;margin-bottom:20px;display:block;
+}
+
+/* ═══════════════════════════════════════
+   FEED SCREEN
+═══════════════════════════════════════ */
+#feed{
+  z-index:1000;
+  background:var(--black);
+  display:none;
+  position:fixed;inset:0;
+  overflow:hidden;
+}
+#startBtn{
+  position:absolute;inset:0;z-index:100;
+  background:var(--black);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  padding:48px 40px;
+  -webkit-tap-highlight-color:transparent;
+}
+.start-inner{
+  display:flex;flex-direction:column;align-items:center;
+  gap:24px;text-align:center;
+}
+.start-eyebrow{
+  font-size:8px;letter-spacing:6px;color:var(--gold);
+  text-transform:uppercase;opacity:0.6;
+}
+.start-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,10vw,56px);
+  letter-spacing:3px;color:var(--white);line-height:1;
+}
+.start-intention{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:14px;line-height:1.8;
+  color:var(--white-dim);font-style:italic;
+  max-width:300px;
+}
+.start-cta{
+  font-size:8px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;
+  animation:pulse 2s ease-in-out infinite;
+}
+#feedTopBar{
+  position:absolute;top:0;left:0;right:0;
+  z-index:50;
+  padding:env(safe-area-inset-top,16px) 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(0,0,0,0.9) 0%,transparent 100%);
+}
+.feed-brand{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:2px;color:var(--white);
+  opacity:0.8;
+}
+#feedBack{
+  font-size:8px;letter-spacing:4px;
+  color:var(--gold);text-transform:uppercase;
+  background:transparent;border:1px solid rgba(201,168,76,0.25);
+  padding:8px 14px;cursor:pointer;
+  font-family:'Montserrat',sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+#feedBack:active{background:var(--gold-dim);}
+.slide{
+  position:absolute;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--black);
+  will-change:transform;
+}
+.slide video{
+  width:100%;height:100%;object-fit:contain;
+}
+.slide-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:80px 20px 24px;
+  background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);
+  pointer-events:none;
+}
+.slide-title{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:13px;color:var(--white-dim);
+  font-style:italic;letter-spacing:0.5px;
+}
+#feedEnergyBar{
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:rgba(255,255,255,0.05);z-index:50;
+}
+#feedEnergyFill{
+  height:100%;width:15%;
+  background:linear-gradient(to right,var(--crimson),var(--gold));
+}
+#milestone{
+  position:absolute;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.92);
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s;
+}
+#milestone.show{opacity:1;pointer-events:auto;}
+.milestone-inner{
+  text-align:center;padding:48px 36px;
+  border:1px solid var(--gold-dim);
+}
+.milestone-inner p{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;letter-spacing:3px;color:var(--gold);
+  line-height:1.3;
+}
+
+/* SPIDER CANVAS */
+canvas#spiders{display:none;}
+
+/* ═══════════════════════════════════════
+   HIDE/SHOW
+═══════════════════════════════════════ */
 </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
-<div id="splashScreen">
-  <div class="splash-brand">Mathieu Pichette.co</div>
-  <div class="splash-welcome">Welcome — where my intention becomes reality</div>
-  <div class="splash-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-  <div class="splash-tap">TAP ANYWHERE TO ENTER</div>
-</div>
-
-<!-- SPLASH MUSIC -->
-<audio id="splashMusic" loop>
-  <source src="https://ia601006.us.archive.org/9/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3" type="audio/mpeg">
-</audio>
-
-<!-- HOME SCREEN MUSIC -->
-<audio id="homeMusic" loop>
-  <source src="https://ia600109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3" type="audio/mpeg">
-</audio>
-
-<!-- HOME SCREEN -->
-<div id="homeScreen">
-  <div class="home-brand">Mathieu Pichette.co</div>
-  <div class="home-sub">Evolve the energy of the world — eternally</div>
-  <div class="home-cards">
-    <div class="home-card daily" id="goDaily">
-      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-      <div class="home-card-title">Mathieu Pichette.co Daily</div>
-      <div class="home-card-desc">Evolve the energy of life daily — your philosophy, your evolution, eternally at your best.</div>
-      <div class="coming-soon">Coming soon</div>
-    </div>
-    <div class="home-card" id="goScrollUp">
-      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-      <div class="home-card-title">Mathieu Pichette.co Scroll Up</div>
-      <div class="home-card-desc">Evolve the energy of the entire world — at your best, in your fastest way, eternally.</div>
-      <div class="home-card-arrow">›</div>
-    </div>
+<!-- ═══ GLOBAL SCALE ═══ -->
+<div id="globalScale">
+  <div class="gs-label">TRIANGLE #600,000</div>
+  <div class="gs-track">
+    <div class="gs-fill"></div>
+    <div class="gs-dot"></div>
   </div>
+  <div class="gs-pct">15%</div>
+  <div class="gs-num">15 / 100</div>
 </div>
 
-<!-- DAILY MUSIC -->
-<audio id="dailyMusic" loop src="https://ia600702.us.archive.org/1/items/kanye-west-hell-of-a-life-instrumental/Kanye%2BWest%2B-%2BHell%2BOf%2BA%2BLife%2B%28Instrumental%29.mp3"></audio>
-
-<!-- DAILY SCREEN - DATE LIST -->
-<div id="dailyScreen">
-  <canvas id="spiderCanvas"></canvas>
-  <div id="dailyScale">
-    <div class="scale-title" style="color:rgba(255,255,255,0.7);">TRIANGLE #2 OF LIFE</div>
-    <div class="mountain-wrap">
-      <span class="peak-flag">▲</span>
-      <svg viewBox="0 0 38 180" preserveAspectRatio="none">
-        <polygon points="19,4 38,180 0,180" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
-        <polygon points="19,178 21,180 17,180" fill="rgba(255,255,255,0.6)"/>
-        <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
-        <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+<!-- ═══ SPLASH ═══ -->
+<div id="splashScreen" class="screen">
+  <div class="splash-bg"></div>
+  <div class="splash-line-h"></div>
+  <div class="splash-content">
+    <div class="splash-eyebrow">Authorized Access Only</div>
+    <div class="splash-logo-wrap">
+      <svg viewBox="0 0 80 80" fill="none">
+        <polygon points="40,4 76,72 4,72" fill="none" stroke="#C9A84C" stroke-width="1"/>
+        <polygon points="40,20 62,60 18,60" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
+        <line x1="40" y1="4" x2="40" y2="72" stroke="rgba(201,168,76,0.08)" stroke-width="0.5"/>
+        <circle cx="40" cy="44" r="2" fill="#C9A84C"/>
       </svg>
-      <div class="climber" style="background:#fff;box-shadow:0 0 8px #fff,0 0 16px #fff;"></div>
     </div>
-    <div class="scale-pts" style="color:#fff;text-shadow:0 0 8px #fff;">3%</div>
-    <div class="scale-sub" style="color:rgba(255,255,255,0.6);">/ 100%</div>
+    <div class="splash-title">
+      Mathieu<br>Pichette
+      <span>From Zero To Hero</span>
+    </div>
+    <div class="splash-divider"></div>
+    <div class="splash-intention">
+      My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way.
+    </div>
+    <div class="splash-tap" id="splashTapText">Tap anywhere to enter</div>
   </div>
-  <div class="daily-topbar">
-    <button class="daily-back" id="dailyBack">← BACK</button>
-    <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<div id="homeScreen" class="screen">
+  <div class="home-header">
+    <div class="home-eyebrow">Triangle #600,000 — In Progress</div>
+    <div class="home-name">
+      Mathieu<br>Pichette
+      <em>From Zero To Hero</em>
+    </div>
+    <div class="home-tagline">
+      Evolve the energy of life — the entire world — all things — eternally.
+    </div>
+    <div class="home-triangle-row">
+      <div class="home-tri-badge">&#9650; 15%</div>
+      <div class="home-progress-bar">
+        <div class="home-progress-fill"></div>
+      </div>
+      <div class="home-progress-pct">100%</div>
+    </div>
   </div>
-  <div class="daily-scroll">
-    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-    <div class="daily-list">
-      <div class="daily-entry" id="entry-march7">
+  <div class="home-cards">
+    <div class="home-card card-daily" id="goDaily">
+      <div class="home-card-accent"></div>
+      <div class="home-card-label">Philosophy · Daily</div>
+      <div class="home-card-title">Daily Reader</div>
+      <div class="home-card-sub">Energy. Truth. Evolution.</div>
+      <div class="home-card-arrow">→</div>
+    </div>
+    <div class="home-card" id="goFeed">
+      <div class="home-card-accent"></div>
+      <div class="home-card-label">Video Feed · 260 Videos</div>
+      <div class="home-card-title">Scroll Up</div>
+      <div class="home-card-sub">Swipe down to advance · Shuffled every session</div>
+      <div class="home-card-arrow">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DAILY SCREEN ═══ -->
+<div id="dailyScreen" class="screen">
+  <div class="daily-header">
+    <div class="daily-back" id="dailyBack">← Menu</div>
+    <div class="daily-eyebrow">Daily Reader</div>
+    <div class="daily-title">Philosophy</div>
+  </div>
+  <div class="daily-list">
+    <div class="daily-entry" id="entryMarch7">
+      <div class="daily-entry-left">
         <div class="daily-entry-date">Saturday, March 7, 2026</div>
-        <div class="daily-entry-arrow">›</div>
+        <div class="daily-entry-title">The God of Energy</div>
+        <div class="daily-entry-preview">On strength, soul, and the world that blocks energy.</div>
+      </div>
+      <div class="daily-entry-arrow">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DAILY READER ═══ -->
+<div id="dailyReader">
+  <div class="reader-header">
+    <div class="reader-back" id="readerBack">← Daily</div>
+    <div class="reader-date">Saturday, March 7, 2026</div>
+    <div class="reader-title">The God of Energy</div>
+  </div>
+  <div class="reader-body">
+    <span class="reader-music-note">♪ Hell of a Life — Kanye West</span>
+    <div class="reader-text">
+      <p>First I wanted to say that maybe I need to communicate better sometimes! I feel like I could do better at this. But good news — this section, this daily reader — this is me being super clear and real with you.</p>
+      <p>A place where you can get to know me and where you can also develop yourself with me, together — because this is the purpose of this section and its intention.</p>
+      <p>And on this Saturday, March 7th, 2026, I want to talk to you about something I have been thinking about deeply. Something real.</p>
+      <p>First, I want to say I love you — not in a way that is weak, but in the way a warrior loves his people. I love you because I believe in you. I believe in the energy inside you that has not yet been fully released.</p>
+      <p>And I want to talk about the world we live in. The world is still problematic — it is a world of blocked energy. Everywhere you look, people are stuck. Stuck in patterns, stuck in thoughts, stuck in systems that do not serve the soul.</p>
+      <p>But here — here it is different. This is a space of help. True help. Care of the soul.</p>
+      <p>You see, there are psychologists and therapists. But there is no school for the soul. Nobody teaches you how to become truly, deeply mentally strong. Nobody teaches you how to evolve your energy. And that is exactly what I want to do.</p>
+      <p>Welcome to a place where I just want to help. Yes — that is all. I am Mathieu and I want to help.</p>
+      <p>I am 27 years old. I have blonde hair, blue eyes, and a pure aura — I think. I want to help. And if it helps even one single person the way it helps me to focus on the positive, then great.</p>
+      <p class="caps">I AM SEEKING TO BE STRONG. BUT TRULY STRONG. MENTALLY STRONG. BECAUSE THIS ONE ACT ALONE — BEING MENTALLY STRONG — I NEED IT AND I BELIEVE YOU DO TOO. TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC. AKA BLOCKED ENERGY.<br><br>AND MAYBE YOU DON'T UNDERSTAND ME. BUT YOU DON'T NEED TO. I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS. BUT HERE — IT IS A SPACE OF HELP. TRUE HELP. CARE OF THE SOUL.<br><br>YOU SEE THERE ARE PSYCHOLOGISTS. BUT THERE IS NO SCHOOL FOR THE SOUL. I WANT TO HELP. I WON'T CREATE A SCHOOL — BUT HELP WHERE THE PROBLEMS TRULY ARE. NOT JUST PUT A BANDAGE. BUT HEAL ETERNALLY AND BECOME STRONG.<br><br>STRENGTH = EVOLVE<br>EVOLVE = ENERGY THAT EVOLVES!</p>
+      <div class="reader-signature" id="sigLink">
+        Mathieu Pichette.co — The God of Energy. Let me be your God.
       </div>
     </div>
   </div>
 </div>
 
-<!-- DAILY READER -->
-<div id="dailyReader">
-  <div class="daily-topbar">
-    <button class="daily-back" id="readerBack">← BACK</button>
-    <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
-  </div>
-  <div class="daily-scroll">
-    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-    <div class="daily-date">Saturday, March 7, 2026</div>
-    <div class="daily-body">Hey you, I know, yes yes I know! You are wondering — what is this? Why? It is blocked energy — that is the reason for illness and all of that. I know you don't believe me. I just want to help and that is all. Leave thats all. I will never give up on helping! So leave. The end!
-
-The evolutionary energy however is the only solution, because it is like looking for a problem where the problem is not — the solution is energetic, the problem is energetic!
-
-Welcome to a place where I just want to help! Yes that is all! I am Mathieu and I want to help.
-
-END!
-
-I am 27 years old, I have blonde hair, blue eyes and a pure aura I think! I want to help — if it helps even one single person the way it helps me to focus on the positive, then great!
-
-<span class="caps">I AM SEEKING TO BE STRONG, BUT TRULY STRONG, MENTALLY STRONG — BECAUSE THIS ONE ACT ALONE, BEING MENTALLY STRONG, I NEED IT AND I BELIEVE YOU DO TOO, TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC — AKA BLOCKED ENERGY! AND MAYBE YOU DON'T UNDERSTAND ME BUT YOU DON'T NEED TO — I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS — BUT HERE, IT IS A SPACE OF HELP, TRUE HELP, CARE OF THE SOUL. YOU SEE THERE ARE PSYCHOLOGISTS BUT THERE IS NO SCHOOL FOR THE SOUL! I WANT TO HELP — I WON'T CREATE A SCHOOL HAHA — BUT HELP WHERE THE PROBLEMS TRULY ARE, NOT JUST PUT A BANDAGE BUT HEAL ETERNALLY AND BECOME STRONG.
-
-STRENGTH = EVOLVE
-EVOLVE = ENERGY THAT EVOLVES!</span></div>
-    <div class="daily-sig" id="sigLink">Mathieu <span style="text-decoration:underline;">Pichette.co</span> ( THE GOD OF ENERGY, LET ME BE YOUR GOD )</div>
-  </div>
-</div>
-
-<!-- SCROLL UP FEED -->
+<!-- ═══ FEED ═══ -->
 <div id="feed">
   <button id="startBtn">
-    <div class="btn-label">MY INTENTION ETERNALLY IS TO EVOLVE THE ENERGY OF LIFE CONSTANTLY AND ETERNALLY AT MY BEST AND IN MY FASTEST WAY. YES THEREFORE AT MY BEST AND IN MY FASTEST WAY TO EVOLVE THE ENERGY OF LIFE THEREFORE THE ENTIRE WORLD THEREFORE ALL THINGS ETERNALLY YES! YES, ETERNALLY!</div>
+    <div class="start-inner">
+      <div class="start-eyebrow">260 Videos · Shuffled</div>
+      <div class="start-title">Scroll<br>Up</div>
+      <div class="start-intention">
+        My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes — eternally.
+      </div>
+      <div class="start-cta">Tap to begin</div>
+    </div>
   </button>
-  <div id="topbar">
-    <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
-    <div class="top-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-    <button id="feedBack">← MENU</button>
+  <div id="feedTopBar">
+    <div class="feed-brand">Mathieu Pichette.co</div>
+    <button id="feedBack">← Menu</button>
   </div>
-  <div id="scale">
-    <div class="scale-title">EVOLVE THE ENERGY OF THE WORLD ETERNALLY — TRIANGLE #2</div>
-    <div class="mountain-wrap">
-      <span class="peak-flag">▲</span>
-      <svg viewBox="0 0 38 180" preserveAspectRatio="none">
-        <polygon points="19,4 38,180 0,180" fill="rgba(255,255,255,0.05)" stroke="rgba(245,200,66,0.25)" stroke-width="0.8"/>
-        <polygon points="19,178 21,180 17,180" fill="rgba(245,200,66,0.8)"/>
-        <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
-        <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
-      </svg>
-      <div class="climber"></div>
-    </div>
-    <div class="scale-pts">3%</div>
-    <div class="scale-sub">AT MY BEST ETERNALLY</div>
-  </div>
-  <div id="energy-bar">
-    <div class="ebar-title">MY INTENTION ETERNALLY — EVOLVE THE ENERGY OF LIFE — THE ENTIRE WORLD — ALL THINGS — ETERNALLY!</div>
-    <div class="ebar-track"><div class="ebar-fill"></div><div class="ebar-runner">🏃‍♂️</div></div>
-    <div class="ebar-labels">
-      <div class="ebar-left">0%</div>
-      <div class="ebar-pts">3% / 100% ▲</div>
-      <div class="ebar-right">ETERNALLY ▲</div>
+  <div id="feedEnergyBar"><div id="feedEnergyFill"></div></div>
+  <div id="milestone">
+    <div class="milestone-inner">
+      <p>EVOLVE<br>THE ENERGY<br>OF THE WORLD</p>
     </div>
   </div>
-  <div id="milestone"><div class="milestone-text">⚡ ENERGY SURGE ⚡<br>EVOLVE THE ENERGY OF THE WORLD<br>AT MY BEST — ETERNALLY!</div></div>
 </div>
+
 <script>
+// ═══ AUDIO ═══
+var splashMusic=new Audio('https://ia601006.us.archive.org/9/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3');
+var homeMusic=new Audio('https://ia600109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3');
+var dailyMusic=new Audio('https://ia600702.us.archive.org/1/items/kanye-west-hell-of-a-life-instrumental/Kanye%2BWest%2B-%2BHell%2BOf%2BA%2BLife%2B%28Instrumental%29.mp3');
+splashMusic.loop=false;homeMusic.loop=true;dailyMusic.loop=true;
+
+function stopAll(){
+  [splashMusic,homeMusic,dailyMusic].forEach(function(a){a.pause();a.currentTime=0;});
+}
+
+// ═══ WAKE LOCK ═══
+if('wakeLock' in navigator){
+  navigator.wakeLock.request('screen').catch(function(){});
+}
+
+// ═══ SPLASH ═══
+var splashTapped=false;
+document.getElementById('splashScreen').addEventListener('click',function(){
+  if(splashTapped)return;
+  splashTapped=true;
+  splashMusic.volume=0.7;
+  splashMusic.play().catch(function(){});
+  document.getElementById('splashTapText').innerText='Entering the world of Mathieu Pichette.co...';
+  setTimeout(function(){
+    splashMusic.pause();splashMusic.currentTime=0;
+    document.getElementById('splashScreen').style.display='none';
+    document.getElementById('homeScreen').style.display='flex';
+    homeMusic.volume=0.55;homeMusic.play().catch(function(){});
+  },6380);
+});
+
+// ═══ HOME NAV ═══
+document.getElementById('goDaily').addEventListener('click',function(){
+  homeMusic.pause();
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('dailyScreen').style.display='flex';
+  dailyMusic.volume=0.5;dailyMusic.play().catch(function(){});
+});
+document.getElementById('goFeed').addEventListener('click',function(){
+  homeMusic.pause();
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('feed').style.display='block';
+});
+document.getElementById('dailyBack').addEventListener('click',function(){
+  dailyMusic.pause();dailyMusic.currentTime=0;
+  document.getElementById('dailyScreen').style.display='none';
+  document.getElementById('homeScreen').style.display='flex';
+  homeMusic.currentTime=0;homeMusic.play().catch(function(){});
+});
+document.getElementById('entryMarch7').addEventListener('click',function(){
+  document.getElementById('dailyReader').style.display='flex';
+});
+document.getElementById('readerBack').addEventListener('click',function(){
+  document.getElementById('dailyReader').style.display='none';
+});
+document.getElementById('sigLink').addEventListener('click',function(){
+  dailyMusic.pause();dailyMusic.currentTime=0;
+  document.getElementById('dailyReader').style.display='none';
+  document.getElementById('dailyScreen').style.display='none';
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('feed').style.display='block';
+});
+
+// ═══ FEED BACK ═══
+document.getElementById('feedBack').addEventListener('click',function(){
+  // Stop all videos
+  document.querySelectorAll('#feed video').forEach(function(v){
+    v.pause();v.src='';v.load();
+  });
+  document.getElementById('feed').style.display='none';
+  document.getElementById('homeScreen').style.display='flex';
+  homeMusic.currentTime=0;homeMusic.volume=0.55;homeMusic.play().catch(function(){});
+});
+
+// ═══ VIDEOS ═══
 var VIDEOS=[
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
@@ -311,17 +777,17 @@ var VIDEOS=[
   {name:"Obito's Death English Dub",url:"https://ia903201.us.archive.org/12/items/obitos-death-english-dubbed/Obito%E2%80%99s%20Death%20%28English%20Dubbed%29.mp4"},
   {name:"Orochimaru vs Sarutobi 3rd Hokage Full Fight English Dub",url:"https://ia601409.us.archive.org/10/items/orochimaru-vs-sarutobi-3-hokage-full-fight-english-dub-orochimaru-attacks-kanoha-1080p/Orochimaru%20vs%20Sarutobi%203%20Hokage%20Full%20Fight%20English%20Dub%20Orochimaru%20attacks%20kanoha%201080p.mp4"},
   {name:"Rock Lee vs Gaara Full Fight English Dub",url:"https://ia902808.us.archive.org/28/items/rock-lee-vs-gaara-full-fight-english-dub-naruto-shippuden/Rock%20Lee%20Vs%20Gaara%20Full%20Fight%20English%20Dub%20Naruto%20Shippuden.mp4"},
-  {name:"Sakura and Chiyo vs Sasori - Three Minutes Between Life and Death",url:"https://ia902904.us.archive.org/3/items/sakura-and-chiyo-vs-sasori-three-minutes-between-life-and-death-naruto-shippuuden/Sakura%20And%20Chiyo%20Vs%20Sasori%20Three%20Minutes%20Between%20Life%20and%20Death%20Naruto%20Shippuuden.mp4"},
+  {name:"Sakura and Chiyo vs Sasori",url:"https://ia902904.us.archive.org/3/items/sakura-and-chiyo-vs-sasori-three-minutes-between-life-and-death-naruto-shippuuden/Sakura%20And%20Chiyo%20Vs%20Sasori%20Three%20Minutes%20Between%20Life%20and%20Death%20Naruto%20Shippuuden.mp4"},
   {name:"Sasuke Admits He Lost to Naruto English Dub",url:"https://ia903201.us.archive.org/3/items/sasuke-admits-he-lost-to-naruto-english-dub_202603/Sasuke%20Admits%20He%20Lost%20To%20Naruto%20%20%20English%20Dub.mp4"},
-  {name:"Sasuke Attacks the Kage Summit - Raikage vs Sasuke English Dub",url:"https://ia600105.us.archive.org/33/items/sasuke-attacks-the-kage-summit-raikage-vs-sasuke-at-5-kage-summit_20260303/sasuke%20attacks%20the%20kage%20summit%20%20Raikage%20vs%20Sasuke%20at%205%20Kage%20summit.mp4"},
-  {name:"Sasuke Finds Out the Truth About Itachi - Revealed by Madara",url:"https://ia601408.us.archive.org/16/items/sasuke-find-out-the-truth-about-itachi-revealed-by-madara-uchihas-real-voice-eng-1080p/Sasuke%20Find%20Out%20The%20Truth%20About%20Itachi%20revealed%20by%20Madara%20Uchiha%27s%20real%20voice%20ENG%201080p.mp4"},
+  {name:"Sasuke Attacks the Kage Summit",url:"https://ia600105.us.archive.org/33/items/sasuke-attacks-the-kage-summit-raikage-vs-sasuke-at-5-kage-summit_20260303/sasuke%20attacks%20the%20kage%20summit%20%20Raikage%20vs%20Sasuke%20at%205%20Kage%20summit.mp4"},
+  {name:"Sasuke Finds Out the Truth About Itachi",url:"https://ia601408.us.archive.org/16/items/sasuke-find-out-the-truth-about-itachi-revealed-by-madara-uchihas-real-voice-eng-1080p/Sasuke%20Find%20Out%20The%20Truth%20About%20Itachi%20revealed%20by%20Madara%20Uchiha%27s%20real%20voice%20ENG%201080p.mp4"},
   {name:"Sasuke vs Danzo Full Fight English Dub",url:"https://ia600803.us.archive.org/16/items/sasuke-vs-danzo-full-fight-english-dubbed/sasuke%20vs%20danzo%20full%20fight%20English%20dubbed.mp4"},
   {name:"Sasuke vs Deidara Full Fight Eng Dub",url:"https://ia600106.us.archive.org/0/items/sasuke-vs-deidara-full-fight-eng-dub_202603/SASUKE%20VS%20DEIDARA%20FULL%20FIGHT%20%20%20Eng%20Dub.mp4"},
   {name:"Sasuke vs Itachi Full Fight - Itachi Susanoo Eng Dub",url:"https://ia600403.us.archive.org/17/items/sasuke-vs-itachi-full-fight-eng-dub...-itachi-susanoo/Sasuke%20vs%20Itachi%20full%20fight%20eng%20dub...%20Itachi%20Susanoo.mp4"},
-  {name:"Sasuke vs Itachi - Itachi Goes Crazy, Curse Mark Removed English Dub",url:"https://ia601504.us.archive.org/33/items/sasuke-vs-itachi-itachi-goes-crazy-sasuke-curse-mark-removed-english-dubbed/sasuke%20vs%20itachi%2C%20itachi%20goes%20crazy%2C%20sasuke%20curse%20mark%20removed%2C%20English%20dubbed.mp4"},
-  {name:"Sasuke Wants to Become Hokage (Dub)",url:"https://ia902908.us.archive.org/0/items/sasuke-wants-to-become-hokage-for-some-reason-dub/Sasuke%20Wants%20To%20Become%20Hokage%20For%20Some%20Reason%20%28Dub%29.mp4"},
-  {name:"Shikamaru Cheers Naruto Up After Jiraiya's Death (Dub)",url:"https://ia600104.us.archive.org/24/items/shikamaru-cheers-naruto-up-after-jiraiyas-death-dub/Shikamaru%20Cheers%20Naruto%20Up%20After%20Jiraiya%27s%20Death%20%28DUB%29.mp4"},
-  {name:"Shikamaru Wants to Become the Advisor of Naruto EPIC",url:"https://ia600709.us.archive.org/16/items/shikamaru-wants-to-become-the-advisor-of-naruto-epic/Shikamaru%20want%27s%20to%20become%20the%20advisor%20of%20Naruto%20EPIC%21.mp4"},
+  {name:"Sasuke vs Itachi - Itachi Goes Crazy",url:"https://ia601504.us.archive.org/33/items/sasuke-vs-itachi-itachi-goes-crazy-sasuke-curse-mark-removed-english-dubbed/sasuke%20vs%20itachi%2C%20itachi%20goes%20crazy%2C%20sasuke%20curse%20mark%20removed%2C%20English%20dubbed.mp4"},
+  {name:"Sasuke Wants to Become Hokage",url:"https://ia902908.us.archive.org/0/items/sasuke-wants-to-become-hokage-for-some-reason-dub/Sasuke%20Wants%20To%20Become%20Hokage%20For%20Some%20Reason%20%28Dub%29.mp4"},
+  {name:"Shikamaru Cheers Naruto Up After Jiraiya's Death",url:"https://ia600104.us.archive.org/24/items/shikamaru-cheers-naruto-up-after-jiraiyas-death-dub/Shikamaru%20Cheers%20Naruto%20Up%20After%20Jiraiya%27s%20Death%20%28DUB%29.mp4"},
+  {name:"Shikamaru Wants to Become the Advisor of Naruto",url:"https://ia600709.us.archive.org/16/items/shikamaru-wants-to-become-the-advisor-of-naruto-epic/Shikamaru%20want%27s%20to%20become%20the%20advisor%20of%20Naruto%20EPIC%21.mp4"},
   {name:"Team 7 vs Zabuza Full Fight English Dub",url:"https://ia601509.us.archive.org/6/items/team-7-vs-zabuza-kakashi-naruto-and-sasuke-vs-zabuza-full-fight-english-dub/Team%207%20vs%20Zabuza%20%28Kakashi%2C%20Naruto%20and%20Sasuke%20vs%20Zabuza%29%2C%20full%20fight%2C%20english%20dub.mp4"},
   {name:"Naruto and Sasuke vs Orochimaru Full Fight English Dub",url:"https://ia903200.us.archive.org/21/items/you-scaredy-cat-naruto-and-sasuke-vs-orochimaru-full-fight-english-dub/YOU%20SCAREDY%20CAT%20%20Naruto%20and%20Sasuke%20vs%20Orochimaru%20%20Full%20Fight%20English%20Dub.mp4"},
   {name:"Without You I'll Never Be King Of The Pirates!",url:"https://ia600904.us.archive.org/12/items/without-you-ill-never-be-king-of-the-pirates-english-dub/Without%20You%20I%27ll%20Never%20Be%20King%20Of%20The%20Pirates%21%20%20%28English%20Dub%29.mp4"},
@@ -446,8 +912,7 @@ var VIDEOS=[
   {name:"Luffy Has A Dream - King of the Pirates",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Luffy%20has%20a%20dream%20%F0%9F%8F%B4%E2%80%8D%E2%98%A0%EF%B8%8F%20He%E2%80%99s%20gonna%20be%20%F0%9F%91%91king%20of%20the%20pirates.mp4"},
   {name:"38 Plus Grands Moments WrestleMania",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Les%2038%20plus%20grands%20moments%20de%20WrestleMania%20de%20tous%20les%20temps%20%20Top%2010%20sp%C3%A9cial%20WWE%2C%2027%20mars%202022.mp4"},
   {name:"Discours de Luffy - One Piece",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Discours%20de%20Luffy%20dans%20One%20Piece%20%23anime%20%23discoursanime%20%23citationsanime%20%23onepiece.mp4"},
-
-{name:"1nottydon",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/1nottydon_1753880716_7532860065452199182.mp4"},
+  {name:"1nottydon",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/1nottydon_1753880716_7532860065452199182.mp4"},
   {name:"adroitmindsets",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/adroitmindsets_1759101015_7555281291407527190.mp4"},
   {name:"anonymous_trader",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/anonymous...trader_1770477636_7604143390376070416.mp4"},
   {name:"auvirox",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/auvirox_1733167220_7443896512377097494.mp4"},
@@ -468,55 +933,56 @@ var VIDEOS=[
   {name:"warranbuffet1",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/warranbuffet1_1752007516_7524814886367497502.mp4"},
   {name:"wealthyhustlermentality",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/wealthyhustlermentality_1670096085_7173008051492998406.mp4"},
   {name:"zotticsfinds",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/zotticsfinds_1765616557_7583265095732563231.mp4"},
-  {name:"10_hour_race",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/10%20Hour%20Race%20%20%20Tate%20Confidential%20Ep%20316.mp4"},
-  {name:"tate_funniest",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%20Funniest%20Interview%20%20%20Tom%20Segura%20%20%20YMH%20%23ymh%20%23funny%20%23viral.mp4"},
-  {name:"tate_reality_check",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%20Gives%20Girls%20A%20REALITY%20CHECK%20On%20What%20Men%20ACTUALLY%20Want%20In%20A%20Relationship%21.mp4"},
-  {name:"tate_depression",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%27s%20Best%20Take%20on%20Depression%20%23andrewtate%20%23topg.mp4"},
-  {name:"tate_supercar_collection",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%27s%20Supercar%20Collection.mp4"},
-  {name:"bugatti_dubai",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/BUGATTI%20CHIRON%20races%20Supercars%20in%20DUBAI%20%28andrew%20tate%29.mp4"},
-  {name:"christmas_tates",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/CHRISTMAS%20WITH%20THE%20TATES%20%28EP.%20129%20Pt%202%29%20Tate%20Confidential.mp4"},
-  {name:"corona_police",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/CORONA%20POLICE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2088.mp4"},
-  {name:"deleted_ep19",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2019.mp4"},
-  {name:"deleted_ep29",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2029.mp4"},
-  {name:"deleted_ep31",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2031.mp4"},
-  {name:"escaping_police",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/ESCAPING%20THE%20POLICE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2097.mp4"},
-  {name:"idiots_machetes",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/IDIOTS%20%26%20MACHETES%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2027.mp4"},
-  {name:"jet_ski_miami",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/JET%20SKI%20MAFIA%20IN%20MIAMI%20%28EP.%20127%29%20Tate%20Confidential.mp4"},
-  {name:"knife_fight",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/KNIFE%20FIGHT%20ON%20TRAIN%20%28EP.%20131%29%20Tate%20Confidential.mp4"},
-  {name:"mcdonalds",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/MCDONALDS%20EMERGENCY%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2062.mp4"},
-  {name:"red_bull",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/RED%20BULL%20WORLD%20CHAMPION%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2049.mp4"},
-  {name:"spirits_sweden",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/SPIRITS%20IN%20SWEDEN%20%20%20EP.%2050%20%20%20TATE%20CONFIDENTIAL.mp4"},
-  {name:"steiny_tate",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Steiny%20Confronts%20Andrew%20Tate%20Over%20Sneako%20Beef%20%26%20Miami%20Club%20Incident%20%20%20One%20Night%20with%20Steiny.mp4"},
-  {name:"tate_ep46",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2046.mp4"},
-  {name:"tate_ep51",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2051.mp4"},
-  {name:"tate_ep56",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2056.mp4"},
-  {name:"tate_ep58",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2058.mp4"},
-  {name:"tate_vegas",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20GAMBLING%20IN%20LAS%20VEGAS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2093.mp4"},
-  {name:"tate_eggs",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20PROVES%20EGGS%20AREN%27T%20REAL%20%28EP.%20117%29%20Tate%20Confidential.mp4"},
-  {name:"best_cookies",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20BEST%20COOKIES%20IN%20MIAMI%20%28EP.%20126%29%20Tate%20Confidential.mp4"},
-  {name:"original_samurai",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20ORIGINAL%20SAMURAI%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2045.mp4"},
-  {name:"tates_spain",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20TATES%20CONQUER%20SPAIN%20%28EP.%20116%29%20Tate%20Confidential.mp4"},
-  {name:"unhappiest_man",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20UNHAPPIEST%20MAN%20AT%20THE%20BEACH%20%20Tate%20Confidential%20Ep%2060.mp4"},
-  {name:"tristan_lacking",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TRISTAN%20TATE%20CAUGHT%20LACKING%20%28EP.%20146%29%20Tate%20Confidential.mp4"},
-  {name:"tate_342",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Tate%20Confidential%20%23342.mp4"},
-  {name:"tate_best_moments",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Tate%20Confidential%20Best%20Moments%21%20%20%20%20DELETED%20EPISODES.mp4"},
-  {name:"castle",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WE%20LIVE%20IN%20A%20CASTLE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2034.mp4"},
-  {name:"robbed_ukraine",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WE%20WERE%20ROBBED%20IN%20UKRAINE%20%28EP.%20110%29%20Tate%20Confidential.mp4"},
-  {name:"booze_luc",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WHERES%20THE%20BOOZE%20LUC%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2072.mp4"},
-  {name:"plane_physics",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PLANE%20PHYSICS%20AIKIDO%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2092.mp4"},
-  {name:"buying_supercars",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/BUYING%20EVERY%20SUPERCAR%20IN%20THE%20WORLD%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%20%2077%20%281%29.mp4"},
-  {name:"dancing_bears",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DANCING%20BEARS%20ATTACK%20TATE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2083%20%281%29.mp4"},
-  {name:"extinction",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/EXTINCTION%20PREPERATION%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2024%20%281%29.mp4"},
-  {name:"germany_worst",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/GERMANY%20IS%20THE%20WORST%20COUNTRY%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2071%20%281%29.mp4"},
-  {name:"hodgetwins_simping",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Hodgetwins%20et%20Andrew%20Tate%20discutent%20des%20dangers%20du%20SIMPING%20et%20des%20femmes%20mal%C3%A9fiques%20%281%29.mp4"},
-  {name:"i_spent",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/I%20SPENT%20%24500K%20IN%2012%20HOURS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2066%20%281%29.mp4"},
-  {name:"paris_not_fun",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PARIS%20IS%20NOT%20FUN%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2033%20%281%29.mp4"},
-  {name:"you_must_watch",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/You%20MUST%20Watch%20This%20If%20You%20Are%20BROKE%20%28Andrew%20Tate%29%20%281%29.mp4"},
+  {name:"10 Hour Race - Tate Confidential Ep 316",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/10%20Hour%20Race%20%20%20Tate%20Confidential%20Ep%20316.mp4"},
+  {name:"Andrew Tate Funniest Interview",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%20Funniest%20Interview%20%20%20Tom%20Segura%20%20%20YMH%20%23ymh%20%23funny%20%23viral.mp4"},
+  {name:"Andrew Tate Gives Girls A REALITY CHECK",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%20Gives%20Girls%20A%20REALITY%20CHECK%20On%20What%20Men%20ACTUALLY%20Want%20In%20A%20Relationship%21.mp4"},
+  {name:"Andrew Tate's Best Take on Depression",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%27s%20Best%20Take%20on%20Depression%20%23andrewtate%20%23topg.mp4"},
+  {name:"Andrew Tate's Supercar Collection",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%27s%20Supercar%20Collection.mp4"},
+  {name:"BUGATTI CHIRON Dubai",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/BUGATTI%20CHIRON%20races%20Supercars%20in%20DUBAI%20%28andrew%20tate%29.mp4"},
+  {name:"Christmas With The Tates EP129",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/CHRISTMAS%20WITH%20THE%20TATES%20%28EP.%20129%20Pt%202%29%20Tate%20Confidential.mp4"},
+  {name:"Corona Police EP88",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/CORONA%20POLICE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2088.mp4"},
+  {name:"DELETED EP19",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2019.mp4"},
+  {name:"DELETED EP29",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2029.mp4"},
+  {name:"DELETED EP31",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2031.mp4"},
+  {name:"Escaping The Police EP97",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/ESCAPING%20THE%20POLICE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2097.mp4"},
+  {name:"Idiots & Machetes EP27",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/IDIOTS%20%26%20MACHETES%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2027.mp4"},
+  {name:"Jet Ski Mafia Miami EP127",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/JET%20SKI%20MAFIA%20IN%20MIAMI%20%28EP.%20127%29%20Tate%20Confidential.mp4"},
+  {name:"Knife Fight On Train EP131",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/KNIFE%20FIGHT%20ON%20TRAIN%20%28EP.%20131%29%20Tate%20Confidential.mp4"},
+  {name:"McDonalds Emergency EP62",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/MCDONALDS%20EMERGENCY%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2062.mp4"},
+  {name:"Red Bull World Champion EP49",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/RED%20BULL%20WORLD%20CHAMPION%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2049.mp4"},
+  {name:"Spirits In Sweden EP50",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/SPIRITS%20IN%20SWEDEN%20%20%20EP.%2050%20%20%20TATE%20CONFIDENTIAL.mp4"},
+  {name:"Steiny Confronts Andrew Tate",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Steiny%20Confronts%20Andrew%20Tate%20Over%20Sneako%20Beef%20%26%20Miami%20Club%20Incident%20%20%20One%20Night%20with%20Steiny.mp4"},
+  {name:"Tate Confidential EP46",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2046.mp4"},
+  {name:"Tate Confidential EP51",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2051.mp4"},
+  {name:"Tate Confidential EP56",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2056.mp4"},
+  {name:"Tate Confidential EP58",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2058.mp4"},
+  {name:"Tate Gambling Las Vegas EP93",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20GAMBLING%20IN%20LAS%20VEGAS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2093.mp4"},
+  {name:"Tate Proves Eggs Aren't Real EP117",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20PROVES%20EGGS%20AREN%27T%20REAL%20%28EP.%20117%29%20Tate%20Confidential.mp4"},
+  {name:"The Best Cookies In Miami EP126",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20BEST%20COOKIES%20IN%20MIAMI%20%28EP.%20126%29%20Tate%20Confidential.mp4"},
+  {name:"The Original Samurai EP45",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20ORIGINAL%20SAMURAI%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2045.mp4"},
+  {name:"The Tates Conquer Spain EP116",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20TATES%20CONQUER%20SPAIN%20%28EP.%20116%29%20Tate%20Confidential.mp4"},
+  {name:"The Unhappiest Man At The Beach EP60",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20UNHAPPIEST%20MAN%20AT%20THE%20BEACH%20%20Tate%20Confidential%20Ep%2060.mp4"},
+  {name:"Tristan Tate Caught Lacking EP146",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TRISTAN%20TATE%20CAUGHT%20LACKING%20%28EP.%20146%29%20Tate%20Confidential.mp4"},
+  {name:"Tate Confidential #342",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Tate%20Confidential%20%23342.mp4"},
+  {name:"Tate Confidential Best Moments - DELETED",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Tate%20Confidential%20Best%20Moments%21%20%20%20%20DELETED%20EPISODES.mp4"},
+  {name:"We Live In A Castle EP34",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WE%20LIVE%20IN%20A%20CASTLE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2034.mp4"},
+  {name:"We Were Robbed In Ukraine EP110",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WE%20WERE%20ROBBED%20IN%20UKRAINE%20%28EP.%20110%29%20Tate%20Confidential.mp4"},
+  {name:"Where's The Booze Luc EP72",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WHERES%20THE%20BOOZE%20LUC%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2072.mp4"},
+  {name:"Plane Physics Aikido EP92",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PLANE%20PHYSICS%20AIKIDO%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2092.mp4"},
+  {name:"Buying Every Supercar EP77 (2)",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/BUYING%20EVERY%20SUPERCAR%20IN%20THE%20WORLD%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%20%2077%20%281%29.mp4"},
+  {name:"Dancing Bears Attack Tate EP83 (2)",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DANCING%20BEARS%20ATTACK%20TATE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2083%20%281%29.mp4"},
+  {name:"Extinction Preparation EP24",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/EXTINCTION%20PREPERATION%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2024%20%281%29.mp4"},
+  {name:"Germany Is The Worst Country EP71",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/GERMANY%20IS%20THE%20WORST%20COUNTRY%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2071%20%281%29.mp4"},
+  {name:"Hodgetwins & Tate - Dangers of Simping",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Hodgetwins%20et%20Andrew%20Tate%20discutent%20des%20dangers%20du%20SIMPING%20et%20des%20femmes%20mal%C3%A9fiques%20%281%29.mp4"},
+  {name:"I Spent $500K In 12 Hours EP66",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/I%20SPENT%20%24500K%20IN%2012%20HOURS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2066%20%281%29.mp4"},
+  {name:"Paris Is Not Fun EP33",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PARIS%20IS%20NOT%20FUN%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2033%20%281%29.mp4"},
+  {name:"You MUST Watch This If You Are BROKE",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/You%20MUST%20Watch%20This%20If%20You%20Are%20BROKE%20%28Andrew%20Tate%29%20%281%29.mp4"},
 ];
 
+// ═══ FEED LOGIC ═══
 var list=[],current=0,slides=[];
 var settling=false,dragging=false,tStartY=0;
-var feed=document.getElementById('feed');
+var feedEl=document.getElementById('feed');
 var milestoneEl=document.getElementById('milestone');
 
 function shuffle(a){
@@ -532,290 +998,102 @@ function getSlide(idx){return slides[idx]||null;}
 function getVideo(idx){return slides[idx]?slides[idx].querySelector('video'):null;}
 
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
-function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
 function animateTo(el,vh,cb){
-  el.style.transition='transform 0.18s cubic-bezier(0.2,0.9,0.4,1)';
+  el.style.transition='transform 0.22s cubic-bezier(0.25,0.9,0.4,1)';
   el.style.transform='translateY('+vh+'vh)';
-  if(cb){
-    var done=function(){el.removeEventListener('transitionend',done);cb();};
-    el.addEventListener('transitionend',done);
-  }
+  if(cb){var done=function(){el.removeEventListener('transitionend',done);cb();};el.addEventListener('transitionend',done);}
 }
 
 function buildFeed(){
-  slides.forEach(function(s){s.remove();}); slides=[];
-  list=shuffle(VIDEOS); current=0;
+  slides.forEach(function(s){s.remove();});slides=[];
+  list=shuffle(VIDEOS);current=0;
   list.forEach(function(vid,idx){
     var slide=document.createElement('div');slide.className='slide';
     var video=document.createElement('video');
     video.setAttribute('playsinline','');
     video.setAttribute('webkit-playsinline','');
-    video.controls=true;
-    video.loop=true;
+    video.muted=false;video.loop=true;
     video.preload='none';
-    video.src=vid.url;
-    slide.appendChild(video);
-    feed.appendChild(slide);
-    slides.push(slide);
-    setPos(slide,idx===0?0:100);
+    var overlay=document.createElement('div');overlay.className='slide-overlay';
+    var title=document.createElement('div');title.className='slide-title';
+    title.textContent=vid.name;
+    overlay.appendChild(title);
+    slide.appendChild(video);slide.appendChild(overlay);
+    feedEl.appendChild(slide);slides.push(slide);
+    setPos(slide, idx===0?0:100);
   });
-  // Positionne la slide 1 en dessous prête
-  if(slides[1]) setPos(slides[1],-100);
-  playVideo(0);
+  loadAround(0);
+  var v=getVideo(0);if(v){v.play().catch(function(){});}
 }
 
-function playVideo(idx){
-  var v=getVideo(idx);
-  if(!v) return;
-  // Libère la mémoire de la slide 2 derrière (idx-2)
-  if(idx>=2){
-    var old=getVideo(idx-2);
-    if(old){old.pause();old.src='';old.load();}
-  }
-  // Précharge la suivante
-  if(idx+1<slides.length){
-    var nxt=getVideo(idx+1);
-    if(nxt&&!nxt.src){nxt.src=list[idx+1].url;}
-    if(nxt) nxt.load();
-  }
-  var p=v.play(); if(p) p.catch(function(){});
-
-  var pct=list.length>1?(idx/(list.length-1))*100:0;
-  var runner=document.querySelector('.ebar-runner');
-  var track=document.querySelector('.ebar-track');
-  if(runner&&track){
-    var maxLeft=track.offsetWidth-14;
-    runner.style.left=Math.max(2,Math.round((pct/100)*maxLeft))+'px';
-  }
-  var step=Math.round(list.length*0.08);
-  if(step>0&&idx>0&&idx%step===0){
-    var pctLabel=Math.round((idx/(list.length-1))*100);
-    document.querySelector('.milestone-text').innerHTML='⚡ '+pctLabel+'% ⚡<br>EVOLVE THE ENERGY OF THE WORLD<br>ETERNALLY AT YOUR BEST!';
-    milestoneEl.classList.remove('hide');
-    milestoneEl.classList.add('show');
-    setTimeout(function(){milestoneEl.classList.remove('show');milestoneEl.classList.add('hide');},3000);
+function loadAround(idx){
+  for(var i=Math.max(0,idx-1);i<=Math.min(list.length-1,idx+2);i++){
+    var v=getVideo(i);
+    if(v&&!v.src){v.src=list[i].url;}
   }
 }
 
-function stopVideo(idx){
-  var v=getVideo(idx);
-  if(v){v.pause();v.currentTime=0;}
+function goTo(next){
+  if(settling||next<0||next>=list.length)return;
+  settling=true;
+  var prevV=getVideo(current);if(prevV){prevV.pause();}
+  var prevSlide=getSlide(current);
+  var nextSlide=getSlide(next);
+  if(!nextSlide){settling=false;return;}
+  setPos(nextSlide,next>current?100:-100);
+  requestAnimationFrame(function(){
+    animateTo(nextSlide,0,function(){
+      if(prevSlide)setPos(prevSlide,current<next?-100:100);
+      current=next;settling=false;
+      var nv=getVideo(current);
+      if(nv){nv.currentTime=0;nv.play().catch(function(){});}
+      loadAround(current);
+    });
+  });
 }
 
-document.addEventListener('touchstart',function(e){
-  if(settling)return;
-  if(e.target.closest('#startBtn'))return;
-  tStartY=e.touches[0].clientY; dragging=true;
+var touchStartY=0,touchLastY=0;
+feedEl.addEventListener('touchstart',function(e){
+  if(e.target.closest('#startBtn')||e.target.closest('#feedTopBar'))return;
+  touchStartY=e.touches[0].clientY;touchLastY=touchStartY;dragging=true;
 },{passive:true});
-
-document.addEventListener('touchmove',function(e){
+feedEl.addEventListener('touchmove',function(e){
   if(!dragging||settling)return;
-  e.preventDefault();
-  var dy=e.touches[0].clientY-tStartY;
-  var curSlide=getSlide(current);
-  var nextSlide=getSlide(current+1);
-  if(dy<=0){
-    if(curSlide) setPos(curSlide,0);
-    if(nextSlide) setPos(nextSlide,-100);
-    return;
-  }
-  if(current>=list.length-1) return;
-  var H=window.innerHeight;
-  if(curSlide) setPosPx(curSlide,dy);
-  if(nextSlide) setPosPx(nextSlide,-(H-dy));
-},{passive:false});
-
-document.addEventListener('touchend',function(e){
-  if(!dragging)return; dragging=false;
-  if(settling)return;
-  var dy=e.changedTouches[0].clientY-tStartY;
-  if(dy>80&&current<list.length-1){
-    settling=true;
-    var prev=current;
-    var next=current+1;
-    var prevSlide=getSlide(prev);
-    var nextSlide=getSlide(next);
-    stopVideo(prev);
-    current=next;
-    // Prépare la slide après la suivante
-    if(getSlide(current+1)) setPos(getSlide(current+1),-100);
-    if(prevSlide) animateTo(prevSlide,100,null);
-    if(nextSlide){
-      animateTo(nextSlide,0,function(){
-        settling=false; // ← RESET ICI — clé du fix
-        playVideo(current);
-      });
-    } else {
-      settling=false;
-      playVideo(current);
-    }
-  } else {
-    var cs=getSlide(current);
-    var ns=getSlide(current+1);
-    if(dy>0&&current<list.length-1){
-      if(cs) animateTo(cs,0,null);
-      if(ns) animateTo(ns,-100,null);
-    } else {
-      if(cs) setPos(cs,0);
-    }
-  }
+  var dy=e.touches[0].clientY-touchStartY;
+  var cs=getSlide(current);
+  if(cs)cs.style.transform='translateY('+dy+'px)';
+  touchLastY=e.touches[0].clientY;
 },{passive:true});
-
-document.addEventListener('touchmove',function(e){
-  if(document.getElementById('dailyReader').style.display==='block') return;
-  if(document.getElementById('dailyScreen').style.display==='flex') return;
-  e.preventDefault();
-},{passive:false});
-
-var started=false;
-var wakeLock=null;
-async function requestWakeLock(){
-  try{
-    if('wakeLock' in navigator){
-      wakeLock=await navigator.wakeLock.request('screen');
-    }
-  }catch(e){}
-}
-document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='visible') requestWakeLock();
-});
-
-var homeMusic=document.getElementById('homeMusic');
-var splashMusic=document.getElementById('splashMusic');
-var splashTapped=false;
-
-document.getElementById('splashScreen').addEventListener('click',function(){
-  if(!splashTapped){
-    splashTapped=true;
-    splashMusic.volume=0.7;
-    splashMusic.play().catch(function(){});
-    document.querySelector('.splash-tap').innerText='TAP AGAIN TO ENTER';
-    return;
+feedEl.addEventListener('touchend',function(e){
+  if(!dragging)return;dragging=false;
+  var dy=touchLastY-touchStartY;
+  var cs=getSlide(current);
+  var threshold=window.innerHeight*0.18;
+  if(dy<-threshold&&current<list.length-1){
+    if(cs){cs.style.transition='transform 0.18s ease';cs.style.transform='translateY(-100vh)';}
+    goTo(current+1);
+  } else if(dy>threshold&&current>0){
+    if(cs){cs.style.transition='transform 0.18s ease';cs.style.transform='translateY(100vh)';}
+    goTo(current-1);
+  } else {
+    if(cs){cs.style.transition='transform 0.2s ease';cs.style.transform='translateY(0)';}
   }
-  splashMusic.pause();
-  splashMusic.currentTime=0;
-  this.style.display='none';
-  homeMusic.volume=0.6;
-  homeMusic.play().catch(function(){});
 });
-
-document.getElementById('goScrollUp').addEventListener('click',function(){
-  homeMusic.pause(); homeMusic.currentTime=0;
-  document.getElementById('homeScreen').style.display='none';
-  document.getElementById('feed').style.display='block';
-});
-
-document.getElementById('goDaily').addEventListener('click',function(){
-  homeMusic.pause(); homeMusic.currentTime=0;
-  document.getElementById('homeScreen').style.display='none';
-  document.getElementById('dailyScreen').style.display='flex';
-  var music=document.getElementById('dailyMusic');
-  music.volume=0.6;
-  music.play().catch(function(){});
-});
-
-document.getElementById('dailyBack').addEventListener('click',function(){
-  var music=document.getElementById('dailyMusic');
-  music.pause(); music.currentTime=0;
-  document.getElementById('dailyScreen').style.display='none';
-  document.getElementById('homeScreen').style.display='flex';
-  homeMusic.play().catch(function(){});
-});
-
-document.getElementById('entry-march7').addEventListener('click',function(){
-  document.getElementById('dailyScreen').style.display='none';
-  document.getElementById('dailyReader').style.display='block';
-  // music keeps playing
-});
-
-document.getElementById('readerBack').addEventListener('click',function(){
-  document.getElementById('dailyReader').style.display='none';
-  document.getElementById('dailyScreen').style.display='flex';
-  // music keeps playing
-});
-
-document.getElementById('sigLink').addEventListener('click',function(){
-  var music=document.getElementById('dailyMusic');
-  music.pause(); music.currentTime=0;
-  document.getElementById('dailyReader').style.display='none';
-  document.getElementById('feed').style.display='block';
-});
-
-document.getElementById('feedBack').addEventListener('click',function(){
-  // Stop all videos
-  var videos=document.querySelectorAll('#feed video');
-  videos.forEach(function(v){v.pause();v.src='';v.load();});
-  document.getElementById('feed').style.display='none';
-  document.getElementById('homeScreen').style.display='flex';
-  homeMusic.volume=0.6;
-  homeMusic.play().catch(function(){});
-});
-
-// SPIDER ANIMATION
-(function(){
-  var canvas=document.getElementById('spiderCanvas');
-  var ctx=canvas.getContext('2d');
-  var spiders=[];
-  var NUM=100;
-
-  function resize(){
-    canvas.width=document.getElementById('dailyScreen').offsetWidth;
-    canvas.height=document.getElementById('dailyScreen').offsetHeight;
-  }
-
-  function Spider(){
-    this.x=Math.random()*(canvas.width||400);
-    this.y=Math.random()*(canvas.height||800);
-    this.vx=(Math.random()-0.5)*1.2;
-    this.vy=(Math.random()-0.5)*1.2;
-    this.size=Math.random()*4+2;
-    this.legAnim=Math.random()*Math.PI*2;
-  }
-
-  Spider.prototype.update=function(){
-    this.x+=this.vx;
-    this.y+=this.vy;
-    this.legAnim+=0.15;
-    if(this.x<0||this.x>canvas.width) this.vx*=-1;
-    if(this.y<0||this.y>canvas.height) this.vy*=-1;
-  };
-
-  Spider.prototype.draw=function(){
-    ctx.save();
-    ctx.translate(this.x,this.y);
-    ctx.beginPath();ctx.arc(0,0,this.size,0,Math.PI*2);ctx.fillStyle='rgba(180,0,0,0.85)';ctx.fill();
-    ctx.beginPath();ctx.arc(0,-this.size*1.3,this.size*0.6,0,Math.PI*2);ctx.fillStyle='rgba(140,0,0,0.9)';ctx.fill();
-    ctx.strokeStyle='rgba(180,0,0,0.7)';ctx.lineWidth=0.8;
-    for(var i=0;i<4;i++){
-      var a1=(-0.4+i*0.25)+Math.sin(this.legAnim+i)*0.2;
-      var a2=(Math.PI+0.4-i*0.25)+Math.sin(this.legAnim+i)*0.2;
-      var lx1=Math.cos(a1)*this.size*2, ly1=Math.sin(a1)*this.size*2;
-      var lx2=Math.cos(a2)*this.size*2, ly2=Math.sin(a2)*this.size*2;
-      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(lx1,ly1);ctx.lineTo(lx1+Math.cos(a1)*this.size*1.5,ly1+this.size*1.2);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(lx2,ly2);ctx.lineTo(lx2+Math.cos(a2)*this.size*1.5,ly2+this.size*1.2);ctx.stroke();
-    }
-    ctx.restore();
-  };
-
-  for(var i=0;i<NUM;i++) spiders.push(new Spider());
-
-  function loop(){
-    if(document.getElementById('dailyScreen').style.display==='flex'){
-      resize();
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      spiders.forEach(function(s){s.update();s.draw();});
-    }
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
 
 document.getElementById('startBtn').addEventListener('click',function(){
-  if(started)return; started=true;
-  this.remove();
-  requestWakeLock();
+  this.style.display='none';
   buildFeed();
 });
+
+// milestone
+var lastMilestone=-1;
+setInterval(function(){
+  if(current>0&&current%30===0&&current!==lastMilestone){
+    lastMilestone=current;
+    milestoneEl.classList.add('show');
+    setTimeout(function(){milestoneEl.classList.remove('show');},2500);
+  }
+},1000);
 </script>
 </body>
 </html>
