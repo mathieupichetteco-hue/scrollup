@@ -757,7 +757,7 @@ document.getElementById('splashScreen').addEventListener('click',function(){
     document.getElementById('splashScreen').style.display='none';
     document.getElementById('homeScreen').style.display='flex';
     homeMusic.volume=0.55;homeMusic.play().catch(function(){});
-  },6380);
+  },7500);
 });
 
 // ═══ HOME NAV ═══
@@ -1102,19 +1102,26 @@ function buildFeed(){
     video.setAttribute('playsinline','');
     video.setAttribute('webkit-playsinline','');
     video.muted=false;video.loop=false;
-    video.preload='none';
+    video.preload=idx<3?'auto':'none';
     slide.appendChild(video);
     feedEl.appendChild(slide);slides.push(slide);
     setPos(slide, idx===0?0:100);
   });
   loadAround(0);
-  var v=getVideo(0);if(v){v.play().catch(function(){});}
+  var v=getVideo(0);
+  if(v){
+    v.play().catch(function(){});
+  }
 }
 
 function loadAround(idx){
-  for(var i=Math.max(0,idx-1);i<=Math.min(list.length-1,idx+2);i++){
+  for(var i=idx;i<=Math.min(list.length-1,idx+4);i++){
     var v=getVideo(i);
-    if(v&&!v.src){v.src=list[i].url;}
+    if(v&&!v.src){
+      v.preload=(i<=idx+1)?'auto':'metadata';
+      v.src=list[i].url;
+      if(i===idx+1){v.load();}
+    }
   }
 }
 
@@ -1173,13 +1180,14 @@ feedEl.addEventListener('touchend',function(e){
     var nextSlide=getSlide(next);
     var prevV=getVideo(prev); if(prevV){prevV.pause();}
     current=next;
+    // Start next video immediately — before animation finishes
+    var nv=getVideo(current);
+    if(nv){nv.currentTime=0;nv.play().catch(function(){});}
     if(getSlide(current+1)) setPos(getSlide(current+1),-100);
     if(prevSlide) animateTo(prevSlide,100,null);
     if(nextSlide){
       animateTo(nextSlide,0,function(){
         settling=false;
-        var nv=getVideo(current);
-        if(nv){nv.currentTime=0;nv.play().catch(function(){});}
         loadAround(current);
       });
     } else {
