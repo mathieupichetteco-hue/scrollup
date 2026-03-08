@@ -49,7 +49,12 @@
   .daily-body .caps{font-family:'Anton',sans-serif;font-size:0.72rem;letter-spacing:1px;color:#fff;line-height:2;}
   .daily-sig{font-family:'Anton',sans-serif;font-size:0.75rem;letter-spacing:2px;color:var(--gold);margin-top:28px;text-shadow:0 0 8px rgba(245,200,66,0.5);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(245,200,66,0.3);padding-bottom:4px;display:inline-block;}
 
-  /* SPIDERS */
+  /* SPLASH SCREEN */
+  #splashScreen{position:fixed;inset:0;z-index:3000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;cursor:pointer;touch-action:manipulation;}
+  .splash-brand{font-family:'Anton',sans-serif;font-size:1.6rem;letter-spacing:4px;color:var(--gold);text-align:center;text-shadow:0 0 30px rgba(245,200,66,0.8);margin-bottom:20px;animation:pulse 2s ease-in-out infinite;}
+  .splash-welcome{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:40px;}
+  .splash-intention{font-size:0.72rem;color:rgba(255,255,255,0.9);line-height:2;text-align:center;max-width:300px;font-style:italic;}
+  .splash-tap{font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:3px;color:rgba(245,200,66,0.5);text-align:center;margin-top:48px;animation:pulse 1.5s ease-in-out infinite;}
   #spiderCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
 
   /* DAILY SCALE */
@@ -94,6 +99,19 @@
 </style>
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-brand">Mathieu Pichette.co</div>
+  <div class="splash-welcome">Welcome — where my intention becomes reality</div>
+  <div class="splash-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  <div class="splash-tap">TAP ANYWHERE TO ENTER</div>
+</div>
+
+<!-- SPLASH MUSIC -->
+<audio id="splashMusic" loop>
+  <source src="https://ia601006.us.archive.org/9/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3" type="audio/mpeg">
+</audio>
 
 <!-- HOME SCREEN MUSIC -->
 <audio id="homeMusic" loop>
@@ -561,8 +579,23 @@ document.addEventListener('visibilitychange',function(){
 });
 
 var homeMusic=document.getElementById('homeMusic');
-homeMusic.volume=0.6;
-homeMusic.play().catch(function(){});
+var splashMusic=document.getElementById('splashMusic');
+var splashTapped=false;
+
+document.getElementById('splashScreen').addEventListener('click',function(){
+  if(!splashTapped){
+    splashTapped=true;
+    splashMusic.volume=0.7;
+    splashMusic.play().catch(function(){});
+    document.querySelector('.splash-tap').innerText='TAP AGAIN TO ENTER';
+    return;
+  }
+  splashMusic.pause();
+  splashMusic.currentTime=0;
+  this.style.display='none';
+  homeMusic.volume=0.6;
+  homeMusic.play().catch(function(){});
+});
 
 document.getElementById('goScrollUp').addEventListener('click',function(){
   homeMusic.pause(); homeMusic.currentTime=0;
