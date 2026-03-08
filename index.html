@@ -32,8 +32,9 @@
   /* DAILY SCREEN */
   #dailyScreen{position:fixed;inset:0;z-index:1500;background:#000;display:none;flex-direction:column;overflow:hidden;}
   #dailyScreen .daily-scroll{touch-action:pan-y;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
-  #dailyReader{position:fixed;inset:0;z-index:1600;background:#000;display:none;flex-direction:column;overflow:hidden;}
-  #dailyReader .daily-scroll{touch-action:pan-y;overflow-y:scroll;-webkit-overflow-scrolling:touch;padding-bottom:120px;}
+  #feedBack{position:absolute;top:10px;left:10px;background:none;border:1px solid rgba(245,200,66,0.4);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:2px;padding:6px 12px;border-radius:20px;cursor:pointer;touch-action:manipulation;z-index:100;pointer-events:all;}
+  #dailyReader{position:fixed;inset:0;z-index:1600;background:#000;display:none;flex-direction:column;overflow-y:scroll;-webkit-overflow-scrolling:touch;padding:24px 20px 120px;}
+  #dailyReader .daily-topbar{position:sticky;top:0;z-index:10;background:#000;}
   .daily-topbar{flex-shrink:0;padding:18px 20px 14px;background:rgba(0,0,0,1);border-bottom:1px solid rgba(245,200,66,0.15);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
   .daily-back{background:none;border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.65rem;letter-spacing:2px;padding:8px 14px;border-radius:20px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
   .daily-topbrand{font-family:'Anton',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.5);}
@@ -209,6 +210,7 @@ EVOLVE = ENERGY THAT EVOLVES!</span></div>
   <div id="topbar">
     <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
     <div class="top-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <button id="feedBack">← MENU</button>
   </div>
   <div id="scale">
     <div class="scale-title">EVOLVE THE ENERGY OF THE WORLD ETERNALLY — TRIANGLE #2</div>
@@ -637,6 +639,13 @@ document.getElementById('sigLink').addEventListener('click',function(){
   music.pause(); music.currentTime=0;
   document.getElementById('dailyReader').style.display='none';
   document.getElementById('feed').style.display='block';
+});
+
+document.getElementById('feedBack').addEventListener('click',function(){
+  document.getElementById('feed').style.display='none';
+  document.getElementById('homeScreen').style.display='flex';
+  homeMusic.volume=0.6;
+  homeMusic.play().catch(function(){});
 });
 
 // SPIDER ANIMATION
