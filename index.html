@@ -35,18 +35,16 @@
   #feedBack{position:absolute;top:10px;left:10px;background:none;border:1px solid rgba(245,200,66,0.4);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:2px;padding:6px 12px;border-radius:20px;cursor:pointer;touch-action:manipulation;z-index:100;pointer-events:all;}
   #dailyReader{
     position:fixed;inset:0;z-index:1600;background:#000;
-    display:none;flex-direction:column;
+    display:none;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling:touch;
   }
   #dailyReader .daily-topbar{
-    flex-shrink:0;position:relative;z-index:10;background:#000;
+    position:sticky;top:0;z-index:10;background:#000;
+    flex-shrink:0;
   }
   #dailyReader .daily-scroll{
-    position:absolute;
-    top:60px;left:0;right:0;bottom:0;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    padding:24px 20px 160px;
-    touch-action:pan-y;
+    padding:24px 20px 200px;
   }
   .daily-topbar{flex-shrink:0;padding:18px 20px 14px;background:rgba(0,0,0,1);border-bottom:1px solid rgba(245,200,66,0.15);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
   .daily-back{background:none;border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.65rem;letter-spacing:2px;padding:8px 14px;border-radius:20px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
@@ -576,11 +574,7 @@ document.addEventListener('touchend',function(e){
 },{passive:true});
 
 document.addEventListener('touchmove',function(e){
-  var reader=document.getElementById('dailyReader');
-  if(reader.style.display==='flex'){
-    var scroll=reader.querySelector('.daily-scroll');
-    if(scroll && scroll.contains(e.target)) return;
-  }
+  if(document.getElementById('dailyReader').style.display==='block') return;
   if(document.getElementById('dailyScreen').style.display==='flex') return;
   e.preventDefault();
 },{passive:false});
@@ -642,7 +636,7 @@ document.getElementById('dailyBack').addEventListener('click',function(){
 
 document.getElementById('entry-march7').addEventListener('click',function(){
   document.getElementById('dailyScreen').style.display='none';
-  document.getElementById('dailyReader').style.display='flex';
+  document.getElementById('dailyReader').style.display='block';
   // music keeps playing
 });
 
