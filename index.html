@@ -150,104 +150,167 @@ body{font-family:'Montserrat',sans-serif;color:var(--white);}
 #homeScreen{
   z-index:2000;
   background:var(--black);
-  justify-content:space-between;
-  padding:0 0 env(safe-area-inset-bottom,16px);
+  justify-content:flex-start;
+  padding:0;
   display:none;
+  overflow:hidden;
 }
-.home-header{
-  padding:48px 28px 0;
-  display:flex;flex-direction:column;
-  gap:12px;
+.home-bg-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 30% 20%, rgba(139,0,0,0.08) 0%, transparent 60%),
+             radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 50%);
+}
+.home-top{
+  padding:52px 28px 0;
+  display:flex;flex-direction:column;gap:8px;
+  flex-shrink:0;position:relative;z-index:2;
 }
 .home-eyebrow{
-  font-size:9px;letter-spacing:6px;color:var(--gold);opacity:0.6;
+  font-size:8px;letter-spacing:6px;color:var(--gold);opacity:0.5;
   text-transform:uppercase;
 }
 .home-name{
   font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(48px,13vw,80px);
+  font-size:clamp(52px,14vw,84px);
   line-height:0.85;letter-spacing:2px;
   color:var(--white);
 }
 .home-name em{
   display:block;font-style:normal;
-  color:var(--gold);font-size:0.38em;
-  letter-spacing:6px;margin-top:10px;
+  color:var(--gold);font-size:0.36em;
+  letter-spacing:7px;margin-top:12px;
 }
-.home-tagline{
-  font-family:'Cormorant Garamond',sans-serif;font-size:13px;
-  color:var(--white-dim);font-style:italic;line-height:1.6;
-  margin-top:4px;max-width:280px;
+.home-intention{
+  font-family:'Cormorant Garamond',sans-serif;font-size:12px;
+  color:var(--white-dim);font-style:italic;line-height:1.7;
+  margin-top:6px;padding-top:14px;
+  border-top:1px solid var(--border);
+  max-width:320px;
 }
-.home-triangle-row{
-  display:flex;align-items:center;gap:8px;
-  margin-top:8px;
+.home-progress-row{
+  display:flex;align-items:center;gap:10px;margin-top:12px;
 }
 .home-tri-badge{
-  font-size:8px;letter-spacing:3px;color:var(--crimson-bright);
-  text-transform:uppercase;
-  border:1px solid rgba(204,17,17,0.3);
-  padding:4px 10px;
-}
-.home-progress-bar{
-  flex:1;height:1px;
-  background:rgba(255,255,255,0.06);
-  position:relative;overflow:visible;
-}
-.home-progress-fill{
-  height:100%;width:15%;
-  background:linear-gradient(to right,var(--crimson),var(--gold));
-}
-.home-progress-pct{
-  font-size:8px;letter-spacing:2px;color:var(--gold);
+  font-size:8px;letter-spacing:2px;color:var(--crimson-bright);
+  border:1px solid rgba(204,17,17,0.3);padding:4px 10px;
   white-space:nowrap;
 }
-.home-cards{
-  padding:0 20px 40px;
-  display:flex;flex-direction:column;gap:12px;
+.home-progress-bar{flex:1;height:1px;background:rgba(255,255,255,0.06);}
+.home-progress-fill{height:100%;width:15%;background:linear-gradient(to right,var(--crimson),var(--gold));}
+.home-progress-pct{font-size:8px;letter-spacing:2px;color:var(--gold);white-space:nowrap;}
+
+/* MENU CARDS */
+.home-menu{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:0 20px 44px;gap:10px;
+  position:relative;z-index:2;
 }
 .home-card{
   position:relative;overflow:hidden;
   background:var(--surface);
   border:1px solid var(--border);
-  padding:28px 24px;
+  padding:0;
   cursor:pointer;
-  transition:all 0.3s ease;
   -webkit-tap-highlight-color:transparent;
+  transition:border-color 0.3s;
 }
-.home-card::before{
-  content:'';position:absolute;
-  top:0;left:0;width:3px;height:100%;
-  background:var(--gold);
-  transition:width 0.3s ease;
+.home-card:active{border-color:var(--gold);}
+.home-card-inner{
+  display:flex;align-items:center;
+  padding:22px 22px;gap:16px;
 }
-.home-card:active::before{width:6px;}
-.home-card:active{background:#151515;}
+.home-card-icon{
+  width:40px;height:40px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);
+  font-size:16px;
+}
+.home-card-text{flex:1;}
 .home-card-label{
   font-size:8px;letter-spacing:5px;color:var(--gold);
-  text-transform:uppercase;margin-bottom:8px;
-  opacity:0.7;
+  text-transform:uppercase;opacity:0.6;margin-bottom:4px;
 }
+.card-daily .home-card-label{color:var(--crimson-bright);}
 .home-card-title{
   font-family:'Bebas Neue',sans-serif;
-  font-size:32px;letter-spacing:2px;
-  color:var(--white);line-height:1;
+  font-size:28px;letter-spacing:2px;color:var(--white);line-height:1;
 }
 .home-card-sub{
-  font-size:10px;color:var(--white-dim);
-  margin-top:6px;letter-spacing:1px;
+  font-size:9px;color:var(--white-dim);margin-top:3px;letter-spacing:0.5px;
 }
 .home-card-arrow{
-  position:absolute;right:24px;top:50%;transform:translateY(-50%);
-  font-size:20px;color:var(--gold);opacity:0.4;
+  font-size:18px;color:var(--gold);opacity:0.3;flex-shrink:0;
 }
-.home-card-accent{
-  position:absolute;bottom:0;right:0;
-  width:80px;height:80px;
-  background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);
+.home-card-bar{
+  height:2px;width:100%;
+  background:linear-gradient(to right,var(--crimson-bright),transparent);
+  opacity:0;transition:opacity 0.3s;
 }
-.card-daily::before{background:var(--crimson-bright);}
-.card-daily .home-card-label{color:var(--crimson-bright);}
+.card-daily .home-card-bar{background:linear-gradient(to right,var(--crimson-bright),transparent);}
+.home-card:active .home-card-bar{opacity:1;}
+
+/* ═══════════════════════════════════════
+   VIDEO CONTROLS
+═══════════════════════════════════════ */
+#videoControls{
+  position:absolute;bottom:0;left:0;right:0;
+  z-index:60;
+  padding:0 0 env(safe-area-inset-bottom,16px);
+  background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+  opacity:1;transition:opacity 0.4s;
+}
+#videoControls.hidden{opacity:0;pointer-events:none;}
+.vc-intention{
+  font-family:'Cormorant Garamond',sans-serif;
+  font-size:11px;font-style:italic;
+  color:rgba(245,240,232,0.35);
+  letter-spacing:0.5px;line-height:1.5;
+  padding:0 18px;margin-bottom:10px;
+  display:block;
+}
+.vc-scrub{
+  padding:0 18px;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+#scrubTrack{
+  flex:1;height:2px;background:rgba(255,255,255,0.12);
+  position:relative;cursor:pointer;padding:10px 0;margin:-10px 0;
+}
+#scrubFill{
+  position:absolute;top:50%;left:0;height:2px;width:0%;
+  transform:translateY(-50%);
+  background:linear-gradient(to right,var(--crimson),var(--gold));
+  pointer-events:none;
+}
+#scrubHandle{
+  position:absolute;top:50%;width:12px;height:12px;
+  background:var(--gold);border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 6px var(--gold);
+  pointer-events:none;left:0%;
+}
+.vc-time{
+  font-family:'Montserrat',sans-serif;
+  font-size:9px;color:var(--white-dim);letter-spacing:1px;
+  white-space:nowrap;
+}
+.vc-bottom{
+  padding:0 18px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+#btnPlayPause{
+  background:transparent;border:1px solid rgba(201,168,76,0.3);
+  padding:10px 20px;cursor:pointer;
+  font-family:'Montserrat',sans-serif;
+  font-size:9px;letter-spacing:3px;color:var(--gold);
+  text-transform:uppercase;
+  -webkit-tap-highlight-color:transparent;
+}
+.vc-swipe-hint{
+  font-size:8px;letter-spacing:3px;color:var(--white-dim);
+  text-transform:uppercase;opacity:0.4;
+}
 
 /* ═══════════════════════════════════════
    DAILY SCREEN
@@ -535,37 +598,46 @@ canvas#spiders{display:none;}
 
 <!-- ═══ HOME ═══ -->
 <div id="homeScreen" class="screen">
-  <div class="home-header">
-    <div class="home-eyebrow">Triangle #600,000 — In Progress</div>
+  <div class="home-bg-glow"></div>
+  <div class="home-top">
+    <div class="home-eyebrow">Triangle #600,000 · In Progress</div>
     <div class="home-name">
       Mathieu<br>Pichette.co
       <em>From Zero To Hero</em>
     </div>
-    <div class="home-tagline">
-      Evolve the energy of life — the entire world — all things — eternally.
+    <div class="home-intention">
+      My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes — eternally.
     </div>
-    <div class="home-triangle-row">
-      <div class="home-tri-badge">&#9650; 15%</div>
-      <div class="home-progress-bar">
-        <div class="home-progress-fill"></div>
-      </div>
+    <div class="home-progress-row">
+      <div class="home-tri-badge">▲ 15%</div>
+      <div class="home-progress-bar"><div class="home-progress-fill"></div></div>
       <div class="home-progress-pct">100%</div>
     </div>
   </div>
-  <div class="home-cards">
+  <div class="home-menu">
     <div class="home-card card-daily" id="goDaily">
-      <div class="home-card-accent"></div>
-      <div class="home-card-label">Philosophy · Daily</div>
-      <div class="home-card-title">Daily Reader</div>
-      <div class="home-card-sub">Energy. Truth. Evolution.</div>
-      <div class="home-card-arrow">→</div>
+      <div class="home-card-bar"></div>
+      <div class="home-card-inner">
+        <div class="home-card-icon">✦</div>
+        <div class="home-card-text">
+          <div class="home-card-label">Philosophy · Daily</div>
+          <div class="home-card-title">Daily Reader</div>
+          <div class="home-card-sub">Energy · Truth · Evolution · Eternally</div>
+        </div>
+        <div class="home-card-arrow">→</div>
+      </div>
     </div>
     <div class="home-card" id="goFeed">
-      <div class="home-card-accent"></div>
-      <div class="home-card-label">Video Feed · 260 Videos</div>
-      <div class="home-card-title">Scroll Up</div>
-      <div class="home-card-sub">Swipe down to advance · Shuffled every session</div>
-      <div class="home-card-arrow">→</div>
+      <div class="home-card-bar"></div>
+      <div class="home-card-inner">
+        <div class="home-card-icon">▶</div>
+        <div class="home-card-text">
+          <div class="home-card-label">Video Feed · 260 Videos</div>
+          <div class="home-card-title">Scroll Up</div>
+          <div class="home-card-sub">Swipe down · Shuffled every session</div>
+        </div>
+        <div class="home-card-arrow">→</div>
+      </div>
     </div>
   </div>
 </div>
@@ -576,6 +648,7 @@ canvas#spiders{display:none;}
     <div class="daily-back" id="dailyBack">← Menu</div>
     <div class="daily-eyebrow">Daily Reader</div>
     <div class="daily-title">Philosophy</div>
+    <div style="font-family:'Cormorant Garamond',sans-serif;font-size:11px;font-style:italic;color:rgba(245,240,232,0.35);line-height:1.6;margin-top:6px;">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way.</div>
   </div>
   <div class="daily-list">
     <div class="daily-entry" id="entryMarch7">
@@ -633,6 +706,21 @@ canvas#spiders{display:none;}
     <button id="feedBack">← Menu</button>
   </div>
   <div id="feedEnergyBar"><div id="feedEnergyFill"></div></div>
+  <div id="videoControls">
+    <span class="vc-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way — yes, eternally.</span>
+    <div class="vc-scrub">
+      <span class="vc-time" id="vcCurrent">0:00</span>
+      <div id="scrubTrack">
+        <div id="scrubFill"></div>
+        <div id="scrubHandle"></div>
+      </div>
+      <span class="vc-time" id="vcDuration">0:00</span>
+    </div>
+    <div class="vc-bottom">
+      <button id="btnPlayPause">❚❚ Pause</button>
+      <span class="vc-swipe-hint">↓ Swipe Down</span>
+    </div>
+  </div>
   <div id="milestone">
     <div class="milestone-inner">
       <p>EVOLVE<br>THE ENERGY<br>OF THE WORLD</p>
@@ -1013,13 +1101,9 @@ function buildFeed(){
     var video=document.createElement('video');
     video.setAttribute('playsinline','');
     video.setAttribute('webkit-playsinline','');
-    video.muted=false;video.loop=true;
+    video.muted=false;video.loop=false;
     video.preload='none';
-    var overlay=document.createElement('div');overlay.className='slide-overlay';
-    var title=document.createElement('div');title.className='slide-title';
-    title.textContent=vid.name;
-    overlay.appendChild(title);
-    slide.appendChild(video);slide.appendChild(overlay);
+    slide.appendChild(video);
     feedEl.appendChild(slide);slides.push(slide);
     setPos(slide, idx===0?0:100);
   });
@@ -1113,9 +1197,100 @@ feedEl.addEventListener('touchend',function(e){
   }
 },{passive:false});
 
+// ═══ VIDEO CONTROLS ═══
+var vcEl=document.getElementById('videoControls');
+var scrubTrack=document.getElementById('scrubTrack');
+var scrubFill=document.getElementById('scrubFill');
+var scrubHandle=document.getElementById('scrubHandle');
+var vcCurrent=document.getElementById('vcCurrent');
+var vcDuration=document.getElementById('vcDuration');
+var btnPP=document.getElementById('btnPlayPause');
+var controlsTimer=null;
+var isScrubbing=false;
+
+function fmtTime(s){
+  if(isNaN(s)||s<0)return'0:00';
+  var m=Math.floor(s/60),sec=Math.floor(s%60);
+  return m+':'+(sec<10?'0':'')+sec;
+}
+function updateScrub(){
+  var v=getVideo(current);if(!v)return;
+  var pct=v.duration?v.currentTime/v.duration:0;
+  scrubFill.style.width=(pct*100)+'%';
+  scrubHandle.style.left=(pct*100)+'%';
+  vcCurrent.textContent=fmtTime(v.currentTime);
+  vcDuration.textContent=fmtTime(v.duration);
+  btnPP.textContent=v.paused?'▶  Play':'❚❚  Pause';
+}
+function showControls(){
+  vcEl.classList.remove('hidden');
+  clearTimeout(controlsTimer);
+  controlsTimer=setTimeout(function(){vcEl.classList.add('hidden');},4000);
+}
+
+setInterval(updateScrub,250);
+
+// Tap video = toggle controls
+feedEl.addEventListener('click',function(e){
+  if(e.target.closest('#feedTopBar')||e.target.closest('#startBtn')||e.target.closest('#videoControls'))return;
+  if(vcEl.classList.contains('hidden')){showControls();}
+  else{vcEl.classList.add('hidden');}
+});
+
+// Play/Pause button
+btnPP.addEventListener('click',function(e){
+  e.stopPropagation();
+  var v=getVideo(current);if(!v)return;
+  if(v.paused){v.play().catch(function(){});}else{v.pause();}
+  showControls();
+});
+
+// Scrub touch
+function scrubTo(e){
+  var v=getVideo(current);if(!v||!v.duration)return;
+  var rect=scrubTrack.getBoundingClientRect();
+  var clientX=(e.touches?e.touches[0].clientX:e.clientX);
+  var pct=Math.max(0,Math.min(1,(clientX-rect.left)/rect.width));
+  v.currentTime=pct*v.duration;
+  updateScrub();
+}
+scrubTrack.addEventListener('touchstart',function(e){
+  e.stopPropagation();isScrubbing=true;scrubTo(e);showControls();
+},{passive:true});
+scrubTrack.addEventListener('touchmove',function(e){
+  if(!isScrubbing)return;e.stopPropagation();scrubTo(e);
+},{passive:true});
+scrubTrack.addEventListener('touchend',function(e){
+  isScrubbing=false;e.stopPropagation();showControls();
+},{passive:true});
+scrubTrack.addEventListener('click',function(e){
+  e.stopPropagation();scrubTo(e);showControls();
+});
+
+// Auto-advance when video ends
+feedEl.addEventListener('ended',function(e){
+  if(e.target.tagName==='VIDEO'){
+    if(current<list.length-1){
+      settling=true;
+      var prev=current;var next=current+1;
+      var prevSlide=getSlide(prev);var nextSlide=getSlide(next);
+      var prevV=getVideo(prev);if(prevV)prevV.pause();
+      current=next;
+      if(getSlide(current+1))setPos(getSlide(current+1),-100);
+      if(prevSlide)animateTo(prevSlide,100,null);
+      if(nextSlide){animateTo(nextSlide,0,function(){
+        settling=false;
+        var nv=getVideo(current);if(nv){nv.currentTime=0;nv.play().catch(function(){});}
+        loadAround(current);
+      });}else{settling=false;}
+    }
+  }
+},true);
+
 document.getElementById('startBtn').addEventListener('click',function(){
   this.style.display='none';
   buildFeed();
+  showControls();
 });
 
 // milestone
