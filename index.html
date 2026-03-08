@@ -113,6 +113,9 @@
   </div>
 </div>
 
+<!-- DAILY MUSIC -->
+<audio id="dailyMusic" loop src="https://ia600702.us.archive.org/1/items/kanye-west-hell-of-a-life-instrumental/Kanye%2BWest%2B-%2BHell%2BOf%2BA%2BLife%2B%28Instrumental%29.mp3"></audio>
+
 <!-- DAILY SCREEN - DATE LIST -->
 <div id="dailyScreen">
   <canvas id="spiderCanvas"></canvas>
@@ -532,7 +535,13 @@ document.addEventListener('touchend',function(e){
   }
 },{passive:true});
 
-document.addEventListener('touchmove',function(e){e.preventDefault();},{passive:false});
+document.addEventListener('touchmove',function(e){
+  var dailyScrolls=document.querySelectorAll('.daily-scroll');
+  for(var i=0;i<dailyScrolls.length;i++){
+    if(dailyScrolls[i].contains(e.target)) return;
+  }
+  e.preventDefault();
+},{passive:false});
 
 var started=false;
 var wakeLock=null;
@@ -555,11 +564,17 @@ document.getElementById('goScrollUp').addEventListener('click',function(){
 document.getElementById('goDaily').addEventListener('click',function(){
   document.getElementById('homeScreen').style.display='none';
   document.getElementById('dailyScreen').style.display='flex';
+  var music=document.getElementById('dailyMusic');
+  music.volume=0.5;
+  music.play();
 });
 
 document.getElementById('dailyBack').addEventListener('click',function(){
   document.getElementById('dailyScreen').style.display='none';
   document.getElementById('homeScreen').style.display='flex';
+  var music=document.getElementById('dailyMusic');
+  music.pause();
+  music.currentTime=0;
 });
 
 document.getElementById('entry-march7').addEventListener('click',function(){
@@ -575,6 +590,9 @@ document.getElementById('readerBack').addEventListener('click',function(){
 document.getElementById('sigLink').addEventListener('click',function(){
   document.getElementById('dailyReader').style.display='none';
   document.getElementById('feed').style.display='block';
+  var music=document.getElementById('dailyMusic');
+  music.pause();
+  music.currentTime=0;
 });
 
 // SPIDER ANIMATION
