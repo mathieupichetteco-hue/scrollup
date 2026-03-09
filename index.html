@@ -1,1 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Mathieu Pichette.co</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  :root{--gold:#F5C842;--dark:#080808;}
+  html,body{background:#000;color:white;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
 
+  /* HOME SCREEN */
+  #homeScreen{position:fixed;inset:0;z-index:2000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:32px 24px;}
+  .home-brand{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--gold);text-align:center;text-shadow:0 0 20px rgba(245,200,66,0.6);margin-bottom:8px;}
+  .home-sub{font-size:0.55rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:48px;}
+  .home-cards{display:flex;flex-direction:column;gap:16px;width:100%;max-width:340px;}
+  .home-card{background:rgba(245,200,66,0.04);border:1px solid rgba(245,200,66,0.25);border-radius:16px;padding:24px 20px;cursor:pointer;touch-action:manipulation;transition:all 0.2s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;}
+  .home-card:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
+  .home-card-tag{font-size:0.52rem;color:rgba(245,200,66,0.45);line-height:1.6;margin-bottom:8px;font-style:italic;}
+  .home-card-title{font-family:'Anton',sans-serif;font-size:1.3rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.4);}
+  .home-card-desc{font-size:0.65rem;color:rgba(255,255,255,0.45);line-height:1.6;margin-top:4px;}
+  .home-card-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:1.2rem;color:rgba(245,200,66,0.3);}
+  .home-card.daily .home-card-title{color:var(--gold);}
+  .home-card.daily .home-card-tag{color:rgba(245,200,66,0.45);}
+  .home-card.daily{border-color:rgba(245,200,66,0.25);cursor:pointer;}
+  .home-card.daily:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
+  .home-card.daily .home-card-arrow{display:block;}
+  .coming-soon{display:none;}
+
+  /* DAILY SCREEN */
+  #dailyScreen{position:fixed;inset:0;z-index:1500;background:#000;display:none;flex-direction:column;overflow:hidden;}
+  #dailyScreen .daily-scroll{touch-action:pan-y;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+  #feedBack{position:absolute;top:10px;left:10px;background:none;border:1px solid rgba(245,200,66,0.4);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:2px;padding:6px 12px;border-radius:20px;cursor:pointer;touch-action:manipulation;z-index:100;pointer-events:all;}
+  #dailyReader{
+    position:fixed;inset:0;z-index:1600;background:#000;
+    display:none;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling:touch;
+  }
+  #dailyReader .daily-topbar{
+    position:sticky;top:0;z-index:10;background:#000;
+    flex-shrink:0;
+  }
+  #dailyReader .daily-scroll{
+    padding:24px 20px 200px;
+  }
+  .daily-topbar{flex-shrink:0;padding:18px 20px 14px;background:rgba(0,0,0,1);border-bottom:1px solid rgba(245,200,66,0.15);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
+  .daily-back{background:none;border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-family:'Anton',sans-serif;font-size:0.65rem;letter-spacing:2px;padding:8px 14px;border-radius:20px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
+  .daily-topbrand{font-family:'Anton',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.5);}
+  .daily-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 20px 60px;position:relative;z-index:2;}
+  .daily-intention{font-size:0.55rem;color:rgba(245,200,66,0.5);font-style:italic;line-height:1.8;text-align:center;margin-bottom:28px;padding:14px 16px;border:1px solid rgba(245,200,66,0.1);border-radius:12px;}
+  .daily-list{display:flex;flex-direction:column;gap:12px;}
+  .daily-entry{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border:1px solid rgba(245,200,66,0.25);border-radius:14px;cursor:pointer;touch-action:manipulation;background:rgba(0,0,0,0.6);transition:all 0.2s;}
+  .daily-entry:active{transform:scale(0.97);background:rgba(245,200,66,0.1);}
+  .daily-entry-date{font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:2px;color:var(--gold);}
+  .daily-entry-arrow{font-size:1.2rem;color:rgba(245,200,66,0.4);}
+  .daily-date{font-family:'Anton',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.4);margin-bottom:24px;}
+  .daily-body{font-size:0.78rem;color:rgba(255,255,255,0.85);line-height:2;white-space:pre-wrap;}
+  .daily-body .caps{font-family:'Anton',sans-serif;font-size:0.72rem;letter-spacing:1px;color:#fff;line-height:2;}
+  .daily-sig{font-family:'Anton',sans-serif;font-size:0.75rem;letter-spacing:2px;color:var(--gold);margin-top:28px;text-shadow:0 0 8px rgba(245,200,66,0.5);cursor:pointer;text-decoration:none;border-bottom:1px solid rgba(245,200,66,0.3);padding-bottom:4px;display:inline-block;}
+
+  /* SPLASH SCREEN */
+  #splashScreen{position:fixed;inset:0;z-index:3000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;cursor:pointer;touch-action:manipulation;}
+  .splash-brand{font-family:'Anton',sans-serif;font-size:1.6rem;letter-spacing:4px;color:var(--gold);text-align:center;text-shadow:0 0 30px rgba(245,200,66,0.8);margin-bottom:20px;animation:pulse 2s ease-in-out infinite;}
+  .splash-welcome{font-size:0.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:40px;}
+  .splash-intention{font-size:0.72rem;color:rgba(255,255,255,0.9);line-height:2;text-align:center;max-width:300px;font-style:italic;}
+  .splash-tap{font-family:'Anton',sans-serif;font-size:0.55rem;letter-spacing:3px;color:rgba(245,200,66,0.5);text-align:center;margin-top:48px;animation:pulse 1.5s ease-in-out infinite;}
+  #spiderCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;}
+
+  /* DAILY SCALE */
+  #dailyScale{position:absolute;right:0;top:0;bottom:0;width:48px;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.5),transparent);padding:8px 0;}
+
+
+  /* FEED */
+  #feed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;}
+  .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
+  .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
+  #startBtn{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.75);border:none;cursor:pointer;touch-action:manipulation;}
+  #startBtn .btn-intention{font-size:0.6rem;color:rgba(255,255,255,0.7);font-style:italic;text-align:center;max-width:280px;line-height:1.7;letter-spacing:0.3px;margin-bottom:16px;padding:0 16px;}
+  #startBtn .btn-label{background:var(--gold);color:var(--dark);font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:2px;padding:16px 28px;border-radius:50px;pointer-events:none;text-align:center;max-width:280px;line-height:1.5;}
+  #topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-direction:column;align-items:center;padding:10px 52px 8px;background:linear-gradient(rgba(0,0,0,0.88),transparent);pointer-events:none;text-align:center;}
+  .top-brand{font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 10px rgba(245,200,66,0.6),0 2px 4px rgba(0,0,0,1);margin-bottom:3px;}
+  .top-intention{font-size:0.5rem;line-height:1.7;letter-spacing:0.4px;color:#fff;text-transform:uppercase;font-weight:600;max-width:260px;text-shadow:0 1px 6px rgba(0,0,0,1);}
+  #scale{position:fixed;right:0;top:0;bottom:0;width:48px;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.7),transparent);padding:8px 0;}
+  .scale-title{font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);text-align:center;line-height:1.5;max-width:42px;padding:0 3px;text-shadow:0 0 6px rgba(245,200,66,0.7),0 1px 3px rgba(0,0,0,1);}
+  .mountain-wrap{position:relative;width:38px;height:180px;}
+  .mountain-wrap svg{position:absolute;bottom:0;left:0;width:100%;height:100%;}
+  .climber{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold),0 0 16px var(--gold);left:50%;transform:translateX(-50%);bottom:2%;animation:climb 5s ease-in-out infinite alternate;}
+  @keyframes climb{0%{bottom:2%;}100%{bottom:5%;box-shadow:0 0 14px var(--gold),0 0 28px rgba(245,200,66,0.5);}}
+  .peak-flag{position:absolute;top:-2px;left:50%;transform:translateX(-60%);font-size:0.55rem;filter:drop-shadow(0 0 4px var(--gold));animation:flagwave 1.6s ease-in-out infinite alternate;}
+  @keyframes flagwave{0%{transform:translateX(-60%) rotate(-10deg);}100%{transform:translateX(-60%) rotate(10deg);}}
+  .scale-pts{font-family:'Anton',sans-serif;font-size:0.7rem;color:var(--gold);text-align:center;letter-spacing:1px;text-shadow:0 0 8px var(--gold),0 1px 4px rgba(0,0,0,1);animation:pulse 2s ease-in-out infinite;}
+  .scale-sub{font-family:'Anton',sans-serif;font-size:0.27rem;color:rgba(255,255,255,0.55);text-align:center;max-width:42px;padding:0 3px;line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,1);}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+  #energy-bar{position:fixed;bottom:0;left:0;right:48px;z-index:70;padding:5px 8px 8px;background:rgba(0,0,0,0.88);border-top:1px solid rgba(245,200,66,0.3);pointer-events:none;}
+  .ebar-title{font-family:'Anton',sans-serif;font-size:0.27rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:4px;text-shadow:0 0 5px rgba(245,200,66,0.6);}
+  .ebar-track{position:relative;height:5px;border-radius:3px;background:rgba(255,255,255,0.08);border:1px solid rgba(245,200,66,0.2);margin-bottom:3px;}
+  .ebar-fill{position:absolute;left:0;top:0;bottom:0;width:0.03%;background:linear-gradient(to right,var(--gold),#fff8b0);border-radius:3px;box-shadow:0 0 5px var(--gold);}
+  .ebar-runner{position:absolute;top:50%;left:2px;transform:translateY(-50%) scaleX(-1);font-size:0.75rem;line-height:1;}
+  .ebar-labels{display:flex;justify-content:space-between;align-items:center;}
+  .ebar-left{font-family:'Anton',sans-serif;font-size:0.32rem;color:rgba(255,255,255,0.5);text-shadow:0 1px 3px rgba(0,0,0,1);}
+  .ebar-pts{font-family:'Anton',sans-serif;font-size:0.5rem;color:var(--gold);text-shadow:0 0 6px var(--gold);animation:pulse 2s ease-in-out infinite;}
+  .ebar-right{font-family:'Anton',sans-serif;font-size:0.32rem;color:var(--gold);text-shadow:0 0 5px rgba(245,200,66,0.5);}
+  #milestone{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(245,200,66,0.1);pointer-events:none;opacity:0;transition:opacity 0.3s;}
+  #milestone.show{opacity:1;}
+  #milestone.hide{opacity:0;transition:opacity 1.2s;}
+  .milestone-text{font-family:'Anton',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--gold);text-align:center;line-height:1.5;text-shadow:0 0 30px var(--gold),0 0 60px rgba(245,200,66,0.5);animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);padding:0 28px;}
+  @keyframes scalepop{0%{transform:scale(0.6);}100%{transform:scale(1);}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-brand">Mathieu Pichette.co</div>
+  <div class="splash-welcome">Welcome — where my intention becomes reality</div>
+  <div class="splash-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  <div class="splash-tap">TAP ANYWHERE TO ENTER</div>
+</div>
+
+<!-- SPLASH MUSIC -->
+<audio id="splashMusic" loop>
+  <source src="https://ia601006.us.archive.org/9/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3" type="audio/mpeg">
+</audio>
+
+<!-- HOME SCREEN MUSIC -->
+<audio id="homeMusic" loop>
+  <source src="https://ia600109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3" type="audio/mpeg">
+</audio>
+
+<!-- HOME SCREEN -->
+<div id="homeScreen">
+  <div class="home-brand">Mathieu Pichette.co</div>
+  <div class="home-sub">Evolve the energy of the world — eternally</div>
+  <div class="home-cards">
+    <div class="home-card daily" id="goDaily">
+      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+      <div class="home-card-title">Mathieu Pichette.co Daily</div>
+      <div class="home-card-desc">Evolve the energy of life daily — your philosophy, your evolution, eternally at your best.</div>
+      <div class="coming-soon">Coming soon</div>
+    </div>
+    <div class="home-card" id="goScrollUp">
+      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+      <div class="home-card-title">Mathieu Pichette.co Scroll Up</div>
+      <div class="home-card-desc">Evolve the energy of the entire world — at your best, in your fastest way, eternally.</div>
+      <div class="home-card-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY MUSIC -->
+<audio id="dailyMusic" loop src="https://ia600702.us.archive.org/1/items/kanye-west-hell-of-a-life-instrumental/Kanye%2BWest%2B-%2BHell%2BOf%2BA%2BLife%2B%28Instrumental%29.mp3"></audio>
+
+<!-- DAILY SCREEN - DATE LIST -->
+<div id="dailyScreen">
+  <canvas id="spiderCanvas"></canvas>
+  <div id="dailyScale">
+    <div class="scale-title" style="color:rgba(255,255,255,0.7);">TRIANGLE #2 OF LIFE</div>
+    <div class="mountain-wrap">
+      <span class="peak-flag">▲</span>
+      <svg viewBox="0 0 38 180" preserveAspectRatio="none">
+        <polygon points="19,4 38,180 0,180" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+        <polygon points="19,178 21,180 17,180" fill="rgba(255,255,255,0.6)"/>
+        <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      </svg>
+      <div class="climber" style="background:#fff;box-shadow:0 0 8px #fff,0 0 16px #fff;"></div>
+    </div>
+    <div class="scale-pts" style="color:#fff;text-shadow:0 0 8px #fff;">3%</div>
+    <div class="scale-sub" style="color:rgba(255,255,255,0.6);">/ 100%</div>
+  </div>
+  <div class="daily-topbar">
+    <button class="daily-back" id="dailyBack">← BACK</button>
+    <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
+  </div>
+  <div class="daily-scroll">
+    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="daily-list">
+    <button class="daily-back" id="readerBack">← BACK</button>
+    <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
+  </div>
+  <div class="daily-scroll">
+    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="daily-date">Saturday, March 7, 2026</div>
+    <div class="daily-body">Hey you, I know, yes yes I know! You are wondering — what is this? Why? It is blocked energy — that is the reason for illness and all of that. I know you don't believe me. I just want to help and that is all. Leave thats all. I will never give up on helping! So leave. The end!
+
+The evolutionary energy however is the only solution, because it is like looking for a problem where the problem is not — the solution is energetic, the problem is energetic!
+
+Welcome to a place where I just want to help! Yes that is all! I am Mathieu and I want to help.
+
+END!
+
+I am 27 years old, I have blonde hair, blue eyes and a pure aura I think! I want to help — if it helps even one single person the way it helps me to focus on the positive, then great!
+
+<span class="caps">I AM SEEKING TO BE STRONG, BUT TRULY STRONG, MENTALLY STRONG — BECAUSE THIS ONE ACT ALONE, BEING MENTALLY STRONG, I NEED IT AND I BELIEVE YOU DO TOO, TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC — AKA BLOCKED ENERGY! AND MAYBE YOU DON'T UNDERSTAND ME BUT YOU DON'T NEED TO — I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS — BUT HERE, IT IS A SPACE OF HELP, TRUE HELP, CARE OF THE SOUL. YOU SEE THERE ARE PSYCHOLOGISTS BUT THERE IS NO SCHOOL FOR THE SOUL! I WANT TO HELP — I WON'T CREATE A SCHOOL HAHA — BUT HELP WHERE THE PROBLEMS TRULY ARE, NOT JUST PUT A BANDAGE BUT HEAL ETERNALLY AND BECOME STRONG.
+
+STRENGTH = EVOLVE
+EVOLVE = ENERGY THAT EVOLVES!</span></div>
+    <div class="daily-sig" id="sigLink">Mathieu <span style="text-decoration:underline;">Pichette.co</span> ( THE GOD OF ENERGY, LET ME BE YOUR GOD )</div>
+  </div>
+</div>
+
+<!-- SCROLL UP FEED -->
+<div id="feed">
+  <button id="startBtn">
+    <div class="btn-label">MY INTENTION ETERNALLY IS TO EVOLVE THE ENERGY OF LIFE CONSTANTLY AND ETERNALLY AT MY BEST AND IN MY FASTEST WAY. YES THEREFORE AT MY BEST AND IN MY FASTEST WAY TO EVOLVE THE ENERGY OF LIFE THEREFORE THE ENTIRE WORLD THEREFORE ALL THINGS ETERNALLY YES! YES, ETERNALLY!</div>
+  </button>
+  <div id="topbar">
+    <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
+    <div class="top-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  </div>
+  <div id="scale">
+    <div class="scale-title">EVOLVE THE ENERGY OF THE WORLD ETERNALLY — TRIANGLE #2</div>
+    <div class="mountain-wrap">
+      <span class="peak-flag">▲</span>
+      <svg viewBox="0 0 38 180" preserveAspectRatio="none">
+        <polygon points="19,4 38,180 0,180" fill="rgba(255,255,255,0.05)" stroke="rgba(245,200,66,0.25)" stroke-width="0.8"/>
+        <polygon points="19,178 21,180 17,180" fill="rgba(245,200,66,0.8)"/>
+        <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(245,200,66,0.18)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      </svg>
+      <div class="climber"></div>
+    </div>
+    <div class="scale-pts" style="color:#F5C842;text-shadow:0 0 8px #F5C842;">15%</div>
+    <div class="scale-sub" style="color:rgba(245,200,66,0.6);">/ 100%</div>
+  </div>
+  <div id="energy-bar">
+    <div class="ebar-title">TRIANGLE #600,000 — EVOLVE ETERNALLY</div>
+    <div class="ebar-track"><div class="ebar-fill" style="width:15%"></div><div class="ebar-runner">🏃‍♂️</div></div>
+    <div class="ebar-labels">
+      <div class="ebar-left">0%</div>
+      <div class="ebar-pts">15% / 100% ▲</div>
+      <div class="ebar-right">SUMMIT 100%</div>
+    </div>
+  </div>
+  <div id="milestone"><div class="milestone-text">⚡ ENERGY SURGE ⚡<br>EVOLVE THE ENERGY OF THE WORLD<br>ETERNALLY AT YOUR BEST!</div></div>
+</div>
+<script>
+var VIDEOS=[
+  {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
+  {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
+  {name:"Naruto vs 3rd Raikage Full Fight English Dub",url:"https://ia600902.us.archive.org/23/items/naruto-vs-3-raikage-full-fight-english-dub/Naruto%20vs%203%20Raikage%20Full%20Fight%20English%20Dub.mp4"},
+  {name:"Kakashi vs Obito Full Fight English Dub",url:"https://ia601604.us.archive.org/19/items/kakashi-vs-obito-full-fight-english-dub/Kakashi%20vs%20Obito%20Full%20Fight%20English%20Dub.mp4"},
+  {name:"Itachi and Shisui vs Anbu Full Fight English Dub",url:"https://ia600502.us.archive.org/4/items/itachi-and-shisui-vs-anbu-full-fight..-english-dub-naruto-shippuden-./Itachi%20and%20Shisui%20vs%20Anbu%20Full%20Fight..%5BEnglish%20Dub%5D%20%20Naruto%20Shippuden%20..mp4"},
+  {name:"Naruto vs Kurama Full Fight English Dub HD",url:"https://ia600606.us.archive.org/9/items/naruto-vs-kurama-full-fight-english-dub-hd/Naruto%20vs%20Kurama%20Full%20Fight%20English%20Dub%20HD.mp4"},
+  {name:"Konan vs Tobi English Dub",url:"https://ia600500.us.archive.org/10/items/konan-vs-tobi-naruto-english-dub/Konan%20vs%20Tobi%20%20Naruto%20%20-%20%5BEnglish%20Dub%5D.mp4"},
+  {name:"Naruto First Shows Kyuubi Chakra Form in Front of Shinobi Alliance",url:"https://ia600605.us.archive.org/21/items/naruto-first-shows-kyuubi-chakra-form-in-front-of-shinobi-alliance-hinata-calls-herself-useless-1/Naruto%20First%20Shows%20Kyuubi%20Chakra%20Form%20in%20Front%20of%20Shinobi%20Alliance%20-%20Hinata%20Calls%20Herself%20Useless%20%281%29.mp4"},
+  {name:"Naruto vs Pain English Dub HD",url:"https://ia902903.us.archive.org/11/items/naruto-vs-pain-english-dub-hd/Naruto%20Vs%20Pain%20English%20Dub%20-%20HD.mp4"},
+  {name:"Let It Out - Episode 82 English Dub",url:"https://ia600804.us.archive.org/29/items/let-it-out.-ep-82-english-dubbed/%E2%80%9CLet%20it%20out.%E2%80%9D%20%28Ep%2082%29%20%28English%20Dubbed%29.mp4"},
+  {name:"Asuma Edo Tensei vs Team Asuma English Dub",url:"https://ia601407.us.archive.org/14/items/asuma-edo-tensei-vs-choiji-shikamaru-ino-team-asuma-childhood-naruto-shippuden-english-dub/Asuma%20Edo%20Tensei%20vs%20Choiji%2C%20Shikamaru%2C%20Ino%2C%20Team%20Asuma%20Childhood%2C%20Naruto%20Shippuden%20English%20Dub.mp4"},
+  {name:"Asuma vs Hidan - Asuma's Death English Dub HD",url:"https://ia601500.us.archive.org/30/items/asuma-vs-hidan-asumas-death-great-fight-hd-english-dubbed-naruto-shippuden/Asuma%20Vs%20Hidan%20Asumas%20Death%20Great%20Fight%20HD%20English%20Dubbed%20-%20Naruto%20Shippuden.mp4"},
+  {name:"Guy vs Madara Full Fight English Dub 1080p",url:"https://ia601002.us.archive.org/22/items/guy-vs-madara-full-fight-english-dub-1080p-might-guy-vs-madara-naruto/Guy%20vs%20Madara%20Full%20Fight%20English%20Dub%201080p%20%20%20Might%20Guy%20vs%20Madara%20%20%20Naruto.mp4"},
+  {name:"Kakashi and Team 10 vs Kakuzu and Hidan English Dub",url:"https://ia600904.us.archive.org/23/items/hatake-kakashi-and-team-10-vs-kakuzu-and-hidan-naruto-english-dub/Hatake%20Kakashi%20and%20Team%2010%20vs%20Kakuzu%20and%20Hidan%20%20Naruto%20%20-%20%5BEnglish%20Dub%5D.mp4"},
+  {name:"Jiraiya vs Pain Full Fight English Dub",url:"https://ia600502.us.archive.org/26/items/jiraiya-vs-pain-all-mighty-push-full-fight-english-dub/Jiraiya%20vs%20Pain%20%27All%20Mighty%20Push%27%20%20Full%20Fight%20%28English%20DUB%29.mp4"},
+  {name:"Kakashi vs Deidara English Dub",url:"https://ia600609.us.archive.org/35/items/kakashi-vs-deidara-english-dubbed/Kakashi%20Vs%20Deidara%20English%20Dubbed.mp4"},
+  {name:"Kakashi's Team vs Reanimated Zabuza and 7 Ninja Swordsmen",url:"https://ia600804.us.archive.org/28/items/kakashis-team-vs-reanimated-zabuza-haku-gari-pakura-and-7-ninja-swordmen-naruto-english-dub/Kakashi%27s%20Team%20vs%20Reanimated%20zabuza%2C%20Haku%2C%20Gari%2C%20Pakura%20And%207%20Ninja%20Swordmen%20Naruto%20English%20Dub.mp4"},
+  {name:"Lee vs Shira - Eight Gates vs Seven Heavens English Dub",url:"https://ia600408.us.archive.org/28/items/lee-attempts-to-open-the-eight-gates-vs-shira-activates-the-seven-heavens-breathing-method-engdub/Lee%20attempts%20to%20open%20the%20Eight%20Gates%20vs%20Shira%20activates%20the%20Seven%20Heavens%20Breathing%20Method%20Engdub.mp4"},
+  {name:"Madara vs Shinobi Alliance Full Episode English Dub",url:"https://ia601508.us.archive.org/29/items/madara-vs-shinobi-alliance-full-episode-english-dub/Madara%20vs%20Shinobi%20Alliance%20Full%20Episode%20%28English%20Dub%29.mp4"},
+  {name:"Madara's Speech to the Five Kage English Dub",url:"https://ia903201.us.archive.org/8/items/madaras-speech-to-the-five-kage-english-dubbed/Madaras%20Speech%20to%20the%20Five%20Kage%20English%20Dubbed.mp4"},
+  {name:"Might Guy Opens 8th Gate vs Madara English Dub",url:"https://ia600902.us.archive.org/19/items/might-guy-opens-8th-gate-guy-vs-madara-full-fight-english-dub-1/Might%20Guy%20Opens%208th%20Gate%20-%20Guy%20vs%20Madara%20Full%20Fight%20English%20Dub%20%281%29.mp4"},
+  {name:"Might Guy vs Kisame Full Fight English Dub",url:"https://ia601604.us.archive.org/14/items/might-guy-vs-kisame-full-fight-english-dub/Might%20Guy%20Vs%20Kisame%20Full%20Fight%20%5BEnglish%20Dub%5D.mp4"},
+  {name:"Naruto and Sasuke vs Zaku Full Fight English Dub",url:"https://ia903100.us.archive.org/4/items/naruto-sasuke-vs.-zaku-full-fight-english-dubbed/Naruto%20%20Sasuke%20Vs.%20Zaku%20Full%20Fight%20%28English%20Dubbed%29.mp4"},
+  {name:"Naruto and Sasuke vs Kaguya Otsutsuki English Dub",url:"https://ia600706.us.archive.org/18/items/naruto-sasuke-vs-kaguya-otsutsuki-english-dub/Naruto%20%26%20Sasuke%20vs%20Kaguya%20Otsutsuki%20%20%20ENGLISH%20DUB.mp4"},
+  {name:"Naruto and Hinata Wedding English Dub",url:"https://ia903103.us.archive.org/6/items/naruto-and-hinata-wedding-english-dub-naruto-wedding/Naruto%20And%20Hinata%20Wedding%20English%20Dub%20%20%20naruto%20wedding.mp4"},
+  {name:"Naruto and Killer Bee Fight Itachi and Nagato",url:"https://ia600106.us.archive.org/18/items/naruto-and-killer-bee-fight-itachi-and-nagato-itachi-activates-shisuis-kotoamatsukami/Naruto%20and%20Killer%20Bee%20Fight%20Itachi%20and%20Nagato%20%20Itachi%20Activates%20Shisui%27s%20Kotoamatsukami.mp4"},
+  {name:"Naruto and Minato Last Moments English Dub",url:"https://ia600606.us.archive.org/16/items/naruto-and-minato-last-moments-english-dub-naruto-shippuden/Naruto%20and%20Minato%20last%20moments%20%28English%20Dub%29%20%23NarutoShippuden.mp4"},
+  {name:"Naruto and Sasuke vs Haku and Zabuza Full Fight English Dub",url:"https://ia600500.us.archive.org/33/items/naruto-and-sasuke-vs-haku-and-zabuza-full-fight-l-eng-dub-l-narutoshippuden-naruto-sasuke-zabuza/Naruto%20and%20Sasuke%20vs%20haku%20and%20zabuza%20Full%20Fight%20l%20Eng%20Dub%20l%20%23narutoshippuden%20%23naruto%20%23sasuke%20%23zabuza.mp4"},
+  {name:"Naruto Asks Iruka To Be His Dad English Dub",url:"https://ia600803.us.archive.org/24/items/naruto-asks-iruka-to-be-his-dad-english-dub/Naruto%20Asks%20Iruka%20To%20Be%20His%20Dad%20%28English%20Dub%29.mp4"},
+  {name:"Naruto Emotional and Sad Moments English Dub",url:"https://ia600505.us.archive.org/31/items/naruto-emotional-sad-moments-english-dub/Naruto%20emotional%20%26%20sad%20moments%20%28English%20dub%29.mp4"},
+  {name:"Naruto Finds Out Jiraiya's Dead",url:"https://ia600106.us.archive.org/1/items/naruto-finds-out-jiraiyas-dead/Naruto%20finds%20out%20jiraiya%27s%20dead.mp4"},
+  {name:"Sasuke Says Sorry and Team 7 Reunited English Dub",url:"https://ia601604.us.archive.org/14/items/naruto-shippuden-sasuke-says-sorry-and-team-7-reunited-english-dub/Naruto%20Shippuden%20-%20Sasuke%20Says%20Sorry%20and%20Team%207%20Reunited%20-%20English%20Dub.mp4"},
+  {name:"Gaara's Speech - Naruto Shippuden EP261",url:"https://ia601508.us.archive.org/16/items/naruto-shippuden-ep-261-gaaras-speech/Naruto%20Shippuden%20EP261%20Gaara%27s%20Speech.mp4"},
+  {name:"Naruto Surpasses Fourth Raikage's Max Speed English Dub",url:"https://ia601507.us.archive.org/26/items/naruto-surpasses-fourth-raikages-max-speed-minato-fights-killer-bee-and-4th-raikage-english-dub/Naruto%20Surpasses%20Fourth%20Raikages%20Max%20Speed%2C%20Minato%20Fights%20Killer%20Bee%20And%204th%20Raikage%20%20English%20DUB.mp4"},
+  {name:"Naruto Saves Iruka and Destroys Mizuki English Dub",url:"https://ia600105.us.archive.org/9/items/naruto-transfermation-and-save-iruka-sensei-and-destroy-mizuki-english-dubbednarutonarutoshippuden/Naruto%20transfermation%20and%20save%20iruka%20sensei%20and%20destroy%20mizuki%20English%20dubbed%23naruto%23narutoshippuden.mp4"},
+  {name:"Hashirama Senju vs Madara Uchiha Full Fight English Dub",url:"https://ia601407.us.archive.org/9/items/hashirama-senju-vs-madara-uchiha-full-fight-english-dubbed/Hashirama%20Senju%20Vs%20Madara%20Uchiha%20Full%20Fight%20English%20Dubbed.mp4"},
+  {name:"Itachi's Final Farewell and Itachi Tells the Truth to Sasuke",url:"https://ia601506.us.archive.org/20/items/itachis-final-farewell-and-itachi-tells-the-truth-to-sasuke-1/Itachi%27s%20final%20Farewell%20and%20itachi%20tells%20the%20truth%20to%20sasuke%20%281%29.mp4"},
+  {name:"Itachi's Speech On Reality",url:"https://ia600604.us.archive.org/5/items/itachis-speech-on-reality/Itachi%27s%20Speech%20On%20Reality.mp4"},
+  {name:"Kaguya Comes to Earth - Hagoromo Awakens Sharingan English Dub",url:"https://ia902803.us.archive.org/28/items/kaguya-comes-to-earth-hagoromo-learns-sage-power-hagoromo-awakens-sharingan-english-dub/Kaguya%20comes%20to%20earth%2C%20Hagoromo%20learns%20sage%20power%2C%20Hagoromo%20awakens%20sharingan%20%28English%20Dub%29.mp4"},
+  {name:"Kaguya's Story - Hagoromo vs Hamura English Dub",url:"https://ia600803.us.archive.org/23/items/kaguyas-story-hagoromo-vs-hamura-naruto-shippuden-english-dub/Kaguya%27s%20Story%2C%20Hagoromo%20Vs%20Hamura%20Naruto%20Shippuden%20English%20Dub.mp4"},
+  {name:"Madara Gets Rejected by Hashirama English Dub",url:"https://ia600105.us.archive.org/5/items/madara-gets-rejected-by-hashirama-dubbed/madara%20gets%20rejected%20by%20hashirama%20%5Bdubbed%5D.mp4"},
+  {name:"Madara vs Hashirama Full Fight English Dub",url:"https://ia600404.us.archive.org/25/items/madara-vs-hashirama-full-fight-english-dub/Madara%20vs%20Hashirama%20FULL%20FIGHT%20%28English%20DUB%29.mp4"},
+  {name:"Madara vs Hashirama Senju Full Fight English Dub",url:"https://ia902803.us.archive.org/13/items/madara-vs-hashirama-senju-full-fight-english-dub-naruto-shippuden_202603/Madara%20vs%20hashirama%20senju%20full%20fight%20English%20dub%20naruto%20shippuden.mp4"},
+  {name:"Itachi's Final Words to Sasuke English Dub",url:"https://ia600901.us.archive.org/5/items/naruto-shippuden-itachis-final-words-to-sasuke-eng-dub/Naruto%20Shippuden%20Itachi%27s%20final%20words%20to%20Sasuke%20%28Eng%20Dub%29.mp4"},
+  {name:"Naruto Uses Talk No Jutsu on Obito English Dub",url:"https://ia600403.us.archive.org/31/items/naruto-use-talk-no-jutsu-on-obito-english-dub-naruto-shippuden-ultimate-ninja-storm-4-1080p/Naruto%20Use%20Talk%20No%20Jutsu%20On%20Obito%20%28English%20Dub%29%20-%20Naruto%20Shippuden%20Ultimate%20Ninja%20Storm%204%201080p.mp4"},
+  {name:"Naruto Uses Power of Kyuubi Against Orochimaru English Dub",url:"https://ia903105.us.archive.org/23/items/naruto-uses-power-of-kyuubi-against-orochimaru-sakura-cries-desperately-for-naruto-english_202603/Naruto%20Uses%20Power%20Of%20Kyuubi%20Against%20Orochimaru%2C%20Sakura%20Cries%20Desperately%20For%20Naruto%20English.mp4"},
+  {name:"Naruto vs Kabuto Full Fight English Dub",url:"https://ia600105.us.archive.org/9/items/naruto-vs-kabuto-full-fight-english-dub-anime-naruto/Naruto%20VS%20Kabuto%20Full%20Fight%20%28English%20Dub%29%20%23anime%20%23naruto.mp4"},
+  {name:"Naruto vs Neji - Nine Tails Chakra Chunin Exams Full Fight",url:"https://ia600609.us.archive.org/22/items/naruto-vs-neji-naruto-uses-the-nine-tail-fox-chakra-and-beats-neji-on-the-chunin-exams-full-fight/Naruto%20vs%20Neji%2C%20Naruto%20uses%20the%20nine%20tail%20fox%20chakra%20and%20beats%20Neji%20on%20the%20chunin%20exams%2C%20full%20fight.mp4"},
+  {name:"Naruto vs Sasuke Final Battle 4K English Dub",url:"https://ia601504.us.archive.org/10/items/naruto-vs-sasuke-final-battle-full-fight-english-dub-ultra-hd-4-k/Naruto%20VS%20Sasuke%20%20Final%20Battle%20%20%5BFULL%20FIGHT%5D%20English%20Dub%20%20ULTRA%20HD%20%204K%20.mp4"},
+  {name:"Naruto vs Sasuke 4K Full Fight English Dub",url:"https://ia902808.us.archive.org/35/items/naruto-vs-sasuke-4-k-full-fight-english-dub-naruto-anime-sasuke-1/Naruto%20vs%20Sasuke%204K%20Full%20fight%20english%20dub%20%20%20%20%20%20%23naruto%20%23anime%20%23sasuke%20%281%29.mp4"},
+  {name:"Naruto vs Sasuke English Dub 1080p 60FPS",url:"https://ia600604.us.archive.org/31/items/naruto-vs-sasuke-english-dub-1080p-60-fps/Naruto%20vs%20Sasuke%20English%20Dub%20%5B1080p%5D%20%2860FPS%29.mp4"},
+  {name:"Naruto vs Sasuke Final Battle Episodes 476-478 English Dub",url:"https://ia902808.us.archive.org/31/items/naruto-vs-sasuke-final-battle-full-fight-english-dub-naruto-shippuden-episode-number-476-478/Naruto%20vs%20Sasuke%20final%20battle%20%28%20Full%20fight%20English%20dub%29%20Naruto%20shippuden%20episode%20number%20476-478.mp4"},
+  {name:"Naruto vs Sasuke Valley of the End English Dub",url:"https://ia903100.us.archive.org/19/items/naruto-vs-sasuke-valley-of-the-end-english-dub-full-fight-anime-naruto-sasuke/Naruto%20vs%20Sasuke%20Valley%20of%20the%20end%20English%20Dub%20Full%20fight%20%23anime%20%23naruto%20%23sasuke.mp4"},
+  {name:"Naruto's Speech to Zabuza - Sadness and Sorrow English Dub",url:"https://ia600104.us.archive.org/32/items/narutos-speech-to-zabuza-sadness-and-sorrow-dub-720p/Narutos%20Speech%20to%20Zabuza%20Sadness%20and%20Sorrow%20%28Dub720p%29.mp4"},
+  {name:"Naruto's Tearful Speech for Gaara",url:"https://ia902808.us.archive.org/2/items/narutos-tearful-speech-for-gaara/Naruto%27s%20Tearful%20Speech%20for%20Gaara.mp4"},
+  {name:"Obito Becomes Ten Tails - Naruto and Sasuke vs Juubito English Dub",url:"https://ia600105.us.archive.org/15/items/obito-becomes-ten-tails-kakashi-vs-obito-naruto-and-sasuke-vs-juubito-english-dub/Obito%20becomes%20ten%20tails%2C%20Kakashi%20vs%20Obito%2C%20Naruto%20and%20Sasuke%20vs%20Juubito%20%28English%20Dub%29.mp4"},
+  {name:"Obito Fights Naruto Tailed Mode and Sasuke Susanoo English Dub",url:"https://ia600409.us.archive.org/15/items/obito-fights-naruto-tailed-mode-and-sasuke-susanoo-full-body-hashiramas-dream-is-revealed-eng-dub/Obito%20fights%20Naruto%20tailed%20mode%20and%20Sasuke%20susanoo%20full%20body%2C%20Hashiramas%20dream%20is%20revealed%20EngDub.mp4"},
+  {name:"Obito's Death English Dub",url:"https://ia903201.us.archive.org/12/items/obitos-death-english-dubbed/Obito%E2%80%99s%20Death%20%28English%20Dubbed%29.mp4"},
+  {name:"Orochimaru vs Sarutobi 3rd Hokage Full Fight English Dub",url:"https://ia601409.us.archive.org/10/items/orochimaru-vs-sarutobi-3-hokage-full-fight-english-dub-orochimaru-attacks-kanoha-1080p/Orochimaru%20vs%20Sarutobi%203%20Hokage%20Full%20Fight%20English%20Dub%20Orochimaru%20attacks%20kanoha%201080p.mp4"},
+  {name:"Rock Lee vs Gaara Full Fight English Dub",url:"https://ia902808.us.archive.org/28/items/rock-lee-vs-gaara-full-fight-english-dub-naruto-shippuden/Rock%20Lee%20Vs%20Gaara%20Full%20Fight%20English%20Dub%20Naruto%20Shippuden.mp4"},
+  {name:"Sakura and Chiyo vs Sasori",url:"https://ia902904.us.archive.org/3/items/sakura-and-chiyo-vs-sasori-three-minutes-between-life-and-death-naruto-shippuuden/Sakura%20And%20Chiyo%20Vs%20Sasori%20Three%20Minutes%20Between%20Life%20and%20Death%20Naruto%20Shippuuden.mp4"},
+  {name:"Sasuke Admits He Lost to Naruto English Dub",url:"https://ia903201.us.archive.org/3/items/sasuke-admits-he-lost-to-naruto-english-dub_202603/Sasuke%20Admits%20He%20Lost%20To%20Naruto%20%20%20English%20Dub.mp4"},
+  {name:"Sasuke Attacks the Kage Summit",url:"https://ia600105.us.archive.org/33/items/sasuke-attacks-the-kage-summit-raikage-vs-sasuke-at-5-kage-summit_20260303/sasuke%20attacks%20the%20kage%20summit%20%20Raikage%20vs%20Sasuke%20at%205%20Kage%20summit.mp4"},
+  {name:"Sasuke Finds Out the Truth About Itachi",url:"https://ia601408.us.archive.org/16/items/sasuke-find-out-the-truth-about-itachi-revealed-by-madara-uchihas-real-voice-eng-1080p/Sasuke%20Find%20Out%20The%20Truth%20About%20Itachi%20revealed%20by%20Madara%20Uchiha%27s%20real%20voice%20ENG%201080p.mp4"},
+  {name:"Sasuke vs Danzo Full Fight English Dub",url:"https://ia600803.us.archive.org/16/items/sasuke-vs-danzo-full-fight-english-dubbed/sasuke%20vs%20danzo%20full%20fight%20English%20dubbed.mp4"},
+  {name:"Sasuke vs Deidara Full Fight Eng Dub",url:"https://ia600106.us.archive.org/0/items/sasuke-vs-deidara-full-fight-eng-dub_202603/SASUKE%20VS%20DEIDARA%20FULL%20FIGHT%20%20%20Eng%20Dub.mp4"},
+  {name:"Sasuke vs Itachi Full Fight - Itachi Susanoo Eng Dub",url:"https://ia600403.us.archive.org/17/items/sasuke-vs-itachi-full-fight-eng-dub...-itachi-susanoo/Sasuke%20vs%20Itachi%20full%20fight%20eng%20dub...%20Itachi%20Susanoo.mp4"},
+  {name:"Sasuke vs Itachi - Itachi Goes Crazy",url:"https://ia601504.us.archive.org/33/items/sasuke-vs-itachi-itachi-goes-crazy-sasuke-curse-mark-removed-english-dubbed/sasuke%20vs%20itachi%2C%20itachi%20goes%20crazy%2C%20sasuke%20curse%20mark%20removed%2C%20English%20dubbed.mp4"},
+  {name:"Sasuke Wants to Become Hokage",url:"https://ia902908.us.archive.org/0/items/sasuke-wants-to-become-hokage-for-some-reason-dub/Sasuke%20Wants%20To%20Become%20Hokage%20For%20Some%20Reason%20%28Dub%29.mp4"},
+  {name:"Shikamaru Cheers Naruto Up After Jiraiya's Death",url:"https://ia600104.us.archive.org/24/items/shikamaru-cheers-naruto-up-after-jiraiyas-death-dub/Shikamaru%20Cheers%20Naruto%20Up%20After%20Jiraiya%27s%20Death%20%28DUB%29.mp4"},
+  {name:"Shikamaru Wants to Become the Advisor of Naruto",url:"https://ia600709.us.archive.org/16/items/shikamaru-wants-to-become-the-advisor-of-naruto-epic/Shikamaru%20want%27s%20to%20become%20the%20advisor%20of%20Naruto%20EPIC%21.mp4"},
+  {name:"Team 7 vs Zabuza Full Fight English Dub",url:"https://ia601509.us.archive.org/6/items/team-7-vs-zabuza-kakashi-naruto-and-sasuke-vs-zabuza-full-fight-english-dub/Team%207%20vs%20Zabuza%20%28Kakashi%2C%20Naruto%20and%20Sasuke%20vs%20Zabuza%29%2C%20full%20fight%2C%20english%20dub.mp4"},
+  {name:"Naruto and Sasuke vs Orochimaru Full Fight English Dub",url:"https://ia903200.us.archive.org/21/items/you-scaredy-cat-naruto-and-sasuke-vs-orochimaru-full-fight-english-dub/YOU%20SCAREDY%20CAT%20%20Naruto%20and%20Sasuke%20vs%20Orochimaru%20%20Full%20Fight%20English%20Dub.mp4"},
+  {name:"Without You I'll Never Be King Of The Pirates!",url:"https://ia600904.us.archive.org/12/items/without-you-ill-never-be-king-of-the-pirates-english-dub/Without%20You%20I%27ll%20Never%20Be%20King%20Of%20The%20Pirates%21%20%20%28English%20Dub%29.mp4"},
+  {name:"Every Strawhat Says Luffy Will Be King Of The Pirates",url:"https://ia902803.us.archive.org/24/items/every-strawhat-says-luffy-will-be-the-king-of-the-pirates-dub/Every%20Strawhat%20Says%20Luffy%20Will%20Be%20The%20King%20Of%20The%20Pirates%28Dub%29.mp4"},
+  {name:"Tokyo Ghoul - Kaneki vs Jason 4K Dub",url:"https://ia600609.us.archive.org/5/items/4-k-dub-tokyo-ghoul-kaneki-vs-jason-blu-ray/%5B4K%5D%20%5BDub%5D%20Tokyo%20Ghoul%20-%20Kaneki%20VS%20Jason%20%5BBlu-Ray%5D.mp4"},
+  {name:"All Might vs All For One - My Hero Academia S3 E11",url:"https://ia600104.us.archive.org/11/items/all-might-vs-all-for-one-full-fight-english-dubbed-my-hero-academia-season-3-episode-11/All%20might%20vs%20all%20for%20one%20Full%20fight%20%20%20English%20Dubbed%20%20%20MY%20hero%20Academia%20Season%203%20episode%2011.mp4"},
+  {name:"All Might vs Noumu English Dub",url:"https://ia601504.us.archive.org/34/items/my-heroes-academia-all-might-vs-noumu-english-dub/My%20Heroes%20Academia%20-%20All%20Might%20VS%20Noumu%20English%20Dub.mp4"},
+  {name:"All Might vs All For One Pt.2 English Dub",url:"https://ia601406.us.archive.org/25/items/all-might-vs.-all-for-one-pt.-2-english-dub/ALL%20MIGHT%20vs.%20ALL%20FOR%20ONE%20-%20Pt.2%20%20%5BEnglish%20Dub%5D.mp4"},
+  {name:"Bakugo's Return - My Hero Academia Final Season 4K",url:"https://ia600609.us.archive.org/30/items/bakugos-return-english-dub-my-hero-academia-final-season-4-k/Bakugo%27s%20Return%20English%20Dub%20%20%20My%20Hero%20Academia%20Final%20Season%20%284K%29.mp4"},
+  {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8",url:"https://ia903105.us.archive.org/26/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
+  {name:"Everyone vs All For One 4K - My Hero Academia S8 EP8 v2",url:"https://ia600106.us.archive.org/35/items/everyone-vs-all-for-one-dub-4-k-my-hero-academia-s-8-ep-8_202603/EVERYONE%20VS%20ALL%20FOR%20ONE%20%28DUB%29%20%284K%29%20%20%20MY%20HERO%20ACADEMIA%20S8%20EP8.mp4"},
+  {name:"Endeavor vs Nomu English Dub 4K",url:"https://ia902908.us.archive.org/19/items/endeavor-vs-nomu-english-dub-2160p/Endeavor%20vs%20Nomu%20English%20Dub%20%5B2160p%5D.mp4"},
+  {name:"Top 5 My Hero Academia Fights Season 1-4",url:"https://ia600805.us.archive.org/0/items/top-5-my-hero-academia-fights-season-1-4/Top%205%20My%20Hero%20Academia%20Fights%20%20%20Season%201-4.mp4"},
+  {name:"Black Bulls vs Vetto Fight",url:"https://ia903103.us.archive.org/3/items/black-bulls-vs-vetto-fight_202603/Black%20Bulls%20vs%20Vetto%20fight.mp4"},
+  {name:"Black Clover - Overcoming Despair",url:"https://ia600702.us.archive.org/26/items/black-clover-official-simul-dub-clip-overcoming-despair/Black%20Clover%20-%20Official%20SimulDub%20Clip%20-%20Overcoming%20Despair.mp4"},
+  {name:"Kanye West Wins Grammy 2005",url:"https://ia600803.us.archive.org/27/items/2005-kanye-west-wins-grammy-best-rap-album-the-college-dropout-speech/2005%20%20Kanye%20West%20Wins%20Grammy%20Best%20Rap%20Album%20%20The%20College%20Dropout%20Speech.mp4"},
+  {name:"Andrew Tate Funny Moments Part 2",url:"https://ia903208.us.archive.org/4/items/andrew-tate-funny-moments-part-2/ANDREW%20TATE%20%20FUNNY%20MOMENTS%20%F0%9F%A4%A3%F0%9F%A4%A3%F0%9F%A4%A3%20PART%202.mp4"},
+  {name:"Become Obsessed - Conor McGregor",url:"https://ia600803.us.archive.org/18/items/become-obsessed-conor-mc-gregor_202603/Become%20Obsessed%20%20%20Conor%20McGregor.mp4"},
+  {name:"Best of Andrew Tate - Ultimate TikTok 2022",url:"https://ia600902.us.archive.org/20/items/best-of-andrew-tate-ultimate-tiktok-compilation-2022/BEST%20of%20ANDREW%20TATE%21%20Ultimate%20TIKTOK%20Compilation%20%5B2022%5D.mp4"},
+  {name:"Basstok05",url:"https://ia903105.us.archive.org/29/items/basstok05_1738129534_7465209420071357718/basstok05_1738129534_7465209420071357718.mp4"},
+  {name:"Discipline Over Dopamine #1",url:"https://ia903103.us.archive.org/13/items/dicipline.over.dopamine_1750148905_7516832292560440584/dicipline.over.dopamine_1750148905_7516832292560440584.mp4"},
+  {name:"Discipline Over Dopamine #2",url:"https://ia600607.us.archive.org/9/items/dicipline.over.dopamine_1755608126_7540279474559012103/dicipline.over.dopamine_1755608126_7540279474559012103.mp4"},
+  {name:"Discipline Over Dopamine #3",url:"https://ia601800.us.archive.org/6/items/dicipline.over.dopamine_1771160667_7607077124112993544/dicipline.over.dopamine_1771160667_7607077124112993544.mp4"},
+  {name:"Discipline Over Dopamine #4",url:"https://ia601403.us.archive.org/0/items/dicipline.over.dopamine_1771418554_7608184739656158482/dicipline.over.dopamine_1771418554_7608184739656158482.mp4"},
+  {name:"Discipline Over Dopamine #5",url:"https://ia601509.us.archive.org/35/items/dicipline.over.dopamine_1771764306_7609669726016408850/dicipline.over.dopamine_1771764306_7609669726016408850.mp4"},
+  {name:"Discipline Over Dopamine #6",url:"https://ia601407.us.archive.org/8/items/dicipline.over.dopamine_1771852806_7610049830315953415/dicipline.over.dopamine_1771852806_7610049830315953415.mp4"},
+  {name:"Discipline Over Dopamine #7",url:"https://ia600907.us.archive.org/24/items/dicipline.over.dopamine_1772020062_7610768194734886152/dicipline.over.dopamine_1772020062_7610768194734886152.mp4"},
+  {name:"Discipline Over Dopamine #8",url:"https://ia600604.us.archive.org/22/items/dicipline.over.dopamine_1772198550_7611534799773158664/dicipline.over.dopamine_1772198550_7611534799773158664.mp4"},
+  {name:"Discipline Over Dopamine #9",url:"https://ia601406.us.archive.org/10/items/dicipline.over.dopamine_1772540825_7613004838179278088/dicipline.over.dopamine_1772540825_7613004838179278088.mp4"},
+  {name:"Discipline Over Dopamine #10",url:"https://ia600403.us.archive.org/3/items/dicipline.over.dopamine_1772630926_7613391827416255752/dicipline.over.dopamine_1772630926_7613391827416255752.mp4"},
+  {name:"Emperors Motivation",url:"https://ia600408.us.archive.org/23/items/emperorsmotivation_1710014997_7344458379072621870/emperorsmotivation_1710014997_7344458379072621870.mp4"},
+  {name:"Hustlers University",url:"https://ia601604.us.archive.org/24/items/hustlers_uni_official_1659239259_7126378318806502662/hustlers_uni_official_1659239259_7126378318806502662.mp4"},
+  {name:"IAmPeachfit",url:"https://ia600101.us.archive.org/27/items/iampeachfit_1661732384_7137086234563792170/iampeachfit_1661732384_7137086234563792170.mp4"},
+  {name:"Motive Talks",url:"https://ia601504.us.archive.org/5/items/motivetalks7_1736191486_7456885579603578142/motivetalks7_1736191486_7456885579603578142.mp4"},
+  {name:"Rare Mind Set",url:"https://ia601604.us.archive.org/2/items/raremind.set_1733340183_7444639383292005654/raremind.set_1733340183_7444639383292005654.mp4"},
+  {name:"The Top G Mindset",url:"https://ia600106.us.archive.org/14/items/thetopgmindset1_1759395173_7556544692003818808/thetopgmindset1_1759395173_7556544692003818808.mp4"},
+  {name:"Hardwork 4 Life",url:"https://ia601600.us.archive.org/18/items/hardwork-4life-1730022136-7430388465457450272/_hardwork4life__1730022136_7430388465457450272.mp4"},
+  {name:"We Rise Motives",url:"https://ia600804.us.archive.org/18/items/werisemotives_1734340985_7448937793864125703/werisemotives_1734340985_7448937793864125703.mp4"},
+  {name:"Toms Motiv",url:"https://ia600609.us.archive.org/10/items/tomsmotiv_1744443988_7492329841463774486/tomsmotiv_1744443988_7492329841463774486.mp4"},
+  {name:"SW Phineas",url:"https://ia601509.us.archive.org/11/items/sw_phineas_1730628120_7432991120335883552/sw_phineas_1730628120_7432991120335883552.mp4"},
+  {name:"Strength Warrior",url:"https://ia600109.us.archive.org/13/items/strenght_warrior_1728916694_7425640609144261894/strenght_warrior_1728916694_7425640609144261894.mp4"},
+  {name:"Real Content",url:"https://ia600605.us.archive.org/21/items/r3alcon7en7_1742594392_7484385901666192662/r3alcon7en7_1742594392_7484385901666192662.mp4"},
+  {name:"Fit With Alain",url:"https://ia600607.us.archive.org/17/items/fitwithalain_1698677700_7295509345150782726/fitwithalain_1698677700_7295509345150782726.mp4"},
+  {name:"Elite Think",url:"https://ia600605.us.archive.org/6/items/elite_think_1767714675_7592276385637453111/elite_think_1767714675_7592276385637453111.mp4"},
+  {name:"Aye Jeremiah",url:"https://ia600907.us.archive.org/15/items/ayejeremiah_1754607513_7535981828998532366/ayejeremiah_1754607513_7535981828998532366.mp4"},
+  {name:"Batwyne",url:"https://ia600809.us.archive.org/13/items/batwyne_1677434088_7204524533049609478/batwyne_1677434088_7204524533049609478.mp4"},
+  {name:"Bigger Tomorrow",url:"https://ia600805.us.archive.org/27/items/biggertomorrow_1674172203_7190514835107482885/biggertomorrow_1674172203_7190514835107482885.ia.mp4"},
+  {name:"Bolt Motivation",url:"https://ia800101.us.archive.org/20/items/boltmotivation_1731459594_7436562287076461880/boltmotivation_1731459594_7436562287076461880.ia.mp4"},
+  {name:"Conor McGregor - Discours Octogone",url:"https://ia600604.us.archive.org/7/items/conor-mc-gregor-a-prononce-lun-des-discours-les-plus-emblematiques-de-l-octogone/Conor%20McGregor%20a%20prononc%C3%A9%20l%27un%20des%20discours%20les%20plus%20embl%C3%A9matiques%20de%20l%27Octogone.mp4"},
+  {name:"Dauntless Mentality",url:"https://ia600909.us.archive.org/32/items/dauntlessmentality_1747334621_7504745013322992927/dauntlessmentality_1747334621_7504745013322992927.mp4"},
+  {name:"Jays1101 NYC",url:"https://ia600907.us.archive.org/20/items/jays1101nyc_1748878569_7511376138514500894/jays1101nyc_1748878569_7511376138514500894.mp4"},
+  {name:"Greek Academy",url:"https://ia600701.us.archive.org/18/items/greek._academy_1708725753_7338921187520695584/greek._academy_1708725753_7338921187520695584.mp4"},
+  {name:"Stay N Vision",url:"https://ia800805.us.archive.org/24/items/staynvision1_1663200047_7143389742779026734/staynvision1_1663200047_7143389742779026734.ia.mp4"},
+  {name:"Mr Motivation CA",url:"https://ia600607.us.archive.org/1/items/mr.motivation.ca_1750815153_7519693790060301573/mr.motivation.ca_1750815153_7519693790060301573.mp4"},
+  {name:"Elevation Mindset",url:"https://ia601606.us.archive.org/27/items/elevation.mindset_1769548619_7600153430950219016/elevation.mindset_1769548619_7600153430950219016.mp4"},
+  {name:"Andrew Tate vs Piers Morgan - Epstein Files",url:"https://ia601906.us.archive.org/7/items/my-staff-deleted-my-tweets-andrew-tate-vs-piers-morgan-on-epstein-files-ye-song-scandal-more/%E2%80%98My%20STAFF%20Deleted%20My%20Tweets%21%E2%80%99%20Andrew%20Tate%20vs%20Piers%20Morgan%20on%20Epstein%20Files%2C%20Ye%20Song%20Scandal%20%2B%20More.mp4"},
+  {name:"Andrew Tate Destroys Degenerate Women",url:"https://ia902802.us.archive.org/13/items/andrew-tate-destroys-the-degenerate-women_202603/Andrew%20Tate%20destroys%20the%20degenerate%20women%20%F0%9F%98%82.mp4"},
+  {name:"Andrew Tate's Best Quotes",url:"https://ia601601.us.archive.org/9/items/andrew-tates-best-quotes/Andrew%20Tate%27s%20Best%20Quotes.mp4"},
+  {name:"Bolt Motivation 2",url:"https://ia902802.us.archive.org/8/items/boltmotivation_1723661578_7403070088212909318/boltmotivation_1723661578_7403070088212909318.mp4"},
+  {name:"Buying Every Supercar - Tate Confidential EP77",url:"https://ia601606.us.archive.org/0/items/BUYING_EVERY_SUPERCAR_IN_THE_WORLD___TATE_CONFIDENTIAL___EPISODE__77/BUYING_EVERY_SUPERCAR_IN_THE_WORLD___TATE_CONFIDENTIAL___EPISODE__77.mp4"},
+  {name:"Dancing Bears Attack Tate - EP83",url:"https://ia600607.us.archive.org/0/items/DANCING_BEARS_ATTACK_TATE___TATE_CONFIDENTIAL___EPISODE_83/DANCING_BEARS_ATTACK_TATE___TATE_CONFIDENTIAL___EPISODE_83.mp4"},
+  {name:"Dropship",url:"https://ia600405.us.archive.org/0/items/dropship_1743777752_7489468395528703254/dropship_1743777752_7489468395528703254.mp4"},
+  {name:"Elevation Mindset 2",url:"https://ia600809.us.archive.org/0/items/elevation.mindset_1770588939_7604621517946670344/elevation.mindset_1770588939_7604621517946670344.mp4"},
+  {name:"Elevation Mindset 3",url:"https://ia601607.us.archive.org/0/items/elevation.mindset_1772507531_7612861852766244104/elevation.mindset_1772507531_7612861852766244104.mp4"},
+  {name:"Elite Think 2",url:"https://ia601403.us.archive.org/0/items/elite_think_1771430914_7608237638075682061/elite_think_1771430914_7608237638075682061.mp4"},
+  {name:"Elite Think 3",url:"https://ia600609.us.archive.org/0/items/elite_think_1771862761_7610092401272638733/elite_think_1771862761_7610092401272638733.mp4"},
+  {name:"Elite Think 4",url:"https://ia600605.us.archive.org/0/items/elite_think_1772295139_7611949516861771021/elite_think_1772295139_7611949516861771021.mp4"},
+  {name:"Elite Think 5",url:"https://ia600804.us.archive.org/0/items/elite_think_1772380632_7612316689606167821/elite_think_1772380632_7612316689606167821.mp4"},
+  {name:"Elite Think 6",url:"https://ia601602.us.archive.org/0/items/elite_think_1772554475_7613063429812653343/elite_think_1772554475_7613063429812653343.mp4"},
+  {name:"Elite Think 7",url:"https://ia600805.us.archive.org/0/items/elite_think_1772639729_7613429579088252190/elite_think_1772639729_7613429579088252190.mp4"},
+  {name:"Elite Think 8",url:"https://ia601606.us.archive.org/0/items/elite_think_1772813227_7614174750037822733/elite_think_1772813227_7614174750037822733.mp4"},
+  {name:"Fight Topia",url:"https://ia601006.us.archive.org/0/items/fight.topia_1769032847_7597938199595371798/fight.topia_1769032847_7597938199595371798.mp4"},
+  {name:"Kepocks",url:"https://ia601602.us.archive.org/0/items/kepocks_1765659887_7583451432657947915/kepocks_1765659887_7583451432657947915.mp4"},
+  {name:"King Mentality",url:"https://ia600702.us.archive.org/0/items/kingmentality89_1677685383_7205603795882003758/kingmentality89_1677685383_7205603795882003758.mp4"},
+  {name:"MMA Legend",url:"https://ia600900.us.archive.org/0/items/mma.legend62_1759108127_7555311833201118472/mma.legend62_1759108127_7555311833201118472.mp4"},
+  {name:"Mr Motivation CA 2",url:"https://ia601006.us.archive.org/0/items/mr.motivation.ca_1752857028_7528463585756974342/mr.motivation.ca_1752857028_7528463585756974342.mp4"},
+  {name:"Nocturnal Purpose",url:"https://ia600702.us.archive.org/0/items/nocturnalpurpose_1752683954_7527720242349362454/nocturnalpurpose_1752683954_7527720242349362454.mp4"},
+  {name:"Noto Motivation",url:"https://ia601600.us.archive.org/0/items/notomotivation_1698060873_7293115890717969696/notomotivation_1698060873_7293115890717969696.mp4"},
+  {name:"Obvleyced",url:"https://ia600101.us.archive.org/0/items/obvleyced_1770164718_7602799421679488269/obvleyced_1770164718_7602799421679488269.mp4"},
+  {name:"Punisher 1939",url:"https://ia601602.us.archive.org/0/items/punisher_1939_1769529819_7600072677633576214/punisher_1939_1769529819_7600072677633576214.mp4"},
+  {name:"Pzeus293",url:"https://ia600907.us.archive.org/0/items/pzeus293_1743938223_7490157614295239958/pzeus293_1743938223_7490157614295239958.mp4"},
+  {name:"Sei Come Sei",url:"https://ia902802.us.archive.org/0/items/sei.come.sei_1769474775_7599836247288253727/sei.come.sei_1769474775_7599836247288253727.mp4"},
+  {name:"Sixeye Visuals",url:"https://ia601606.us.archive.org/0/items/sixeyevisuals_1766704877_7587939605094075678/sixeyevisuals_1766704877_7587939605094075678.mp4"},
+  {name:"Sport Edits",url:"https://ia600909.us.archive.org/0/items/sport.edits042_1757354416_7547779709048851718/sport.edits042_1757354416_7547779709048851718.mp4"},
+  {name:"Stoic Men",url:"https://ia600809.us.archive.org/0/items/stoicmen2_1738866199_7468373391796653358/stoicmen2_1738866199_7468373391796653358.mp4"},
+  {name:"Toms Motiv 2",url:"https://ia600909.us.archive.org/0/items/tomsmotiv_1753302358_7530376266168503574/tomsmotiv_1753302358_7530376266168503574.mp4"},
+  {name:"Toms Motiv 3",url:"https://ia600604.us.archive.org/0/items/tomsmotiv_1753362661_7530635263253564694/tomsmotiv_1753362661_7530635263253564694.mp4"},
+  {name:"Toms Motiv 4",url:"https://ia601600.us.archive.org/0/items/tomsmotiv_1753971424_7533249888042110230/tomsmotiv_1753971424_7533249888042110230.mp4"},
+  {name:"Toms Motiv 5",url:"https://ia600709.us.archive.org/0/items/tomsmotiv_1754048607_7533581384716225814/tomsmotiv_1754048607_7533581384716225814.mp4"},
+  {name:"Villain Arc",url:"https://ia600605.us.archive.org/0/items/villainarc.app_1768527000_7593766305358990622/villainarc.app_1768527000_7593766305358990622.mp4"},
+  {name:"Zyzi MMA",url:"https://ia600609.us.archive.org/0/items/zyzi.mma_1762692300_7570624306930109714/zyzi.mma_1762692300_7570624306930109714.mp4"},
+  {name:"Titan Mindset",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/titanmindset6_1761975488_7567626996012911902.mp4"},
+  {name:"Formed In Silence",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/formedinsilence_1764698971_7579324210854628638.mp4"},
+  {name:"Elevation Mindset #4",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772695565_7613669442626555144.mp4"},
+  {name:"Elevation Mindset #5",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772667546_7613549114109725960.mp4"},
+  {name:"Elevation Mindset #6",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772424060_7612503330476100882.mp4"},
+  {name:"Elevation Mindset #7",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772316582_7612041721974738184.mp4"},
+  {name:"Elevation Mindset #8",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772252122_7611764864985337095.mp4"},
+  {name:"Elevation Mindset #9",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772164686_7611389339922074888.mp4"},
+  {name:"Elevation Mindset #10",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772119789_7611196523954588936.mp4"},
+  {name:"Elevation Mindset #11",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1772077503_7611014887581469960.mp4"},
+  {name:"Elevation Mindset #12",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771992047_7610647864317988103.mp4"},
+  {name:"Elevation Mindset #13",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771940755_7610427569434873096.mp4"},
+  {name:"Elevation Mindset #14",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771902216_7610262032130084114.mp4"},
+  {name:"Elevation Mindset #15",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771817554_7609898401911590152.mp4"},
+  {name:"Elevation Mindset #16",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771803794_7609839300783443207.mp4"},
+  {name:"Elevation Mindset #17",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771732562_7609533361282927879.mp4"},
+  {name:"Elevation Mindset #18",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771464780_7608383241594211591.mp4"},
+  {name:"Elevation Mindset #19",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771440478_7608278886396267784.mp4"},
+  {name:"Elevation Mindset #20",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771382228_7608028691955846418.mp4"},
+  {name:"Elevation Mindset #21",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771297395_7607664349242723591.mp4"},
+  {name:"Elevation Mindset #22",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771273837_7607563172693740818.mp4"},
+  {name:"Elevation Mindset #23",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771207551_7607278479809219848.mp4"},
+  {name:"Discipline Over Dopamine #11",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/dicipline.over.dopamine_1770989952_7606343914798206215.mp4"},
+  {name:"Discipline Over Dopamine #12",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/dicipline.over.dopamine_1770815284_7605593714022468872.mp4"},
+  {name:"Discipline Over Dopamine #13",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/dicipline.over.dopamine_1770727647_7605217315168324871.mp4"},
+  {name:"Triple H - Motorhead Favorite Theme",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Which%20Triple%20H%20theme%20song%20was%20the%20favorite%20of%20Mot%C3%B6rhead%E2%80%99s%20Lemmy%20Kilmister.mp4"},
+  {name:"WWE King of Kings - Triple H",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/WWE%20King%20of%20Kings%20%28Triple%20H%29.mp4"},
+  {name:"Triple HHH King of Kings Titantron",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Triple%20HHH%20King%20of%20Kings%20Titantron.mp4"},
+  {name:"Triple H WrestleMania 22 Entrance",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Triple%20H%27s%20WrestleMania%2022%20Entrance.mp4"},
+  {name:"Most Extreme WrestleMania Moments - WWE Top 10",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Most%20Extreme%20WrestleMania%20Moments%20WWE%20Top%2010.mp4"},
+  {name:"Luffy Has A Dream - King of the Pirates",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Luffy%20has%20a%20dream%20%F0%9F%8F%B4%E2%80%8D%E2%98%A0%EF%B8%8F%20He%E2%80%99s%20gonna%20be%20%F0%9F%91%91king%20of%20the%20pirates.mp4"},
+  {name:"38 Plus Grands Moments WrestleMania",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Les%2038%20plus%20grands%20moments%20de%20WrestleMania%20de%20tous%20les%20temps%20%20Top%2010%20sp%C3%A9cial%20WWE%2C%2027%20mars%202022.mp4"},
+  {name:"Discours de Luffy - One Piece",url:"https://ia600604.us.archive.org/19/items/les-38-plus-grands-moments-de-wrestle-mania-de-tous-les-temps-top-10-special-wwe-27-mars-2022/Discours%20de%20Luffy%20dans%20One%20Piece%20%23anime%20%23discoursanime%20%23citationsanime%20%23onepiece.mp4"},
+  {name:"1nottydon",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/1nottydon_1753880716_7532860065452199182.mp4"},
+  {name:"adroitmindsets",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/adroitmindsets_1759101015_7555281291407527190.mp4"},
+  {name:"anonymous_trader",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/anonymous...trader_1770477636_7604143390376070416.mp4"},
+  {name:"auvirox",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/auvirox_1733167220_7443896512377097494.mp4"},
+  {name:"billionaire_empire",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/billionaire.empire__1735104294_7452216065548881174.mp4"},
+  {name:"continuumgrowth",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/continuumgrowth_1770336876_7603538929559571726.mp4"},
+  {name:"grind4future2",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/grind4future2_1752178391_7525548872093928726.mp4"},
+  {name:"luxrymind",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/luxrymind_1759296375_7556120352242273558.mp4"},
+  {name:"mamba_mindset2",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/mamba.mindset2_1762707190_7570769589483703607.mp4"},
+  {name:"millionaire_master",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/millionaire_master_1718467250_7380760618564963591.mp4"},
+  {name:"millionairesmind",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/millionairesmind.ceo_1749060270_7512156640318213398.mp4"},
+  {name:"mind_spire",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/mind__spire_1772777206_7614020065771490591.mp4"},
+  {name:"mus_ello",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/mus.ello_1753570668_7531528651255467270.mp4"},
+  {name:"pbinvestingextra",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/pbinvestingextra_1760995197_7563416710284315935.mp4"},
+  {name:"philosophile1",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/philosophile1_1761831702_7567009465078222093.mp4"},
+  {name:"risinglifemotivation",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/risinglifemotivation_1771170381_7607118834339745046.mp4"},
+  {name:"thebrokeeconomist1",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/thebrokeeconomist_1758551342_7552920490524822792.mp4"},
+  {name:"thebrokeeconomist2",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/thebrokeeconomist_1759626411_7557537856579702024.mp4"},
+  {name:"warranbuffet1",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/warranbuffet1_1752007516_7524814886367497502.mp4"},
+  {name:"wealthyhustlermentality",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/wealthyhustlermentality_1670096085_7173008051492998406.mp4"},
+  {name:"zotticsfinds",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/zotticsfinds_1765616557_7583265095732563231.mp4"},
+  {name:"10 Hour Race - Tate Confidential Ep 316",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/10%20Hour%20Race%20%20%20Tate%20Confidential%20Ep%20316.mp4"},
+  {name:"Andrew Tate Funniest Interview",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%20Funniest%20Interview%20%20%20Tom%20Segura%20%20%20YMH%20%23ymh%20%23funny%20%23viral.mp4"},
+  {name:"Andrew Tate Gives Girls A REALITY CHECK",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%20Gives%20Girls%20A%20REALITY%20CHECK%20On%20What%20Men%20ACTUALLY%20Want%20In%20A%20Relationship%21.mp4"},
+  {name:"Andrew Tate's Best Take on Depression",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%27s%20Best%20Take%20on%20Depression%20%23andrewtate%20%23topg.mp4"},
+  {name:"Andrew Tate's Supercar Collection",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Andrew%20Tate%27s%20Supercar%20Collection.mp4"},
+  {name:"BUGATTI CHIRON Dubai",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/BUGATTI%20CHIRON%20races%20Supercars%20in%20DUBAI%20%28andrew%20tate%29.mp4"},
+  {name:"Christmas With The Tates EP129",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/CHRISTMAS%20WITH%20THE%20TATES%20%28EP.%20129%20Pt%202%29%20Tate%20Confidential.mp4"},
+  {name:"Corona Police EP88",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/CORONA%20POLICE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2088.mp4"},
+  {name:"DELETED EP19",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2019.mp4"},
+  {name:"DELETED EP29",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2029.mp4"},
+  {name:"DELETED EP31",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DELETED%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2031.mp4"},
+  {name:"Escaping The Police EP97",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/ESCAPING%20THE%20POLICE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2097.mp4"},
+  {name:"Idiots & Machetes EP27",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/IDIOTS%20%26%20MACHETES%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2027.mp4"},
+  {name:"Jet Ski Mafia Miami EP127",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/JET%20SKI%20MAFIA%20IN%20MIAMI%20%28EP.%20127%29%20Tate%20Confidential.mp4"},
+  {name:"Knife Fight On Train EP131",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/KNIFE%20FIGHT%20ON%20TRAIN%20%28EP.%20131%29%20Tate%20Confidential.mp4"},
+  {name:"McDonalds Emergency EP62",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/MCDONALDS%20EMERGENCY%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2062.mp4"},
+  {name:"Red Bull World Champion EP49",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/RED%20BULL%20WORLD%20CHAMPION%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2049.mp4"},
+  {name:"Spirits In Sweden EP50",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/SPIRITS%20IN%20SWEDEN%20%20%20EP.%2050%20%20%20TATE%20CONFIDENTIAL.mp4"},
+  {name:"Steiny Confronts Andrew Tate",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Steiny%20Confronts%20Andrew%20Tate%20Over%20Sneako%20Beef%20%26%20Miami%20Club%20Incident%20%20%20One%20Night%20with%20Steiny.mp4"},
+  {name:"Tate Confidential EP46",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2046.mp4"},
+  {name:"Tate Confidential EP51",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2051.mp4"},
+  {name:"Tate Confidential EP56",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2056.mp4"},
+  {name:"Tate Confidential EP58",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20CONFIDENTIAL%20%20%20EPISODE%2058.mp4"},
+  {name:"Tate Gambling Las Vegas EP93",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20GAMBLING%20IN%20LAS%20VEGAS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2093.mp4"},
+  {name:"Tate Proves Eggs Aren't Real EP117",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TATE%20PROVES%20EGGS%20AREN%27T%20REAL%20%28EP.%20117%29%20Tate%20Confidential.mp4"},
+  {name:"The Best Cookies In Miami EP126",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20BEST%20COOKIES%20IN%20MIAMI%20%28EP.%20126%29%20Tate%20Confidential.mp4"},
+  {name:"The Original Samurai EP45",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20ORIGINAL%20SAMURAI%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2045.mp4"},
+  {name:"The Tates Conquer Spain EP116",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20TATES%20CONQUER%20SPAIN%20%28EP.%20116%29%20Tate%20Confidential.mp4"},
+  {name:"The Unhappiest Man At The Beach EP60",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/THE%20UNHAPPIEST%20MAN%20AT%20THE%20BEACH%20%20Tate%20Confidential%20Ep%2060.mp4"},
+  {name:"Tristan Tate Caught Lacking EP146",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/TRISTAN%20TATE%20CAUGHT%20LACKING%20%28EP.%20146%29%20Tate%20Confidential.mp4"},
+  {name:"Tate Confidential #342",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Tate%20Confidential%20%23342.mp4"},
+  {name:"Tate Confidential Best Moments - DELETED",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Tate%20Confidential%20Best%20Moments%21%20%20%20%20DELETED%20EPISODES.mp4"},
+  {name:"We Live In A Castle EP34",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WE%20LIVE%20IN%20A%20CASTLE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2034.mp4"},
+  {name:"We Were Robbed In Ukraine EP110",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WE%20WERE%20ROBBED%20IN%20UKRAINE%20%28EP.%20110%29%20Tate%20Confidential.mp4"},
+  {name:"Where's The Booze Luc EP72",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/WHERES%20THE%20BOOZE%20LUC%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2072.mp4"},
+  {name:"Plane Physics Aikido EP92",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PLANE%20PHYSICS%20AIKIDO%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2092.mp4"},
+  {name:"Buying Every Supercar EP77 (2)",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/BUYING%20EVERY%20SUPERCAR%20IN%20THE%20WORLD%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%20%2077%20%281%29.mp4"},
+  {name:"Dancing Bears Attack Tate EP83 (2)",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/DANCING%20BEARS%20ATTACK%20TATE%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2083%20%281%29.mp4"},
+  {name:"Extinction Preparation EP24",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/EXTINCTION%20PREPERATION%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2024%20%281%29.mp4"},
+  {name:"Germany Is The Worst Country EP71",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/GERMANY%20IS%20THE%20WORST%20COUNTRY%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2071%20%281%29.mp4"},
+  {name:"Hodgetwins & Tate - Dangers of Simping",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/Hodgetwins%20et%20Andrew%20Tate%20discutent%20des%20dangers%20du%20SIMPING%20et%20des%20femmes%20mal%C3%A9fiques%20%281%29.mp4"},
+  {name:"I Spent $500K In 12 Hours EP66",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/I%20SPENT%20%24500K%20IN%2012%20HOURS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2066%20%281%29.mp4"},
+  {name:"Paris Is Not Fun EP33",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PARIS%20IS%20NOT%20FUN%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2033%20%281%29.mp4"},
+  {name:"You MUST Watch This If You Are BROKE",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/You%20MUST%20Watch%20This%20If%20You%20Are%20BROKE%20%28Andrew%20Tate%29%20%281%29.mp4"},
+,
+  {name:"alfinaro22_1772729085_7613813410618215698",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/alfinaro22_1772729085_7613813410618215698.mp4"},
+  {name:"belmarglobal_1747615083_7505949496031989014",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/belmarglobal_1747615083_7505949496031989014.mp4"},
+  {name:"billionaire.advoc_1698136142_7293439133463121182",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/billionaire.advoc_1698136142_7293439133463121182.mp4"},
+  {name:"bookspreee_1735684383_7454707646873079083",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/bookspreee_1735684383_7454707646873079083.mp4"},
+  {name:"dr_lenz0_1756843618_7545585870795984150",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/dr_lenz0_1756843618_7545585870795984150.mp4"},
+  {name:"dropship_1734011575_7447522986942385430",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/dropship_1734011575_7447522986942385430.mp4"},
+  {name:"dunkle.psychologien_1764005496_7576345726112763150",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/dunkle.psychologien_1764005496_7576345726112763150.mp4"},
+  {name:"emotionalpuppeteer_1736743486_7459256426771369262",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/emotionalpuppeteer_1736743486_7459256426771369262.mp4"},
+  {name:"envisionmotiv_1707278742_7332706312326876462",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/envisionmotiv_1707278742_7332706312326876462.mp4"},
+  {name:"evancarmichael_1760630424_7561850036737379585",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/evancarmichael_1760630424_7561850036737379585.mp4"},
+  {name:"facelessluxurycontent_1771127298_7606933718560738573",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/facelessluxurycontent_1771127298_7606933718560738573.mp4"},
+  {name:"feroxmot_1765470929_7582639885098421506",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/feroxmot_1765470929_7582639885098421506.mp4"},
+  {name:"gb_prenur_1752807686_7528251629926223134",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/gb_prenur_1752807686_7528251629926223134.mp4"},
+  {name:"history.dark.usa_1768914482_7597429595750665527",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/history.dark.usa_1768914482_7597429595750665527.mp4"},
+  {name:"marktilbury_1609199481_6911459118989446402",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/marktilbury_1609199481_6911459118989446402.mp4"},
+  {name:"marktilbury_1693315136_7272733112960896288",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/marktilbury_1693315136_7272733112960896288.mp4"},
+  {name:"millionairesmind777_1753299336_7530363207647644959",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/millionairesmind777_1753299336_7530363207647644959.mp4"},
+  {name:"mindsetmasterofficial_1687236027_7246623536570273030",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/mindsetmasterofficial_1687236027_7246623536570273030.mp4"},
+  {name:"mindsetsgoals_1744561804_7492835882697886999",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/mindsetsgoals_1744561804_7492835882697886999.mp4"},
+  {name:"officialandyelliott_1742821691_7485361849249123615",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/officialandyelliott_1742821691_7485361849249123615.mp4"},
+  {name:"only.living.trust.book_1764511855_7578520552625687839",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1764511855_7578520552625687839.mp4"},
+  {name:"only.living.trust.book_1766091682_7585305950811196702",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1766091682_7585305950811196702.mp4"},
+  {name:"only.living.trust.book_1772977680_7612028655992179999",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1772977680_7612028655992179999.mp4"},
+  {name:"only.living.trust.book_1772978674_7614885132897504525",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1772978674_7614885132897504525.mp4"},
+  {name:"only.living.trust.book_1772981700_7612030307172158750",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1772981700_7612030307172158750.mp4"},
+  {name:"only.living.trust.book_1772986380_7614601746886823198",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1772986380_7614601746886823198.mp4"},
+  {name:"only.living.trust.book_1772991120_7614575689861319966",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1772991120_7614575689861319966.mp4"},
+  {name:"only.living.trust.book_1773008880_7614620943951957278",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/only.living.trust.book_1773008880_7614620943951957278.mp4"},
+  {name:"opuleance_1770024888_7602198990242860296",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/opuleance_1770024888_7602198990242860296.mp4"},
+  {name:"oritheobserver_1753117214_7529581077892058390",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/oritheobserver_1753117214_7529581077892058390.mp4"},
+  {name:"primus5788_1759161724_7555542056714636566",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/primus5788_1759161724_7555542056714636566.mp4"},
+  {name:"profaura__1767881542_7592993377633832215",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/profaura__1767881542_7592993377633832215.mp4"},
+  {name:"rvssianmafiaboss_1727676700_7420314866675698949",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/rvssianmafiaboss_1727676700_7420314866675698949.mp4"},
+  {name:"samerz.edits_1770296629_7603366100373392662",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/samerz.edits_1770296629_7603366100373392662.mp4"},
+  {name:"shadow_mind___1758111224_7551029833044708621",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/shadow_mind___1758111224_7551029833044708621.mp4"},
+  {name:"sovyn.co_1770918726_7606037944700308750",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/sovyn.co_1770918726_7606037944700308750.mp4"},
+  {name:"successfullife.sl_1751551595_7522856783061486850",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/successfullife.sl_1751551595_7522856783061486850.mp4"},
+  {name:"successifymotivation_1752409800_7526463440420900126",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/successifymotivation_1752409800_7526463440420900126.mp4"},
+  {name:"successvibration.co_1767753018_7592441293326912798",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/successvibration.co_1767753018_7592441293326912798.mp4"},
+  {name:"theolympusmindset_1746007036_7499043098064915734",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/theolympusmindset_1746007036_7499043098064915734.mp4"},
+  {name:"thequotecollection_1701380400_7306840548768320800",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/thequotecollection_1701380400_7306840548768320800.mp4"},
+  {name:"thosewhoconquer_1760043773_7559330395779566879",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/thosewhoconquer_1760043773_7559330395779566879.mp4"},
+  {name:"tilt_luxury_1750868957_7519924889848007958",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/tilt_luxury_1750868957_7519924889848007958.mp4"},
+  {name:"unshakablepursuit_1769967340_7601951823922023702",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/unshakablepursuit_1769967340_7601951823922023702.mp4"},
+  {name:"varunacarranco_1751570640_7522938517526154510",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/varunacarranco_1751570640_7522938517526154510.mp4"},
+  {name:"whiteroom.effect_1762084510_7568095320874274070",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/whiteroom.effect_1762084510_7568095320874274070.mp4"},
+  {name:"whystopphilosophy_1764626605_7579013534122593558",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/whystopphilosophy_1764626605_7579013534122593558.mp4"},
+];
+
+var list=[],current=0,slides=[];
+var settling=false,dragging=false,tStartY=0;
+var feed=document.getElementById('feed');
+var milestoneEl=document.getElementById('milestone');
+
+function shuffle(a){
+  var b=a.slice();
+  for(var i=b.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=b[i];b[i]=b[j];b[j]=t;
+  }
+  return b;
+}
+
+function getSlide(idx){return slides[idx]||null;}
+function getVideo(idx){return slides[idx]?slides[idx].querySelector('video'):null;}
+
+function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
+function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
+function animateTo(el,vh,cb){
+  el.style.transition='transform 0.38s cubic-bezier(0.16,1,0.3,1)';
+  el.style.transform='translateY('+vh+'vh)';
+  if(cb){
+    var done=function(){el.removeEventListener('transitionend',done);cb();};
+    el.addEventListener('transitionend',done);
+  }
+}
+
+function buildFeed(){
+  slides.forEach(function(s){s.remove();}); slides=[];
+  list=shuffle(VIDEOS); current=0;
+  list.forEach(function(vid,idx){
+    var slide=document.createElement('div');slide.className='slide';
+    var video=document.createElement('video');
+    video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');
+    video.muted=false;video.loop=false;
+    video.preload=idx<3?'auto':'none';
+    slide.appendChild(video);
+    feed.appendChild(slide);slides.push(slide);
+    setPos(slide,idx===0?0:100);
+  });
+  loadAround(0);
+  var v=getVideo(0);if(v){v.play().catch(function(){});}
+}
+
+function loadAround(idx){
+  for(var i=idx;i<Math.min(idx+4,list.length);i++){
+    var v=getVideo(i);
+    if(v&&!v.src){
+      v.src=list[i].url;
+      if(i<idx+2) v.preload='auto';
+    }
+  }
+}
+
+function playVideo(idx){
+  for(var i=0;i<slides.length;i++){
+    var v=getVideo(i);
+    if(v){
+      if(i===idx){ v.play().catch(function(){}); }
+      else{ v.pause(); }
+    }
+  }
+  loadAround(idx);
+  updateBar(idx);
+}
+
+function updateBar(idx){
+  var pct=Math.round((idx/Math.max(list.length-1,1))*100);
+  var fill=document.querySelector('.ebar-fill');
+  var runner=document.querySelector('.ebar-runner');
+  var pts=document.querySelector('.ebar-pts');
+  if(fill) fill.style.width=Math.max(0.5,pct)+'%';
+  if(runner) runner.style.left=Math.max(0,pct-2)+'%';
+  if(pts) pts.textContent=idx+' / '+list.length+' ▲';
+  if(idx>0&&idx%30===0){ showMilestone(); }
+}
+
+function showMilestone(){
+  milestoneEl.classList.add('show');
+  setTimeout(function(){
+    milestoneEl.classList.add('hide');
+    milestoneEl.classList.remove('show');
+    setTimeout(function(){milestoneEl.classList.remove('hide');},1200);
+  },2500);
+}
+
+feed.addEventListener('touchstart',function(e){
+  if(settling)return;
+  tStartY=e.touches[0].clientY;
+  dragging=true;
+  var ns=getSlide(current+1);
+  if(ns) setPos(ns,-100);
+},{passive:true});
+
+feed.addEventListener('touchmove',function(e){
+  if(!dragging||settling)return;
+  var dy=tStartY-e.touches[0].clientY;
+  if(dy<=0){ var cs=getSlide(current); if(cs) setPos(cs,0); return; }
+  var cs=getSlide(current);
+  var ns=getSlide(current+1);
+  if(cs) setPosPx(cs,-dy);
+  if(ns) setPosPx(ns,window.innerHeight-dy);
+},{passive:true});
+
+feed.addEventListener('touchend',function(e){
+  if(!dragging)return; dragging=false;
+  var dy=tStartY-e.changedTouches[0].clientY;
+  if(dy>80&&current<list.length-1){
+    settling=true;
+    current++;
+    var prevSlide=getSlide(current-1);
+    var nextSlide=getSlide(current);
+    if(prevSlide) animateTo(prevSlide,-100,null);
+    if(nextSlide){
+      var v=getVideo(current);
+      if(v){v.play().catch(function(){});}
+      animateTo(nextSlide,0,function(){
+        settling=false;
+        playVideo(current);
+      });
+    } else {
+      settling=false;
+      playVideo(current);
+    }
+  } else {
+    var cs=getSlide(current);
+    var ns=getSlide(current+1);
+    if(dy>0&&current<list.length-1){
+      if(cs) animateTo(cs,0,null);
+      if(ns) animateTo(ns,-100,null);
+    } else {
+      if(cs) setPos(cs,0);
+    }
+  }
+},{passive:true});
+
+document.addEventListener('touchmove',function(e){
+  if(document.getElementById('feed').style.display==='block') e.preventDefault();
+},{passive:false});
+
+var started=false;
+var wakeLock=null;
+async function requestWakeLock(){
+  try{
+    wakeLock = await navigator.wakeLock.request('screen');
+  } catch(err) {
+    console.log('Wake Lock error:',err);
+  }
+}
+
+document.getElementById('goScrollUp').addEventListener('click',function(){
+  document.getElementById('homeScreen').style.display='none';
+  feed.style.display='block';
+});
+
+document.getElementById('goDaily').addEventListener('click',function(){
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('dailyScreen').style.display='flex';
+});
+
+document.getElementById('dailyBack').addEventListener('click',function(){
+  document.getElementById('dailyScreen').style.display='none';
+  document.getElementById('homeScreen').style.display='flex';
+});
+
+document.getElementById('entry-march7').addEventListener('click',function(){
+  document.getElementById('dailyScreen').style.display='none';
+  document.getElementById('dailyReader').style.display='flex';
+});
+
+document.getElementById('readerBack').addEventListener('click',function(){
+  document.getElementById('dailyReader').style.display='none';
+  document.getElementById('dailyScreen').style.display='flex';
+});
+
+document.getElementById('sigLink').addEventListener('click',function(){
+  document.getElementById('dailyReader').style.display='none';
+  feed.style.display='block';
+});
+
+document.getElementById('startBtn').addEventListener('click',function(){
+  if(started)return; started=true;
+  this.remove();
+  requestWakeLock();
+  buildFeed();
+});
+</script>
+</body>
+</html>
