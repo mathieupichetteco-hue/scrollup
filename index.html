@@ -690,38 +690,37 @@ feed.addEventListener('touchstart',function(e){
   if(settling||!started) return;
   tStartY=e.touches[0].clientY;
   dragging=true;
-  // pre-position next slide below
+  // pre-position next slide ABOVE (it will come down)
   var ns=getSlide(current+1);
-  if(ns) setPos(ns,100);
+  if(ns) setPos(ns,-100);
 },{passive:true});
 
 feed.addEventListener('touchmove',function(e){
   if(!dragging||settling) return;
-  var dy=e.touches[0].clientY - tStartY; // positive = finger moved down
-  // Swipe UP (dy < 0) = advance. Swipe DOWN (dy > 0) = blocked.
-  if(dy>=0){
-    // snap current back to 0, block
+  var dy=e.touches[0].clientY - tStartY; // positive = finger moved DOWN
+  // Swipe UP (dy < 0) = blocked
+  if(dy<=0){
     var cs=getSlide(current);
     if(cs) setPos(cs,0);
     return;
   }
-  // dy is negative — finger went up — slide current up, bring next from below
+  // dy is positive — finger went DOWN — slide current down, bring next from above
   var cs=getSlide(current);
   var ns=getSlide(current+1);
-  if(cs) setPosPx(cs,dy);                        // current moves up (negative px)
-  if(ns) setPosPx(ns,window.innerHeight+dy);     // next follows from bottom
+  if(cs) setPosPx(cs,dy);                         // current moves down
+  if(ns) setPosPx(ns,dy-window.innerHeight);      // next comes from above
 },{passive:true});
 
 feed.addEventListener('touchend',function(e){
   if(!dragging) return; dragging=false;
-  var dy=e.changedTouches[0].clientY - tStartY; // negative = swiped up
-  if(dy<-80 && current<list.length-1){
+  var dy=e.changedTouches[0].clientY - tStartY; // positive = swiped DOWN
+  if(dy>80 && current<list.length-1){
     // commit advance
     settling=true;
     current++;
     var prev=getSlide(current-1);
     var next=getSlide(current);
-    if(prev) animateTo(prev,-100,null);
+    if(prev) animateTo(prev,100,null);
     if(next){
       var v=getVideo(current);
       if(v) v.play().catch(function(){});
@@ -738,7 +737,7 @@ feed.addEventListener('touchend',function(e){
     var cs=getSlide(current);
     var ns=getSlide(current+1);
     if(cs) animateTo(cs,0,null);
-    if(ns) animateTo(ns,100,null);
+    if(ns) animateTo(ns,-100,null);
   }
 },{passive:true});
 
