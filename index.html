@@ -177,7 +177,18 @@
   </div>
   <div class="daily-scroll">
     <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-    <div class="daily-list">
+      <div class="daily-list">
+        <div class="daily-entry" id="entry-march7">
+          <div class="daily-entry-date">Saturday, March 7, 2026</div>
+          <div class="daily-entry-arrow">›</div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- DAILY READER -->
+<div id="dailyReader">
+  <div class="daily-topbar">
     <button class="daily-back" id="readerBack">← BACK</button>
     <div class="daily-topbrand">Mathieu Pichette.co · Daily</div>
   </div>
@@ -687,7 +698,10 @@ feed.addEventListener('touchend',function(e){
 },{passive:true});
 
 document.addEventListener('touchmove',function(e){
-  if(document.getElementById('feed').style.display==='block') e.preventDefault();
+  if(document.getElementById('homeScreen').style.display!=='none') return;
+  if(document.getElementById('dailyScreen').style.display==='flex') return;
+  if(document.getElementById('dailyReader').style.display==='flex') return;
+  e.preventDefault();
 },{passive:false});
 
 var started=false;
@@ -699,6 +713,13 @@ async function requestWakeLock(){
     console.log('Wake Lock error:',err);
   }
 }
+
+document.getElementById('splashScreen').addEventListener('click',function(){
+  this.style.display='none';
+  var homeMusic=document.getElementById('homeMusic');
+  homeMusic.volume=0.6;
+  homeMusic.play().catch(function(){});
+});
 
 document.getElementById('goScrollUp').addEventListener('click',function(){
   document.getElementById('homeScreen').style.display='none';
