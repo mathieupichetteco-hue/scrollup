@@ -2,712 +2,256 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Mathieu Pichette.co — From Zero To Hero</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Bebas+Neue&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Mathieu Pichette.co</title>
 <style>
-:root {
-  --black: #000000;
-  --deep: #080808;
-  --surface: #111111;
-  --border: #1a1a1a;
-  --gold: #C9A84C;
-  --gold-light: #E8CC7A;
-  --gold-dim: rgba(201,168,76,0.15);
-  --crimson: #8B0000;
-  --crimson-bright: #CC1111;
-  --white: #F5F0E8;
-  --white-dim: rgba(245,240,232,0.5);
-  --white-faint: rgba(245,240,232,0.08);
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--black);}
-body{font-family:'Montserrat',sans-serif;color:var(--white);}
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  :root{
+    --pink:#FF2D78;--pink-soft:#FF6BA8;--pink-dim:rgba(255,45,120,0.12);--pink-border:rgba(255,45,120,0.3);
+    --black:#000000;--deep:#08080A;--surface:#0F0F12;
+    --white:#FFFFFF;--white-dim:rgba(255,255,255,0.5);--white-faint:rgba(255,255,255,0.06);
+  }
+  html,body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
+  body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.03) 3px,rgba(0,0,0,0.03) 4px);}
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--pink-dim) 1px,transparent 1px),linear-gradient(90deg,var(--pink-dim) 1px,transparent 1px);background-size:60px 60px;opacity:0.15;}
 
-/* ═══════════════════════════════════════
-   GLOBAL SCALE — ALWAYS ON TOP
-═══════════════════════════════════════ */
-#globalScale{
-  position:fixed;right:0;top:50%;transform:translateY(-50%);
-  z-index:9999;width:44px;
-  display:flex;flex-direction:column;align-items:center;
-  padding:12px 0;gap:4px;
-  background:rgba(0,0,0,0.92);
-  border-left:1px solid var(--gold-dim);
-}
-.gs-label{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:9px;letter-spacing:2px;color:var(--gold);
-  writing-mode:vertical-rl;transform:rotate(180deg);
-  margin-bottom:4px;opacity:0.8;
-}
-.gs-track{
-  width:2px;height:160px;background:rgba(255,255,255,0.07);
-  position:relative;border-radius:1px;
-}
-.gs-fill{
-  position:absolute;bottom:0;left:0;width:100%;
-  background:linear-gradient(to top,var(--crimson-bright),var(--gold));
-  border-radius:1px;height:15%;
-  transition:height 0.5s ease;
-}
-.gs-dot{
-  position:absolute;bottom:15%;left:50%;
-  width:8px;height:8px;border-radius:50%;
-  background:var(--gold);
-  transform:translate(-50%,50%);
-  box-shadow:0 0 8px var(--gold);
-}
-.gs-pct{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:13px;color:var(--gold);letter-spacing:1px;
-  margin-top:4px;
-}
-.gs-num{
-  font-family:'Montserrat',sans-serif;
-  font-size:7px;color:var(--white-dim);letter-spacing:1px;
-  writing-mode:vertical-rl;transform:rotate(180deg);
-  margin-top:2px;
-}
+  #globalScale{position:fixed;right:0;top:0;bottom:0;width:48px;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:3px;background:linear-gradient(to left,rgba(0,0,0,0.97),transparent);padding:8px 0;border-left:1px solid var(--pink-border);}
+  #globalScale .scale-title{font-family:'Space Mono',monospace;font-size:0.22rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--pink);text-align:center;line-height:1.5;max-width:42px;padding:0 3px;text-shadow:0 0 8px var(--pink);}
+  #globalScale .mountain-wrap{position:relative;width:38px;height:180px;}
+  #globalScale .mountain-wrap svg{position:absolute;bottom:0;left:0;width:100%;height:100%;}
+  #globalScale .climber{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--white);box-shadow:0 0 8px var(--pink),0 0 16px var(--pink);left:50%;transform:translateX(-50%);bottom:15%;animation:climb 5s ease-in-out infinite alternate;}
+  @keyframes climb{0%{bottom:15%;}100%{bottom:18%;box-shadow:0 0 14px var(--pink),0 0 28px rgba(255,45,120,0.6);}}
+  #globalScale .peak-flag{position:absolute;top:-2px;left:50%;transform:translateX(-60%);font-size:0.55rem;filter:drop-shadow(0 0 4px var(--pink));animation:flagwave 1.6s ease-in-out infinite alternate;}
+  @keyframes flagwave{0%{transform:translateX(-60%) rotate(-10deg);}100%{transform:translateX(-60%) rotate(10deg);}}
+  #globalScale .scale-pts{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--white);text-align:center;letter-spacing:1px;text-shadow:0 0 10px var(--pink);animation:pulse 2s ease-in-out infinite;}
+  #globalScale .scale-sub{font-family:'Space Mono',monospace;font-size:0.22rem;color:var(--white-dim);text-align:center;max-width:42px;padding:0 3px;line-height:1.5;}
+  #globalScale .tri-num{font-family:'Space Mono',monospace;font-size:0.2rem;color:rgba(255,45,120,0.55);text-align:center;max-width:42px;padding:0 3px;line-height:1.8;letter-spacing:0.3px;}
 
-/* ═══════════════════════════════════════
-   SCREEN BASE
-═══════════════════════════════════════ */
-.screen{
-  position:fixed;inset:0;
-  display:flex;flex-direction:column;
-  overflow:hidden;
-}
+  #splashScreen{position:fixed;inset:0;z-index:3000;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;cursor:pointer;touch-action:manipulation;}
+  .splash-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:24px;}
+  .splash-logo svg{width:100px;height:87px;margin-bottom:10px;}
+  .splash-brand{font-family:'Playfair Display',serif;font-size:1.4rem;letter-spacing:4px;color:var(--white);text-align:center;text-shadow:0 0 40px rgba(255,45,120,0.5);margin-bottom:4px;animation:pulse 2s ease-in-out infinite;}
+  .splash-hero{font-family:'Space Mono',monospace;font-size:0.5rem;color:var(--pink);text-transform:uppercase;letter-spacing:3px;text-align:center;text-shadow:0 0 10px var(--pink);margin-bottom:20px;}
+  .splash-classify{font-family:'Space Mono',monospace;font-size:0.38rem;color:rgba(255,45,120,0.5);letter-spacing:2px;text-align:center;border:1px solid var(--pink-border);padding:3px 10px;margin-bottom:24px;}
+  .splash-welcome{font-size:0.5rem;color:var(--white-dim);text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:16px;font-family:'Space Mono',monospace;}
+  .splash-intention{font-size:0.65rem;color:rgba(255,255,255,0.85);line-height:2;text-align:center;max-width:300px;font-style:italic;font-family:'Inter',sans-serif;font-weight:300;}
+  .splash-tap{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:3px;color:var(--pink);text-align:center;margin-top:40px;text-shadow:0 0 10px var(--pink);animation:pulse 1.5s ease-in-out infinite;}
 
-/* ═══════════════════════════════════════
-   SPLASH SCREEN
-═══════════════════════════════════════ */
-#splashScreen{
-  z-index:3000;
-  background:var(--black);
-  justify-content:center;align-items:center;
-  cursor:pointer;
-}
-.splash-bg{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 60%, rgba(139,0,0,0.12) 0%, transparent 70%);
-}
-.splash-line-h{
-  position:absolute;top:50%;left:0;right:0;height:1px;
-  background:linear-gradient(to right, transparent, var(--gold-dim), transparent);
-  transform:translateY(-50%);
-}
-.splash-content{
-  position:relative;z-index:2;
-  display:flex;flex-direction:column;align-items:center;
-  gap:32px;padding:40px 32px;text-align:center;
-}
-.splash-eyebrow{
-  font-family:'Montserrat',sans-serif;font-size:9px;
-  letter-spacing:6px;color:var(--gold);opacity:0.7;
-  text-transform:uppercase;
-}
-.splash-logo-wrap{
-  position:relative;width:80px;height:80px;
-}
-.splash-logo-wrap svg{
-  width:100%;height:100%;
-}
-.splash-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(42px,10vw,68px);
-  line-height:0.9;letter-spacing:4px;
-  color:var(--white);
-  text-transform:uppercase;
-}
-.splash-title span{
-  display:block;font-size:0.45em;
-  letter-spacing:8px;color:var(--gold);
-  margin-top:8px;
-}
-.splash-divider{
-  width:40px;height:1px;background:var(--gold);opacity:0.5;
-}
-.splash-intention{
-  font-family:'Cormorant Garamond',sans-serif;font-weight:300;
-  font-size:13px;line-height:1.8;
-  color:var(--white-dim);
-  max-width:300px;font-style:italic;
-}
-.splash-tap{
-  font-family:'Montserrat',sans-serif;font-size:9px;
-  letter-spacing:5px;color:var(--gold);
-  text-transform:uppercase;
-  animation:pulse 2s ease-in-out infinite;
-  margin-top:8px;
-}
-@keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+  #homeScreen{position:fixed;inset:0;z-index:2000;background:var(--black);display:none;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:32px 24px;}
+  .home-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:32px;}
+  .home-logo-triangle{width:90px;height:78px;position:relative;margin-bottom:8px;}
+  .home-logo-triangle svg{width:100%;height:100%;}
+  .home-logo-name{font-family:'Playfair Display',serif;font-size:0.9rem;letter-spacing:3px;color:var(--white);text-align:center;text-shadow:0 0 20px rgba(255,45,120,0.35);}
+  .home-logo-sub{font-family:'Space Mono',monospace;font-size:0.45rem;color:var(--pink);text-transform:uppercase;letter-spacing:3px;text-align:center;text-shadow:0 0 8px var(--pink);margin-top:3px;}
+  .home-classify{font-family:'Space Mono',monospace;font-size:0.42rem;color:rgba(255,45,120,0.55);text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:28px;border:1px solid var(--pink-border);padding:4px 12px;}
+  .home-cards{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px;}
+  .home-card{background:var(--surface);border:1px solid rgba(255,255,255,0.07);padding:20px 18px;cursor:pointer;touch-action:manipulation;transition:all 0.25s;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden;}
+  .home-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--pink),transparent);opacity:0.5;}
+  .home-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--pink);transition:width 0.3s ease;}
+  .home-card:active{transform:scale(0.98);background:rgba(255,45,120,0.05);}
+  .home-card:active::after{width:100%;}
+  .home-card-tag{font-size:0.45rem;color:rgba(255,255,255,0.28);line-height:1.6;margin-bottom:6px;font-style:italic;font-family:'Inter',sans-serif;font-weight:300;}
+  .home-card-title{font-family:'Playfair Display',serif;font-size:1.25rem;letter-spacing:1px;color:var(--white);}
+  .home-card-desc{font-size:0.55rem;color:var(--pink);line-height:1.6;margin-top:3px;font-family:'Space Mono',monospace;opacity:0.8;}
+  .home-card-arrow{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--pink);opacity:0.5;}
 
-/* ═══════════════════════════════════════
-   HOME SCREEN
-═══════════════════════════════════════ */
-#homeScreen{
-  z-index:2000;
-  background:var(--black);
-  justify-content:flex-start;
-  padding:0;
-  display:none;
-  overflow:hidden;
-}
-.home-bg-glow{
-  position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse at 30% 20%, rgba(139,0,0,0.08) 0%, transparent 60%),
-             radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 50%);
-}
-.home-top{
-  padding:52px 28px 0;
-  display:flex;flex-direction:column;gap:8px;
-  flex-shrink:0;position:relative;z-index:2;
-}
-.home-eyebrow{
-  font-size:8px;letter-spacing:6px;color:var(--gold);opacity:0.5;
-  text-transform:uppercase;
-}
-.home-name{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(52px,14vw,84px);
-  line-height:0.85;letter-spacing:2px;
-  color:var(--white);
-}
-.home-name em{
-  display:block;font-style:normal;
-  color:var(--gold);font-size:0.36em;
-  letter-spacing:7px;margin-top:12px;
-}
-.home-intention{
-  font-family:'Cormorant Garamond',sans-serif;font-size:12px;
-  color:var(--white-dim);font-style:italic;line-height:1.7;
-  margin-top:6px;padding-top:14px;
-  border-top:1px solid var(--border);
-  max-width:320px;
-}
-.home-progress-row{
-  display:flex;align-items:center;gap:10px;margin-top:12px;
-}
-.home-tri-badge{
-  font-size:8px;letter-spacing:2px;color:var(--crimson-bright);
-  border:1px solid rgba(204,17,17,0.3);padding:4px 10px;
-  white-space:nowrap;
-}
-.home-progress-bar{flex:1;height:1px;background:rgba(255,255,255,0.06);}
-.home-progress-fill{height:100%;width:15%;background:linear-gradient(to right,var(--crimson),var(--gold));}
-.home-progress-pct{font-size:8px;letter-spacing:2px;color:var(--gold);white-space:nowrap;}
+  #dailyScreen{position:fixed;inset:0;z-index:1500;background:var(--black);display:none;flex-direction:column;overflow:hidden;}
+  #dailyReader{position:fixed;inset:0;z-index:1600;background:var(--black);display:none;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+  #dailyReader .daily-topbar{position:sticky;top:0;z-index:10;background:var(--black);flex-shrink:0;}
+  #dailyReader .daily-scroll{padding:24px 20px 200px;}
+  .daily-topbar{flex-shrink:0;padding:16px 20px 12px;background:rgba(0,0,0,0.98);border-bottom:1px solid rgba(255,45,120,0.18);display:flex;align-items:center;gap:12px;position:relative;z-index:10;}
+  .daily-back{background:none;border:1px solid var(--pink-border);color:var(--pink);font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:2px;padding:7px 13px;cursor:pointer;touch-action:manipulation;flex-shrink:0;}
+  .daily-topbrand{font-family:'Playfair Display',serif;font-size:0.9rem;letter-spacing:1px;color:var(--white);}
+  .daily-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:24px 20px 60px;position:relative;z-index:2;}
+  .daily-intention{font-size:0.5rem;color:rgba(255,45,120,0.45);font-style:italic;line-height:1.8;text-align:center;margin-bottom:28px;padding:12px 14px;border:1px solid var(--pink-border);font-family:'Inter',sans-serif;font-weight:300;}
+  .daily-list{display:flex;flex-direction:column;gap:10px;}
+  .daily-entry{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border:1px solid rgba(255,255,255,0.07);background:var(--surface);cursor:pointer;touch-action:manipulation;transition:all 0.2s;}
+  .daily-entry:active{transform:scale(0.97);background:rgba(255,45,120,0.05);}
+  .daily-entry-date{font-family:'Playfair Display',serif;font-size:0.9rem;letter-spacing:1px;color:var(--white);}
+  .daily-entry-arrow{font-size:1rem;color:var(--pink);opacity:0.6;}
+  .daily-date{font-family:'Playfair Display',serif;font-size:0.95rem;letter-spacing:2px;color:var(--white);margin-bottom:24px;}
+  .daily-body{font-size:0.78rem;color:rgba(255,255,255,0.85);line-height:2;white-space:pre-wrap;font-family:'Inter',sans-serif;font-weight:300;}
+  .daily-body .caps{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1px;color:var(--white);line-height:2;}
+  .daily-sig{font-family:'Playfair Display',serif;font-size:0.82rem;letter-spacing:1px;color:var(--pink);margin-top:28px;text-shadow:0 0 12px rgba(255,45,120,0.4);cursor:pointer;border-bottom:1px solid var(--pink-border);padding-bottom:4px;display:inline-block;}
 
-/* MENU CARDS */
-.home-menu{
-  flex:1;display:flex;flex-direction:column;
-  justify-content:flex-end;
-  padding:0 20px 44px;gap:10px;
-  position:relative;z-index:2;
-}
-.home-card{
-  position:relative;overflow:hidden;
-  background:var(--surface);
-  border:1px solid var(--border);
-  padding:0;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-  transition:border-color 0.3s;
-}
-.home-card:active{border-color:var(--gold);}
-.home-card-inner{
-  display:flex;align-items:center;
-  padding:22px 22px;gap:16px;
-}
-.home-card-icon{
-  width:40px;height:40px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--border);
-  font-size:16px;
-}
-.home-card-text{flex:1;}
-.home-card-label{
-  font-size:8px;letter-spacing:5px;color:var(--gold);
-  text-transform:uppercase;opacity:0.6;margin-bottom:4px;
-}
-.card-daily .home-card-label{color:var(--crimson-bright);}
-.home-card-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:28px;letter-spacing:2px;color:var(--white);line-height:1;
-}
-.home-card-sub{
-  font-size:9px;color:var(--white-dim);margin-top:3px;letter-spacing:0.5px;
-}
-.home-card-arrow{
-  font-size:18px;color:var(--gold);opacity:0.3;flex-shrink:0;
-}
-.home-card-bar{
-  height:2px;width:100%;
-  background:linear-gradient(to right,var(--crimson-bright),transparent);
-  opacity:0;transition:opacity 0.3s;
-}
-.card-daily .home-card-bar{background:linear-gradient(to right,var(--crimson-bright),transparent);}
-.home-card:active .home-card-bar{opacity:1;}
+  #feed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;z-index:1000;}
+  .slide{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;will-change:transform;}
+  .slide video{width:100%;height:100%;object-fit:contain;background:#000;display:block;}
+  #startBtn{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,0.88);border:none;cursor:pointer;touch-action:manipulation;}
+  #startBtn .btn-label{background:var(--pink);color:var(--white);font-family:'Playfair Display',serif;font-size:0.85rem;letter-spacing:2px;padding:16px 28px;pointer-events:none;text-align:center;max-width:280px;line-height:1.6;}
+  #topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-direction:column;align-items:center;padding:10px 52px 8px;background:linear-gradient(rgba(0,0,0,0.95),transparent);pointer-events:none;text-align:center;}
+  .top-brand{font-family:'Playfair Display',serif;font-size:0.95rem;letter-spacing:2px;color:var(--white);text-shadow:0 0 20px rgba(255,45,120,0.4),0 2px 4px rgba(0,0,0,1);margin-bottom:3px;}
+  .top-intention{font-size:0.42rem;line-height:1.7;letter-spacing:0.4px;color:rgba(255,45,120,0.65);text-transform:uppercase;max-width:260px;text-shadow:0 1px 6px rgba(0,0,0,1);font-family:'Space Mono',monospace;}
+  #feedBack{position:absolute;top:10px;left:10px;background:none;border:1px solid var(--pink-border);color:var(--pink);font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:2px;padding:6px 12px;cursor:pointer;touch-action:manipulation;z-index:100;pointer-events:all;}
 
-/* ═══════════════════════════════════════
-   VIDEO CONTROLS
-═══════════════════════════════════════ */
-#videoControls{
-  position:absolute;bottom:0;left:0;right:0;
-  z-index:60;
-  padding:0 0 env(safe-area-inset-bottom,16px);
-  background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-  opacity:1;transition:opacity 0.4s;
-}
-#videoControls.hidden{opacity:0;pointer-events:none;}
-.vc-intention{
-  font-family:'Cormorant Garamond',sans-serif;
-  font-size:11px;font-style:italic;
-  color:rgba(245,240,232,0.35);
-  letter-spacing:0.5px;line-height:1.5;
-  padding:0 18px;margin-bottom:10px;
-  display:block;
-}
-.vc-scrub{
-  padding:0 18px;margin-bottom:12px;
-  display:flex;align-items:center;gap:10px;
-}
-#scrubTrack{
-  flex:1;height:2px;background:rgba(255,255,255,0.12);
-  position:relative;cursor:pointer;padding:10px 0;margin:-10px 0;
-}
-#scrubFill{
-  position:absolute;top:50%;left:0;height:2px;width:0%;
-  transform:translateY(-50%);
-  background:linear-gradient(to right,var(--crimson),var(--gold));
-  pointer-events:none;
-}
-#scrubHandle{
-  position:absolute;top:50%;width:12px;height:12px;
-  background:var(--gold);border-radius:50%;
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 6px var(--gold);
-  pointer-events:none;left:0%;
-}
-.vc-time{
-  font-family:'Montserrat',sans-serif;
-  font-size:9px;color:var(--white-dim);letter-spacing:1px;
-  white-space:nowrap;
-}
-.vc-bottom{
-  padding:0 18px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-#btnPlayPause{
-  background:transparent;border:1px solid rgba(201,168,76,0.3);
-  padding:10px 20px;cursor:pointer;
-  font-family:'Montserrat',sans-serif;
-  font-size:9px;letter-spacing:3px;color:var(--gold);
-  text-transform:uppercase;
-  -webkit-tap-highlight-color:transparent;
-}
-.vc-swipe-hint{
-  font-size:8px;letter-spacing:3px;color:var(--white-dim);
-  text-transform:uppercase;opacity:0.4;
-}
+  #energy-bar{position:fixed;bottom:0;left:0;right:48px;z-index:70;padding:5px 8px 8px;background:rgba(0,0,0,0.97);border-top:1px solid var(--pink-border);pointer-events:none;}
+  .ebar-title{font-family:'Space Mono',monospace;font-size:0.25rem;letter-spacing:0.5px;text-transform:uppercase;color:rgba(255,45,120,0.5);text-align:center;margin-bottom:4px;}
+  .ebar-track{position:relative;height:3px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,45,120,0.12);margin-bottom:3px;}
+  .ebar-fill{position:absolute;left:0;top:0;bottom:0;width:15%;background:linear-gradient(to right,var(--pink),var(--pink-soft));box-shadow:0 0 8px var(--pink);}
+  .ebar-runner{position:absolute;top:50%;left:15%;transform:translateY(-50%) scaleX(-1);font-size:0.75rem;line-height:1;}
+  .ebar-labels{display:flex;justify-content:space-between;align-items:center;}
+  .ebar-left{font-family:'Space Mono',monospace;font-size:0.28rem;color:var(--white-dim);}
+  .ebar-pts{font-family:'Playfair Display',serif;font-size:0.55rem;color:var(--white);text-shadow:0 0 8px var(--pink);animation:pulse 2s ease-in-out infinite;}
+  .ebar-right{font-family:'Space Mono',monospace;font-size:0.28rem;color:var(--pink);}
 
-/* ═══════════════════════════════════════
-   DAILY SCREEN
-═══════════════════════════════════════ */
-#dailyScreen{
-  z-index:1500;
-  background:var(--black);
-  display:none;
-}
-.daily-header{
-  position:relative;z-index:2;
-  padding:52px 28px 20px;
-  border-bottom:1px solid var(--border);
-  display:flex;flex-direction:column;gap:6px;
-  flex-shrink:0;
-}
-.daily-back{
-  font-size:8px;letter-spacing:4px;color:var(--gold);
-  text-transform:uppercase;cursor:pointer;
-  margin-bottom:4px;opacity:0.7;
-  display:inline-block;
-  -webkit-tap-highlight-color:transparent;
-}
-.daily-back:active{opacity:1;}
-.daily-eyebrow{
-  font-size:8px;letter-spacing:5px;color:var(--crimson-bright);
-  text-transform:uppercase;
-}
-.daily-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:40px;letter-spacing:2px;color:var(--white);
-}
-.daily-list{
-  flex:1;overflow-y:auto;
-  padding:16px 0;
-  -webkit-overflow-scrolling:touch;
-}
-.daily-list::-webkit-scrollbar{display:none;}
-.daily-entry{
-  padding:20px 28px;border-bottom:1px solid var(--border);
-  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
-  -webkit-tap-highlight-color:transparent;
-  transition:background 0.2s;
-}
-.daily-entry:active{background:var(--white-faint);}
-.daily-entry-left{display:flex;flex-direction:column;gap:4px;}
-.daily-entry-date{
-  font-size:8px;letter-spacing:4px;color:var(--gold);
-  text-transform:uppercase;opacity:0.7;
-}
-.daily-entry-title{
-  font-family:'Cormorant Garamond',sans-serif;font-size:18px;
-  font-weight:600;color:var(--white);line-height:1.2;
-}
-.daily-entry-preview{
-  font-size:10px;color:var(--white-dim);
-  margin-top:2px;letter-spacing:0.5px;
-}
-.daily-entry-arrow{
-  font-size:16px;color:var(--gold);opacity:0.3;
-  flex-shrink:0;margin-left:16px;
-}
+  #videoControls{position:fixed;bottom:52px;left:0;right:48px;z-index:60;background:linear-gradient(to top,rgba(0,0,0,0.95) 0%,transparent 100%);padding:20px 16px 12px;transition:opacity 0.4s;}
+  #videoControls.hidden{opacity:0;pointer-events:none;}
+  .vc-intention{font-family:'Space Mono',monospace;font-size:0.38rem;color:rgba(255,45,120,0.5);letter-spacing:0.5px;line-height:1.5;display:block;margin-bottom:10px;text-transform:uppercase;}
+  .vc-scrub{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  #scrubTrack{flex:1;height:2px;background:rgba(255,255,255,0.1);position:relative;cursor:pointer;padding:10px 0;margin:-10px 0;}
+  #scrubFill{position:absolute;top:50%;left:0;height:2px;width:0%;transform:translateY(-50%);background:linear-gradient(to right,var(--pink),var(--white));pointer-events:none;}
+  #scrubHandle{position:absolute;top:50%;width:12px;height:12px;background:var(--white);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--pink);pointer-events:none;left:0%;}
+  .vc-time{font-family:'Space Mono',monospace;font-size:0.5rem;color:var(--white-dim);white-space:nowrap;}
+  .vc-bottom{display:flex;align-items:center;justify-content:space-between;}
+  #btnPlayPause{background:transparent;border:1px solid var(--pink-border);padding:8px 16px;cursor:pointer;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--white);touch-action:manipulation;}
+  .vc-hint{font-size:0.4rem;letter-spacing:2px;color:var(--white-dim);text-transform:uppercase;font-family:'Space Mono',monospace;}
 
-/* ═══════════════════════════════════════
-   DAILY READER
-═══════════════════════════════════════ */
-#dailyReader{
-  position:fixed;inset:0;
-  z-index:1600;
-  background:var(--black);
-  display:none;
-  flex-direction:column;
-  overflow:hidden;
-}
-.reader-header{
-  padding:52px 28px 20px;
-  border-bottom:1px solid var(--border);
-  display:flex;flex-direction:column;gap:6px;
-  flex-shrink:0;
-}
-.reader-back{
-  font-size:8px;letter-spacing:4px;color:var(--gold);
-  text-transform:uppercase;cursor:pointer;
-  margin-bottom:4px;opacity:0.7;
-  -webkit-tap-highlight-color:transparent;
-}
-.reader-back:active{opacity:1;}
-.reader-date{
-  font-size:8px;letter-spacing:5px;color:var(--crimson-bright);
-  text-transform:uppercase;
-}
-.reader-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:36px;letter-spacing:2px;color:var(--white);line-height:1;
-}
-.reader-body{
-  flex:1;
-  overflow-y:scroll;
-  -webkit-overflow-scrolling:touch;
-  padding:32px 28px;
-  display:block;
-}
-.reader-body::-webkit-scrollbar{display:none;}
-.reader-text{
-  font-family:'Cormorant Garamond',sans-serif;
-  font-size:17px;line-height:1.9;
-  color:rgba(245,240,232,0.85);font-weight:300;
-}
-.reader-text p{margin-bottom:24px;}
-.reader-text .caps{
-  font-family:'Montserrat',sans-serif;font-size:11px;
-  font-weight:500;letter-spacing:1.5px;
-  color:var(--white-dim);line-height:1.8;
-  display:block;margin-bottom:24px;
-}
-.reader-signature{
-  font-family:'Cormorant Garamond',sans-serif;
-  font-size:14px;font-weight:600;
-  color:var(--gold);margin-top:32px;
-  border-top:1px solid var(--border);
-  padding-top:24px;cursor:pointer;
-  font-style:italic;
-}
-.reader-signature:hover{color:var(--gold-light);}
-.reader-music-note{
-  font-size:9px;letter-spacing:3px;color:var(--white-dim);
-  text-transform:uppercase;margin-bottom:20px;display:block;
-}
-
-/* ═══════════════════════════════════════
-   FEED SCREEN
-═══════════════════════════════════════ */
-#feed{
-  z-index:1000;
-  background:var(--black);
-  display:none;
-  position:fixed;inset:0;
-  overflow:hidden;
-}
-#startBtn{
-  position:absolute;inset:0;z-index:100;
-  background:var(--black);
-  border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  padding:48px 40px;
-  -webkit-tap-highlight-color:transparent;
-}
-.start-inner{
-  display:flex;flex-direction:column;align-items:center;
-  gap:24px;text-align:center;
-}
-.start-eyebrow{
-  font-size:8px;letter-spacing:6px;color:var(--gold);
-  text-transform:uppercase;opacity:0.6;
-}
-.start-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(36px,10vw,56px);
-  letter-spacing:3px;color:var(--white);line-height:1;
-}
-.start-intention{
-  font-family:'Cormorant Garamond',sans-serif;
-  font-size:14px;line-height:1.8;
-  color:var(--white-dim);font-style:italic;
-  max-width:300px;
-}
-.start-cta{
-  font-size:8px;letter-spacing:5px;color:var(--gold);
-  text-transform:uppercase;
-  animation:pulse 2s ease-in-out infinite;
-}
-#feedTopBar{
-  position:absolute;top:0;left:0;right:0;
-  z-index:50;
-  padding:env(safe-area-inset-top,16px) 16px 12px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(0,0,0,0.9) 0%,transparent 100%);
-}
-.feed-brand{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:18px;letter-spacing:2px;color:var(--white);
-  opacity:0.8;
-}
-#feedBack{
-  font-size:8px;letter-spacing:4px;
-  color:var(--gold);text-transform:uppercase;
-  background:transparent;border:1px solid rgba(201,168,76,0.25);
-  padding:8px 14px;cursor:pointer;
-  font-family:'Montserrat',sans-serif;
-  -webkit-tap-highlight-color:transparent;
-}
-#feedBack:active{background:var(--gold-dim);}
-.slide{
-  position:absolute;width:100%;height:100%;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--black);
-  will-change:transform;
-}
-.slide video{
-  width:100%;height:100%;object-fit:contain;
-}
-.slide-overlay{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:80px 20px 24px;
-  background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 100%);
-  pointer-events:none;
-}
-.slide-title{
-  font-family:'Cormorant Garamond',sans-serif;
-  font-size:13px;color:var(--white-dim);
-  font-style:italic;letter-spacing:0.5px;
-}
-#feedEnergyBar{
-  position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:rgba(255,255,255,0.05);z-index:50;
-}
-#feedEnergyFill{
-  height:100%;width:15%;
-  background:linear-gradient(to right,var(--crimson),var(--gold));
-}
-#milestone{
-  position:absolute;inset:0;z-index:200;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,0.92);
-  opacity:0;pointer-events:none;
-  transition:opacity 0.4s;
-}
-#milestone.show{opacity:1;pointer-events:auto;}
-.milestone-inner{
-  text-align:center;padding:48px 36px;
-  border:1px solid var(--gold-dim);
-}
-.milestone-inner p{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:28px;letter-spacing:3px;color:var(--gold);
-  line-height:1.3;
-}
-
-/* SPIDER CANVAS */
-canvas#spiders{display:none;}
-
-/* ═══════════════════════════════════════
-   HIDE/SHOW
-═══════════════════════════════════════ */
+  #milestone{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(255,45,120,0.04);pointer-events:none;opacity:0;transition:opacity 0.3s;}
+  #milestone.show{opacity:1;}
+  .milestone-text{font-family:'Playfair Display',serif;font-size:1.4rem;letter-spacing:3px;color:var(--white);text-align:center;line-height:1.5;text-shadow:0 0 40px var(--pink),0 0 80px rgba(255,45,120,0.4);animation:scalepop 0.4s cubic-bezier(0.34,1.56,0.64,1);padding:0 28px;}
+  @keyframes scalepop{0%{transform:scale(0.6);}100%{transform:scale(1);}}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
 </style>
 </head>
 <body>
-
-<!-- ═══ GLOBAL SCALE ═══ -->
+<!-- GLOBAL SCALE -->
 <div id="globalScale">
-  <div class="gs-label">TRIANGLE #600,000</div>
-  <div class="gs-track">
-    <div class="gs-fill"></div>
-    <div class="gs-dot"></div>
+  <div class="scale-title">TRIANGLE<br>#600,000</div>
+  <div class="mountain-wrap">
+    <span class="peak-flag">▲</span>
+    <svg viewBox="0 0 38 180" preserveAspectRatio="none">
+      <polygon points="19,4 38,180 0,180" fill="rgba(57,255,20,0.05)" stroke="rgba(57,255,20,0.35)" stroke-width="0.8"/>
+      <line x1="9" y1="90" x2="29" y2="90" stroke="rgba(57,255,20,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <line x1="14" y1="45" x2="24" y2="45" stroke="rgba(57,255,20,0.15)" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <line x1="16" y1="153" x2="22" y2="153" stroke="#FF2D78" stroke-width="1.5" opacity="0.8"/>
+    </svg>
+    <div class="climber"></div>
   </div>
-  <div class="gs-pct">15%</div>
-  <div class="gs-num">15 / 100</div>
+  <div class="scale-pts">15%</div>
+  <div class="scale-sub">/ 100%</div>
+  <div class="tri-num">AT MY<br>BEST<br>ETERNALLY</div>
 </div>
 
-<!-- ═══ SPLASH ═══ -->
-<div id="splashScreen" class="screen">
-  <div class="splash-bg"></div>
-  <div class="splash-line-h"></div>
-  <div class="splash-content">
-    <div class="splash-eyebrow">Authorized Access Only</div>
-    <div class="splash-logo-wrap">
-      <svg viewBox="0 0 80 80" fill="none">
-        <polygon points="40,4 76,72 4,72" fill="none" stroke="#C9A84C" stroke-width="1"/>
-        <polygon points="40,20 62,60 18,60" fill="rgba(201,168,76,0.06)" stroke="rgba(201,168,76,0.3)" stroke-width="0.5"/>
-        <line x1="40" y1="4" x2="40" y2="72" stroke="rgba(201,168,76,0.08)" stroke-width="0.5"/>
-        <circle cx="40" cy="44" r="2" fill="#C9A84C"/>
+<!-- SPLASH SCREEN -->
+<div id="splashScreen">
+  <div class="splash-logo">
+    <svg viewBox="0 0 100 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,4 96,83 4,83" fill="rgba(245,200,66,0.07)" stroke="#FF2D78" stroke-width="1.5"/>
+      <polygon points="50,18 82,75 18,75" fill="none" stroke="rgba(255,45,120,0.3)" stroke-width="0.8"/>
+      <text x="50" y="52" text-anchor="middle" font-family="Anton,sans-serif" font-size="7" fill="#FFFFFF" letter-spacing="1">Mathieu</text>
+      <text x="50" y="61" text-anchor="middle" font-family="Anton,sans-serif" font-size="5.5" fill="#FFFFFF" letter-spacing="1">Pichette.co</text>
+      <text x="50" y="79" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="4.5" fill="#FF2D78" letter-spacing="1.5">FROM 0 TO HERO</text>
+    </svg>
+  </div>
+  <div class="splash-classify">[ CLASSIFIED — AUTHORIZED ACCESS ONLY ]</div>
+  <div class="splash-welcome">Initiating connection — stand by</div>
+  <div class="splash-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  <div class="splash-tap" id="splashTapText">TAP ANYWHERE TO ENTER</div>
+</div>
+
+<!-- HOME SCREEN -->
+<div id="homeScreen">
+  <div class="home-logo">
+    <div class="home-logo-triangle">
+      <svg viewBox="0 0 90 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="45,3 87,75 3,75" fill="rgba(245,200,66,0.07)" stroke="#FF2D78" stroke-width="1.5"/>
+        <polygon points="45,16 74,68 16,68" fill="none" stroke="rgba(255,45,120,0.25)" stroke-width="0.7"/>
+        <text x="45" y="46" text-anchor="middle" font-family="Anton,sans-serif" font-size="7" fill="#FFFFFF" letter-spacing="1">Mathieu</text>
+        <text x="45" y="55" text-anchor="middle" font-family="Anton,sans-serif" font-size="5.5" fill="#FFFFFF" letter-spacing="1">Pichette.co</text>
+        <text x="45" y="71" text-anchor="middle" font-family="Share Tech Mono,monospace" font-size="4" fill="#FF2D78" letter-spacing="1">FROM 0 TO HERO</text>
       </svg>
     </div>
-    <div class="splash-title">
-      Mathieu<br>Pichette.co
-      <span>From Zero To Hero</span>
-    </div>
-    <div class="splash-divider"></div>
-    <div class="splash-intention">
-      My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way.
-    </div>
-    <div class="splash-tap" id="splashTapText">Tap anywhere to enter</div>
+    <div class="home-logo-name">Mathieu Pichette.co</div>
+    <div class="home-logo-sub">From 0 to Hero — Eternally</div>
   </div>
-</div>
-
-<!-- ═══ HOME ═══ -->
-<div id="homeScreen" class="screen">
-  <div class="home-bg-glow"></div>
-  <div class="home-top">
-    <div class="home-eyebrow">Triangle #600,000 · In Progress</div>
-    <div class="home-name">
-      Mathieu<br>Pichette.co
-      <em>From Zero To Hero</em>
-    </div>
-    <div class="home-intention">
-      My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes — eternally.
-    </div>
-    <div class="home-progress-row">
-      <div class="home-tri-badge">▲ 15%</div>
-      <div class="home-progress-bar"><div class="home-progress-fill"></div></div>
-      <div class="home-progress-pct">100%</div>
-    </div>
-  </div>
-  <div class="home-menu">
-    <div class="home-card card-daily" id="goDaily">
-      <div class="home-card-bar"></div>
-      <div class="home-card-inner">
-        <div class="home-card-icon">✦</div>
-        <div class="home-card-text">
-          <div class="home-card-label">Philosophy · Daily</div>
-          <div class="home-card-title">Daily Reader</div>
-          <div class="home-card-sub">Energy · Truth · Evolution · Eternally</div>
-        </div>
-        <div class="home-card-arrow">→</div>
-      </div>
+  <div class="home-classify">[ AUTHORIZED OPERATOR — TRIANGLE #600,000 ]</div>
+  <div class="home-cards">
+    <div class="home-card" id="goDaily">
+      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+      <div class="home-card-title">Mathieu Pichette.co Daily</div>
+      <div class="home-card-desc">&gt; ACCESS DAILY INTELLIGENCE BRIEFING</div>
+      <div class="home-card-arrow">›</div>
     </div>
     <div class="home-card" id="goFeed">
-      <div class="home-card-bar"></div>
-      <div class="home-card-inner">
-        <div class="home-card-icon">▶</div>
-        <div class="home-card-text">
-          <div class="home-card-label">Video Feed · 260 Videos</div>
-          <div class="home-card-title">Scroll Up</div>
-          <div class="home-card-sub">Swipe down · Shuffled every session</div>
-        </div>
-        <div class="home-card-arrow">→</div>
-      </div>
+      <div class="home-card-tag">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+      <div class="home-card-title">Mathieu Pichette.co Scroll Up</div>
+      <div class="home-card-desc">&gt; LAUNCH ENERGY FEED — EVOLVE THE WORLD</div>
+      <div class="home-card-arrow">›</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ DAILY SCREEN ═══ -->
-<div id="dailyScreen" class="screen">
-  <div class="daily-header">
-    <div class="daily-back" id="dailyBack">← Menu</div>
-    <div class="daily-eyebrow">Daily Reader</div>
-    <div class="daily-title">Philosophy</div>
-    <div style="font-family:'Cormorant Garamond',sans-serif;font-size:11px;font-style:italic;color:rgba(245,240,232,0.35);line-height:1.6;margin-top:6px;">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way.</div>
+<!-- DAILY SCREEN -->
+<div id="dailyScreen">
+  <div class="daily-topbar">
+    <button class="daily-back" id="dailyBack">← MENU</button>
+    <div class="daily-topbrand">Mathieu Pichette.co Daily</div>
   </div>
-  <div class="daily-list">
-    <div class="daily-entry" id="entryMarch7">
-      <div class="daily-entry-left">
+  <div class="daily-scroll">
+    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="daily-list">
+      <div class="daily-entry" id="entryMarch7">
         <div class="daily-entry-date">Saturday, March 7, 2026</div>
-        <div class="daily-entry-title">The God of Energy</div>
-        <div class="daily-entry-preview">On strength, soul, and the world that blocks energy.</div>
+        <div class="daily-entry-arrow">›</div>
       </div>
-      <div class="daily-entry-arrow">→</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ DAILY READER ═══ -->
+<!-- DAILY READER -->
 <div id="dailyReader">
-  <div class="reader-header">
-    <div class="reader-back" id="readerBack">← Daily</div>
-    <div class="reader-date">Saturday, March 7, 2026</div>
-    <div class="reader-title">The God of Energy</div>
+  <div class="daily-topbar">
+    <button class="daily-back" id="readerBack">← DAILY</button>
+    <div class="daily-topbrand">The God of Energy</div>
   </div>
-  <div class="reader-body">
-    <span class="reader-music-note">♪ Hell of a Life — Kanye West</span>
-    <div class="reader-text">
-      <p>First I wanted to say that maybe I need to communicate better sometimes! I feel like I could do better at this. But good news — this section, this daily reader — this is me being super clear and real with you.</p>
-      <p>A place where you can get to know me and where you can also develop yourself with me, together — because this is the purpose of this section and its intention.</p>
-      <p>And on this Saturday, March 7th, 2026, I want to talk to you about something I have been thinking about deeply. Something real.</p>
-      <p>First, I want to say I love you — not in a way that is weak, but in the way a warrior loves his people. I love you because I believe in you. I believe in the energy inside you that has not yet been fully released.</p>
-      <p>And I want to talk about the world we live in. The world is still problematic — it is a world of blocked energy. Everywhere you look, people are stuck. Stuck in patterns, stuck in thoughts, stuck in systems that do not serve the soul.</p>
-      <p>But here — here it is different. This is a space of help. True help. Care of the soul.</p>
-      <p>You see, there are psychologists and therapists. But there is no school for the soul. Nobody teaches you how to become truly, deeply mentally strong. Nobody teaches you how to evolve your energy. And that is exactly what I want to do.</p>
-      <p>Welcome to a place where I just want to help. Yes — that is all. I am Mathieu and I want to help.</p>
-      <p>I am 27 years old. I have blonde hair, blue eyes, and a pure aura — I think. I want to help. And if it helps even one single person the way it helps me to focus on the positive, then great.</p>
-      <p class="caps">I AM SEEKING TO BE STRONG. BUT TRULY STRONG. MENTALLY STRONG. BECAUSE THIS ONE ACT ALONE — BEING MENTALLY STRONG — I NEED IT AND I BELIEVE YOU DO TOO. TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC. AKA BLOCKED ENERGY.<br><br>AND MAYBE YOU DON'T UNDERSTAND ME. BUT YOU DON'T NEED TO. I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS. BUT HERE — IT IS A SPACE OF HELP. TRUE HELP. CARE OF THE SOUL.<br><br>YOU SEE THERE ARE PSYCHOLOGISTS. BUT THERE IS NO SCHOOL FOR THE SOUL. I WANT TO HELP. I WON'T CREATE A SCHOOL — BUT HELP WHERE THE PROBLEMS TRULY ARE. NOT JUST PUT A BANDAGE. BUT HEAL ETERNALLY AND BECOME STRONG.<br><br>STRENGTH = EVOLVE<br>EVOLVE = ENERGY THAT EVOLVES!</p>
-      <div class="reader-signature" id="sigLink">
-        Mathieu Pichette.co — The God of Energy. Let me be your God.
-      </div>
-    </div>
+  <div class="daily-scroll">
+    <div class="daily-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="daily-date">Saturday, March 7, 2026</div>
+    <div class="daily-body">First I wanted to say that maybe I need to communicate better sometimes! I feel like I could do better at this. But good news — this section, this daily reader — this is me being super clear and real with you.
+
+A place where you can get to know me and where you can also develop yourself with me, together — because this is the purpose of this section and its intention.
+
+And on this Saturday, March 7th, 2026, I want to talk to you about something I have been thinking about deeply. Something real.
+
+First, I want to say I love you — not in a way that is weak, but in the way a warrior loves his people. I love you because I believe in you. I believe in the energy inside you that has not yet been fully released.
+
+And I want to talk about the world we live in. The world is still problematic — it is a world of blocked energy. Everywhere you look, people are stuck. Stuck in patterns, stuck in thoughts, stuck in systems that do not serve the soul.
+
+But here — here it is different. This is a space of help. True help. Care of the soul.
+
+You see, there are psychologists and therapists. But there is no school for the soul. Nobody teaches you how to become truly, deeply mentally strong. Nobody teaches you how to evolve your energy. And that is exactly what I want to do.
+
+Welcome to a place where I just want to help. Yes — that is all. I am Mathieu and I want to help.
+
+I am 27 years old. I have blonde hair, blue eyes, and a pure aura — I think. I want to help. And if it helps even one single person the way it helps me to focus on the positive, then great.
+
+<span class="caps">I AM SEEKING TO BE STRONG. BUT TRULY STRONG. MENTALLY STRONG. BECAUSE THIS ONE ACT ALONE — BEING MENTALLY STRONG — I NEED IT AND I BELIEVE YOU DO TOO. TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC. AKA BLOCKED ENERGY.
+
+AND MAYBE YOU DON'T UNDERSTAND ME. BUT YOU DON'T NEED TO. I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS. BUT HERE — IT IS A SPACE OF HELP. TRUE HELP. CARE OF THE SOUL.
+
+YOU SEE THERE ARE PSYCHOLOGISTS. BUT THERE IS NO SCHOOL FOR THE SOUL. I WANT TO HELP. I WON'T CREATE A SCHOOL — BUT HELP WHERE THE PROBLEMS TRULY ARE. NOT JUST PUT A BANDAGE. BUT HEAL ETERNALLY AND BECOME STRONG.
+
+STRENGTH = EVOLVE
+EVOLVE = ENERGY THAT EVOLVES!</span></div>
+    <div class="daily-sig" id="sigLink">Mathieu Pichette.co — The God of Energy. Let me be your God.</div>
   </div>
 </div>
 
-<!-- ═══ FEED ═══ -->
+<!-- FEED -->
 <div id="feed">
-  <button id="startBtn">
-    <div class="start-inner">
-      <div class="start-eyebrow">260 Videos · Shuffled</div>
-      <div class="start-title">Scroll<br>Up</div>
-      <div class="start-intention">
-        My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes — eternally.
-      </div>
-      <div class="start-cta">Tap to begin</div>
-    </div>
-  </button>
-  <div id="feedTopBar">
-    <div class="feed-brand">Mathieu Pichette.co</div>
-    <button id="feedBack">← Menu</button>
+  <div id="startBtn">
+    <div class="btn-label">MY INTENTION ETERNALLY IS TO EVOLVE THE ENERGY OF LIFE CONSTANTLY AND ETERNALLY AT MY BEST AND IN MY FASTEST WAY — TAP TO BEGIN</div>
   </div>
-  <div id="feedEnergyBar"><div id="feedEnergyFill"></div></div>
-  <div id="videoControls">
-    <span class="vc-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way — yes, eternally.</span>
+  <div id="topbar">
+    <div class="top-brand">Mathieu Pichette.co · Scroll Up</div>
+    <div class="top-intention">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <button id="feedBack">← MENU</button>
+  </div>
+  <div id="videoControls" class="hidden">
+    <span class="vc-intention">MY INTENTION ETERNALLY — EVOLVE THE ENERGY OF LIFE — THE ENTIRE WORLD — ALL THINGS — ETERNALLY</span>
     <div class="vc-scrub">
       <span class="vc-time" id="vcCurrent">0:00</span>
       <div id="scrubTrack">
@@ -717,34 +261,40 @@ canvas#spiders{display:none;}
       <span class="vc-time" id="vcDuration">0:00</span>
     </div>
     <div class="vc-bottom">
-      <button id="btnPlayPause">❚❚ Pause</button>
-      <span class="vc-swipe-hint">↓ Swipe Down</span>
+      <button id="btnPlayPause">❚❚ PAUSE</button>
+      <span class="vc-hint">↓ SWIPE DOWN</span>
+    </div>
+  </div>
+  <div id="energy-bar">
+    <div class="ebar-title">MY INTENTION ETERNALLY — EVOLVE THE ENERGY OF LIFE — THE ENTIRE WORLD — ALL THINGS — ETERNALLY!</div>
+    <div class="ebar-track">
+      <div class="ebar-fill" id="ebarFill"></div>
+      <div class="ebar-runner">🏃‍♂️</div>
+    </div>
+    <div class="ebar-labels">
+      <span class="ebar-left">TRIANGLE #600,000</span>
+      <span class="ebar-pts" id="ebarPts">15% / 100% ▲</span>
+      <span class="ebar-right">ETERNALLY ▲</span>
     </div>
   </div>
   <div id="milestone">
-    <div class="milestone-inner">
-      <p>EVOLVE<br>THE ENERGY<br>OF THE WORLD</p>
-    </div>
+    <div class="milestone-text">EVOLVE<br>THE ENERGY<br>OF THE WORLD</div>
   </div>
 </div>
 
+
 <script>
-// ═══ AUDIO ═══
+
+// AUDIO
 var splashMusic=new Audio('https://ia601006.us.archive.org/9/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3');
 var homeMusic=new Audio('https://ia600109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3');
 var dailyMusic=new Audio('https://ia600702.us.archive.org/1/items/kanye-west-hell-of-a-life-instrumental/Kanye%2BWest%2B-%2BHell%2BOf%2BA%2BLife%2B%28Instrumental%29.mp3');
 splashMusic.loop=false;homeMusic.loop=true;dailyMusic.loop=true;
 
-function stopAll(){
-  [splashMusic,homeMusic,dailyMusic].forEach(function(a){a.pause();a.currentTime=0;});
-}
+// WAKE LOCK
+if('wakeLock' in navigator){navigator.wakeLock.request('screen').catch(function(){});}
 
-// ═══ WAKE LOCK ═══
-if('wakeLock' in navigator){
-  navigator.wakeLock.request('screen').catch(function(){});
-}
-
-// ═══ SPLASH ═══
+// SPLASH
 var splashTapped=false;
 document.getElementById('splashScreen').addEventListener('click',function(){
   if(splashTapped)return;
@@ -760,26 +310,22 @@ document.getElementById('splashScreen').addEventListener('click',function(){
   },7500);
 });
 
-// ═══ HOME NAV ═══
+// NAV
 document.getElementById('goDaily').addEventListener('click',function(){
   homeMusic.pause();
   document.getElementById('homeScreen').style.display='none';
   document.getElementById('dailyScreen').style.display='flex';
   dailyMusic.volume=0.5;dailyMusic.play().catch(function(){});
 });
-var feedActive=false;
 
+var feedActive=false;
 function enterFeed(){
   document.getElementById('feed').style.display='block';
   document.getElementById('startBtn').style.display='none';
   if(!feedActive){
-    buildFeed();
-    showControls();
-    feedActive=true;
+    buildFeed();showControls();feedActive=true;
   } else {
-    // Resume current video
-    var v=getVideo(current);
-    if(v){v.play().catch(function(){});}
+    var v=getVideo(current);if(v){v.play().catch(function(){});}
     showControls();
   }
 }
@@ -796,7 +342,7 @@ document.getElementById('dailyBack').addEventListener('click',function(){
   homeMusic.currentTime=0;homeMusic.play().catch(function(){});
 });
 document.getElementById('entryMarch7').addEventListener('click',function(){
-  document.getElementById('dailyReader').style.display='flex';
+  document.getElementById('dailyReader').style.display='block';
 });
 document.getElementById('readerBack').addEventListener('click',function(){
   document.getElementById('dailyReader').style.display='none';
@@ -808,8 +354,6 @@ document.getElementById('sigLink').addEventListener('click',function(){
   document.getElementById('homeScreen').style.display='none';
   enterFeed();
 });
-
-// ═══ FEED BACK ═══
 document.getElementById('feedBack').addEventListener('click',function(){
   var v=getVideo(current);if(v){v.pause();}
   document.getElementById('feed').style.display='none';
@@ -817,7 +361,16 @@ document.getElementById('feedBack').addEventListener('click',function(){
   homeMusic.currentTime=0;homeMusic.volume=0.55;homeMusic.play().catch(function(){});
 });
 
-// ═══ VIDEOS ═══
+// PREVENT SCROLL ON FEED
+document.addEventListener('touchmove',function(e){
+  if(document.getElementById('dailyReader').style.display==='block') return;
+  if(document.getElementById('dailyScreen').style.display==='flex') return;
+  if(document.getElementById('homeScreen').style.display==='flex') return;
+  e.preventDefault();
+},{passive:false});
+
+
+// VIDEOS
 var VIDEOS=[
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
@@ -1081,24 +634,15 @@ var VIDEOS=[
   {name:"You MUST Watch This If You Are BROKE",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/You%20MUST%20Watch%20This%20If%20You%20Are%20BROKE%20%28Andrew%20Tate%29%20%281%29.mp4"},
 ];
 
-// ═══ FEED LOGIC ═══
+// FEED LOGIC
 var list=[],current=0,slides=[];
 var settling=false,dragging=false,tStartY=0;
 var feedEl=document.getElementById('feed');
 var milestoneEl=document.getElementById('milestone');
 
-function shuffle(a){
-  var b=a.slice();
-  for(var i=b.length-1;i>0;i--){
-    var j=Math.floor(Math.random()*(i+1));
-    var t=b[i];b[i]=b[j];b[j]=t;
-  }
-  return b;
-}
-
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
 function getSlide(idx){return slides[idx]||null;}
 function getVideo(idx){return slides[idx]?slides[idx].querySelector('video'):null;}
-
 function setPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
 function setPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
 function animateTo(el,vh,cb){
@@ -1113,19 +657,15 @@ function buildFeed(){
   list.forEach(function(vid,idx){
     var slide=document.createElement('div');slide.className='slide';
     var video=document.createElement('video');
-    video.setAttribute('playsinline','');
-    video.setAttribute('webkit-playsinline','');
+    video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');
     video.muted=false;video.loop=false;
     video.preload=idx<3?'auto':'none';
     slide.appendChild(video);
     feedEl.appendChild(slide);slides.push(slide);
-    setPos(slide, idx===0?0:100);
+    setPos(slide,idx===0?0:100);
   });
   loadAround(0);
-  var v=getVideo(0);
-  if(v){
-    v.play().catch(function(){});
-  }
+  var v=getVideo(0);if(v){v.play().catch(function(){});}
 }
 
 function loadAround(idx){
@@ -1139,28 +679,9 @@ function loadAround(idx){
   }
 }
 
-function goTo(next){
-  if(settling||next<0||next>=list.length)return;
-  settling=true;
-  var prevV=getVideo(current);if(prevV){prevV.pause();}
-  var prevSlide=getSlide(current);
-  var nextSlide=getSlide(next);
-  if(!nextSlide){settling=false;return;}
-  setPos(nextSlide,next>current?100:-100);
-  requestAnimationFrame(function(){
-    animateTo(nextSlide,0,function(){
-      if(prevSlide)setPos(prevSlide,current<next?-100:100);
-      current=next;settling=false;
-      var nv=getVideo(current);
-      if(nv){nv.currentTime=0;nv.play().catch(function(){});}
-      loadAround(current);
-    });
-  });
-}
-
-var touchStartY=0,touchLastY=0;
+// SWIPE
 feedEl.addEventListener('touchstart',function(e){
-  if(e.target.closest('#startBtn')||e.target.closest('#feedTopBar')) return;
+  if(e.target.closest('#startBtn')||e.target.closest('#topbar')) return;
   if(settling) return;
   tStartY=e.touches[0].clientY;
   dragging=true;
@@ -1172,54 +693,44 @@ feedEl.addEventListener('touchmove',function(e){
   if(!dragging||settling) return;
   e.preventDefault();
   var dy=e.touches[0].clientY - tStartY;
-  if(dy<=0) return; // block swipe up
+  if(dy<=0) return;
   if(current>=list.length-1) return;
   var H=window.innerHeight;
-  var cs=getSlide(current);
-  var ns=getSlide(current+1);
+  var cs=getSlide(current);var ns=getSlide(current+1);
   if(cs) setPosPx(cs,dy);
   if(ns) setPosPx(ns,-(H-dy));
 },{passive:false});
 
 feedEl.addEventListener('touchend',function(e){
-  if(!dragging) return;
-  dragging=false;
+  if(!dragging) return; dragging=false;
   if(settling) return;
   var dy=e.changedTouches[0].clientY - tStartY;
   if(dy>80&&current<list.length-1){
     settling=true;
-    var prev=current;
-    var next=current+1;
-    var prevSlide=getSlide(prev);
-    var nextSlide=getSlide(next);
-    var prevV=getVideo(prev); if(prevV){prevV.pause();}
+    var prev=current;var next=current+1;
+    var prevSlide=getSlide(prev);var nextSlide=getSlide(next);
+    var prevV=getVideo(prev);if(prevV){prevV.pause();}
     current=next;
-    // Start next video immediately — before animation finishes
-    var nv=getVideo(current);
-    if(nv){nv.currentTime=0;nv.play().catch(function(){});}
+    var nv=getVideo(current);if(nv){nv.currentTime=0;nv.play().catch(function(){});}
     if(getSlide(current+1)) setPos(getSlide(current+1),-100);
     if(prevSlide) animateTo(prevSlide,100,null);
     if(nextSlide){
-      animateTo(nextSlide,0,function(){
-        settling=false;
-        loadAround(current);
-      });
-    } else {
-      settling=false;
-    }
+      animateTo(nextSlide,0,function(){settling=false;loadAround(current);});
+    } else {settling=false;}
+    // update energy bar
+    var pct=Math.round((current/list.length)*100);
+    var fill=document.getElementById('ebarFill');if(fill)fill.style.width=pct+'%';
+    var pts=document.getElementById('ebarPts');if(pts)pts.textContent=pct+'% / 100% ▲';
+    var runner=document.querySelector('.ebar-runner');if(runner)runner.style.left=pct+'%';
   } else {
-    var cs=getSlide(current);
-    var ns=getSlide(current+1);
+    var cs=getSlide(current);var ns=getSlide(current+1);
     if(dy>0&&current<list.length-1){
-      if(cs) animateTo(cs,0,null);
-      if(ns) animateTo(ns,-100,null);
-    } else {
-      if(cs) setPos(cs,0);
-    }
+      if(cs) animateTo(cs,0,null);if(ns) animateTo(ns,-100,null);
+    } else {if(cs) setPos(cs,0);}
   }
 },{passive:false});
 
-// ═══ VIDEO CONTROLS ═══
+// VIDEO CONTROLS
 var vcEl=document.getElementById('videoControls');
 var scrubTrack=document.getElementById('scrubTrack');
 var scrubFill=document.getElementById('scrubFill');
@@ -1227,104 +738,73 @@ var scrubHandle=document.getElementById('scrubHandle');
 var vcCurrent=document.getElementById('vcCurrent');
 var vcDuration=document.getElementById('vcDuration');
 var btnPP=document.getElementById('btnPlayPause');
-var controlsTimer=null;
-var isScrubbing=false;
+var controlsTimer=null;var isScrubbing=false;
 
-function fmtTime(s){
-  if(isNaN(s)||s<0)return'0:00';
-  var m=Math.floor(s/60),sec=Math.floor(s%60);
-  return m+':'+(sec<10?'0':'')+sec;
-}
+function fmtTime(s){if(isNaN(s)||s<0)return'0:00';var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
 function updateScrub(){
   var v=getVideo(current);if(!v)return;
   var pct=v.duration?v.currentTime/v.duration:0;
-  scrubFill.style.width=(pct*100)+'%';
-  scrubHandle.style.left=(pct*100)+'%';
-  vcCurrent.textContent=fmtTime(v.currentTime);
-  vcDuration.textContent=fmtTime(v.duration);
-  btnPP.textContent=v.paused?'▶  Play':'❚❚  Pause';
+  scrubFill.style.width=(pct*100)+'%';scrubHandle.style.left=(pct*100)+'%';
+  vcCurrent.textContent=fmtTime(v.currentTime);vcDuration.textContent=fmtTime(v.duration);
+  btnPP.textContent=v.paused?'▶ PLAY':'❚❚ PAUSE';
 }
 function showControls(){
-  vcEl.classList.remove('hidden');
-  clearTimeout(controlsTimer);
+  vcEl.classList.remove('hidden');clearTimeout(controlsTimer);
   controlsTimer=setTimeout(function(){vcEl.classList.add('hidden');},4000);
 }
-
 setInterval(updateScrub,250);
 
-// Tap video = toggle controls
 feedEl.addEventListener('click',function(e){
-  if(e.target.closest('#feedTopBar')||e.target.closest('#startBtn')||e.target.closest('#videoControls'))return;
-  if(vcEl.classList.contains('hidden')){showControls();}
-  else{vcEl.classList.add('hidden');}
+  if(e.target.closest('#topbar')||e.target.closest('#startBtn')||e.target.closest('#videoControls')||e.target.closest('#energy-bar'))return;
+  if(vcEl.classList.contains('hidden')){showControls();}else{vcEl.classList.add('hidden');}
 });
-
-// Play/Pause button
 btnPP.addEventListener('click',function(e){
-  e.stopPropagation();
-  var v=getVideo(current);if(!v)return;
-  if(v.paused){v.play().catch(function(){});}else{v.pause();}
-  showControls();
+  e.stopPropagation();var v=getVideo(current);if(!v)return;
+  if(v.paused){v.play().catch(function(){});}else{v.pause();}showControls();
 });
-
-// Scrub touch
 function scrubTo(e){
   var v=getVideo(current);if(!v||!v.duration)return;
   var rect=scrubTrack.getBoundingClientRect();
   var clientX=(e.touches?e.touches[0].clientX:e.clientX);
   var pct=Math.max(0,Math.min(1,(clientX-rect.left)/rect.width));
-  v.currentTime=pct*v.duration;
-  updateScrub();
+  v.currentTime=pct*v.duration;updateScrub();
 }
-scrubTrack.addEventListener('touchstart',function(e){
-  e.stopPropagation();isScrubbing=true;scrubTo(e);showControls();
-},{passive:true});
-scrubTrack.addEventListener('touchmove',function(e){
-  if(!isScrubbing)return;e.stopPropagation();scrubTo(e);
-},{passive:true});
-scrubTrack.addEventListener('touchend',function(e){
-  isScrubbing=false;e.stopPropagation();showControls();
-},{passive:true});
-scrubTrack.addEventListener('click',function(e){
-  e.stopPropagation();scrubTo(e);showControls();
-});
+scrubTrack.addEventListener('touchstart',function(e){e.stopPropagation();isScrubbing=true;scrubTo(e);showControls();},{passive:true});
+scrubTrack.addEventListener('touchmove',function(e){if(!isScrubbing)return;e.stopPropagation();scrubTo(e);},{passive:true});
+scrubTrack.addEventListener('touchend',function(e){isScrubbing=false;e.stopPropagation();showControls();},{passive:true});
+scrubTrack.addEventListener('click',function(e){e.stopPropagation();scrubTo(e);showControls();});
 
-// Auto-advance when video ends
+// AUTO-ADVANCE ON VIDEO END
 feedEl.addEventListener('ended',function(e){
-  if(e.target.tagName==='VIDEO'){
-    if(current<list.length-1){
-      settling=true;
-      var prev=current;var next=current+1;
-      var prevSlide=getSlide(prev);var nextSlide=getSlide(next);
-      var prevV=getVideo(prev);if(prevV)prevV.pause();
-      current=next;
-      if(getSlide(current+1))setPos(getSlide(current+1),-100);
-      if(prevSlide)animateTo(prevSlide,100,null);
-      if(nextSlide){animateTo(nextSlide,0,function(){
-        settling=false;
-        var nv=getVideo(current);if(nv){nv.currentTime=0;nv.play().catch(function(){});}
-        loadAround(current);
-      });}else{settling=false;}
-    }
+  if(e.target.tagName==='VIDEO'&&current<list.length-1){
+    settling=true;var prev=current;var next=current+1;
+    var prevSlide=getSlide(prev);var nextSlide=getSlide(next);
+    var prevV=getVideo(prev);if(prevV)prevV.pause();
+    current=next;
+    if(getSlide(current+1))setPos(getSlide(current+1),-100);
+    if(prevSlide)animateTo(prevSlide,100,null);
+    if(nextSlide){animateTo(nextSlide,0,function(){
+      settling=false;var nv=getVideo(current);if(nv){nv.currentTime=0;nv.play().catch(function(){});}loadAround(current);
+    });}else{settling=false;}
   }
 },true);
 
 document.getElementById('startBtn').addEventListener('click',function(){
-  this.style.display='none';
-  buildFeed();
-  feedActive=true;
-  showControls();
+  this.style.display='none';buildFeed();feedActive=true;showControls();
 });
 
-// milestone
+// MILESTONE
 var lastMilestone=-1;
 setInterval(function(){
   if(current>0&&current%30===0&&current!==lastMilestone){
-    lastMilestone=current;
-    milestoneEl.classList.add('show');
+    lastMilestone=current;milestoneEl.classList.add('show');
     setTimeout(function(){milestoneEl.classList.remove('show');},2500);
   }
 },1000);
+
+
+
+
 </script>
 </body>
 </html>
