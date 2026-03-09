@@ -698,9 +698,7 @@ feed.addEventListener('touchend',function(e){
 },{passive:true});
 
 document.addEventListener('touchmove',function(e){
-  if(document.getElementById('homeScreen').style.display!=='none') return;
-  if(document.getElementById('dailyScreen').style.display==='flex') return;
-  if(document.getElementById('dailyReader').style.display==='flex') return;
+  if(feed.style.display!=='block') return;
   e.preventDefault();
 },{passive:false});
 
