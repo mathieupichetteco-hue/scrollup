@@ -331,7 +331,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
     <div class="hm-tagline">Evolve the energy of the world — eternally</div>
   </div>
   <div class="hm-cards">
-    <div class="hm-card" id="goFeed" onclick="document.getElementById('home').style.display='none';document.getElementById('feed').style.display='block';if(!started){started=true;document.getElementById('startBtn').style.display='none';requestWakeLock();buildFeed();setTimeout(function(){var v=getVideo(0);if(v){v.load();v.play().catch(function(){});}},80);}">
+    <div class="hm-card" id="goFeed" onclick="document.getElementById('home').style.display='none';document.getElementById('feed').style.display='block';">
       <div class="hm-icon">⚡</div>
       <div class="hm-text">
         <div class="hm-card-title">Mathieu Pichette.co Scroll Up</div>
@@ -429,7 +429,11 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 
 <!-- ── FEED ── -->
 <div id="feed">
-  <div id="startBtn" style="display:none;"></div>
+  <div id="startBtn">
+    <div class="sb-brand">Mathieu Pichette.co</div>
+    <div class="sb-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div class="sb-cta">EVOLVE THE ENERGY — TAP TO START</div>
+  </div>
   <div id="topbar">
     <div class="tb2-brand">Mathieu Pichette.co · Scroll Up</div>
     <div class="tb2-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -797,7 +801,8 @@ var dailyMusic = document.getElementById('dailyMusic');
 // ── STATE ──
 var list=[], slides=[], current=0;
 var settling=false, dragging=false, tStartY=0;
-var started=false, wakeLock=null;
+var wakeLock=null;
+window.started=false;
 
 // ── HELPERS ──
 function show(id){ var el=document.getElementById(id); el.style.display='flex'; }
@@ -822,11 +827,6 @@ function stopAll(){
 }
 
 // ── NAVIGATION ──
-document.getElementById('splash').addEventListener('touchstart',function(e){
-  e.preventDefault();
-  this.style.display='none';
-  show('home');
-},{passive:false});
 document.getElementById('splash').addEventListener('click',function(){
   this.style.display='none';
   show('home');
@@ -903,29 +903,24 @@ function buildFeed(){
     video.setAttribute('webkit-playsinline','');
     video.setAttribute('preload','none');
     video.muted=false; video.loop=true;
-    // tap = pause/play + show controls
-    slide.addEventListener('click', function(e){
-      if(dragging) return;
-      var v = slide.querySelector('video');
-      if(!v) return;
-      var ppicon = document.getElementById('ppicon');
-      if(v.paused){
-        v.play().catch(function(){});
-        ppicon.textContent='▶';
-      } else {
-        v.pause();
-        ppicon.textContent='⏸';
-      }
-      ppicon.style.opacity='1';
-      setTimeout(function(){ ppicon.style.opacity='0'; }, 600);
-      showControls();
-    });
     slide.appendChild(video);
     feed.appendChild(slide);
     slides.push(slide);
     setPos(slide, idx===0 ? 0 : 100);
   });
   loadAround(0);
+}
+
+function startFeed(){
+  if(window.started) return; window.started=true;
+  requestWakeLock();
+  buildFeed();
+  var v=getVideo(0);
+  if(v){
+    v.src=list[0].url;
+    v.muted=true;
+    v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+  }
 }
 
 // ── FAST PRELOAD: only load current + next 2 ──
@@ -982,7 +977,7 @@ function showMilestone(){
 
 // ── START ──
 document.getElementById('startBtn').addEventListener('click',function(){
-  if(started) return; started=true;
+  if(window.started) return; window.started=true;
   this.style.display='none';
   requestWakeLock();
   buildFeed();
@@ -1015,7 +1010,7 @@ feed.addEventListener('ended',function(e){
 
 // ── SWIPE: finger DOWN = next video, finger UP = blocked ──
 feed.addEventListener('touchstart',function(e){
-  if(settling||!started) return;
+  if(settling||!window.started) return;
   // ignore if touching controls
   if(e.target.closest && e.target.closest('#vcontrols')) return;
   tStartY=e.touches[0].clientY;
@@ -1063,7 +1058,7 @@ feed.addEventListener('touchend',function(e){
 
 // ── BLOCK SCROLL ON FEED ──
 document.addEventListener('touchmove',function(e){
-  if(feed.style.display==='block' && started) e.preventDefault();
+  if(feed.style.display==='block' && window.started) e.preventDefault();
 },{passive:false});
 
 // ── VIDEO CONTROLS ──
@@ -1100,7 +1095,7 @@ function updateControls(){
 }
 
 setInterval(function(){
-  if(started) updateControls();
+  if(window.started) updateControls();
 },250);
 
 vseek.addEventListener('input',function(){
@@ -1108,7 +1103,6 @@ vseek.addEventListener('input',function(){
   if(v&&v.duration){ v.currentTime=(this.value/100)*v.duration; }
 });
 
-
-
+</script>
 </body>
 </html>
