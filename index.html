@@ -16,7 +16,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 /* ───────── SPLASH ───────── */
 #splash{
   position:fixed;inset:0;z-index:99999;background:#000;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
   padding:48px 32px;cursor:pointer;touch-action:manipulation;
 }
 .sp-brand{
@@ -325,7 +325,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 </div>
 
 <!-- ── HOME ── -->
-<div id="home" style="display:none">
+<div id="home" style="display:flex">
   <div class="hm-top">
     <div class="hm-brand">Mathieu Pichette.co</div>
     <div class="hm-tagline">Evolve the energy of the world — eternally</div>
@@ -481,6 +481,10 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function(){
+// Skip splash — go straight to home
+document.getElementById('splash').style.display='none';
+document.getElementById('home').style.display='flex';
 var VIDEOS=[
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
@@ -742,7 +746,6 @@ var VIDEOS=[
   {name:"I Spent $500K In 12 Hours EP66",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/I%20SPENT%20%24500K%20IN%2012%20HOURS%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2066%20%281%29.mp4"},
   {name:"Paris Is Not Fun EP33",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/PARIS%20IS%20NOT%20FUN%20%20%20TATE%20CONFIDENTIAL%20%20%20EPISODE%2033%20%281%29.mp4"},
   {name:"You MUST Watch This If You Are BROKE",url:"https://ia600702.us.archive.org/0/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie/You%20MUST%20Watch%20This%20If%20You%20Are%20BROKE%20%28Andrew%20Tate%29%20%281%29.mp4"},
-,
   {name:"alfinaro22_1772729085_7613813410618215698",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/alfinaro22_1772729085_7613813410618215698.mp4"},
   {name:"belmarglobal_1747615083_7505949496031989014",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/belmarglobal_1747615083_7505949496031989014.mp4"},
   {name:"billionaire.advoc_1698136142_7293439133463121182",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/billionaire.advoc_1698136142_7293439133463121182.mp4"},
@@ -828,6 +831,11 @@ function stopAll(){
 
 // ── NAVIGATION ──
 document.getElementById('splash').addEventListener('click',function(){
+  this.style.display='none';
+  show('home');
+});
+document.getElementById('splash').addEventListener('touchend',function(e){
+  e.preventDefault();
   this.style.display='none';
   show('home');
 });
@@ -1107,6 +1115,8 @@ vseek.addEventListener('input',function(){
   var v=getVideo(current);
   if(v&&v.duration){ v.currentTime=(this.value/100)*v.duration; }
 });
+
+}); // end DOMContentLoaded
 
 
 
