@@ -16,7 +16,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 /* ───────── SPLASH ───────── */
 #splash{
   position:fixed;inset:0;z-index:99999;background:#000;
-  display:none;flex-direction:column;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:48px 32px;cursor:pointer;touch-action:manipulation;
 }
 .sp-brand{
@@ -325,7 +325,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 </div>
 
 <!-- ── HOME ── -->
-<div id="home" style="display:flex">
+<div id="home" style="display:none">
   <div class="hm-top">
     <div class="hm-brand">Mathieu Pichette.co</div>
     <div class="hm-tagline">Evolve the energy of the world — eternally</div>
@@ -481,10 +481,6 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-// Skip splash — go straight to home
-document.getElementById('splash').style.display='none';
-document.getElementById('home').style.display='flex';
 var VIDEOS=[
   {name:"Madara Uchiha vs Shinobi Alliance Full Fight English Dub",url:"https://ia600807.us.archive.org/33/items/madara-uchiha-vs-shinobi-alliance-full-fight-english-dub-2/Madara%20Uchiha%20vs%20Shinobi%20Alliance%20%20Full%20Fight%20%20English%20Dub%20%282%29.mp4"},
   {name:"Madara vs 5 Kage Full Fight English Dub",url:"https://ia800500.us.archive.org/31/items/madara-vs-5-kage-full-fight-five-kage-vs-madara-uchiha-shinobi-alliance/Madara%20vs%205%20Kage%20FULL%20fight%20%20FIVE%20Kage%20vs%20Madara%20Uchiha%20%20Shinobi%20alliance.mp4"},
@@ -1115,8 +1111,6 @@ vseek.addEventListener('input',function(){
   var v=getVideo(current);
   if(v&&v.duration){ v.currentTime=(this.value/100)*v.duration; }
 });
-
-}); // end DOMContentLoaded
 
 
 
