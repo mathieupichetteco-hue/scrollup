@@ -209,23 +209,20 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 }
 #voverlay.show{opacity:1;pointer-events:auto;}
 #voverlay-inner{
-  display:flex;align-items:center;gap:36px;
+  display:flex;align-items:center;gap:40px;
 }
 .vov-btn{
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  cursor:pointer;touch-action:manipulation;opacity:0.9;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;touch-action:manipulation;
 }
-.vov-icon{
-  font-size:1.5rem;color:rgba(255,255,255,0.85);
-  text-shadow:0 0 12px rgba(0,0,0,0.8);
+.vov-btn svg{
+  width:48px;height:48px;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.7));
 }
+.vov-big svg{width:58px;height:58px;}
 .vov-label{
-  font-family:'Anton',sans-serif;font-size:0.42rem;
-  letter-spacing:1.5px;color:rgba(255,255,255,0.5);
-}
-.vov-big .vov-icon{
-  font-size:2rem;color:var(--gold);
-  text-shadow:0 0 16px rgba(0,229,204,0.6);
+  font-family:'Anton',sans-serif;font-size:0.4rem;
+  letter-spacing:1.5px;color:rgba(255,255,255,0.55);
 }
 
 /* ── TAP ZONES ── */
@@ -411,15 +408,26 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
   <div id="voverlay">
     <div id="voverlay-inner">
       <div class="vov-btn" id="vov-back">
-        <div class="vov-icon">⏪</div>
-        <div class="vov-label">10s</div>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="20" stroke="white" stroke-width="2.5" stroke-dasharray="100 30" stroke-dashoffset="15"/>
+          <polyline points="28,16 20,24 28,32" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="20" y1="16" x2="20" y2="32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <div class="vov-label">10S</div>
       </div>
       <div class="vov-btn vov-big" id="vov-play">
-        <div class="vov-icon" id="vov-play-icon">▶</div>
+        <svg id="vov-play-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="22" stroke="white" stroke-width="2.5"/>
+          <polygon points="20,16 34,24 20,32" fill="white"/>
+        </svg>
       </div>
       <div class="vov-btn" id="vov-fwd">
-        <div class="vov-icon">⏩</div>
-        <div class="vov-label">10s</div>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="20" stroke="white" stroke-width="2.5" stroke-dasharray="100 30" stroke-dashoffset="-85"/>
+          <polyline points="20,16 28,24 20,32" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="28" y1="16" x2="28" y2="32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <div class="vov-label">10S</div>
       </div>
     </div>
   </div>
@@ -959,40 +967,40 @@ document.addEventListener('touchmove',function(e){
   if(feed.style.display==='block'&&window.started) e.preventDefault();
 },{passive:false});
 
-// ── OVERLAY (tap center = show, auto-hide 3s) ──
+// ── OVERLAY ──
 var voverlay=document.getElementById('voverlay');
 var vovPlay=document.getElementById('vov-play');
-var vovPlayIcon=document.getElementById('vov-play-icon');
+var vovPlaySvg=document.getElementById('vov-play-svg');
 var vovBack=document.getElementById('vov-back');
 var vovFwd=document.getElementById('vov-fwd');
 var overlayTimer=null;
 
+var SVG_PLAY='<circle cx="24" cy="24" r="22" stroke="white" stroke-width="2.5"/><polygon points="20,16 34,24 20,32" fill="white"/>';
+var SVG_PAUSE='<circle cx="24" cy="24" r="22" stroke="white" stroke-width="2.5"/><rect x="16" y="15" width="5" height="18" rx="1.5" fill="white"/><rect x="27" y="15" width="5" height="18" rx="1.5" fill="white"/>';
+
 function updatePlayIcon(){
   var v=getVideo(current);
-  vovPlayIcon.textContent=(v&&!v.paused)?'⏸':'▶';
+  var paused=!v||v.paused;
+  if(vovPlaySvg) vovPlaySvg.innerHTML=paused?SVG_PLAY:SVG_PAUSE;
+  if(seekPP) seekPP.textContent=paused?'▶':'⏸';
 }
 
 function showOverlay(){
+  updatePlayIcon();
   voverlay.classList.add('show');
   clearTimeout(overlayTimer);
   overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
 }
 
-function toggleOverlay(){
-  if(voverlay.classList.contains('show')){
-    clearTimeout(overlayTimer);
-    voverlay.classList.remove('show');
-  } else {
-    showOverlay();
-    updatePlayIcon();
-  }
-}
-
-// tap anywhere on feed = toggle overlay
+// tap on feed = toggle overlay on/off
 feed.addEventListener('click',function(e){
   if(e.target.closest&&e.target.closest('#fseekbar')) return;
   if(e.target.closest&&e.target.closest('#voverlay')) return;
-  toggleOverlay();
+  if(voverlay.classList.contains('show')){
+    clearTimeout(overlayTimer); voverlay.classList.remove('show');
+  } else {
+    showOverlay();
+  }
 });
 
 vovPlay.addEventListener('click',function(e){
@@ -1006,15 +1014,13 @@ vovPlay.addEventListener('click',function(e){
 });
 
 vovBack.addEventListener('click',function(e){
-  e.stopPropagation();
-  seekRel(-10);
+  e.stopPropagation(); seekRel(-10);
   clearTimeout(overlayTimer);
   overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
 });
 
 vovFwd.addEventListener('click',function(e){
-  e.stopPropagation();
-  seekRel(10);
+  e.stopPropagation(); seekRel(10);
   clearTimeout(overlayTimer);
   overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
 });
