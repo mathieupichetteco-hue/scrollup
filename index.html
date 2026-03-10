@@ -988,12 +988,14 @@ function showOverlay(){
   overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
 }
 
+var overlayUsed=false; // true after a button was pressed, next tap = dismiss
+
 // tap on feed = toggle overlay on/off
 feed.addEventListener('click',function(e){
   if(e.target.closest&&e.target.closest('#fseekbar')) return;
   if(e.target.closest&&e.target.closest('#voverlay')) return;
-  if(voverlay.classList.contains('show')){
-    clearTimeout(overlayTimer); voverlay.classList.remove('show');
+  if(overlayUsed || voverlay.classList.contains('show')){
+    clearTimeout(overlayTimer); voverlay.classList.remove('show'); overlayUsed=false;
   } else {
     showOverlay();
   }
@@ -1006,19 +1008,22 @@ vovPlay.addEventListener('click',function(e){
   if(v.paused){ v.play().catch(function(){}); } else { v.pause(); }
   updatePlayIcon();
   clearTimeout(overlayTimer);
-  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); overlayUsed=false; },3000);
+  overlayUsed=true;
 });
 
 vovBack.addEventListener('click',function(e){
   e.stopPropagation(); seekRel(-10);
   clearTimeout(overlayTimer);
-  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); overlayUsed=false; },3000);
+  overlayUsed=true;
 });
 
 vovFwd.addEventListener('click',function(e){
   e.stopPropagation(); seekRel(10);
   clearTimeout(overlayTimer);
-  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); overlayUsed=false; },3000);
+  overlayUsed=true;
 });
 
 // ── SEEK BAR DRAG ──
