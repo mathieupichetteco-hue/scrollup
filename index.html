@@ -1004,7 +1004,6 @@ function hideControls(){
 var overlayUsed=false;
 
 feed.addEventListener('click',function(e){
-  if(e.target.closest&&e.target.closest('#fseekbar')) return;
   if(e.target.closest&&e.target.closest('#voverlay')) return;
   if(overlayUsed || voverlay.classList.contains('show')){
     hideControls();
