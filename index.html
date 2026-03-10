@@ -264,7 +264,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 
 <!-- ── AUDIO ── -->
 <audio id="splashMusic" preload="none">
-  <source src="https://ia800305.us.archive.org/11/items/KanyeWestCantTellMeNothing/Kanye%20West%20-%20Can%27t%20Tell%20Me%20Nothing.mp3" type="audio/mpeg">
+  <source src="https://dn720701.ca.archive.org/0/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3" type="audio/mpeg">
 </audio>
 <audio id="homeMusic" loop preload="none">
   <source src="https://ia800109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3" type="audio/mpeg">
@@ -286,7 +286,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 </div>
 
 <!-- ── HOME ── -->
-<div id="home">
+<div id="home" style="display:none">
   <div class="hm-top">
     <div class="hm-brand">Mathieu Pichette.co</div>
     <div class="hm-tagline">Evolve the energy of the world — eternally</div>
@@ -727,8 +727,8 @@ var settling=false, dragging=false, tStartY=0;
 var started=false, wakeLock=null;
 
 // ── HELPERS ──
-function show(id){ document.getElementById(id).style.display='flex'; }
-function hide(id){ document.getElementById(id).style.display='none'; }
+function show(id){ var el=document.getElementById(id); el.style.display='flex'; }
+function hide(id){ var el=document.getElementById(id); el.style.display='none'; }
 
 function shuffle(a){
   var b=a.slice();
@@ -748,18 +748,21 @@ function stopAll(){
   [homeMusic,scrollMusic,dailyMusic,splashMusic].forEach(function(m){ m.pause(); m.currentTime=0; });
 }
 
-// ── SPLASH AUTO-PLAY ──
-splashMusic.volume=0.55;
-splashMusic.currentTime=0;
-splashMusic.play().catch(function(){});
-setTimeout(function(){ splashMusic.pause(); splashMusic.currentTime=0; }, 7300);
-
 // ── NAVIGATION ──
 document.getElementById('splash').addEventListener('click',function(){
-  splashMusic.pause(); splashMusic.currentTime=0;
-  this.style.display='none';
-  show('home');
-  playMusic(homeMusic);
+  var tapEl = document.querySelector('.sp-tap');
+  tapEl.textContent = 'LOADING...';
+  splashMusic.volume=0.55;
+  splashMusic.currentTime=0;
+  splashMusic.play().catch(function(){});
+  var self = this;
+  setTimeout(function(){
+    splashMusic.pause();
+    splashMusic.currentTime=0;
+    self.style.display='none';
+    show('home');
+    playMusic(homeMusic);
+  }, 7300);
 });
 
 document.getElementById('goFeed').addEventListener('click',function(){
