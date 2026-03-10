@@ -429,7 +429,7 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
     </div>
     <div class="eb-row">
       <div class="eb-l">0%</div>
-      <div class="eb-c" id="ebPct">0 / 307 ▲</div>
+      <div class="eb-c" id="ebPct">▲</div>
       <div class="eb-r">100% ▲</div>
     </div>
   </div>
@@ -442,7 +442,6 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
   <div id="vcontrols">
     <div id="vtime">
       <span id="vcurrent">0:00</span>
-      <span id="vtitle" style="font-size:0.45rem;color:rgba(255,255,255,0.5);max-width:60%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;"></span>
       <span id="vduration">0:00</span>
     </div>
     <input type="range" id="vseek" min="0" max="100" value="0" step="0.1">
@@ -938,7 +937,7 @@ function updateBar(idx){
   var label=document.getElementById('ebPct');
   if(fill) fill.style.width=Math.max(0.5,pct)+'%';
   if(runner) runner.style.left=Math.max(0,pct-1.5)+'%';
-  if(label) label.textContent=(idx+1)+' / '+list.length+' ▲';
+  if(label) label.textContent='▲';
   if(idx>0 && idx%30===0) showMilestone();
 }
 
@@ -1041,7 +1040,7 @@ document.addEventListener('touchmove',function(e){
 var vseek=document.getElementById('vseek');
 var vcurrent=document.getElementById('vcurrent');
 var vduration=document.getElementById('vduration');
-var vtitle=document.getElementById('vtitle');
+  
 var vplaypause=document.getElementById('vplaypause');
 var seeking=false;
 
@@ -1061,7 +1060,7 @@ function updateControls(){
     vcurrent.textContent=fmtTime(v.currentTime);
     vduration.textContent=fmtTime(v.duration);
   }
-  vtitle.textContent=list[current]?list[current].name:'';
+  
   vplaypause.textContent=v.paused?'▶ PLAY':'⏸ PAUSE';
 }
 
