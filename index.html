@@ -155,6 +155,13 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   background:linear-gradient(rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.6) 80%,transparent 100%);
   pointer-events:none;text-align:center;
 }
+#ftop-back{
+  position:absolute;top:14px;left:16px;
+  font-family:'Anton',sans-serif;font-size:0.7rem;letter-spacing:2px;
+  color:rgba(255,255,255,0.8);cursor:pointer;touch-action:manipulation;
+  pointer-events:auto;padding:6px 4px;
+}
+#ftop-back:active{color:var(--gold);}
 #ftop-brand{
   font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:3px;
   color:var(--gold);margin-bottom:5px;
@@ -383,6 +390,7 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 <!-- ── FEED ── -->
 <div id="feed">
   <div id="ftop">
+    <div id="ftop-back" onclick="document.getElementById('feed').style.display='none';stopAll();document.getElementById('home').style.display='flex';window.started=false;">← MENU</div>
     <div id="ftop-brand">Mathieu Pichette.co · Scroll Up</div>
     <div id="ftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
