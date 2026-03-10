@@ -15,7 +15,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 
 /* ───────── SPLASH ───────── */
 #splash{
-  position:fixed;inset:0;z-index:9000;background:#000;
+  position:fixed;inset:0;z-index:99999;background:#000;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:48px 32px;cursor:pointer;touch-action:manipulation;
 }
@@ -40,7 +40,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
 
-#spiders{position:fixed;inset:0;z-index:9999;pointer-events:none;}
+
 
 /* ───────── HOME ───────── */
 #home{
@@ -302,12 +302,9 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 </head>
 <body>
 
-<canvas id="spiders"></canvas>
+
 
 <!-- ── AUDIO ── -->
-<audio id="splashMusic" preload="none">
-  <source src="https://dn720701.ca.archive.org/0/items/kanye-west-cant-tell-me-nothing_202603/Kanye%2BWest%2B-%2BCan%27t%2BTell%2BMe%2BNothing.mp3" type="audio/mpeg">
-</audio>
 <audio id="homeMusic" loop preload="none">
   <source src="https://ia800109.us.archive.org/9/items/hans-zimmer-time-inception-epic-emotional-version/Hans%2BZimmer%2B-%2BTime%2B%28Inception%29%2B%2B%2BEPIC%2BEMOTIONAL%2BVERSION.mp3" type="audio/mpeg">
 </audio>
@@ -801,7 +798,6 @@ var milestone = document.getElementById('milestone');
 var homeMusic = document.getElementById('homeMusic');
 var scrollMusic = document.getElementById('scrollMusic');
 var dailyMusic = document.getElementById('dailyMusic');
-var splashMusic = document.getElementById('splashMusic');
 
 // ── STATE ──
 var list=[], slides=[], current=0;
@@ -827,12 +823,11 @@ function playMusic(el){
   el.play().catch(function(){});
 }
 function stopAll(){
-  [homeMusic,scrollMusic,dailyMusic,splashMusic].forEach(function(m){ m.pause(); m.currentTime=0; });
+  [homeMusic,scrollMusic,dailyMusic].forEach(function(m){ m.pause(); m.currentTime=0; });
 }
 
 // ── NAVIGATION ──
 document.getElementById('splash').addEventListener('click',function(){
-  requestWakeLock();
   this.style.display='none';
   show('home');
 });
@@ -1112,76 +1107,7 @@ vseek.addEventListener('input',function(){
   var v=getVideo(current);
   if(v&&v.duration){ v.currentTime=(this.value/100)*v.duration; }
 });
-// ── SPIDERS ──
-(function(){
-  var canvas=document.getElementById('spiders');
-  var ctx=canvas.getContext('2d');
-  var spiders=[];
-  var N=80;
 
-  function resize(){
-    canvas.width=window.innerWidth;
-    canvas.height=window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize',resize);
-
-  function Spider(){
-    this.x=Math.random()*window.innerWidth;
-    this.y=Math.random()*window.innerHeight;
-    this.size=Math.random()*5+2;
-    this.vx=(Math.random()-0.5)*1.2;
-    this.vy=(Math.random()-0.5)*1.2;
-    this.legs=8;
-    this.angle=Math.random()*Math.PI*2;
-    this.spin=(Math.random()-0.5)*0.08;
-  }
-  Spider.prototype.update=function(){
-    this.x+=this.vx;
-    this.y+=this.vy;
-    this.angle+=this.spin;
-    if(this.x<0)this.x=window.innerWidth;
-    if(this.x>window.innerWidth)this.x=0;
-    if(this.y<0)this.y=window.innerHeight;
-    if(this.y>window.innerHeight)this.y=0;
-  };
-  Spider.prototype.draw=function(){
-    ctx.save();
-    ctx.translate(this.x,this.y);
-    ctx.rotate(this.angle);
-    ctx.strokeStyle='rgba(255,0,0,0.75)';
-    ctx.lineWidth=0.7;
-    // body
-    ctx.beginPath();
-    ctx.arc(0,0,this.size*0.6,0,Math.PI*2);
-    ctx.fillStyle='rgba(200,0,0,0.8)';
-    ctx.fill();
-    // legs
-    for(var i=0;i<8;i++){
-      var a=(i/8)*Math.PI*2;
-      var legLen=this.size*2.2;
-      var kx=Math.cos(a)*legLen*0.5;
-      var ky=Math.sin(a)*legLen*0.5;
-      ctx.beginPath();
-      ctx.moveTo(Math.cos(a)*this.size*0.5,Math.sin(a)*this.size*0.5);
-      ctx.quadraticCurveTo(kx,ky,Math.cos(a)*legLen,Math.sin(a)*legLen);
-      ctx.stroke();
-    }
-    ctx.restore();
-  };
-
-  for(var i=0;i<N;i++) spiders.push(new Spider());
-
-  function loop(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    for(var i=0;i<spiders.length;i++){
-      spiders[i].update();
-      spiders[i].draw();
-    }
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
 
 
 </body>
