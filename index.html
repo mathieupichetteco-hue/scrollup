@@ -1008,15 +1008,6 @@ var seekDur=document.getElementById('fseek-dur');
 var seekPP=document.getElementById('fseek-pp');
 var isSeeking=false;
 
-seekPP.addEventListener('click',function(e){
-  e.stopPropagation();
-  var v=getVideo(current);
-  if(!v) return;
-  if(v.paused){ v.play().catch(function(){}); } else { v.pause(); }
-  updatePlayIcon();
-  seekPP.textContent=v.paused?'▶':'⏸';
-});
-
 function fmtTime(s){
   if(!s||isNaN(s)) return '0:00';
   var m=Math.floor(s/60); var sec=Math.floor(s%60);
