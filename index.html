@@ -200,35 +200,32 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   line-height:1;
 }
 
-/* ── VIDEO OVERLAY (tap = show controls) ── */
+/* ── VIDEO OVERLAY ── */
 #voverlay{
   position:absolute;inset:0;z-index:45;
   display:flex;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;
-  transition:opacity 0.2s;
+  transition:opacity 0.15s;
 }
 #voverlay.show{opacity:1;pointer-events:auto;}
 #voverlay-inner{
-  display:flex;align-items:center;gap:28px;
-  background:rgba(0,0,0,0.45);
-  border-radius:60px;padding:18px 28px;
-  backdrop-filter:blur(4px);
+  display:flex;align-items:center;gap:36px;
 }
 .vov-btn{
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  cursor:pointer;touch-action:manipulation;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  cursor:pointer;touch-action:manipulation;opacity:0.9;
 }
-.vov-icon{font-size:1.8rem;line-height:1;color:#fff;}
+.vov-icon{
+  font-size:1.5rem;color:rgba(255,255,255,0.85);
+  text-shadow:0 0 12px rgba(0,0,0,0.8);
+}
 .vov-label{
-  font-family:'Anton',sans-serif;font-size:0.5rem;
-  letter-spacing:1.5px;color:rgba(255,255,255,0.7);
+  font-family:'Anton',sans-serif;font-size:0.42rem;
+  letter-spacing:1.5px;color:rgba(255,255,255,0.5);
 }
 .vov-big .vov-icon{
-  font-size:2.4rem;
-  width:60px;height:60px;border-radius:50%;
-  background:var(--gold);color:#000;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 18px rgba(0,229,204,0.5);
+  font-size:2rem;color:var(--gold);
+  text-shadow:0 0 16px rgba(0,229,204,0.6);
 }
 
 /* ── TAP ZONES ── */
@@ -970,23 +967,32 @@ var vovBack=document.getElementById('vov-back');
 var vovFwd=document.getElementById('vov-fwd');
 var overlayTimer=null;
 
+function updatePlayIcon(){
+  var v=getVideo(current);
+  vovPlayIcon.textContent=(v&&!v.paused)?'⏸':'▶';
+}
+
 function showOverlay(){
   voverlay.classList.add('show');
   clearTimeout(overlayTimer);
   overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
 }
 
-function updatePlayIcon(){
-  var v=getVideo(current);
-  vovPlayIcon.textContent=(v&&!v.paused)?'⏸':'▶';
+function toggleOverlay(){
+  if(voverlay.classList.contains('show')){
+    clearTimeout(overlayTimer);
+    voverlay.classList.remove('show');
+  } else {
+    showOverlay();
+    updatePlayIcon();
+  }
 }
 
-// tap anywhere on feed (not on seebar) = show overlay
+// tap anywhere on feed = toggle overlay
 feed.addEventListener('click',function(e){
   if(e.target.closest&&e.target.closest('#fseekbar')) return;
   if(e.target.closest&&e.target.closest('#voverlay')) return;
-  showOverlay();
-  updatePlayIcon();
+  toggleOverlay();
 });
 
 vovPlay.addEventListener('click',function(e){
