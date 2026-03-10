@@ -187,12 +187,51 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   pointer-events:none;
 }
 #fseek-times{
-  display:flex;justify-content:space-between;
+  display:flex;justify-content:space-between;align-items:center;
   font-family:'Anton',sans-serif;font-size:0.5rem;
-  color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:none;
+  color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:auto;
+}
+#fseek-pp{
+  font-size:1.1rem;color:var(--gold);
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(0,229,204,0.15);border:1px solid rgba(0,229,204,0.3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;touch-action:manipulation;
+  line-height:1;
 }
 
-/* ── TAP ZONES (left -10s, right +10s) ── */
+/* ── VIDEO OVERLAY (tap = show controls) ── */
+#voverlay{
+  position:absolute;inset:0;z-index:45;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.2s;
+}
+#voverlay.show{opacity:1;pointer-events:auto;}
+#voverlay-inner{
+  display:flex;align-items:center;gap:28px;
+  background:rgba(0,0,0,0.45);
+  border-radius:60px;padding:18px 28px;
+  backdrop-filter:blur(4px);
+}
+.vov-btn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;touch-action:manipulation;
+}
+.vov-icon{font-size:1.8rem;line-height:1;color:#fff;}
+.vov-label{
+  font-family:'Anton',sans-serif;font-size:0.5rem;
+  letter-spacing:1.5px;color:rgba(255,255,255,0.7);
+}
+.vov-big .vov-icon{
+  font-size:2.4rem;
+  width:60px;height:60px;border-radius:50%;
+  background:var(--gold);color:#000;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 18px rgba(0,229,204,0.5);
+}
+
+/* ── TAP ZONES ── */
 #tap-left,#tap-right{
   position:absolute;top:15%;bottom:15%;width:35%;z-index:40;
   display:flex;align-items:center;justify-content:center;
@@ -368,7 +407,23 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
     </div>
     <div id="fseek-times">
       <span id="fseek-cur">0:00</span>
+      <div id="fseek-pp">▶</div>
       <span id="fseek-dur">0:00</span>
+    </div>
+  </div>
+  <div id="voverlay">
+    <div id="voverlay-inner">
+      <div class="vov-btn" id="vov-back">
+        <div class="vov-icon">⏪</div>
+        <div class="vov-label">10s</div>
+      </div>
+      <div class="vov-btn vov-big" id="vov-play">
+        <div class="vov-icon" id="vov-play-icon">▶</div>
+      </div>
+      <div class="vov-btn" id="vov-fwd">
+        <div class="vov-icon">⏩</div>
+        <div class="vov-label">10s</div>
+      </div>
     </div>
   </div>
   <div id="milestone">
@@ -808,14 +863,8 @@ function buildFeed(){
     slides.push(slide);
     setPos(slide, idx===0 ? 0 : 100);
   });
-  // tap zones
-  var tl=document.createElement('div'); tl.id='tap-left';
-  var fl=document.createElement('div'); fl.className='tap-flash'; fl.textContent='◀◀ 10s'; tl.appendChild(fl);
-  var tr=document.createElement('div'); tr.id='tap-right';
-  var fr=document.createElement('div'); fr.className='tap-flash'; fr.textContent='10s ▶▶'; tr.appendChild(fr);
-  feed.appendChild(tl); feed.appendChild(tr);
-  tl.addEventListener('click',function(e){ e.stopPropagation(); seekRel(-10); fl.classList.add('show'); setTimeout(function(){fl.classList.remove('show');},400); });
-  tr.addEventListener('click',function(e){ e.stopPropagation(); seekRel(10); fr.classList.add('show'); setTimeout(function(){fr.classList.remove('show');},400); });
+  // tap zones removed — overlay handles everything
+
   loadAround(0);
   // play first video immediately
   var v=getVideo(0);
@@ -913,13 +962,74 @@ document.addEventListener('touchmove',function(e){
   if(feed.style.display==='block'&&window.started) e.preventDefault();
 },{passive:false});
 
+// ── OVERLAY (tap center = show, auto-hide 3s) ──
+var voverlay=document.getElementById('voverlay');
+var vovPlay=document.getElementById('vov-play');
+var vovPlayIcon=document.getElementById('vov-play-icon');
+var vovBack=document.getElementById('vov-back');
+var vovFwd=document.getElementById('vov-fwd');
+var overlayTimer=null;
+
+function showOverlay(){
+  voverlay.classList.add('show');
+  clearTimeout(overlayTimer);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+}
+
+function updatePlayIcon(){
+  var v=getVideo(current);
+  vovPlayIcon.textContent=(v&&!v.paused)?'⏸':'▶';
+}
+
+// tap anywhere on feed (not on seebar) = show overlay
+feed.addEventListener('click',function(e){
+  if(e.target.closest&&e.target.closest('#fseekbar')) return;
+  if(e.target.closest&&e.target.closest('#voverlay')) return;
+  showOverlay();
+  updatePlayIcon();
+});
+
+vovPlay.addEventListener('click',function(e){
+  e.stopPropagation();
+  var v=getVideo(current);
+  if(!v) return;
+  if(v.paused){ v.play().catch(function(){}); } else { v.pause(); }
+  updatePlayIcon();
+  clearTimeout(overlayTimer);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+});
+
+vovBack.addEventListener('click',function(e){
+  e.stopPropagation();
+  seekRel(-10);
+  clearTimeout(overlayTimer);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+});
+
+vovFwd.addEventListener('click',function(e){
+  e.stopPropagation();
+  seekRel(10);
+  clearTimeout(overlayTimer);
+  overlayTimer=setTimeout(function(){ voverlay.classList.remove('show'); },3000);
+});
+
 // ── SEEK BAR DRAG ──
 var seekTrack=document.getElementById('fseek-track');
 var seekFill=document.getElementById('fseek-fill');
 var seekThumb=document.getElementById('fseek-thumb');
 var seekCur=document.getElementById('fseek-cur');
 var seekDur=document.getElementById('fseek-dur');
+var seekPP=document.getElementById('fseek-pp');
 var isSeeking=false;
+
+seekPP.addEventListener('click',function(e){
+  e.stopPropagation();
+  var v=getVideo(current);
+  if(!v) return;
+  if(v.paused){ v.play().catch(function(){}); } else { v.pause(); }
+  updatePlayIcon();
+  seekPP.textContent=v.paused?'▶':'⏸';
+});
 
 function fmtTime(s){
   if(!s||isNaN(s)) return '0:00';
@@ -967,6 +1077,7 @@ setInterval(function(){
   seekThumb.style.left=(pct*100)+'%';
   seekCur.textContent=fmtTime(v.currentTime);
   seekDur.textContent=fmtTime(v.duration);
+  seekPP.textContent=v.paused?'▶':'⏸';
 },250);
 
 </script>
