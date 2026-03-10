@@ -316,7 +316,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 </audio>
 
 <!-- ── SPLASH ── -->
-<div id="splash">
+<div id="splash" onclick="this.style.display='none';document.getElementById('home').style.display='flex';">
   <div class="sp-brand">Mathieu Pichette.co App</div>
   <div class="sp-dot"></div>
   <div class="sp-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -331,7 +331,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
     <div class="hm-tagline">Evolve the energy of the world — eternally</div>
   </div>
   <div class="hm-cards">
-    <div class="hm-card" id="goFeed">
+    <div class="hm-card" id="goFeed" onclick="document.getElementById('home').style.display='none';document.getElementById('feed').style.display='block';if(!started){started=true;document.getElementById('startBtn').style.display='none';requestWakeLock();buildFeed();setTimeout(function(){var v=getVideo(0);if(v){v.load();v.play().catch(function(){});}},80);}">
       <div class="hm-icon">⚡</div>
       <div class="hm-text">
         <div class="hm-card-title">Mathieu Pichette.co Scroll Up</div>
@@ -339,7 +339,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
       </div>
       <div class="hm-arrow">›</div>
     </div>
-    <div class="hm-card" id="goDaily">
+    <div class="hm-card" id="goDaily" onclick="document.getElementById('home').style.display='none';document.getElementById('dailyScreen').style.display='flex';">
       <div class="hm-icon">📖</div>
       <div class="hm-text">
         <div class="hm-card-title">Mathieu Pichette.co Daily</div>
@@ -385,13 +385,13 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 <!-- ── DAILY SCREEN ── -->
 <div id="dailyScreen">
   <div class="tb">
-    <button class="tb-back" id="dailyBack">← BACK</button>
+    <button class="tb-back" id="dailyBack" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('home').style.display='flex';">← BACK</button>
     <div class="tb-brand">Mathieu Pichette.co · Daily</div>
   </div>
   <div class="sc">
     <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
     <div class="d-list">
-      <div class="d-entry" id="entry-march7">
+      <div class="d-entry" id="entry-march7" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('dailyReader').style.display='flex';">
         <div class="d-date">Saturday, March 7, 2026</div>
         <div class="d-arr">›</div>
       </div>
@@ -402,7 +402,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 <!-- ── DAILY READER ── -->
 <div id="dailyReader">
   <div class="tb">
-    <button class="tb-back" id="readerBack">← BACK</button>
+    <button class="tb-back" id="readerBack" onclick="document.getElementById('dailyReader').style.display='none';document.getElementById('dailyScreen').style.display='flex';">← BACK</button>
     <div class="tb-brand">Mathieu Pichette.co · Daily</div>
   </div>
   <div class="sc">
@@ -423,17 +423,13 @@ I am 27 years old, I have blonde hair, blue eyes and a pure aura I think! I want
 STRENGTH = EVOLVE
 EVOLVE = ENERGY THAT EVOLVES!</span>
 </div>
-    <div class="r-sig" id="sigLink">Mathieu Pichette.co — The God of Energy</div>
+    <div class="r-sig" id="sigLink" onclick="document.getElementById('dailyReader').style.display='none';document.getElementById('feed').style.display='block';">Mathieu Pichette.co — The God of Energy</div>
   </div>
 </div>
 
 <!-- ── FEED ── -->
 <div id="feed">
-  <div id="startBtn">
-    <div class="sb-brand">Mathieu Pichette.co</div>
-    <div class="sb-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-    <div class="sb-cta">EVOLVE THE ENERGY — TAP TO START</div>
-  </div>
+  <div id="startBtn" style="display:none;"></div>
   <div id="topbar">
     <div class="tb2-brand">Mathieu Pichette.co · Scroll Up</div>
     <div class="tb2-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -826,12 +822,12 @@ function stopAll(){
 }
 
 // ── NAVIGATION ──
-document.getElementById('splash').addEventListener('click',function(){
+document.getElementById('splash').addEventListener('touchstart',function(e){
+  e.preventDefault();
   this.style.display='none';
   show('home');
-});
-document.getElementById('splash').addEventListener('touchend',function(e){
-  e.preventDefault();
+},{passive:false});
+document.getElementById('splash').addEventListener('click',function(){
   this.style.display='none';
   show('home');
 });
