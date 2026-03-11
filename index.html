@@ -45,7 +45,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 /* ───────── HOME ───────── */
 #home{
   position:fixed;inset:0;z-index:2000;background:#000;
-  display:none;flex-direction:column;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:32px 24px;
 }
 .hm-top{text-align:center;margin-bottom:48px;}
@@ -54,7 +54,10 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   letter-spacing:4px;color:var(--gold);
   text-shadow:0 0 24px rgba(0,229,204,0.35);margin-bottom:8px;
 }
-.hm-tagline{
+.hm-intent{
+  font-size:0.48rem;color:rgba(255,255,255,0.7);line-height:1.8;
+  font-style:italic;font-weight:300;max-width:320px;margin:0 auto 8px;text-align:center;
+}
   font-size:0.6rem;color:rgba(255,255,255,0.28);letter-spacing:2.5px;
   text-transform:uppercase;
 }
@@ -277,67 +280,26 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   <source src="https://ia903400.us.archive.org/17/items/kanye-west-hell-of-a-life/Kanye%20West%20-%20Hell%20Of%20A%20Life%20Instrumental.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ── SPLASH ── -->
-<div id="splash" onclick="this.style.display='none';document.getElementById('home').style.display='flex';">
-  <div class="sp-brand">Mathieu Pichette.co App</div>
-  <div class="sp-dot"></div>
-  <div class="sp-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-  <div class="sp-line"></div>
-  <div class="sp-tap">TAP ANYWHERE TO ENTER</div>
-</div>
-
 <!-- ── HOME ── -->
-<div id="home" style="display:none">
+<div id="home">
   <div class="hm-top">
-    <div class="hm-brand">Mathieu Pichette.co</div>
-    <div class="hm-tagline">Evolve the energy of the world — eternally</div>
+    <div class="hm-brand">Mathieu Pichette.co App</div>
+    <div class="hm-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
   <div class="hm-cards">
-    <div class="hm-card" id="goFeed" onclick="document.getElementById('home').style.display='none';document.getElementById('feed').style.display='block';">
+    <div class="hm-card" id="goFeed">
       <div class="hm-icon">⚡</div>
       <div class="hm-text">
-        <div class="hm-card-title">Mathieu Pichette.co Scroll Up</div>
+        <div class="hm-card-title">Rise Up Reels</div>
         <div class="hm-card-desc">Evolve the energy of the entire world, eternally.</div>
       </div>
       <div class="hm-arrow">›</div>
     </div>
-    <div class="hm-card" id="goDaily" onclick="document.getElementById('home').style.display='none';document.getElementById('dailyScreen').style.display='flex';">
+    <div class="hm-card" id="goDaily">
       <div class="hm-icon">📖</div>
       <div class="hm-text">
-        <div class="hm-card-title">Mathieu Pichette.co Daily</div>
+        <div class="hm-card-title">Daily</div>
         <div class="hm-card-desc">Philosophy & intention — evolve your energy, eternally at your best.</div>
-      </div>
-      <div class="hm-arrow">›</div>
-    </div>
-    <div class="hm-card hm-card-locked">
-      <div class="hm-icon">🔢</div>
-      <div class="hm-text">
-        <div class="hm-card-title">Mathieu Pichette.co Mathematics</div>
-        <div class="hm-card-desc">Coming soon — evolve the energy of numbers, eternally.</div>
-      </div>
-      <div class="hm-arrow">›</div>
-    </div>
-    <div class="hm-card hm-card-locked">
-      <div class="hm-icon">🎬</div>
-      <div class="hm-text">
-        <div class="hm-card-title">Mathieu Pichette.co Movies</div>
-        <div class="hm-card-desc">Coming soon — evolve the energy through cinema, eternally.</div>
-      </div>
-      <div class="hm-arrow">›</div>
-    </div>
-    <div class="hm-card hm-card-locked">
-      <div class="hm-icon">🧠</div>
-      <div class="hm-text">
-        <div class="hm-card-title">Mathieu Pichette.co Pop Quiz</div>
-        <div class="hm-card-desc">Coming soon — evolve your mind, eternally at your best.</div>
-      </div>
-      <div class="hm-arrow">›</div>
-    </div>
-    <div class="hm-card hm-card-locked">
-      <div class="hm-icon">🎭</div>
-      <div class="hm-text">
-        <div class="hm-card-title">Mathieu Pichette.co Entertainment</div>
-        <div class="hm-card-desc">Coming soon — evolve the energy of joy, eternally.</div>
       </div>
       <div class="hm-arrow">›</div>
     </div>
@@ -348,7 +310,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 <div id="dailyScreen">
   <div class="tb">
     <button class="tb-back" id="dailyBack" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('home').style.display='flex';">← BACK</button>
-    <div class="tb-brand">Mathieu Pichette.co · Daily</div>
+    <div class="tb-brand">Daily</div>
   </div>
   <div class="sc">
     <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -365,7 +327,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 <div id="dailyReader">
   <div class="tb">
     <button class="tb-back" id="readerBack" onclick="document.getElementById('dailyReader').style.display='none';document.getElementById('dailyScreen').style.display='flex';">← BACK</button>
-    <div class="tb-brand">Mathieu Pichette.co · Daily</div>
+    <div class="tb-brand">Daily</div>
   </div>
   <div class="sc">
     <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -393,7 +355,7 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 <div id="feed">
   <div id="ftop">
     <div id="ftop-back" onclick="document.getElementById('feed').style.display='none';stopAll();document.getElementById('home').style.display='flex';window.started=false;">← MENU</div>
-    <div id="ftop-brand">Mathieu Pichette.co · Scroll Up</div>
+    <div id="ftop-brand">Rise Up Reels</div>
     <div id="ftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
   <div id="fseekbar">
@@ -772,11 +734,6 @@ function stopAll(){
 }
 
 // ── NAVIGATION ──
-document.getElementById('splash').addEventListener('click',function(){
-  this.style.display='none';
-  show('home');
-});
-
 document.getElementById('goFeed').addEventListener('click',function(){
   hide('home');
   stopAll();
