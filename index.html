@@ -207,7 +207,63 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:auto;
 }
 
-/* ── SEEKBAR BUTTONS ── */
+/* ── DYING MOVIES FEED ── */
+#moviesFeed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;touch-action:none;}
+#mftop{
+  position:absolute;top:0;left:0;right:0;z-index:50;
+  padding:14px 18px 12px;
+  background:linear-gradient(rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.6) 80%,transparent 100%);
+  pointer-events:none;text-align:center;
+}
+#mftop-back{
+  position:absolute;top:14px;left:16px;
+  font-family:'Anton',sans-serif;font-size:0.7rem;letter-spacing:2px;
+  color:rgba(255,255,255,0.8);cursor:pointer;touch-action:manipulation;
+  pointer-events:auto;padding:6px 4px;
+  opacity:0;transition:opacity 0.2s;
+}
+#mftop-back.show{opacity:1;}
+#mftop-back:active{color:var(--gold);}
+#mftop-brand{
+  font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:3px;color:var(--gold);margin-bottom:3px;
+}
+#mftop-tagline{
+  font-family:'Anton',sans-serif;font-size:0.5rem;letter-spacing:2px;
+  color:rgba(255,255,255,0.5);margin-bottom:5px;
+}
+#mftop-intent{
+  font-size:0.48rem;color:rgba(255,255,255,0.75);line-height:1.7;
+  font-style:italic;font-weight:300;max-width:340px;margin:0 auto;
+}
+#mfseekbar{
+  position:absolute;bottom:0;left:0;right:0;z-index:60;
+  padding:8px 16px 12px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.88));
+  touch-action:none;opacity:0;pointer-events:none;transition:opacity 0.2s;
+}
+#mfseekbar.show{opacity:1;pointer-events:auto;}
+#mfseek-track{
+  position:relative;height:4px;border-radius:2px;
+  background:rgba(255,255,255,0.2);margin-bottom:5px;cursor:pointer;
+}
+#mfseek-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--gold);border-radius:2px;pointer-events:none;}
+#mfseek-thumb{
+  position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);
+  width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);pointer-events:none;
+}
+#mfseek-times{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Anton',sans-serif;font-size:0.5rem;
+  color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:auto;
+}
+#mfseek-btns{display:flex;align-items:center;gap:18px;}
+#mfseek-pp{
+  font-size:1.3rem;color:var(--gold);
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(0,229,204,0.15);border:1px solid rgba(0,229,204,0.35);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;touch-action:manipulation;
+}
 #fseek-btns{
   display:flex;align-items:center;gap:18px;
 }
@@ -303,10 +359,16 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
       </div>
       <div class="hm-arrow">›</div>
     </div>
+    <div class="hm-card" id="goMovies">
+      <div class="hm-icon">🎬</div>
+      <div class="hm-text">
+        <div class="hm-card-title">Dying Movies</div>
+        <div class="hm-card-desc">The Best Scenes, Nothing Else.</div>
+      </div>
+      <div class="hm-arrow">›</div>
+    </div>
   </div>
 </div>
-
-<!-- ── DAILY SCREEN ── -->
 <div id="dailyScreen">
   <div class="tb">
     <button class="tb-back" id="dailyBack" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('home').style.display='flex';">← BACK</button>
@@ -383,6 +445,37 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
     <div class="ms-box">
       <div class="ms-txt">⚡ ENERGY SURGE ⚡</div>
       <div class="ms-sub">Evolve the energy of the world<br>eternally — at your best!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DYING MOVIES FEED ── -->
+<div id="moviesFeed">
+  <div id="mftop">
+    <div id="mftop-back" onclick="document.getElementById('moviesFeed').style.display='none';stopAll();document.getElementById('home').style.display='flex';window.mstarted=false;">← MENU</div>
+    <div id="mftop-brand">Dying Movies</div>
+    <div id="mftop-tagline">The Best Scenes, Nothing Else.</div>
+    <div id="mftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  </div>
+  <div id="mfseekbar">
+    <div id="mfseek-track">
+      <div id="mfseek-fill"></div>
+      <div id="mfseek-thumb"></div>
+    </div>
+    <div id="mfseek-times">
+      <span id="mfseek-cur">0:00</span>
+      <div id="mfseek-btns">
+        <div id="mvov-back" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+        <div id="mfseek-pp" class="fseek-btn">▶</div>
+        <div id="mvov-fwd" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+      </div>
+      <span id="mfseek-dur">0:00</span>
     </div>
   </div>
 </div>
@@ -696,6 +789,56 @@ var VIDEOS=[
   {name:"varunacarranco_1751570640_7522938517526154510",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/varunacarranco_1751570640_7522938517526154510.mp4"},
   {name:"whiteroom.effect_1762084510_7568095320874274070",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/whiteroom.effect_1762084510_7568095320874274070.mp4"},
   {name:"whystopphilosophy_1764626605_7579013534122593558",url:"https://ia600702.us.archive.org/0/items/only.living.trust.book_1764511855_7578520552625687839/whystopphilosophy_1764626605_7579013534122593558.mp4"},
+  {name:"_motivus__1753975601_7533267831035596054",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/_motivus__1753975601_7533267831035596054.mp4"},
+  {name:"_path_to_greatness__1748710790_7510655639207628054",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/_path_to_greatness__1748710790_7510655639207628054.mp4"},
+  {name:"alpha_morphosis_1760451751_7561082673167486230",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/alpha_morphosis_1760451751_7561082673167486230.mp4"},
+  {name:"alphamotivation0_1761153212_7564095426803158294",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/alphamotivation0_1761153212_7564095426803158294.mp4"},
+  {name:"belmarversity_1768398358_7595213034231024951",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/belmarversity_1768398358_7595213034231024951.mp4"},
+  {name:"bosstalksmotivation_1770144235_7602711452306246942",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/bosstalksmotivation_1770144235_7602711452306246942.mp4"},
+  {name:"brandonsblueprint_1766819374_7588431307542203678",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/brandonsblueprint_1766819374_7588431307542203678.mp4"},
+  {name:"buzztopsmovieclips_1754018886_7533453202453302541",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/buzztopsmovieclips_1754018886_7533453202453302541.mp4"},
+  {name:"dailyconfidence2_1769436520_7599671957805632790",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/dailyconfidence2_1769436520_7599671957805632790.mp4"},
+  {name:"elevateuhub220_1721309700_7392833635029765418",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/elevateuhub220_1721309700_7392833635029765418.mp4"},
+  {name:"elite_think_1717697345_7377453884123434248",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/elite_think_1717697345_7377453884123434248.mp4"},
+  {name:"elite_think_1719090908_7383439122502782238",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/elite_think_1719090908_7383439122502782238.mp4"},
+  {name:"elite_think_1748191721_7508426102075854126",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/elite_think_1748191721_7508426102075854126.mp4"},
+  {name:"elite_think_1754150760_7534019918698695991",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/elite_think_1754150760_7534019918698695991.mp4"},
+  {name:"elite_think_1762098962_7568157228448959757",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/elite_think_1762098962_7568157228448959757.mp4"},
+  {name:"everydaymotivation200_1724527759_7406790304637947142",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/everydaymotivation200_1724527759_7406790304637947142.mp4"},
+  {name:"exorion.ae_1768658084_7596328611167177992",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/exorion.ae_1768658084_7596328611167177992.mp4"},
+  {name:"fearlext__1707637395_7334246742503771400",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/fearlext__1707637395_7334246742503771400.mp4"},
+  {name:"ghunnerj_1769316598_7599156814885768503",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/ghunnerj_1769316598_7599156814885768503.mp4"},
+  {name:"growthofwisdom_1768668935_7596375210819865878",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/growthofwisdom_1768668935_7596375210819865878.mp4"},
+  {name:"lifesupreme0_1769722475_7600900122561629462",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/lifesupreme0_1769722475_7600900122561629462.mp4"},
+  {name:"marketing_master0_1687986415_7249846389117570346",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/marketing_master0_1687986415_7249846389117570346.mp4"},
+  {name:"mindsetsgoals_1767377628_7590829079696346390",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/mindsetsgoals_1767377628_7590829079696346390.mp4"},
+  {name:"motivatedtomedia_1713822635_7360812051779964168",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/motivatedtomedia_1713822635_7360812051779964168.mp4"},
+  {name:"motivation.beats_1752921000_7528418005999471894",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/motivation.beats_1752921000_7528418005999471894.mp4"},
+  {name:"motivationalclips736_1766395877_7586612492642667798",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/motivationalclips736_1766395877_7586612492642667798.mp4"},
+  {name:"netflixanz_1766912400_7588790855356435720",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/netflixanz_1766912400_7588790855356435720.mp4"},
+  {name:"nocturnalpurpose_1729120720_7426516854094548256",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/nocturnalpurpose_1729120720_7426516854094548256.mp4"},
+  {name:"nocturnalpurpose_1730505445_7432464243179457824",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/nocturnalpurpose_1730505445_7432464243179457824.mp4"},
+  {name:"nocturnalpurpose_1733160716_7443868457000553760",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/nocturnalpurpose_1733160716_7443868457000553760.mp4"},
+  {name:"notomotivation_1694624556_7278357015632694560",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/notomotivation_1694624556_7278357015632694560.mp4"},
+  {name:"philosophythought_1753551661_7531446868140707085",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/philosophythought_1753551661_7531446868140707085.mp4"},
+  {name:"psych.scenes_1769883884_7601593293482249486",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/psych.scenes_1769883884_7601593293482249486.mp4"},
+  {name:"psych0mera_1748080887_7507950225491791126",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/psych0mera_1748080887_7507950225491791126.mp4"},
+  {name:"psyche.echo_1756907450_7545860023151332630",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/psyche.echo_1756907450_7545860023151332630.mp4"},
+  {name:"psycho.trix_1762464184_7569726013891022102",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/psycho.trix_1762464184_7569726013891022102.mp4"},
+  {name:"risedaily691_1760828400_7562571262204185863",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/risedaily691_1760828400_7562571262204185863.mp4"},
+  {name:"savagemotivation55_1702186385_7310834842097175815",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/savagemotivation55_1702186385_7310834842097175815.mp4"},
+  {name:"spiderbag_1749401869_7513623617976962350",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/spiderbag_1749401869_7513623617976962350.mp4"},
+  {name:"survival.off1_1700169667_7302173094204935457",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/survival.off1_1700169667_7302173094204935457.mp4"},
+  {name:"takeshi.sahil_1770571058_7604544768307154184",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/takeshi.sahil_1770571058_7604544768307154184.mp4"},
+  {name:"theforbiddenritual_1756055217_7542199629832670494",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/theforbiddenritual_1756055217_7542199629832670494.mp4"},
+  {name:"thestoicmessenger_1770306453_7603408302990478614",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/thestoicmessenger_1770306453_7603408302990478614.mp4"},
+  {name:"thestoryyoulost_1759859406_7558538530339704078",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/thestoryyoulost_1759859406_7558538530339704078.mp4"},
+  {name:"thesunnahguy_1757270397_7547418871825779990",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/thesunnahguy_1757270397_7547418871825779990.mp4"},
+  {name:"tomsmotiv_1748196510_7508446820360572182",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/tomsmotiv_1748196510_7508446820360572182.mp4"},
+  {name:"trillionvision_1751205901_7521372051144264982",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/trillionvision_1751205901_7521372051144264982.mp4"},
+  {name:"vawstorm_1768940372_7597540894228761887",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/vawstorm_1768940372_7597540894228761887.mp4"},
+  {name:"weleadmotives_1748106503_7508060233860746504",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/weleadmotives_1748106503_7508060233860746504.mp4"},
+  {name:"womenmanifestsuccess_1717168813_7375183873413549358",url:"https://archive.org/download/psych0mera_1748080887_7507950225491791126/womenmanifestsuccess_1717168813_7375183873413549358.mp4"},
 ];
 
 // ── REFS ──
@@ -1026,6 +1169,190 @@ setInterval(function(){
   seekDur.textContent=fmtTime(v.duration);
   seekPP.textContent=v.paused?'▶':'⏸';
 },250);
+
+// ── DYING MOVIES ──
+var MOVIE_VIDEOS=[];  // videos will be added later
+
+var moviesFeed=document.getElementById('moviesFeed');
+var mfseekbar=document.getElementById('mfseekbar');
+var mftopBack=document.getElementById('mftop-back');
+var mfseekFill=document.getElementById('mfseek-fill');
+var mfseekThumb=document.getElementById('mfseek-thumb');
+var mfseekCur=document.getElementById('mfseek-cur');
+var mfseekDur=document.getElementById('mfseek-dur');
+var mfseekPP=document.getElementById('mfseek-pp');
+var mfseekTrack=document.getElementById('mfseek-track');
+var mBarTimer=null;
+var mCurrent=0;
+var mList=[];
+var mSettling=false;
+var mTStartY=0;
+var mDragging=false;
+window.mstarted=false;
+
+function mShowBar(){
+  mfseekbar.classList.add('show');
+  mftopBack.classList.add('show');
+  clearTimeout(mBarTimer);
+  mBarTimer=setTimeout(function(){ mfseekbar.classList.remove('show'); mftopBack.classList.remove('show'); },3000);
+}
+function mHideBar(){
+  clearTimeout(mBarTimer);
+  mfseekbar.classList.remove('show');
+  mftopBack.classList.remove('show');
+}
+function mUpdatePlayIcon(){
+  var v=mGetVideo(mCurrent);
+  mfseekPP.textContent=(!v||v.paused)?'▶':'⏸';
+}
+function mGetSlide(i){ return document.getElementById('mslide-'+i); }
+function mGetVideo(i){ var s=mGetSlide(i); return s?s.querySelector('video'):null; }
+function mSetPos(el,vh){ el.style.transform='translateY('+vh+'%)'; el.style.transition='none'; }
+function mSetPosPx(el,px){ el.style.transform='translateY('+px+'px)'; el.style.transition='none'; }
+function mAnimateTo(el,vh,cb){
+  el.style.transition='transform 0.35s cubic-bezier(0.4,0,0.2,1)';
+  el.style.transform='translateY('+vh+'%)';
+  if(cb){ el.addEventListener('transitionend',function h(){ el.removeEventListener('transitionend',h); cb(); }); }
+}
+function mSeekRel(sec){
+  var v=mGetVideo(mCurrent);
+  if(!v||!v.duration) return;
+  v.currentTime=Math.max(0,Math.min(v.duration,v.currentTime+sec));
+}
+function mLoadAround(idx){
+  mList.forEach(function(item,i){
+    var s=mGetSlide(i);
+    if(!s) return;
+    var v=s.querySelector('video');
+    if(i<idx-2){ if(v.src){ v.src=''; v.load(); } }
+    else if(i===idx){ if(!v.src||v.src==='') { v.src=mList[i].url; v.preload='auto'; } }
+    else if(i===idx+1||i===idx+2){ if(!v.src||v.src==='') { v.src=mList[i].url; v.preload='metadata'; } }
+  });
+}
+function mPlayVideo(idx){
+  var v=mGetVideo(idx);
+  if(!v) return;
+  if(!v.src||v.src===''){v.src=mList[idx].url;v.preload='auto';}
+  v.muted=true;
+  v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+  mLoadAround(idx);
+}
+
+function buildMoviesFeed(){
+  mList=shuffle(MOVIE_VIDEOS);
+  if(mList.length===0){
+    // placeholder if no videos yet
+    var ph=document.createElement('div');
+    ph.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:Anton,sans-serif;font-size:1rem;letter-spacing:3px;text-align:center;padding:40px;';
+    ph.textContent='COMING SOON — THE BEST SCENES, NOTHING ELSE.';
+    moviesFeed.appendChild(ph);
+    return;
+  }
+  mCurrent=0;
+  mList.forEach(function(item,i){
+    var slide=document.createElement('div');
+    slide.id='mslide-'+i;
+    slide.style.cssText='position:absolute;inset:0;background:#000;transform:translateY('+(i===0?'0':'-100')+'%);';
+    var v=document.createElement('video');
+    v.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
+    v.loop=true; v.playsinline=true; v.setAttribute('playsinline','');
+    slide.appendChild(v);
+    moviesFeed.appendChild(slide);
+  });
+  mPlayVideo(0);
+
+  // swipe
+  moviesFeed.addEventListener('touchstart',function(e){
+    if(mSettling||!window.mstarted) return;
+    if(e.target.closest&&e.target.closest('#mfseekbar')) return;
+    mTStartY=e.touches[0].clientY; mDragging=true;
+    var ns=mGetSlide(mCurrent+1);
+    if(ns) mSetPos(ns,-100);
+  },{passive:true});
+  moviesFeed.addEventListener('touchmove',function(e){
+    if(!mDragging||mSettling) return;
+    if(e.target.closest&&e.target.closest('#mfseekbar')) return;
+    var dy=e.touches[0].clientY-mTStartY;
+    if(dy<=0){ var cs=mGetSlide(mCurrent); if(cs) mSetPos(cs,0); return; }
+    var cs=mGetSlide(mCurrent); var ns=mGetSlide(mCurrent+1);
+    if(cs) mSetPosPx(cs,dy);
+    if(ns) mSetPosPx(ns,dy-window.innerHeight);
+  },{passive:true});
+  moviesFeed.addEventListener('touchend',function(e){
+    if(!mDragging) return; mDragging=false;
+    var dy=e.changedTouches[0].clientY-mTStartY;
+    if(dy>80&&mCurrent<mList.length-1){
+      mSettling=true; mCurrent++;
+      mHideBar();
+      var prev=mGetSlide(mCurrent-1); var next=mGetSlide(mCurrent);
+      if(prev) mAnimateTo(prev,100,null);
+      if(next){ mAnimateTo(next,0,function(){ mSettling=false; mPlayVideo(mCurrent); }); }
+      else { mSettling=false; mPlayVideo(mCurrent); }
+    } else {
+      var cs=mGetSlide(mCurrent); var ns=mGetSlide(mCurrent+1);
+      if(cs) mAnimateTo(cs,0,null);
+      if(ns) mAnimateTo(ns,-100,null);
+    }
+  },{passive:true});
+
+  // tap = toggle bar
+  moviesFeed.addEventListener('click',function(e){
+    if(mfseekbar.classList.contains('show')){ mHideBar(); }
+    else { mUpdatePlayIcon(); mShowBar(); }
+  });
+
+  // buttons
+  mfseekPP.addEventListener('click',function(e){
+    e.stopPropagation();
+    var v=mGetVideo(mCurrent); if(!v) return;
+    if(v.paused){ v.play().catch(function(){}); } else { v.pause(); }
+    mUpdatePlayIcon();
+    clearTimeout(mBarTimer);
+    mBarTimer=setTimeout(function(){ mfseekbar.classList.remove('show'); mftopBack.classList.remove('show'); },3000);
+  });
+  document.getElementById('mvov-back').addEventListener('click',function(e){
+    e.stopPropagation(); mSeekRel(-10);
+    clearTimeout(mBarTimer);
+    mBarTimer=setTimeout(function(){ mfseekbar.classList.remove('show'); mftopBack.classList.remove('show'); },3000);
+  });
+  document.getElementById('mvov-fwd').addEventListener('click',function(e){
+    e.stopPropagation(); mSeekRel(10);
+    clearTimeout(mBarTimer);
+    mBarTimer=setTimeout(function(){ mfseekbar.classList.remove('show'); mftopBack.classList.remove('show'); },3000);
+  });
+
+  // seekbar drag
+  mfseekTrack.addEventListener('touchstart',function(e){
+    var rect=mfseekTrack.getBoundingClientRect();
+    var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));
+    var v=mGetVideo(mCurrent); if(v&&v.duration) v.currentTime=pct*v.duration;
+    e.stopPropagation();
+  },{passive:true});
+  mfseekTrack.addEventListener('touchmove',function(e){
+    var rect=mfseekTrack.getBoundingClientRect();
+    var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));
+    var v=mGetVideo(mCurrent); if(v&&v.duration) v.currentTime=pct*v.duration;
+    e.stopPropagation();
+  },{passive:true});
+
+  // seekbar interval
+  setInterval(function(){
+    if(!window.mstarted) return;
+    var v=mGetVideo(mCurrent); if(!v||!v.duration) return;
+    var pct=v.currentTime/v.duration;
+    mfseekFill.style.width=(pct*100)+'%';
+    mfseekThumb.style.left=(pct*100)+'%';
+    mfseekCur.textContent=fmtTime(v.currentTime);
+    mfseekDur.textContent=fmtTime(v.duration);
+    mfseekPP.textContent=v.paused?'▶':'⏸';
+  },250);
+}
+
+document.getElementById('goMovies').addEventListener('click',function(){
+  hide('home'); stopAll();
+  moviesFeed.style.display='block';
+  if(!window.mstarted){ window.mstarted=true; buildMoviesFeed(); }
+});
 
 </script>
 </body>
