@@ -154,15 +154,15 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   padding:14px 18px 12px;
   background:linear-gradient(rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.6) 80%,transparent 100%);
   pointer-events:none;text-align:center;
-  opacity:0;transition:opacity 0.2s;
 }
-#ftop.show{opacity:1;pointer-events:auto;}
 #ftop-back{
   position:absolute;top:14px;left:16px;
   font-family:'Anton',sans-serif;font-size:0.7rem;letter-spacing:2px;
   color:rgba(255,255,255,0.8);cursor:pointer;touch-action:manipulation;
   pointer-events:auto;padding:6px 4px;
+  opacity:0;transition:opacity 0.2s;
 }
+#ftop-back.show{opacity:1;}
 #ftop-back:active{color:var(--gold);}
 #ftop-brand{
   font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:3px;
@@ -956,20 +956,20 @@ document.addEventListener('touchmove',function(e){
 
 // ── SEEKBAR SHOW/HIDE ──
 var fseekbar=document.getElementById('fseekbar');
-var ftop=document.getElementById('ftop');
+var ftopBack=document.getElementById('ftop-back');
 var barTimer=null;
 
 function showBar(){
   fseekbar.classList.add('show');
-  ftop.classList.add('show');
+  ftopBack.classList.add('show');
   clearTimeout(barTimer);
-  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftop.classList.remove('show'); },3000);
+  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftopBack.classList.remove('show'); },3000);
 }
 
 function hideBar(){
   clearTimeout(barTimer);
   fseekbar.classList.remove('show');
-  ftop.classList.remove('show');
+  ftopBack.classList.remove('show');
 }
 
 function updatePlayIcon(){
@@ -995,21 +995,21 @@ document.getElementById('fseek-pp').addEventListener('click',function(e){
   if(v.paused){ v.play().catch(function(){}); } else { v.pause(); }
   updatePlayIcon();
   clearTimeout(barTimer);
-  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftop.classList.remove('show'); },3000);
+  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftopBack.classList.remove('show'); },3000);
 });
 
 // back -10s
 document.getElementById('vov-back').addEventListener('click',function(e){
   e.stopPropagation(); seekRel(-10);
   clearTimeout(barTimer);
-  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftop.classList.remove('show'); },3000);
+  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftopBack.classList.remove('show'); },3000);
 });
 
 // fwd +10s
 document.getElementById('vov-fwd').addEventListener('click',function(e){
   e.stopPropagation(); seekRel(10);
   clearTimeout(barTimer);
-  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftop.classList.remove('show'); },3000);
+  barTimer=setTimeout(function(){ fseekbar.classList.remove('show'); ftopBack.classList.remove('show'); },3000);
 });
 
 // ── SEEK BAR DRAG ──
