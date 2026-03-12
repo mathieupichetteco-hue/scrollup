@@ -1295,17 +1295,13 @@ function mLoadAround(idx){
     var old=mGetVideo(idx-2);
     if(old&&old.src){ old.src=''; old.load(); }
   }
-  for(var i=idx;i<Math.min(idx+4,mList.length);i++){
+  for(var i=idx+1;i<Math.min(idx+3,mList.length);i++){
     var v=mGetVideo(i);
-    if(v&&!v.src){
-      v.src=mList[i].url;
-      v.preload='auto';
-      v.load();
-    }
+    if(v&&!v.src){ v.src=mList[i].url; v.preload='metadata'; }
   }
 }
 function mPlayVideo(idx){
-  for(var i=Math.max(0,idx-1);i<Math.min(mSlides.length,idx+4);i++){
+  for(var i=Math.max(0,idx-1);i<Math.min(mSlides.length,idx+3);i++){
     var v=mGetVideo(i);
     if(!v) continue;
     if(i===idx){ v.play().catch(function(){}); } else { v.pause(); }
@@ -1323,18 +1319,27 @@ function buildMoviesFeed(){
     video.setAttribute('playsinline','');
     video.setAttribute('webkit-playsinline','');
     video.setAttribute('preload','none');
-    video.muted=false; video.loop=true;
+    video.muted=true; video.loop=true;
     slide.appendChild(video);
     moviesFeed.appendChild(slide);
     mSlides.push(slide);
     mSetPos(slide, idx===0 ? 0 : 100);
   });
-  mLoadAround(0);
+  // first video — play as soon as ANY data is ready
   var v=mGetVideo(0);
   if(v){
-    v.src=mList[0].url; v.preload='auto';
-    v.muted=true;
-    v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+    v.src=mList[0].url;
+    v.preload='auto';
+    var played=false;
+    function tryPlay(){
+      if(played) return; played=true;
+      v.muted=true;
+      v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+      mLoadAround(0);
+    }
+    v.addEventListener('canplay', tryPlay, {once:true});
+    v.addEventListener('loadeddata', tryPlay, {once:true});
+    v.load();
   }
 }
 
@@ -1364,11 +1369,21 @@ moviesFeed.addEventListener('touchend',function(e){
     mHideBar();
     var prev=mGetSlide(mCurrent-1); var next=mGetSlide(mCurrent);
     var v=mGetVideo(mCurrent);
-    if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
+    if(v){
+      if(!v.src){ v.src=mList[mCurrent].url; v.preload='auto'; v.load(); }
+      var played=false;
+      function doPlay(){
+        if(played) return; played=true;
+        v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+      }
+      v.addEventListener('canplay', doPlay, {once:true});
+      v.addEventListener('loadeddata', doPlay, {once:true});
+      setTimeout(doPlay, 800); // fallback
+    }
     if(prev) mAnimateTo(prev,100,null);
-    if(next){
-      mAnimateTo(next,0,function(){ mSettling=false; mPlayVideo(mCurrent); });
-    } else { mSettling=false; mPlayVideo(mCurrent); }
+    if(next) mAnimateTo(next,0,function(){ mSettling=false; mLoadAround(mCurrent); });
+    else mSettling=false;
+    var vp=mGetVideo(mCurrent-1); if(vp) vp.pause();
   } else {
     var cs=mGetSlide(mCurrent); var ns=mGetSlide(mCurrent+1);
     if(cs) mAnimateTo(cs,0,null);
