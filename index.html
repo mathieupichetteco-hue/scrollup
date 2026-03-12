@@ -1044,114 +1044,94 @@ setInterval(function(){
 
 // ── DYING MOVIES ──
 var MOVIE_VIDEOS=[
-  {name:"AVATAR Clip - Ikran (2009)",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/AVATAR%20Clip%20-%20%20Ikran%20%20%282009%29.mp4"},
-  {name:"Adam Sandler vs. Donkey Kong - Final Fight Scene - Pixels",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Adam%20Sandler%20vs.%20Donkey%20Kong%20-%20Final%20Fight%20Scene%20%20%20Pixels.mp4"},
-  {name:"All the Best FIGHTS from the MCU Spider-Man Trilogy 4K",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/All%20the%20Best%20FIGHTS%20from%20the%20MCU%20Spider-Man%20Trilogy%20%E2%9A%A1%204K.mp4"},
-  {name:"Atom Vs Zeus - Real Steel - Final Battle",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Atom%20Vs%20Zeus%20%20%20Real%20Steel%20-%20Final%20Battle%20%5BHD%5D.mp4"},
-  {name:"Avatar (2009) - Best Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Avatar%20%282009%29%20-%20Best%20Scenes.mp4"},
-  {name:"Avatar The Way of Water – All Fight Scenes Ultimate 4K HDR",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Avatar%20The%20Way%20of%20Water%20%E2%80%93%20All%20Fight%20Scenes%20%20%20Ultimate%204K%20HDR%20Cinema%20%20%20Full%20Movie%20Review.mp4"},
-  {name:"Captain America Civil War - Full Airport Battle Scene",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/CAPTAIN%20AMERICA%20CIVIL%20WAR%20%282016%29%20Full%20Airport%20Battle%20Scene%20%5BHD%5D%20Marvel%20Clip.mp4"},
-  {name:"Doctor Strange Powers & Fight Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Doctor%20Strange%20Powers%20%26%20Fight%20Scenes%20%20%20Doctor%20Strange%2C%20Thor%2C%20Avengers%20and%20Spider-Man.mp4"},
-  {name:"Final Fight Superman vs Zod - Man of Steel (2013)",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Final%20Fight%20Superman%20vs%20Zod%20%20%20Man%20of%20Steel%20%282013%29.mp4"},
-  {name:"Harry Potter Duels Ranked From Least to Most Intense",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Harry%20Potter%20Duels%20Ranked%20From%20Least%20to%20Most%20Intense.mp4"},
-  {name:"Hulk - Fight Smash Compilation HD",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Hulk%20-%20Fight%20Smash%20Compilation%20HD.mp4"},
-  {name:"Iron Man - All Fights & Flying Scenes HD",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Iron%20Man%20-%20All%20Fights%20%26%20Flying%20Scenes%20HD.mp4"},
-  {name:"Les scènes les plus emblématiques de Harry Potter",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Les%20sc%C3%A8nes%20les%20plus%20embl%C3%A9matiques%20de%20Harry%20Potter.mp4"},
-  {name:"Neo vs Smith Clones Part 2 - The Matrix Reloaded",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Neo%20vs%20Smith%20Clones%20%5BPart%202%5D%20%20%20The%20Matrix%20Reloaded%20%5BOpen%20Matte%5D.mp4"},
-  {name:"Neo's Best Fight Scenes - The Matrix Franchise",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Neo%27s%20Best%20Fight%20Scenes%20%5BMASHUP%5D%20%20%20The%20Matrix%20Franchise%20%20%20TNT.mp4"},
-  {name:"READY PLAYER ONE Clip - Big Race (2018)",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/READY%20PLAYER%20ONE%20Clip%20-%20%20Big%20Race%20%20%282018%29%20Steven%20Spielberg.mp4"},
-  {name:"Superman - Best Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Superman%20-%20Best%20Scenes.mp4"},
-  {name:"TOP 10 BEST ACTION SCENES FROM MARVEL MOVIES VOL. 1",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/TOP%2010%20BEST%20ACTION%20SCENES%20FROM%20MARVEL%20MOVIES%20VOL.%20%231.mp4"},
-  {name:"The Best Scenes in The Lord of the Rings Trilogy",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/The%20Best%20Scenes%20in%20The%20Lord%20of%20the%20Rings%20Trilogy%20%5BMASHUP%5D%20%20%20TNT.mp4"},
-  {name:"The Best Spider-Man Scenes - Movieclips",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/The%20Best%20Spider-Man%20Scenes%20%20%20Movieclips.mp4"},
-  {name:"The Dark Knight Trilogy's Best Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/The%20Dark%20Knight%20Trilogy%27s%20Best%20Scenes.mp4"},
-  {name:"Thor Powers & Fight Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Thor%20Powers%20%26%20Fight%20Scenes%20%20%20Thor%20and%20Avengers%20movies.mp4"},
-  {name:"Top 10 Most Epic SPIDER-MAN Fights Across Every Universe",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Top%2010%20Most%20Epic%20SPIDER-MAN%20Fights%20Across%20Every%20Universe.mp4"},
-  {name:"We're not gonna take it - Ready Player One final battle",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/We%27re%20not%20gonna%20take%20it%20-%20Ready%20Player%20One%20final%20battle.mp4"},
-  {name:"10 minutes that prove nothing beats the original Jumanji",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/10%20minutes%20that%20prove%20nothing%20beats%20the%20original%20Jumanji%20%28Jumanji%20Best%20Scenes%29%20%F0%9F%8C%80%204K.mp4"},
-  {name:"All The Best Scenes from the Jurassic World Trilogy 4K",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/All%20The%20Best%20Scenes%20from%20the%20Jurassic%20World%20Trilogy%20%E2%9A%A1%204K.mp4"},
-  {name:"Anchorman - Best Scenes & Quotes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Anchorman%20-%20Best%20Scenes%20%26%20Quotes.mp4"},
-  {name:"Best Funny Comedic 21 & 22 Jump Street Movie Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Best%20Funny%20Comedic%2021%20%26%2022%20Jump%20Street%20Movie%20Scenes.mp4"},
-  {name:"Best Of King Kong (Feat. Jack Black) - King Kong (2005)",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Best%20Of%20King%20Kong%20%28Feat.%20Jack%20Black%29%20%20%20King%20Kong%20%282005%29%20%20%20Screen%20Bites.mp4"},
-  {name:"Black Adam Powers and Fight Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Black%20Adam%20%28DCEU%29%20Powers%20and%20Fight%20Scenes%20-%20Black%20Adam%20Part%201.mp4"},
-  {name:"Deadpool Vs Wolverine Car Fight Scene 4K",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Deadpool%20Vs%20Wolverine%20Car%20Fight%20Scene%20-%20Deadpool%20%26%20Wolverine%20%282024%29%20Movie%20Clip%20HD%204K.mp4"},
-  {name:"Godzilla vs. Kong's Best Fights",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Godzilla%20vs.%20Kong%27s%20Best%20Fights.mp4"},
-  {name:"Jumanji The Next Level Baboon Attack Bridge Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Jumanji%20The%20Next%20Level%20Baboon%20Attack%20Bridge%20Scene%20%28Kevin%20Hart%2C%20Jack%20Black%204K%20HD%20Clip%29%20%20%20L%C3%A9gendes.mp4"},
-  {name:"Jumanji's Best Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Jumanji%27s%20Best%20Scenes.mp4"},
-  {name:"KONG vs GIANT SQUID - Kong Skull Island (2017)",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/KONG%20vs%20GIANT%20SQUID%20%20-%20Fight%20Scene%20-%20Kong%20Skull%20Island%20%282017%29%20Movie%20Clip%20HD.mp4"},
-  {name:"King Kong V. rex Fight in 4K HDR",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/King%20Kong%20%20%20V.%20rex%20Fight%20in%204K%20HDR.mp4"},
-  {name:"Kong - Best Fights (4K) MonsterVerse",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Kong%20-%20Best%20Fights%20%284K%29%20%20%20MonsterVerse.mp4"},
-  {name:"Superman 4K - Superman Saves the Day Compilation",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Superman%204K%20%20%20Superman%20Saves%20the%20Day%20%20%204K%20Compilation%20%20%20Warner%20Bros.%20Entertainment.mp4"},
-  {name:"Superman Compilation - Best of Christopher Reeve's Superman",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Superman%20Compilation%20%20%20Best%20of%20Christopher%20Reeve%27s%20Superman%20%20%20Warner%20Bros.%20Entertainment.mp4"},
-  {name:"The Flash (2023) - Flash Saves the Babies Funny Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20%282023%29%20-%20Flash%20Saves%20the%20Babies%20Funny%20Scene%20%20%20Movieclips.mp4"},
-  {name:"The Flash (2023) - Flash vs. Flash Mindbending Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20%282023%29%20-%20Flash%20vs.%20Flash%20Mindbending%20Scene%20%20%20Movieclips.mp4"},
-  {name:"The Flash - All Powers from the Films 2016-2023",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20-%20All%20Powers%20from%20the%20Films%202016-2023.mp4"},
-  {name:"The Hangover - A Compilation",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Hangover%20%20%20A%20Compilation%20You%27ll%20Want%20To%20Remember%20%20%20ClipZone%20Comedy%20Callbacks.mp4"},
-  {name:"The Jurassic World Movies - Only the Best Dinosaurs 4K",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Jurassic%20World%20Movies%2C%20but%20ONLY%20the%20Best%20DINOSAURS%20%E2%9A%A1%204K.mp4"},
-  {name:"The One True King - Aquaman 4K IMAX",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20One%20True%20King%20%20%20Aquaman%20%5B4k%2C%20IMAX%5D.mp4"},
-  {name:"Titanic Movie Crash Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Titanic%20Movie%20Crash%20Scene.mp4"},
-  {name:"Transformers' Most Exciting Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Transformers%27%20Most%20Exciting%20Scenes.mp4"},
-  {name:"Wolverine Fight Scenes And All Best Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wolverine%20Fight%20Scenes%20And%20All%20Best%20Scenes..mp4"},
-  {name:"Wolverine's Berserker Rage - Forest Fight Scene - Logan (2017)",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wolverine%27s%20Berserker%20Rage%20-%20Forest%20Fight%20Scene%20-%20Logan%20%282017%29%20Movie%20Clip%20HD.mp4"},
-  {name:"Wonder Woman (2017) - No Man's Land Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wonder%20Woman%20%282017%29%20-%20No%20Man%27s%20Land%20Scene%20%286%2010%29%20%20%20Movieclips.mp4"},
-  {name:"Wonder Woman - All Powers & Fights Scenes DCEU",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wonder%20Woman%20-%20All%20Powers%20%26%20Fights%20Scenes%20%20%20DCEU.mp4"},
-  {name:"Best of Natasha Romanoff",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/best%20of%20natasha%20romanoff.mp4"},
-  {name:"4 Scenes that made The Godfather THE GREATEST movie of all time 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/4%20Scenes%20that%20made%20The%20Godfather%20THE%20GREATEST%20movie%20of%20all%20time%20%F0%9F%8C%80%204K.mp4"},
-  {name:"4 scenes that prove The Dictator is Sacha Baron Cohen best role 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/4%20scenes%20that%20prove%20The%20Dictator%20is%20Sacha%20Baron%20Cohen%20best%20role%20%F0%9F%8C%80%204K.mp4"},
-  {name:"A Quiet Place 2 Full Final Scene 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/A%20Quiet%20Place%202%20Full%20Final%20Scene%20%F0%9F%8C%80%204K.mp4"},
-  {name:"All the Best Scenes from Baywatch 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20Best%20Scenes%20from%20Baywatch%20%F0%9F%8C%80%204K.mp4"},
-  {name:"All the Best Scenes from The Super Mario Bros. Movie 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20Best%20Scenes%20from%20The%20Super%20Mario%20Bros.%20Movie%20%F0%9F%8C%80%204K.mp4"},
-  {name:"All the best scenes from Jerry Maguire 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20best%20scenes%20from%20Jerry%20Maguire%20%F0%9F%8C%80%204K.mp4"},
-  {name:"All the best shark attacks from Jaws 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20best%20shark%20attacks%20from%20Jaws%20%F0%9F%8C%80%204K.mp4"},
-  {name:"Before the end of this war I'm going to kill you    The Patriot   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Before%20the%20end%20of%20this%20war%20I%27m%20going%20to%20kill%20you%20%20%20%20The%20Patriot%20%20%20CLIP.mp4"},
-  {name:"Best Scene-Jack Sparrow steals the interceptor (Pirates of the Caribbean)",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Best%20Scene-Jack%20Sparrow%20steals%20the%20interceptor%20%28Pirates%20of%20the%20Caribbean%29.mp4"},
-  {name:"Can you drive  A minute ago you were dead!  Mission Impossible 5 Full Chase Scene 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Can%20you%20drive%20%20A%20minute%20ago%20you%20were%20dead%21%20%20Mission%20Impossible%205%20Full%20Chase%20Scene%20%F0%9F%8C%80%204K.mp4"},
-  {name:"Captain Jack Sparrow Cannibal Escape BUT IN 4K💀   Pirates Of The Caribbean",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Captain%20Jack%20Sparrow%20Cannibal%20Escape%20BUT%20IN%204K%F0%9F%92%80%20%20%20Pirates%20Of%20The%20Caribbean.mp4"},
-  {name:"Captain Jack Sparrow Escape from British King (London)- PotC on Stranger Tides 1080 HD",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Captain%20Jack%20Sparrow%20Escape%20from%20British%20King%20%28London%29-%20PotC%20on%20Stranger%20Tides%201080%20HD.mp4"},
-  {name:"Daniel Craig's Best James Bond Moments(2006-2021)",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Daniel%20Craig%27s%20Best%20James%20Bond%20Moments%282006-2021%29.mp4"},
-  {name:"Despicable Me's Best Scenes",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Despicable%20Me%27s%20Best%20Scenes.mp4"},
-  {name:"Die Hard  1988  All Fight Scenes [Edited]",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Die%20Hard%20%201988%20%20All%20Fight%20Scenes%20%5BEdited%5D.mp4"},
-  {name:"English, MotherF er, do you speak it    Pulp Fiction   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/English%2C%20MotherF%20er%2C%20do%20you%20speak%20it%20%20%20%20Pulp%20Fiction%20%20%20CLIP.mp4"},
-  {name:"Epic battle Of Captain Jack Sparrow and Captain Davy Jones  BUT IN 4K☠️",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Epic%20battle%20Of%20Captain%20Jack%20Sparrow%20and%20Captain%20Davy%20Jones%20%20BUT%20IN%204K%E2%98%A0%EF%B8%8F.mp4"},
-  {name:"Epic battle Of Captain Jack Sparrow and Captain Hector Barbossa BUT IN 4K☠️",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Epic%20battle%20Of%20Captain%20Jack%20Sparrow%20and%20Captain%20Hector%20Barbossa%20BUT%20IN%204K%E2%98%A0%EF%B8%8F.mp4"},
-  {name:"Fast Five's Safe Heist   Full Scene 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Fast%20Five%27s%20Safe%20Heist%20%20%20Full%20Scene%20%F0%9F%8C%80%204K.mp4"},
-  {name:"Forrest Gump is the BEST soldier because he doesn't think (Best Scenes) 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Forrest%20Gump%20is%20the%20BEST%20soldier%20because%20he%20doesn%27t%20think%20%28Best%20Scenes%29%20%F0%9F%8C%80%204K.mp4"},
-  {name:"Forrest Gump runs across America for 1170 days and 16 hours",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Forrest%20Gump%20runs%20across%20America%20for%201170%20days%20and%2016%20hours.mp4"},
-  {name:"INTERSTELLAR (2014)   Full Ending Scene 4K UHD",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/INTERSTELLAR%20%282014%29%20%20%20Full%20Ending%20Scene%204K%20UHD.mp4"},
-  {name:"Interstellar   Murph Saves The World (Full Scene)   Paramount Movies",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Interstellar%20%20%20Murph%20Saves%20The%20World%20%28Full%20Scene%29%20%20%20Paramount%20Movies.mp4"},
-  {name:"Interstellar   \"Tidal Wave  Full Scene (Anne Hathaway, Matthew McConaughey)   Paramount Movies",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Interstellar%20%20%20%22Tidal%20Wave%20%20Full%20Scene%20%28Anne%20Hathaway%2C%20Matthew%20McConaughey%29%20%20%20Paramount%20Movies.mp4"},
-  {name:"Interstellar - Docking Scene 1080p IMAX HD",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Interstellar%20-%20Docking%20Scene%201080p%20IMAX%20HD.mp4"},
-  {name:"Jack Sparrow being the best pirate you've ever seen for 17 minutes straight",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Jack%20Sparrow%20being%20the%20best%20pirate%20you%27ve%20ever%20seen%20for%2017%20minutes%20straight.mp4"},
-  {name:"John Wick VS His biggest fans   John Wick Chapter 3 - Parabellum   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/John%20Wick%20VS%20His%20biggest%20fans%20%20%20John%20Wick%20Chapter%203%20-%20Parabellum%20%20%20CLIP.mp4"},
-  {name:"Let me love you   The Boy Next Door   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Let%20me%20love%20you%20%20%20The%20Boy%20Next%20Door%20%20%20CLIP.mp4"},
-  {name:"MJ meets the Spideys from the Multiverse   Spider-Man No Way Home FULL SCENE   CLIP 🔥 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/MJ%20meets%20the%20Spideys%20from%20the%20Multiverse%20%20%20Spider-Man%20No%20Way%20Home%20FULL%20SCENE%20%20%20CLIP%20%F0%9F%94%A5%204K.mp4"},
-  {name:"Mission Impossible's Best Scenes",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Mission%20Impossible%27s%20Best%20Scenes.mp4"},
-  {name:"Not just a CAR, not just a DOG  (perfect scene from start to end)   John Wick   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Not%20just%20a%20CAR%2C%20not%20just%20a%20DOG%20%20%28perfect%20scene%20from%20start%20to%20end%29%20%20%20John%20Wick%20%20%20CLIP.mp4"},
-  {name:"Not under the table Christian...    Fifty Shades of Grey   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Not%20under%20the%20table%20Christian...%20%20%20%20Fifty%20Shades%20of%20Grey%20%20%20CLIP.mp4"},
-  {name:"Pirates Of The Caribbean 5 (2017) - Best Moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20Of%20The%20Caribbean%205%20%282017%29%20-%20Best%20Moments.mp4"},
-  {name:"Pirates of The Caribbean 3 - Best Moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20The%20Caribbean%203%20-%20Best%20Moments.mp4"},
-  {name:"Pirates of the Caribbean - On Stranger Tides - Waterfall Scene",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20the%20Caribbean%20-%20On%20Stranger%20Tides%20-%20Waterfall%20Scene.mp4"},
-  {name:"Pirates of the Caribbean 2 Dead Man's Chest (2006) - Best Moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20the%20Caribbean%202%20Dead%20Man%27s%20Chest%20%282006%29%20-%20Best%20Moments.mp4"},
-  {name:"Pirates of the Caribbean 5 FULL FINAL BATTLE   ENDING SCENES   Barbossa Death Scene",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20the%20Caribbean%205%20FULL%20FINAL%20BATTLE%20%20%20ENDING%20SCENES%20%20%20Barbossa%20Death%20Scene.mp4"},
-  {name:"Spider-Man 2   Doctor Octopus best sprawling moments 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Spider-Man%202%20%20%20Doctor%20Octopus%20best%20sprawling%20moments%20%F0%9F%8C%80%204K.mp4"},
-  {name:"Super Sonic est surpuissant pendant 10 minutes   Fin complète de Sonic 3 🔥 VOST Français",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Super%20Sonic%20est%20surpuissant%20pendant%2010%20minutes%20%20%20Fin%20compl%C3%A8te%20de%20Sonic%203%20%F0%9F%94%A5%20VOST%20Fran%C3%A7ais.mp4"},
-  {name:"Survivors VS The Giant HellCrab   Love and Monsters   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Survivors%20VS%20The%20Giant%20HellCrab%20%20%20Love%20and%20Monsters%20%20%20CLIP.mp4"},
-  {name:"The 3 dinosaur scenes that made King Kong a classic 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%203%20dinosaur%20scenes%20that%20made%20King%20Kong%20a%20classic%20%F0%9F%8C%80%204K.mp4"},
-  {name:"The Best Scenes from Top Gun 2 Maverick 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Best%20Scenes%20from%20Top%20Gun%202%20Maverick%20%F0%9F%8C%80%204K.mp4"},
-  {name:"The Best Scenes from World War Z 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Best%20Scenes%20from%20World%20War%20Z%20%F0%9F%8C%80%204K.mp4"},
-  {name:"The Hobbit (2013) - Battle of the five Armies - Part 1 - Only Action [4K] (Directors Cut)",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Hobbit%20%282013%29%20-%20Battle%20of%20the%20five%20Armies%20-%20Part%201%20-%20Only%20Action%20%5B4K%5D%20%28Directors%20Cut%29.mp4"},
-  {name:"The Hobbit Trilogy Top 10 moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Hobbit%20Trilogy%20Top%2010%20moments.mp4"},
-  {name:"The Most Spectacular Gladiator Fights ever filmed 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Most%20Spectacular%20Gladiator%20Fights%20ever%20filmed%20%F0%9F%8C%80%204K.mp4"},
-  {name:"The Super Mario Bros. VS Bowser",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Super%20Mario%20Bros.%20VS%20Bowser.mp4"},
-  {name:"The Wolf of Wall Street (2013) TOP 3 BEST SCENES",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Wolf%20of%20Wall%20Street%20%282013%29%20TOP%203%20BEST%20SCENES.mp4"},
-  {name:"The Wolf of Wall Street - Best scene",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Wolf%20of%20Wall%20Street%20-%20Best%20scene.mp4"},
-  {name:"The best dinosaurs from Jurassic World 3 Dominion 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20best%20dinosaurs%20from%20Jurassic%20World%203%20Dominion%20%F0%9F%8C%80%204K.mp4"},
-  {name:"The real origin story of Spider-Man (that scene with Flash is an all time classic) 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20real%20origin%20story%20of%20Spider-Man%20%28that%20scene%20with%20Flash%20is%20an%20all%20time%20classic%29%20%F0%9F%8C%80%204K.mp4"},
-  {name:"Think about things that get you soft    Baywatch   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Think%20about%20things%20that%20get%20you%20soft%20%20%20%20Baywatch%20%20%20CLIP.mp4"},
-  {name:"Transformers Rise of the Beasts FULL Final Fight 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Transformers%20Rise%20of%20the%20Beasts%20FULL%20Final%20Fight%20%F0%9F%8C%80%204K.mp4"},
-  {name:"You're The One That I Want   Grease   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/You%27re%20The%20One%20That%20I%20Want%20%20%20Grease%20%20%20CLIP.mp4"},
-  {name:"Zac Efron VS Dwayne Johnson in the Big Boys Competition   Baywatch   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Zac%20Efron%20VS%20Dwayne%20Johnson%20in%20the%20Big%20Boys%20Competition%20%20%20Baywatch%20%20%20CLIP.mp4"},
-  {name:"one of the finest animation chase ever  the adventures of tin tin(2011)",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/one%20of%20the%20finest%20animation%20chase%20ever%20%20the%20adventures%20of%20tin%20tin%282011%29.mp4"},
+  {name:"AVATAR Clip - Ikran (2009)",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/AVATAR%20Clip%20-%20%20Ikran%20%20%282009%29.ia.mp4"},
+  {name:"Adam Sandler vs. Donkey Kong - Final Fight Scene - Pixels",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Adam%20Sandler%20vs.%20Donkey%20Kong%20-%20Final%20Fight%20Scene%20%20%20Pixels.ia.mp4"},
+  {name:"All the Best FIGHTS from the MCU Spider-Man Trilogy 4K",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/All%20the%20Best%20FIGHTS%20from%20the%20MCU%20Spider-Man%20Trilogy%20%E2%9A%A1%204K.ia.mp4"},
+  {name:"Atom Vs Zeus - Real Steel - Final Battle",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Atom%20Vs%20Zeus%20%20%20Real%20Steel%20-%20Final%20Battle%20%5BHD%5D.ia.mp4"},
+  {name:"Avatar (2009) - Best Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Avatar%20%282009%29%20-%20Best%20Scenes.ia.mp4"},
+  {name:"Avatar The Way of Water – All Fight Scenes Ultimate 4K HDR",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Avatar%20The%20Way%20of%20Water%20%E2%80%93%20All%20Fight%20Scenes%20%20%20Ultimate%204K%20HDR%20Cinema%20%20%20Full%20Movie%20Review.ia.mp4"},
+  {name:"Captain America Civil War - Full Airport Battle Scene",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/CAPTAIN%20AMERICA%20CIVIL%20WAR%20%282016%29%20Full%20Airport%20Battle%20Scene%20%5BHD%5D%20Marvel%20Clip.ia.mp4"},
+  {name:"Doctor Strange Powers & Fight Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Doctor%20Strange%20Powers%20%26%20Fight%20Scenes%20%20%20Doctor%20Strange%2C%20Thor%2C%20Avengers%20and%20Spider-Man.ia.mp4"},
+  {name:"Final Fight Superman vs Zod - Man of Steel (2013)",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Final%20Fight%20Superman%20vs%20Zod%20%20%20Man%20of%20Steel%20%282013%29.ia.mp4"},
+  {name:"Harry Potter Duels Ranked From Least to Most Intense",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Harry%20Potter%20Duels%20Ranked%20From%20Least%20to%20Most%20Intense.ia.mp4"},
+  {name:"Hulk - Fight Smash Compilation HD",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Hulk%20-%20Fight%20Smash%20Compilation%20HD.ia.mp4"},
+  {name:"Iron Man - All Fights & Flying Scenes HD",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Iron%20Man%20-%20All%20Fights%20%26%20Flying%20Scenes%20HD.ia.mp4"},
+  {name:"Les scènes les plus emblématiques de Harry Potter",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Les%20sc%C3%A8nes%20les%20plus%20embl%C3%A9matiques%20de%20Harry%20Potter.ia.mp4"},
+  {name:"Neo vs Smith Clones Part 2 - The Matrix Reloaded",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Neo%20vs%20Smith%20Clones%20%5BPart%202%5D%20%20%20The%20Matrix%20Reloaded%20%5BOpen%20Matte%5D.ia.mp4"},
+  {name:"Neo's Best Fight Scenes - The Matrix Franchise",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Neo%27s%20Best%20Fight%20Scenes%20%5BMASHUP%5D%20%20%20The%20Matrix%20Franchise%20%20%20TNT.ia.mp4"},
+  {name:"READY PLAYER ONE Clip - Big Race (2018)",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/READY%20PLAYER%20ONE%20Clip%20-%20%20Big%20Race%20%20%282018%29%20Steven%20Spielberg.ia.mp4"},
+  {name:"Superman - Best Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Superman%20-%20Best%20Scenes.ia.mp4"},
+  {name:"TOP 10 BEST ACTION SCENES FROM MARVEL MOVIES VOL. 1",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/TOP%2010%20BEST%20ACTION%20SCENES%20FROM%20MARVEL%20MOVIES%20VOL.%20%231.ia.mp4"},
+  {name:"The Best Scenes in The Lord of the Rings Trilogy",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/The%20Best%20Scenes%20in%20The%20Lord%20of%20the%20Rings%20Trilogy%20%5BMASHUP%5D%20%20%20TNT.ia.mp4"},
+  {name:"The Best Spider-Man Scenes - Movieclips",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/The%20Best%20Spider-Man%20Scenes%20%20%20Movieclips.ia.mp4"},
+  {name:"The Dark Knight Trilogy's Best Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/The%20Dark%20Knight%20Trilogy%27s%20Best%20Scenes.ia.mp4"},
+  {name:"Thor Powers & Fight Scenes",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Thor%20Powers%20%26%20Fight%20Scenes%20%20%20Thor%20and%20Avengers%20movies.ia.mp4"},
+  {name:"Top 10 Most Epic SPIDER-MAN Fights Across Every Universe",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Top%2010%20Most%20Epic%20SPIDER-MAN%20Fights%20Across%20Every%20Universe.ia.mp4"},
+  {name:"We're not gonna take it - Ready Player One final battle",url:"https://ia601500.us.archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/We%27re%20not%20gonna%20take%20it%20-%20Ready%20Player%20One%20final%20battle.ia.mp4"},
+  {name:"10 minutes that prove nothing beats the original Jumanji",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/10%20minutes%20that%20prove%20nothing%20beats%20the%20original%20Jumanji%20%28Jumanji%20Best%20Scenes%29%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"All The Best Scenes from the Jurassic World Trilogy 4K",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/All%20The%20Best%20Scenes%20from%20the%20Jurassic%20World%20Trilogy%20%E2%9A%A1%204K.ia.mp4"},
+  {name:"Anchorman - Best Scenes & Quotes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Anchorman%20-%20Best%20Scenes%20%26%20Quotes.ia.mp4"},
+  {name:"Best Funny Comedic 21 & 22 Jump Street Movie Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Best%20Funny%20Comedic%2021%20%26%2022%20Jump%20Street%20Movie%20Scenes.ia.mp4"},
+  {name:"Best Of King Kong (Feat. Jack Black) - King Kong (2005)",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Best%20Of%20King%20Kong%20%28Feat.%20Jack%20Black%29%20%20%20King%20Kong%20%282005%29%20%20%20Screen%20Bites.ia.mp4"},
+  {name:"Black Adam Powers and Fight Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Black%20Adam%20%28DCEU%29%20Powers%20and%20Fight%20Scenes%20-%20Black%20Adam%20Part%201.ia.mp4"},
+  {name:"Deadpool Vs Wolverine Car Fight Scene 4K",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Deadpool%20Vs%20Wolverine%20Car%20Fight%20Scene%20-%20Deadpool%20%26%20Wolverine%20%282024%29%20Movie%20Clip%20HD%204K.ia.mp4"},
+  {name:"Godzilla vs. Kong's Best Fights",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Godzilla%20vs.%20Kong%27s%20Best%20Fights.ia.mp4"},
+  {name:"Jumanji The Next Level Baboon Attack Bridge Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Jumanji%20The%20Next%20Level%20Baboon%20Attack%20Bridge%20Scene%20%28Kevin%20Hart%2C%20Jack%20Black%204K%20HD%20Clip%29%20%20%20L%C3%A9gendes.ia.mp4"},
+  {name:"Jumanji's Best Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Jumanji%27s%20Best%20Scenes.ia.mp4"},
+  {name:"KONG vs GIANT SQUID - Kong Skull Island (2017)",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/KONG%20vs%20GIANT%20SQUID%20%20-%20Fight%20Scene%20-%20Kong%20Skull%20Island%20%282017%29%20Movie%20Clip%20HD.ia.mp4"},
+  {name:"King Kong V. rex Fight in 4K HDR",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/King%20Kong%20%20%20V.%20rex%20Fight%20in%204K%20HDR.ia.mp4"},
+  {name:"Kong - Best Fights (4K) MonsterVerse",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Kong%20-%20Best%20Fights%20%284K%29%20%20%20MonsterVerse.ia.mp4"},
+  {name:"Superman 4K - Superman Saves the Day Compilation",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Superman%204K%20%20%20Superman%20Saves%20the%20Day%20%20%204K%20Compilation%20%20%20Warner%20Bros.%20Entertainment.ia.mp4"},
+  {name:"Superman Compilation - Best of Christopher Reeve's Superman",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Superman%20Compilation%20%20%20Best%20of%20Christopher%20Reeve%27s%20Superman%20%20%20Warner%20Bros.%20Entertainment.ia.mp4"},
+  {name:"The Flash (2023) - Flash Saves the Babies Funny Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20%282023%29%20-%20Flash%20Saves%20the%20Babies%20Funny%20Scene%20%20%20Movieclips.ia.mp4"},
+  {name:"The Flash (2023) - Flash vs. Flash Mindbending Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20%282023%29%20-%20Flash%20vs.%20Flash%20Mindbending%20Scene%20%20%20Movieclips.ia.mp4"},
+  {name:"The Flash - All Powers from the Films 2016-2023",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20-%20All%20Powers%20from%20the%20Films%202016-2023.ia.mp4"},
+  {name:"The Hangover - A Compilation",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Hangover%20%20%20A%20Compilation%20You%27ll%20Want%20To%20Remember%20%20%20ClipZone%20Comedy%20Callbacks.ia.mp4"},
+  {name:"The Jurassic World Movies - Only the Best Dinosaurs 4K",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20Jurassic%20World%20Movies%2C%20but%20ONLY%20the%20Best%20DINOSAURS%20%E2%9A%A1%204K.ia.mp4"},
+  {name:"The One True King - Aquaman 4K IMAX",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/The%20One%20True%20King%20%20%20Aquaman%20%5B4k%2C%20IMAX%5D.ia.mp4"},
+  {name:"Titanic Movie Crash Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Titanic%20Movie%20Crash%20Scene.ia.mp4"},
+  {name:"Transformers' Most Exciting Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Transformers%27%20Most%20Exciting%20Scenes.ia.mp4"},
+  {name:"Wolverine Fight Scenes And All Best Scenes",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wolverine%20Fight%20Scenes%20And%20All%20Best%20Scenes..ia.mp4"},
+  {name:"Wolverine's Berserker Rage - Forest Fight Scene - Logan (2017)",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wolverine%27s%20Berserker%20Rage%20-%20Forest%20Fight%20Scene%20-%20Logan%20%282017%29%20Movie%20Clip%20HD.ia.mp4"},
+  {name:"Wonder Woman (2017) - No Man's Land Scene",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wonder%20Woman%20%282017%29%20-%20No%20Man%27s%20Land%20Scene%20%286%2010%29%20%20%20Movieclips.ia.mp4"},
+  {name:"Wonder Woman - All Powers & Fights Scenes DCEU",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/Wonder%20Woman%20-%20All%20Powers%20%26%20Fights%20Scenes%20%20%20DCEU.ia.mp4"},
+  {name:"Best of Natasha Romanoff",url:"https://ia601904.us.archive.org/download/kong-best-fights-4-k-monster-verse/best%20of%20natasha%20romanoff.ia.mp4"},
+  {name:"4 scenes that prove The Dictator is Sacha Baron Cohen best role 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/4%20scenes%20that%20prove%20The%20Dictator%20is%20Sacha%20Baron%20Cohen%20best%20role%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"A Quiet Place 2 Full Final Scene 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/A%20Quiet%20Place%202%20Full%20Final%20Scene%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"All the Best Scenes from Baywatch 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20Best%20Scenes%20from%20Baywatch%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"All the Best Scenes from The Super Mario Bros. Movie 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20Best%20Scenes%20from%20The%20Super%20Mario%20Bros.%20Movie%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"All the best scenes from Jerry Maguire 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20best%20scenes%20from%20Jerry%20Maguire%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"All the best shark attacks from Jaws 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/All%20the%20best%20shark%20attacks%20from%20Jaws%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"Before the end of this war I'm going to kill you    The Patriot   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Before%20the%20end%20of%20this%20war%20I%27m%20going%20to%20kill%20you%20%20%20%20The%20Patriot%20%20%20CLIP.ia.mp4"},
+  {name:"Best Scene-Jack Sparrow steals the interceptor (Pirates of the Caribbean)",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Best%20Scene-Jack%20Sparrow%20steals%20the%20interceptor%20%28Pirates%20of%20the%20Caribbean%29.ia.mp4"},
+  {name:"Epic battle Of Captain Jack Sparrow and Captain Davy Jones  BUT IN 4K☠️",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Epic%20battle%20Of%20Captain%20Jack%20Sparrow%20and%20Captain%20Davy%20Jones%20%20BUT%20IN%204K%E2%98%A0%EF%B8%8F.ia.mp4"},
+  {name:"Epic battle Of Captain Jack Sparrow and Captain Hector Barbossa BUT IN 4K☠️",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Epic%20battle%20Of%20Captain%20Jack%20Sparrow%20and%20Captain%20Hector%20Barbossa%20BUT%20IN%204K%E2%98%A0%EF%B8%8F.ia.mp4"},
+  {name:"Fast Five's Safe Heist   Full Scene 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Fast%20Five%27s%20Safe%20Heist%20%20%20Full%20Scene%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"Forrest Gump is the BEST soldier because he doesn't think (Best Scenes) 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Forrest%20Gump%20is%20the%20BEST%20soldier%20because%20he%20doesn%27t%20think%20%28Best%20Scenes%29%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"Forrest Gump runs across America for 1170 days and 16 hours",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Forrest%20Gump%20runs%20across%20America%20for%201170%20days%20and%2016%20hours.ia.mp4"},
+  {name:"INTERSTELLAR (2014)   Full Ending Scene 4K UHD",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/INTERSTELLAR%20%282014%29%20%20%20Full%20Ending%20Scene%204K%20UHD.ia.mp4"},
+  {name:"Interstellar   Murph Saves The World (Full Scene)   Paramount Movies",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Interstellar%20%20%20Murph%20Saves%20The%20World%20%28Full%20Scene%29%20%20%20Paramount%20Movies.ia.mp4"},
+  {name:"Interstellar - Docking Scene 1080p IMAX HD",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Interstellar%20-%20Docking%20Scene%201080p%20IMAX%20HD.ia.mp4"},
+  {name:"Jack Sparrow being the best pirate you've ever seen for 17 minutes straight",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Jack%20Sparrow%20being%20the%20best%20pirate%20you%27ve%20ever%20seen%20for%2017%20minutes%20straight.ia.mp4"},
+  {name:"John Wick VS His biggest fans   John Wick Chapter 3 - Parabellum   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/John%20Wick%20VS%20His%20biggest%20fans%20%20%20John%20Wick%20Chapter%203%20-%20Parabellum%20%20%20CLIP.ia.mp4"},
+  {name:"Let me love you   The Boy Next Door   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Let%20me%20love%20you%20%20%20The%20Boy%20Next%20Door%20%20%20CLIP.ia.mp4"},
+  {name:"MJ meets the Spideys from the Multiverse   Spider-Man No Way Home FULL SCENE   CLIP 🔥 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/MJ%20meets%20the%20Spideys%20from%20the%20Multiverse%20%20%20Spider-Man%20No%20Way%20Home%20FULL%20SCENE%20%20%20CLIP%20%F0%9F%94%A5%204K.ia.mp4"},
+  {name:"Not just a CAR, not just a DOG  (perfect scene from start to end)   John Wick   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Not%20just%20a%20CAR%2C%20not%20just%20a%20DOG%20%20%28perfect%20scene%20from%20start%20to%20end%29%20%20%20John%20Wick%20%20%20CLIP.ia.mp4"},
+  {name:"Not under the table Christian...    Fifty Shades of Grey   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Not%20under%20the%20table%20Christian...%20%20%20%20Fifty%20Shades%20of%20Grey%20%20%20CLIP.ia.mp4"},
+  {name:"Pirates Of The Caribbean 5 (2017) - Best Moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20Of%20The%20Caribbean%205%20%282017%29%20-%20Best%20Moments.ia.mp4"},
+  {name:"Pirates of The Caribbean 3 - Best Moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20The%20Caribbean%203%20-%20Best%20Moments.ia.mp4"},
+  {name:"Pirates of the Caribbean 2 Dead Man's Chest (2006) - Best Moments",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20the%20Caribbean%202%20Dead%20Man%27s%20Chest%20%282006%29%20-%20Best%20Moments.ia.mp4"},
+  {name:"Pirates of the Caribbean 5 FULL FINAL BATTLE   ENDING SCENES   Barbossa Death Scene",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Pirates%20of%20the%20Caribbean%205%20FULL%20FINAL%20BATTLE%20%20%20ENDING%20SCENES%20%20%20Barbossa%20Death%20Scene.ia.mp4"},
+  {name:"Spider-Man 2   Doctor Octopus best sprawling moments 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Spider-Man%202%20%20%20Doctor%20Octopus%20best%20sprawling%20moments%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"Super Sonic est surpuissant pendant 10 minutes   Fin complète de Sonic 3 🔥 VOST Français",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Super%20Sonic%20est%20surpuissant%20pendant%2010%20minutes%20%20%20Fin%20compl%C3%A8te%20de%20Sonic%203%20%F0%9F%94%A5%20VOST%20Fran%C3%A7ais.ia.mp4"},
+  {name:"The Best Scenes from Top Gun 2 Maverick 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Best%20Scenes%20from%20Top%20Gun%202%20Maverick%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"The Most Spectacular Gladiator Fights ever filmed 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Most%20Spectacular%20Gladiator%20Fights%20ever%20filmed%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"The Wolf of Wall Street (2013) TOP 3 BEST SCENES",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20Wolf%20of%20Wall%20Street%20%282013%29%20TOP%203%20BEST%20SCENES.ia.mp4"},
+  {name:"The best dinosaurs from Jurassic World 3 Dominion 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20best%20dinosaurs%20from%20Jurassic%20World%203%20Dominion%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"The real origin story of Spider-Man (that scene with Flash is an all time classic) 🌀 4K",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/The%20real%20origin%20story%20of%20Spider-Man%20%28that%20scene%20with%20Flash%20is%20an%20all%20time%20classic%29%20%F0%9F%8C%80%204K.ia.mp4"},
+  {name:"You're The One That I Want   Grease   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/You%27re%20The%20One%20That%20I%20Want%20%20%20Grease%20%20%20CLIP.ia.mp4"},
+  {name:"Zac Efron VS Dwayne Johnson in the Big Boys Competition   Baywatch   CLIP",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/Zac%20Efron%20VS%20Dwayne%20Johnson%20in%20the%20Big%20Boys%20Competition%20%20%20Baywatch%20%20%20CLIP.ia.mp4"},
+  {name:"one of the finest animation chase ever  the adventures of tin tin(2011)",url:"https://archive.org/download/the-3-dinosaur-scenes-that-made-king-kong-a-classic-4-k/one%20of%20the%20finest%20animation%20chase%20ever%20%20the%20adventures%20of%20tin%20tin%282011%29.ia.mp4"}
 ];
 
 var moviesFeed=document.getElementById('moviesFeed');
@@ -1247,27 +1227,40 @@ function mLoadAround(idx){
   }
 }
 
+function mFastLoad(url,callback){
+  try{
+    var xhr=new XMLHttpRequest();
+    xhr.open('GET',url,true);
+    xhr.setRequestHeader('Range','bytes=0-524287');
+    xhr.responseType='arraybuffer';
+    xhr.timeout=8000;
+    xhr.onload=function(){callback();};
+    xhr.onerror=function(){callback();};
+    xhr.ontimeout=function(){callback();};
+    xhr.send();
+  }catch(e){callback();}
+}
+
 function mStartVideo(idx){
   var v=mGetVideo(idx); if(!v) return;
   mShowLoader(idx);
-  if(!v.src){ v.src=mList[idx].url; v.preload='auto'; v.load(); }
-  // Play as soon as browser has enough data — don't wait for full buffer
-  function onCanPlay(){
-    v.removeEventListener('canplay',onCanPlay);
-    mHideLoader(idx);
-    if(idx===mCurrent) v.play().catch(function(){});
+  var url=mList[idx].url;
+  var fastUrl=url+'#t=0.1';
+  function attachAndPlay(){
+    if(!v.src){ v.src=fastUrl; v.preload='auto'; v.load(); }
+    function onCanPlay(){
+      v.removeEventListener('canplay',onCanPlay);
+      mHideLoader(idx);
+      if(idx===mCurrent) v.play().catch(function(){});
+    }
+    function onWaiting(){ if(idx===mCurrent) mShowLoader(idx); }
+    function onPlaying(){ mHideLoader(idx); }
+    v.addEventListener('canplay',onCanPlay);
+    v.addEventListener('waiting',onWaiting);
+    v.addEventListener('playing',onPlaying);
+    if(v.readyState>=3){ onCanPlay(); }
   }
-  function onWaiting(){
-    if(idx===mCurrent) mShowLoader(idx);
-  }
-  function onPlaying(){
-    mHideLoader(idx);
-  }
-  v.addEventListener('canplay',onCanPlay);
-  v.addEventListener('waiting',onWaiting);
-  v.addEventListener('playing',onPlaying);
-  // If already has data, play immediately
-  if(v.readyState>=3){ onCanPlay(); }
+  mFastLoad(url,attachAndPlay);
 }
 
 function mPlayVideo(idx){
@@ -1297,21 +1290,11 @@ function buildMoviesFeed(){
     mSlides.push(slide);
     mSetPos(slide, idx===0 ? 0 : 100);
   });
-  // Only load first video
+  // Only load first video — use fast-start trick
   var v=mGetVideo(0);
   if(v){
-    mShowLoader(0);
-    v.src=mList[0].url;
-    v.preload='auto';
     v.muted=false;
-    v.load();
-    function onFirstCanPlay(){
-      v.removeEventListener('canplay',onFirstCanPlay);
-      mHideLoader(0);
-      v.play().catch(function(){});
-    }
-    v.addEventListener('canplay',onFirstCanPlay);
-    if(v.readyState>=3){ onFirstCanPlay(); }
+    mStartVideo(0);
   }
 }
 
@@ -1324,9 +1307,13 @@ moviesFeed.addEventListener('touchstart',function(e){
   // For large files: only preload next 1, not 5
   var vn=mGetVideo(mCurrent+1);
   if(vn&&!vn.src&&mList[mCurrent+1]){
-    vn.src=mList[mCurrent+1].url;
-    vn.preload='auto';
-    vn.load();
+    mFastLoad(mList[mCurrent+1].url,function(){
+      if(!vn.src){
+        vn.src=mList[mCurrent+1].url+'#t=0.1';
+        vn.preload='auto';
+        vn.load();
+      }
+    });
   }
 },{passive:true});
 
