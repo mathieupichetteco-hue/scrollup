@@ -1365,17 +1365,7 @@ moviesFeed.addEventListener('touchend',function(e){
     mHideBar();
     var prev=mGetSlide(mCurrent-1); var next=mGetSlide(mCurrent);
     var v=mGetVideo(mCurrent);
-    if(v){
-      if(!v.src){ v.src=mList[mCurrent].url; v.preload='auto'; v.load(); }
-      var played=false;
-      function doPlay(){
-        if(played) return; played=true;
-        v.muted=false; v.play().catch(function(){});
-      }
-      v.addEventListener('canplay', doPlay, {once:true});
-      v.addEventListener('loadeddata', doPlay, {once:true});
-      setTimeout(doPlay, 800); // fallback
-    }
+    if(v) mForcePlay(v, mCurrent);
     if(prev) mAnimateTo(prev,100,null);
     if(next) mAnimateTo(next,0,function(){ mSettling=false; mLoadAround(mCurrent); });
     else mSettling=false;
@@ -1386,6 +1376,29 @@ moviesFeed.addEventListener('touchend',function(e){
     if(ns) mAnimateTo(ns,-100,null);
   }
 },{passive:true});
+
+// robust play with watchdog — retries if video stays black
+function mForcePlay(v, idx){
+  if(!v.src){ v.src=mList[idx].url; }
+  v.preload='auto';
+  v.muted=false;
+  v.load();
+  var attempts=0;
+  function tryNow(){
+    v.play().catch(function(){});
+    attempts++;
+    // watchdog: if still not playing after 800ms, reload and retry
+    setTimeout(function(){
+      if(v.paused || v.readyState < 2){
+        if(attempts < 3){
+          v.load();
+          tryNow();
+        }
+      }
+    }, 800);
+  }
+  tryNow();
+}
 
 document.addEventListener('touchmove',function(e){
   if(moviesFeed.style.display==='block'&&window.mstarted) e.preventDefault();
