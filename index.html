@@ -954,29 +954,40 @@ function animateTo(el,vh,cb){
 // ── BUILD FEED ──
 function buildFeed(){
   slides.forEach(function(s){ s.remove(); }); slides=[];
-  list=shuffle(VIDEOS); current=0;
+  if(list.length===0) list=shuffle(VIDEOS);
+  current=0;
   list.forEach(function(vid,idx){
     var slide=document.createElement('div');
     slide.className='slide';
-    var video=document.createElement('video');
+    var video;
+    if(window._fPreload&&window._fPreload[idx]){
+      video=window._fPreload[idx];
+    } else {
+      video=document.createElement('video');
+      video.setAttribute('playsinline','');
+      video.setAttribute('webkit-playsinline','');
+      video.setAttribute('preload','none');
+    }
+    video.muted=true; video.loop=true;
     video.setAttribute('playsinline','');
-    video.setAttribute('webkit-playsinline','');
-    video.setAttribute('preload','none');
-    video.muted=false; video.loop=true;
     slide.appendChild(video);
     feed.appendChild(slide);
     slides.push(slide);
     setPos(slide, idx===0 ? 0 : 100);
   });
-  // tap zones removed — overlay handles everything
-
   loadAround(0);
-  // play first video immediately
   var v=getVideo(0);
   if(v){
-    v.src=list[0].url; v.preload='auto';
-    v.muted=true;
-    v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+    if(!v.src){ v.src=list[0].url; v.preload='auto'; v.load(); }
+    var played=false;
+    function tryPlay(){
+      if(played) return; played=true;
+      v.muted=true;
+      v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+    }
+    v.addEventListener('canplay', tryPlay, {once:true});
+    v.addEventListener('loadeddata', tryPlay, {once:true});
+    setTimeout(tryPlay, 300);
   }
 }
 
@@ -1356,7 +1367,7 @@ function buildMoviesFeed(){
     }
     v.addEventListener('canplay', tryPlay, {once:true});
     v.addEventListener('loadeddata', tryPlay, {once:true});
-    setTimeout(tryPlay, 500);
+    setTimeout(tryPlay, 300);
   }
 }
 
@@ -1491,7 +1502,6 @@ document.getElementById('goMovies').addEventListener('touchstart',function(){
 },{passive:true});
 
 // Preload first 4 movie videos immediately on page load
-// so by the time user taps Dying Movies, video is already buffered
 (function(){
   mList=shuffle(MOVIE_VIDEOS);
   window._mPreload=[];
@@ -1504,6 +1514,22 @@ document.getElementById('goMovies').addEventListener('touchstart',function(){
     tmp.load();
     tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
     window._mPreload[i]=tmp;
+  }
+})();
+
+// Preload first 4 Rise Up Reels videos immediately on page load
+(function(){
+  list=shuffle(VIDEOS);
+  window._fPreload=[];
+  for(var i=0;i<Math.min(4,list.length);i++){
+    var tmp=document.createElement('video');
+    tmp.src=list[i].url;
+    tmp.preload='auto';
+    tmp.muted=true;
+    tmp.setAttribute('playsinline','');
+    tmp.load();
+    tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
+    window._fPreload[i]=tmp;
   }
 })();
 
