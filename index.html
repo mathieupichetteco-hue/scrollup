@@ -418,10 +418,9 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
   <div id="ftop">
     <div id="ftop-back" onclick="
       document.getElementById('feed').style.display='none';
-      stopAll();
       document.getElementById('home').style.display='flex';
-      window.started=false;
       slides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
+      hideBar();
     ">← MENU</div>
     <div id="ftop-brand">Rise Up Reels</div>
     <div id="ftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -460,10 +459,9 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
   <div id="mftop">
     <div id="mftop-back" onclick="
       document.getElementById('moviesFeed').style.display='none';
-      stopAll();
       document.getElementById('home').style.display='flex';
-      window.mstarted=false;
       mSlides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
+      mHideBar();
     ">← MENU</div>
     <div id="mftop-brand">Dying Movies</div>
     <div id="mftop-tagline">The Best Scenes, Nothing Else.</div>
@@ -894,6 +892,10 @@ document.getElementById('goFeed').addEventListener('click',function(){
   stopAll();
   feed.style.display='block';
   if(!window.started){ window.started=true; requestWakeLock(); buildFeed(); }
+  else {
+    var v=getVideo(current);
+    if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
+  }
 });
 
 document.getElementById('goDaily').addEventListener('click',function(){
@@ -1289,21 +1291,21 @@ function mSeekRel(sec){
   v.currentTime=Math.min(Math.max(0,v.currentTime+sec),v.duration);
 }
 function mLoadAround(idx){
-  if(idx>2){
-    var old=mGetVideo(idx-3);
+  if(idx>1){
+    var old=mGetVideo(idx-2);
     if(old&&old.src){ old.src=''; old.load(); }
   }
-  for(var i=idx;i<Math.min(idx+3,mList.length);i++){
+  for(var i=idx;i<Math.min(idx+4,mList.length);i++){
     var v=mGetVideo(i);
     if(v&&!v.src){
       v.src=mList[i].url;
-      v.preload=i===idx?'auto':'metadata';
-      if(i===idx) v.load();
+      v.preload='auto';
+      v.load();
     }
   }
 }
 function mPlayVideo(idx){
-  for(var i=Math.max(0,idx-1);i<Math.min(mSlides.length,idx+3);i++){
+  for(var i=Math.max(0,idx-1);i<Math.min(mSlides.length,idx+4);i++){
     var v=mGetVideo(i);
     if(!v) continue;
     if(i===idx){ v.play().catch(function(){}); } else { v.pause(); }
@@ -1361,10 +1363,10 @@ moviesFeed.addEventListener('touchend',function(e){
     mSettling=true; mCurrent++;
     mHideBar();
     var prev=mGetSlide(mCurrent-1); var next=mGetSlide(mCurrent);
+    var v=mGetVideo(mCurrent);
+    if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
     if(prev) mAnimateTo(prev,100,null);
     if(next){
-      var v=mGetVideo(mCurrent);
-      if(v) v.play().catch(function(){});
       mAnimateTo(next,0,function(){ mSettling=false; mPlayVideo(mCurrent); });
     } else { mSettling=false; mPlayVideo(mCurrent); }
   } else {
@@ -1430,6 +1432,10 @@ document.getElementById('goMovies').addEventListener('click',function(){
   hide('home'); stopAll();
   moviesFeed.style.display='block';
   if(!window.mstarted){ window.mstarted=true; buildMoviesFeed(); }
+  else {
+    var v=mGetVideo(mCurrent);
+    if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
+  }
 });
 
 </script>
