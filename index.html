@@ -1358,16 +1358,9 @@ function buildMoviesFeed(){
   var v=mGetVideo(0);
   if(v){
     if(!v.src){ v.src=mList[0].url; v.preload='auto'; v.load(); }
-    var played=false;
-    function tryPlay(){
-      if(played) return; played=true;
-      v.muted=true;
-      v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
-      mLoadAround(0);
-    }
-    v.addEventListener('canplay', tryPlay, {once:true});
-    v.addEventListener('loadeddata', tryPlay, {once:true});
-    setTimeout(tryPlay, 300);
+    v.muted=true;
+    v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+    mLoadAround(0);
   }
 }
 
@@ -1481,6 +1474,11 @@ document.getElementById('goMovies').addEventListener('click',function(){
     var v=mGetVideo(mCurrent);
     if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
   }
+  // force play first video RIGHT NOW inside user gesture — bypasses autoplay block
+  setTimeout(function(){
+    var v=mGetVideo(0);
+    if(v && v.paused){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){}); }
+  }, 0);
 });
 
 // preload first 4 videos as soon as home card is touched — before section opens
