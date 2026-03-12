@@ -1291,13 +1291,22 @@ function mSeekRel(sec){
   v.currentTime=Math.min(Math.max(0,v.currentTime+sec),v.duration);
 }
 function mLoadAround(idx){
+  // free old
   if(idx>1){
     var old=mGetVideo(idx-2);
-    if(old&&old.src){ old.src=''; old.load(); }
+    if(old&&old.src){ old.pause(); old.src=''; old.load(); }
   }
-  for(var i=idx+1;i<Math.min(idx+3,mList.length);i++){
+  // preload next 4 aggressively RIGHT NOW
+  for(var i=idx+1;i<Math.min(idx+5,mList.length);i++){
     var v=mGetVideo(i);
-    if(v&&!v.src){ v.src=mList[i].url; v.preload='metadata'; }
+    if(v&&!v.src){
+      v.src=mList[i].url;
+      v.preload='auto';
+      v.muted=true;
+      v.load();
+      // start buffering by playing then immediately pausing
+      v.play().then(function(vid){ return function(){ vid.pause(); vid.currentTime=0; }; }(v)).catch(function(){});
+    }
   }
 }
 function mPlayVideo(idx){
@@ -1311,25 +1320,33 @@ function mPlayVideo(idx){
 
 function buildMoviesFeed(){
   mSlides.forEach(function(s){ s.remove(); }); mSlides=[];
-  mList=shuffle(MOVIE_VIDEOS); mCurrent=0;
+  if(mList.length===0) mList=shuffle(MOVIE_VIDEOS);
+  mCurrent=0;
   mList.forEach(function(vid,idx){
     var slide=document.createElement('div');
     slide.className='slide';
-    var video=document.createElement('video');
-    video.setAttribute('playsinline','');
-    video.setAttribute('webkit-playsinline','');
-    video.setAttribute('preload','none');
+    var video;
+    // reuse preloaded element if available
+    if(window._mPreload&&window._mPreload[idx]){
+      video=window._mPreload[idx];
+      video.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
+    } else {
+      video=document.createElement('video');
+      video.setAttribute('playsinline','');
+      video.setAttribute('webkit-playsinline','');
+      video.setAttribute('preload','none');
+      video.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
+    }
     video.muted=true; video.loop=true;
+    video.setAttribute('playsinline','');
     slide.appendChild(video);
     moviesFeed.appendChild(slide);
     mSlides.push(slide);
     mSetPos(slide, idx===0 ? 0 : 100);
   });
-  // first video — play as soon as ANY data is ready
   var v=mGetVideo(0);
   if(v){
-    v.src=mList[0].url;
-    v.preload='auto';
+    if(!v.src){ v.src=mList[0].url; v.preload='auto'; v.load(); }
     var played=false;
     function tryPlay(){
       if(played) return; played=true;
@@ -1339,7 +1356,7 @@ function buildMoviesFeed(){
     }
     v.addEventListener('canplay', tryPlay, {once:true});
     v.addEventListener('loadeddata', tryPlay, {once:true});
-    v.load();
+    setTimeout(tryPlay, 500);
   }
 }
 
@@ -1446,12 +1463,49 @@ setInterval(function(){
 document.getElementById('goMovies').addEventListener('click',function(){
   hide('home'); stopAll();
   moviesFeed.style.display='block';
-  if(!window.mstarted){ window.mstarted=true; buildMoviesFeed(); }
-  else {
+  if(!window.mstarted){
+    window.mstarted=true;
+    buildMoviesFeed();
+  } else {
     var v=mGetVideo(mCurrent);
     if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
   }
 });
+
+// preload first 4 videos as soon as home card is touched — before section opens
+document.getElementById('goMovies').addEventListener('touchstart',function(){
+  if(window.mstarted) return;
+  // shuffle early so we know which videos to preload
+  if(mList.length===0) mList=shuffle(MOVIE_VIDEOS);
+  for(var i=0;i<Math.min(4,mList.length);i++){
+    var tmp=document.createElement('video');
+    tmp.src=mList[i].url;
+    tmp.preload='auto';
+    tmp.muted=true;
+    tmp.load();
+    tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
+    // store so buildMoviesFeed can reuse
+    if(!window._mPreload) window._mPreload=[];
+    window._mPreload[i]=tmp;
+  }
+},{passive:true});
+
+// Preload first 4 movie videos immediately on page load
+// so by the time user taps Dying Movies, video is already buffered
+(function(){
+  mList=shuffle(MOVIE_VIDEOS);
+  window._mPreload=[];
+  for(var i=0;i<Math.min(4,mList.length);i++){
+    var tmp=document.createElement('video');
+    tmp.src=mList[i].url;
+    tmp.preload='auto';
+    tmp.muted=true;
+    tmp.setAttribute('playsinline','');
+    tmp.load();
+    tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
+    window._mPreload[i]=tmp;
+  }
+})();
 
 </script>
 </body>
