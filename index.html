@@ -1367,7 +1367,12 @@ function mPlayVideo(idx){
   for(var i=Math.max(0,idx-1);i<Math.min(mSlides.length,idx+3);i++){
     var v=mGetVideo(i);
     if(!v) continue;
-    if(i===idx){ v.play().catch(function(){}); } else { v.pause(); }
+    if(i===idx){
+      if(!v.src){ v.src=mList[idx].url; v.preload='auto'; v.load(); }
+      v.play().catch(function(){});
+    } else {
+      v.pause();
+    }
   }
   mLoadAround(idx);
 }
@@ -1431,7 +1436,10 @@ moviesFeed.addEventListener('touchend',function(e){
     if(prev) mAnimateTo(prev,100,null);
     if(next){
       var v=mGetVideo(mCurrent);
-      if(v) v.play().catch(function(){});
+      if(v){
+        if(!v.src){ v.src=mList[mCurrent].url; v.preload='auto'; v.load(); }
+        v.play().catch(function(){});
+      }
       mAnimateTo(next,0,function(){ mSettling=false; mPlayVideo(mCurrent); });
     } else { mSettling=false; mPlayVideo(mCurrent); }
   } else {
