@@ -10,7 +10,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;1,9..40,400&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-:root{--gold:#00E5CC;--gold2:rgba(0,229,204,0.15);--gold3:rgba(0,229,204,0.06);--dark:#000;}
+:root{--gold:#00CED1;--gold2:rgba(0,206,209,0.15);--gold3:rgba(0,206,209,0.06);--dark:#000;}
 html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:hidden;height:100%;width:100%;position:fixed;top:0;left:0;}
 
 /* ───────── SPLASH ───────── */
@@ -18,41 +18,115 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   position:fixed;inset:0;z-index:99999;background:#000;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:48px 32px;cursor:pointer;touch-action:manipulation;
+  overflow:hidden;
+}
+.sp-bg{
+  position:absolute;inset:0;pointer-events:none;
+}
+.sp-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(0,206,209,0.07);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.sp-ring-1{width:320px;height:320px;animation:ringpulse 4s ease-in-out infinite;}
+.sp-ring-2{width:500px;height:500px;animation:ringpulse 4s ease-in-out infinite 0.8s;}
+.sp-ring-3{width:700px;height:700px;animation:ringpulse 4s ease-in-out infinite 1.6s;}
+@keyframes ringpulse{
+  0%,100%{opacity:0.4;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.02);}
+}
+.sp-triangle{
+  width:0;height:0;
+  border-left:28px solid transparent;
+  border-right:28px solid transparent;
+  border-bottom:48px solid var(--gold);
+  margin:0 auto 18px;
+  filter:drop-shadow(0 0 12px rgba(0,206,209,0.6)) drop-shadow(0 0 28px rgba(0,206,209,0.3));
+  animation:tglow 2.5s ease-in-out infinite;
+  position:relative;z-index:1;
+}
+.sp-triangle::after{
+  content:'';
+  position:absolute;
+  width:0;height:0;
+  border-left:18px solid transparent;
+  border-right:18px solid transparent;
+  border-bottom:31px solid #000;
+  top:20px;left:-18px;
+}
+@keyframes tglow{
+  0%,100%{filter:drop-shadow(0 0 10px rgba(0,206,209,0.5));}
+  50%{filter:drop-shadow(0 0 22px rgba(0,206,209,0.9)) drop-shadow(0 0 50px rgba(0,206,209,0.3));}
 }
 .sp-brand{
   font-family:'Anton',sans-serif;font-size:clamp(1.4rem,5vw,1.9rem);
   letter-spacing:5px;color:var(--gold);text-align:center;
   animation:glow 2.5s ease-in-out infinite;margin-bottom:4px;
+  position:relative;z-index:1;
 }
-.sp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);margin:14px auto 14px;opacity:0.5;}
+.sp-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);margin:14px auto 14px;opacity:0.5;position:relative;z-index:1;}
 .sp-intent{
   font-size:clamp(0.62rem,2vw,0.75rem);color:rgba(255,255,255,0.7);
   line-height:1.95;text-align:center;max-width:300px;font-style:italic;font-weight:300;
+  position:relative;z-index:1;
 }
-.sp-line{width:32px;height:1px;background:rgba(0,229,204,0.3);margin:28px auto;}
+.sp-line{width:32px;height:1px;background:rgba(0,206,209,0.3);margin:28px auto;position:relative;z-index:1;}
 .sp-tap{
   font-family:'Anton',sans-serif;font-size:0.5rem;letter-spacing:4px;
-  color:rgba(0,229,204,0.45);text-align:center;animation:blink 1.8s ease-in-out infinite;
+  color:rgba(0,206,209,0.45);text-align:center;animation:blink 1.8s ease-in-out infinite;
+  position:relative;z-index:1;
 }
 @keyframes glow{
-  0%,100%{text-shadow:0 0 18px rgba(0,229,204,0.4);}
-  50%{text-shadow:0 0 36px rgba(0,229,204,0.85),0 0 70px rgba(0,229,204,0.2);}
+  0%,100%{text-shadow:0 0 18px rgba(0,206,209,0.4);}
+  50%{text-shadow:0 0 36px rgba(0,206,209,0.85),0 0 70px rgba(0,206,209,0.2);}
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.25;}}
-
-
 
 /* ───────── HOME ───────── */
 #home{
   position:fixed;inset:0;z-index:2000;background:#000;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:32px 24px;
+  padding:32px 24px;overflow:hidden;
 }
-.hm-top{text-align:center;margin-bottom:48px;}
+.hm-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.hm-line-h{
+  position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,rgba(0,206,209,0.08),transparent);
+}
+.hm-line-v{
+  position:absolute;top:0;bottom:0;width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(0,206,209,0.08),transparent);
+}
+.hm-corner{
+  position:absolute;width:18px;height:18px;
+  border-color:rgba(0,206,209,0.25);border-style:solid;
+}
+.hm-corner-tl{top:24px;left:24px;border-width:1px 0 0 1px;}
+.hm-corner-tr{top:24px;right:24px;border-width:1px 1px 0 0;}
+.hm-corner-bl{bottom:24px;left:24px;border-width:0 0 1px 1px;}
+.hm-corner-br{bottom:24px;right:24px;border-width:0 1px 1px 0;}
+.hm-top{text-align:center;margin-bottom:32px;position:relative;z-index:1;}
+.hm-logo-wrap{margin-bottom:14px;}
+.hm-tri{
+  width:0;height:0;
+  border-left:16px solid transparent;
+  border-right:16px solid transparent;
+  border-bottom:28px solid var(--gold);
+  margin:0 auto 8px;
+  filter:drop-shadow(0 0 8px rgba(0,206,209,0.5));
+  position:relative;
+}
+.hm-tri::after{
+  content:'';position:absolute;
+  width:0;height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-bottom:18px solid #000;
+  top:12px;left:-10px;
+}
 .hm-brand{
   font-family:'Anton',sans-serif;font-size:clamp(1.2rem,4.5vw,1.6rem);
   letter-spacing:4px;color:var(--gold);
-  text-shadow:0 0 24px rgba(0,229,204,0.35);margin-bottom:8px;
+  text-shadow:0 0 24px rgba(0,206,209,0.35);margin-bottom:8px;
 }
 .hm-intent{
   font-size:0.48rem;color:rgba(255,255,255,0.7);line-height:1.8;
@@ -61,19 +135,19 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   font-size:0.6rem;color:rgba(255,255,255,0.28);letter-spacing:2.5px;
   text-transform:uppercase;
 }
-.hm-cards{display:flex;flex-direction:column;gap:12px;width:100%;max-width:360px;}
+.hm-cards{display:flex;flex-direction:column;gap:12px;width:100%;max-width:360px;position:relative;z-index:1;}
 .hm-card{
   display:flex;align-items:center;gap:16px;
   padding:20px 20px;border-radius:16px;
-  border:1px solid rgba(0,229,204,0.18);
-  background:rgba(0,229,204,0.03);
+  border:1px solid rgba(0,206,209,0.18);
+  background:rgba(0,206,209,0.03);
   cursor:pointer;touch-action:manipulation;
   transition:background 0.18s,transform 0.12s;
 }
-.hm-card:active{transform:scale(0.975);background:rgba(0,229,204,0.07);}
+.hm-card:active{transform:scale(0.975);background:rgba(0,206,209,0.07);}
 .hm-icon{
   width:42px;height:42px;border-radius:12px;
-  background:rgba(0,229,204,0.08);border:1px solid rgba(0,229,204,0.2);
+  background:rgba(0,206,209,0.08);border:1px solid rgba(0,206,209,0.2);
   display:flex;align-items:center;justify-content:center;
   font-size:1.2rem;flex-shrink:0;
 }
@@ -83,7 +157,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   letter-spacing:2px;color:var(--gold);margin-bottom:3px;
 }
 .hm-card-desc{font-size:0.6rem;color:rgba(255,255,255,0.38);line-height:1.55;}
-.hm-arrow{font-size:1.1rem;color:rgba(0,229,204,0.2);flex-shrink:0;}
+.hm-arrow{font-size:1.1rem;color:rgba(0,206,209,0.2);flex-shrink:0;}
 .hm-card-locked{opacity:0.45;}
 
 /* ───────── DAILY SCREEN ───────── */
@@ -94,32 +168,32 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 .tb{
   flex-shrink:0;display:flex;align-items:center;gap:14px;
   padding:14px 18px 12px;background:#000;
-  border-bottom:1px solid rgba(0,229,204,0.1);
+  border-bottom:1px solid rgba(0,206,209,0.1);
 }
 .tb-back{
-  background:none;border:1px solid rgba(0,229,204,0.25);
+  background:none;border:1px solid rgba(0,206,209,0.25);
   color:var(--gold);font-family:'Anton',sans-serif;
   font-size:0.55rem;letter-spacing:2px;padding:7px 13px;
   border-radius:20px;cursor:pointer;touch-action:manipulation;
 }
-.tb-back:active{background:rgba(0,229,204,0.08);}
+.tb-back:active{background:rgba(0,206,209,0.08);}
 .tb-brand{font-family:'Anton',sans-serif;font-size:0.78rem;letter-spacing:2px;color:var(--gold);}
 .sc{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:22px 20px 80px;}
 .sc-intent{
   font-size:0.55rem;color:rgba(255,255,255,0.32);font-style:italic;
   line-height:1.85;text-align:center;margin-bottom:28px;
-  padding:14px 16px;border:1px solid rgba(0,229,204,0.07);border-radius:12px;
+  padding:14px 16px;border:1px solid rgba(0,206,209,0.07);border-radius:12px;
 }
 .d-list{display:flex;flex-direction:column;gap:10px;}
 .d-entry{
   display:flex;justify-content:space-between;align-items:center;
-  padding:16px 18px;border:1px solid rgba(0,229,204,0.18);
+  padding:16px 18px;border:1px solid rgba(0,206,209,0.18);
   border-radius:14px;cursor:pointer;touch-action:manipulation;
-  background:rgba(0,229,204,0.02);transition:background 0.14s;
+  background:rgba(0,206,209,0.02);transition:background 0.14s;
 }
-.d-entry:active{background:rgba(0,229,204,0.07);}
+.d-entry:active{background:rgba(0,206,209,0.07);}
 .d-date{font-family:'Anton',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--gold);}
-.d-arr{font-size:1rem;color:rgba(0,229,204,0.3);}
+.d-arr{font-size:1rem;color:rgba(0,206,209,0.3);}
 
 /* ───────── DAILY READER ───────── */
 #dailyReader{
@@ -142,7 +216,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   display:inline-block;font-family:'Anton',sans-serif;
   font-size:0.7rem;letter-spacing:2px;color:var(--gold);
   margin-top:32px;padding-bottom:3px;
-  border-bottom:1px solid rgba(0,229,204,0.3);
+  border-bottom:1px solid rgba(0,206,209,0.3);
   cursor:pointer;touch-action:manipulation;
 }
 
@@ -260,7 +334,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 #mfseek-pp{
   font-size:1.3rem;color:var(--gold);
   width:34px;height:34px;border-radius:50%;
-  background:rgba(0,229,204,0.15);border:1px solid rgba(0,229,204,0.35);
+  background:rgba(0,206,209,0.15);border:1px solid rgba(0,206,209,0.35);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;touch-action:manipulation;
 }
@@ -280,7 +354,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 #fseek-pp{
   font-size:1.3rem;color:var(--gold);
   width:34px;height:34px;border-radius:50%;
-  background:rgba(0,229,204,0.15);border:1px solid rgba(0,229,204,0.35);
+  background:rgba(0,206,209,0.15);border:1px solid rgba(0,206,209,0.35);
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;touch-action:manipulation;
 }
@@ -309,7 +383,7 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 #milestone.show{opacity:1;}
 #milestone.hide{opacity:0;transition:opacity 1s;}
 .ms-box{
-  background:rgba(0,0,0,0.9);border:1px solid rgba(0,229,204,0.4);
+  background:rgba(0,0,0,0.9);border:1px solid rgba(0,206,209,0.4);
   border-radius:20px;padding:28px 32px;text-align:center;
   animation:pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
@@ -319,6 +393,14 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 }
 .ms-sub{font-size:0.6rem;color:rgba(255,255,255,0.6);margin-top:8px;line-height:1.7;}
 @keyframes pop{from{transform:scale(0.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+
+
+@keyframes manga-float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-4px);}
+}
+.manga-char{animation:manga-float 3.5s ease-in-out infinite;}
 </style>
 </head>
 <body>
@@ -338,33 +420,47 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 
 <!-- ── HOME ── -->
 <div id="home">
-  <div class="hm-top">
+<div class="hm-bg">
+    <div class="hm-corner hm-corner-tl"></div>
+    <div class="hm-corner hm-corner-tr"></div>
+    <div class="hm-corner hm-corner-bl"></div>
+    <div class="hm-corner hm-corner-br"></div>
+    <div class="hm-line-h" style="top:50%;"></div>
+    <div class="hm-line-v" style="left:50%;"></div>
+  </div>
+<div class="hm-top">
     <div class="hm-brand">Mathieu Pichette.co App</div>
     <div class="hm-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
   <div class="hm-cards">
     <div class="hm-card" id="goFeed">
-      <div class="hm-icon">⚡</div>
+      
       <div class="hm-text">
-        <div class="hm-card-title">Rise Up Reels</div>
-        <div class="hm-card-desc">Evolve the energy of the entire world, eternally.</div>
+        <div class="hm-card-title">Mathieu Pichette.co Scroll Up</div>
       </div>
       <div class="hm-arrow">›</div>
     </div>
     <div class="hm-card" id="goDaily">
-      <div class="hm-icon">📖</div>
+      
       <div class="hm-text">
-        <div class="hm-card-title">Daily</div>
-        <div class="hm-card-desc">Philosophy & intention — evolve your energy, eternally at your best.</div>
+        <div class="hm-card-title">Mathieu Pichette.co Daily</div>
       </div>
       <div class="hm-arrow">›</div>
     </div>
     <div class="hm-card" id="goMovies">
-      <div class="hm-icon">🎬</div>
+      
       <div class="hm-text">
-        <div class="hm-card-title">Dying Movies</div>
-        <div class="hm-card-desc">The Best Scenes, Nothing Else.</div>
+        <div class="hm-card-title">Mathieu Pichette.co Movie Scenes</div>
       </div>
+      <div class="hm-arrow">›</div>
+    </div>
+    <div class="hm-card" id="goQuotes">
+      
+      <div class="hm-text">
+        <div class="hm-card-title">Mathieu Pichette.co Best Quotes</div>
+      </div>
+      <div class="hm-arrow">›</div>
+    </div>
       <div class="hm-arrow">›</div>
     </div>
   </div>
@@ -372,13 +468,13 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 <div id="dailyScreen">
   <div class="tb">
     <button class="tb-back" id="dailyBack" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('home').style.display='flex';">← BACK</button>
-    <div class="tb-brand">Daily</div>
+    <div class="tb-brand">Mathieu Pichette.co Daily</div>
   </div>
   <div class="sc">
     <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
     <div class="d-list">
-      <div class="d-entry" id="entry-march7" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('dailyReader').style.display='flex';">
-        <div class="d-date">Saturday, March 7, 2026</div>
+      <div class="d-entry" id="entry-march12" onclick="document.getElementById('dailyScreen').style.display='none';document.getElementById('dailyReader').style.display='flex';">
+        <div class="d-date">Thursday, March 12, 2026</div>
         <div class="d-arr">›</div>
       </div>
     </div>
@@ -389,27 +485,60 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 <div id="dailyReader">
   <div class="tb">
     <button class="tb-back" id="readerBack" onclick="document.getElementById('dailyReader').style.display='none';document.getElementById('dailyScreen').style.display='flex';">← BACK</button>
-    <div class="tb-brand">Daily</div>
+    <div class="tb-brand">Mathieu Pichette.co Daily</div>
   </div>
   <div class="sc">
     <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
-    <div class="r-date">Saturday, March 7, 2026</div>
-    <div class="r-body">Hey you, I know, yes yes I know! You are wondering — what is this? Why? It is blocked energy — that is the reason for illness and all of that. I know you don't believe me. I just want to help and that is all. Leave, that's all. I will never give up on helping! So leave. The end!
+    <div class="r-date">Thursday, March 12, 2026</div>
+    <div class="r-body"><span style="font-family:'Anton',sans-serif;font-size:1.1rem;letter-spacing:2px;color:#fff;">WELCOME TO HELL.</span><br><br>
 
-The evolutionary energy however is the only solution, because it is like looking for a problem where the problem is not — the solution is energetic, the problem is energetic!
+<span style="color:rgba(255,255,255,0.6);font-size:0.7rem;letter-spacing:1px;">We're going to have fun.<br>
+We're going to clash.<br>
+We're going to laugh.<br>
+We're going to evolve.</span><br><br>
 
-Welcome to a place where I just want to help! Yes that is all! I am Mathieu and I want to help.
+<span style="font-family:'Anton',sans-serif;font-size:0.82rem;letter-spacing:1.5px;color:var(--gold);">WE'RE GOING TO EVOLVE THE WORLD.<br>WE'RE GOING TO EVOLVE THE ENERGY.</span><br><br>
 
-END!
+<span style="color:rgba(255,255,255,0.85);font-size:0.75rem;letter-spacing:0.5px;border-left:2px solid var(--gold);padding-left:12px;display:block;">Life is energy — and we are going to evolve it.<br>
+Life is energy. Yes. And we are going to evolve it.</span><br><br>
 
-I am 27 years old, I have blonde hair, blue eyes and a pure aura I think! I want to help — if it helps even one single person the way it helps me to focus on the positive, then great!
+<span style="font-family:'Anton',sans-serif;font-size:0.95rem;letter-spacing:3px;color:#fff;">UNDERSTOOD?</span><br><br>
 
-<span class="r-caps">I AM SEEKING TO BE STRONG, BUT TRULY STRONG, MENTALLY STRONG — BECAUSE THIS ONE ACT ALONE, BEING MENTALLY STRONG, I NEED IT AND I BELIEVE YOU DO TOO, TO SURVIVE IN A WORLD THAT IS STILL PROBLEMATIC — AKA BLOCKED ENERGY! AND MAYBE YOU DON'T UNDERSTAND ME BUT YOU DON'T NEED TO — I DON'T UNDERSTAND YOU EITHER ON MANY SUBJECTS — BUT HERE, IT IS A SPACE OF HELP, TRUE HELP, CARE OF THE SOUL. YOU SEE THERE ARE PSYCHOLOGISTS BUT THERE IS NO SCHOOL FOR THE SOUL! I WANT TO HELP — I WON'T CREATE A SCHOOL HAHA — BUT HELP WHERE THE PROBLEMS TRULY ARE, NOT JUST PUT A BANDAGE BUT HEAL ETERNALLY AND BECOME STRONG.
-
-STRENGTH = EVOLVE
-EVOLVE = ENERGY THAT EVOLVES!</span>
+<span style="display:block;margin-top:10px;padding-top:18px;border-top:1px solid rgba(0,206,209,0.15);font-size:0.62rem;color:rgba(255,255,255,0.45);letter-spacing:0.5px;line-height:1.8;">Mathieu Pichette.co<br>
+From 0 to hero, from hell to paradise —<br>the world will be shaped by people like you and me<br>who evolve this energy. Life.</span>
 </div>
-    <div class="r-sig" id="sigLink" onclick="document.getElementById('dailyReader').style.display='none';document.getElementById('feed').style.display='block';">Mathieu Pichette.co — The God of Energy</div>
+    <div class="r-sig" id="sigLink" onclick="document.getElementById('dailyReader').style.display='none';document.getElementById('feed').style.display='block';"></div>
+  </div>
+</div>
+
+<!-- ── BEST QUOTES ── -->
+<div id="quotesScreen" style="position:fixed;inset:0;z-index:1500;background:#000;display:none;flex-direction:column;">
+  <div class="tb">
+    <button class="tb-back" onclick="document.getElementById('quotesScreen').style.display='none';document.getElementById('home').style.display='flex';">← BACK</button>
+    <div class="tb-brand">Mathieu Pichette.co Best Quotes</div>
+  </div>
+  <div class="sc">
+    <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+      <div style="padding:20px 18px;border:1px solid rgba(0,206,209,0.15);border-radius:14px;background:rgba(0,206,209,0.02);">
+        <div style="font-family:'Anton',sans-serif;font-size:0.6rem;letter-spacing:2px;color:var(--gold);margin-bottom:14px;">QUOTE No.1</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);line-height:2;">There are children, there are children and there are children —</div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);line-height:2;margin-bottom:12px;">there are no adults.</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:2;border-left:2px solid rgba(0,206,209,0.25);padding-left:12px;margin-bottom:16px;">We are too immature for that.<br>True maturity is he who evolves the energy of our world<br>with great competence in doing so.<br>Therefore no — I see no adults.</div>
+        <div style="font-family:'Anton',sans-serif;font-size:0.92rem;letter-spacing:2px;color:#fff;line-height:1.6;">You and I are:<br>STILL ONLY CHILDREN.</div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="sc">
+    <div class="sc-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+      <div style="padding:16px 18px;border:1px solid rgba(0,206,209,0.18);border-radius:14px;background:rgba(0,206,209,0.02);">
+        <div style="font-family:'Anton',sans-serif;font-size:0.62rem;letter-spacing:2px;color:var(--gold);margin-bottom:10px;">UPCOMING</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.85);line-height:2;">Coming soon — episodes, seasons & series.</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -422,7 +551,7 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
       slides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
       hideBar();
     ">← MENU</div>
-    <div id="ftop-brand">Rise Up Reels</div>
+    <div id="ftop-brand">Mathieu Pichette.co Scroll Up</div>
     <div id="ftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
   <div id="fseekbar">
@@ -454,7 +583,7 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
   </div>
 </div>
 
-<!-- ── DYING MOVIES FEED ── -->
+<!-- ── MOVIE SCENES FEED ── -->
 <div id="moviesFeed">
   <div id="mftop">
     <div id="mftop-back" onclick="
@@ -463,8 +592,8 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
       mSlides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
       mHideBar();
     ">← MENU</div>
-    <div id="mftop-brand">Dying Movies</div>
-    <div id="mftop-tagline">The Best Scenes, Nothing Else.</div>
+    <div id="mftop-brand">Mathieu Pichette.co Movie Scenes</div>
+    <div id="mftop-tagline">Mathieu Pichette.co Movie Scenes</div>
     <div id="mftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
   <div id="mfseekbar">
@@ -755,6 +884,11 @@ document.getElementById('goFeed').addEventListener('click',function(){
   }
 });
 
+document.getElementById('goQuotes').addEventListener('click',function(){
+  hide('home');
+  stopAll();
+  document.getElementById('quotesScreen').style.display='flex';
+});
 document.getElementById('goDaily').addEventListener('click',function(){
   hide('home');
   stopAll();
@@ -767,7 +901,7 @@ document.getElementById('dailyBack').addEventListener('click',function(){
   show('home');
 });
 
-document.getElementById('entry-march7').addEventListener('click',function(){
+document.getElementById('entry-march12').addEventListener('click',function(){
   hide('dailyScreen');
   show('dailyReader');
 });
@@ -1214,7 +1348,7 @@ function mShowLoader(idx){
   var loader=document.createElement('div');
   loader.className='m-loader';
   loader.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:10;pointer-events:none;';
-  loader.innerHTML='<div style="width:44px;height:44px;border:3px solid rgba(0,229,204,0.2);border-top:3px solid #00E5CC;border-radius:50%;animation:mspin 0.8s linear infinite;"></div><div style="font-family:Anton,sans-serif;font-size:0.5rem;letter-spacing:2px;color:rgba(0,229,204,0.7);margin-top:14px;">LOADING</div>';
+  loader.innerHTML='<div style="width:44px;height:44px;border:3px solid rgba(0,206,209,0.2);border-top:3px solid #00CED1;border-radius:50%;animation:mspin 0.8s linear infinite;"></div><div style="font-family:Anton,sans-serif;font-size:0.5rem;letter-spacing:2px;color:rgba(0,206,209,0.7);margin-top:14px;">LOADING</div>';
   if(!document.getElementById('mspinstyle')){
     var st=document.createElement('style');
     st.id='mspinstyle';
@@ -1464,6 +1598,9 @@ document.getElementById('goMovies').addEventListener('click',function(){
   fv.load();
   window._fFirst=fv;
 })();
+
+
+
 
 </script>
 </body>
