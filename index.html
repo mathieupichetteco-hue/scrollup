@@ -954,16 +954,21 @@ function animateTo(el,vh,cb){
 // ── BUILD FEED ──
 function buildFeed(){
   slides.forEach(function(s){ s.remove(); }); slides=[];
-  if(list.length===0) list=shuffle(VIDEOS);
   current=0;
   list.forEach(function(vid,idx){
     var slide=document.createElement('div');
     slide.className='slide';
-    var video=document.createElement('video');
-    video.setAttribute('playsinline','');
-    video.setAttribute('webkit-playsinline','');
-    video.setAttribute('preload','none');
+    var video;
+    if(idx===0&&window._fFirst){
+      video=window._fFirst; window._fFirst=null;
+    } else {
+      video=document.createElement('video');
+      video.setAttribute('playsinline','');
+      video.setAttribute('webkit-playsinline','');
+      video.setAttribute('preload','none');
+    }
     video.muted=false; video.loop=true;
+    video.setAttribute('playsinline','');
     slide.appendChild(video);
     feed.appendChild(slide);
     slides.push(slide);
@@ -1293,12 +1298,13 @@ function mLoadAround(idx){
     var old=mGetVideo(idx-3);
     if(old&&old.src){ old.src=''; old.load(); }
   }
-  for(var i=idx;i<Math.min(idx+3,mList.length);i++){
+  // preload next 4 for movies (files are huge, need more buffer time)
+  for(var i=idx;i<Math.min(idx+5,mList.length);i++){
     var v=mGetVideo(i);
     if(v&&!v.src){
       v.src=mList[i].url;
-      v.preload=i===idx?'auto':'metadata';
-      if(i===idx) v.load();
+      v.preload='auto';
+      v.load();
     }
   }
 }
@@ -1313,15 +1319,21 @@ function mPlayVideo(idx){
 
 function buildMoviesFeed(){
   mSlides.forEach(function(s){ s.remove(); }); mSlides=[];
-  mList=shuffle(MOVIE_VIDEOS); mCurrent=0;
+  mCurrent=0;
   mList.forEach(function(vid,idx){
     var slide=document.createElement('div');
     slide.className='slide';
-    var video=document.createElement('video');
-    video.setAttribute('playsinline','');
-    video.setAttribute('webkit-playsinline','');
-    video.setAttribute('preload','none');
+    var video;
+    if(idx===0&&window._mFirst){
+      video=window._mFirst; window._mFirst=null;
+    } else {
+      video=document.createElement('video');
+      video.setAttribute('playsinline','');
+      video.setAttribute('webkit-playsinline','');
+      video.setAttribute('preload','none');
+    }
     video.muted=false; video.loop=true;
+    video.setAttribute('playsinline','');
     slide.appendChild(video);
     moviesFeed.appendChild(slide);
     mSlides.push(slide);
@@ -1342,6 +1354,11 @@ moviesFeed.addEventListener('touchstart',function(e){
   mTStartY=e.touches[0].clientY; mDragging=true;
   var ns=mGetSlide(mCurrent+1);
   if(ns) mSetPos(ns,-100);
+  // preload next 4 the instant finger touches screen
+  for(var i=mCurrent+1;i<Math.min(mCurrent+5,mList.length);i++){
+    var vn=mGetVideo(i);
+    if(vn&&!vn.src){ vn.src=mList[i].url; vn.preload='auto'; vn.load(); }
+  }
 },{passive:true});
 
 moviesFeed.addEventListener('touchmove',function(e){
@@ -1437,6 +1454,25 @@ document.getElementById('goMovies').addEventListener('click',function(){
     if(v){ v.muted=false; v.play().catch(function(){}); }
   }
 });
+
+// Précharge la 1ère vidéo de chaque section dès que l'app ouvre
+(function(){
+  // Rise Up Reels — shuffle et précharge vidéo 0
+  list=shuffle(VIDEOS);
+  var fv=document.createElement('video');
+  fv.src=list[0].url; fv.preload='auto'; fv.muted=true;
+  fv.setAttribute('playsinline','');
+  fv.load();
+  window._fFirst=fv;
+
+  // Dying Movies — shuffle et précharge vidéo 0
+  mList=shuffle(MOVIE_VIDEOS);
+  var mv=document.createElement('video');
+  mv.src=mList[0].url; mv.preload='auto'; mv.muted=true;
+  mv.setAttribute('playsinline','');
+  mv.load();
+  window._mFirst=mv;
+})();
 
 </script>
 </body>
