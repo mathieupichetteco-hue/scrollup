@@ -416,7 +416,13 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 <!-- ── FEED ── -->
 <div id="feed">
   <div id="ftop">
-    <div id="ftop-back" onclick="document.getElementById('feed').style.display='none';stopAll();document.getElementById('home').style.display='flex';window.started=false;">← MENU</div>
+    <div id="ftop-back" onclick="
+      document.getElementById('feed').style.display='none';
+      stopAll();
+      document.getElementById('home').style.display='flex';
+      window.started=false;
+      slides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
+    ">← MENU</div>
     <div id="ftop-brand">Rise Up Reels</div>
     <div id="ftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
   </div>
@@ -452,7 +458,13 @@ EVOLVE = ENERGY THAT EVOLVES!</span>
 <!-- ── DYING MOVIES FEED ── -->
 <div id="moviesFeed">
   <div id="mftop">
-    <div id="mftop-back" onclick="document.getElementById('moviesFeed').style.display='none';stopAll();document.getElementById('home').style.display='flex';window.mstarted=false;">← MENU</div>
+    <div id="mftop-back" onclick="
+      document.getElementById('moviesFeed').style.display='none';
+      stopAll();
+      document.getElementById('home').style.display='flex';
+      window.mstarted=false;
+      mSlides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
+    ">← MENU</div>
     <div id="mftop-brand">Dying Movies</div>
     <div id="mftop-tagline">The Best Scenes, Nothing Else.</div>
     <div id="mftop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
@@ -1196,6 +1208,34 @@ var MOVIE_VIDEOS=[
   {name:"Thor Powers & Fight Scenes",url:"https://archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Thor%20Powers%20%26%20Fight%20Scenes%20%20%20Thor%20and%20Avengers%20movies.mp4"},
   {name:"Top 10 Most Epic SPIDER-MAN Fights Across Every Universe",url:"https://archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/Top%2010%20Most%20Epic%20SPIDER-MAN%20Fights%20Across%20Every%20Universe.mp4"},
   {name:"We're not gonna take it - Ready Player One final battle",url:"https://archive.org/download/avatar-the-way-of-water-all-fight-scenes-ultimate-4-k-hdr-cinema-full-movie-review/We%27re%20not%20gonna%20take%20it%20-%20Ready%20Player%20One%20final%20battle.mp4"},
+  {name:"10 minutes that prove nothing beats the original Jumanji",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/10%20minutes%20that%20prove%20nothing%20beats%20the%20original%20Jumanji%20%28Jumanji%20Best%20Scenes%29%20%F0%9F%8C%80%204K.mp4"},
+  {name:"All The Best Scenes from the Jurassic World Trilogy 4K",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/All%20The%20Best%20Scenes%20from%20the%20Jurassic%20World%20Trilogy%20%E2%9A%A1%204K.mp4"},
+  {name:"Anchorman - Best Scenes & Quotes",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Anchorman%20-%20Best%20Scenes%20%26%20Quotes.mp4"},
+  {name:"Best Funny Comedic 21 & 22 Jump Street Movie Scenes",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Best%20Funny%20Comedic%2021%20%26%2022%20Jump%20Street%20Movie%20Scenes.mp4"},
+  {name:"Best Of King Kong (Feat. Jack Black) - King Kong (2005)",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Best%20Of%20King%20Kong%20%28Feat.%20Jack%20Black%29%20%20%20King%20Kong%20%282005%29%20%20%20Screen%20Bites.mp4"},
+  {name:"Black Adam Powers and Fight Scenes",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Black%20Adam%20%28DCEU%29%20Powers%20and%20Fight%20Scenes%20-%20Black%20Adam%20Part%201.mp4"},
+  {name:"Deadpool Vs Wolverine Car Fight Scene 4K",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Deadpool%20Vs%20Wolverine%20Car%20Fight%20Scene%20-%20Deadpool%20%26%20Wolverine%20%282024%29%20Movie%20Clip%20HD%204K.mp4"},
+  {name:"Godzilla vs. Kong's Best Fights",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Godzilla%20vs.%20Kong%27s%20Best%20Fights.mp4"},
+  {name:"Jumanji The Next Level Baboon Attack Bridge Scene",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Jumanji%20The%20Next%20Level%20Baboon%20Attack%20Bridge%20Scene%20%28Kevin%20Hart%2C%20Jack%20Black%204K%20HD%20Clip%29%20%20%20L%C3%A9gendes.mp4"},
+  {name:"Jumanji's Best Scenes",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Jumanji%27s%20Best%20Scenes.mp4"},
+  {name:"KONG vs GIANT SQUID - Kong Skull Island (2017)",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/KONG%20vs%20GIANT%20SQUID%20%20-%20Fight%20Scene%20-%20Kong%20Skull%20Island%20%282017%29%20Movie%20Clip%20HD.mp4"},
+  {name:"King Kong V. rex Fight in 4K HDR",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/King%20Kong%20%20%20V.%20rex%20Fight%20in%204K%20HDR.mp4"},
+  {name:"Kong - Best Fights (4K) MonsterVerse",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Kong%20-%20Best%20Fights%20%284K%29%20%20%20MonsterVerse.mp4"},
+  {name:"Superman 4K - Superman Saves the Day Compilation",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Superman%204K%20%20%20Superman%20Saves%20the%20Day%20%20%204K%20Compilation%20%20%20Warner%20Bros.%20Entertainment.mp4"},
+  {name:"Superman Compilation - Best of Christopher Reeve's Superman",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Superman%20Compilation%20%20%20Best%20of%20Christopher%20Reeve%27s%20Superman%20%20%20Warner%20Bros.%20Entertainment.mp4"},
+  {name:"The Flash (2023) - Flash Saves the Babies Funny Scene",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20%282023%29%20-%20Flash%20Saves%20the%20Babies%20Funny%20Scene%20%20%20Movieclips.mp4"},
+  {name:"The Flash (2023) - Flash vs. Flash Mindbending Scene",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20%282023%29%20-%20Flash%20vs.%20Flash%20Mindbending%20Scene%20%20%20Movieclips.mp4"},
+  {name:"The Flash - All Powers from the Films 2016-2023",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/The%20Flash%20-%20All%20Powers%20from%20the%20Films%202016-2023.mp4"},
+  {name:"The Hangover - A Compilation",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/The%20Hangover%20%20%20A%20Compilation%20You%27ll%20Want%20To%20Remember%20%20%20ClipZone%20Comedy%20Callbacks.mp4"},
+  {name:"The Jurassic World Movies - Only the Best Dinosaurs 4K",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/The%20Jurassic%20World%20Movies%2C%20but%20ONLY%20the%20Best%20DINOSAURS%20%E2%9A%A1%204K.mp4"},
+  {name:"The One True King - Aquaman 4K IMAX",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/The%20One%20True%20King%20%20%20Aquaman%20%5B4k%2C%20IMAX%5D.mp4"},
+  {name:"Titanic Movie Crash Scene",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Titanic%20Movie%20Crash%20Scene.mp4"},
+  {name:"Transformers' Most Exciting Scenes",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Transformers%27%20Most%20Exciting%20Scenes.mp4"},
+  {name:"Wolverine Fight Scenes And All Best Scenes",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Wolverine%20Fight%20Scenes%20And%20All%20Best%20Scenes..mp4"},
+  {name:"Wolverine's Berserker Rage - Forest Fight Scene - Logan (2017)",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Wolverine%27s%20Berserker%20Rage%20-%20Forest%20Fight%20Scene%20-%20Logan%20%282017%29%20Movie%20Clip%20HD.mp4"},
+  {name:"Wonder Woman (2017) - No Man's Land Scene",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Wonder%20Woman%20%282017%29%20-%20No%20Man%27s%20Land%20Scene%20%286%2010%29%20%20%20Movieclips.mp4"},
+  {name:"Wonder Woman - All Powers & Fights Scenes DCEU",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/Wonder%20Woman%20-%20All%20Powers%20%26%20Fights%20Scenes%20%20%20DCEU.mp4"},
+  {name:"Best of Natasha Romanoff",url:"https://archive.org/download/kong-best-fights-4-k-monster-verse/best%20of%20natasha%20romanoff.mp4"},
 ];
 
 var moviesFeed=document.getElementById('moviesFeed');
