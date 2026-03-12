@@ -894,7 +894,7 @@ document.getElementById('goFeed').addEventListener('click',function(){
   if(!window.started){ window.started=true; requestWakeLock(); buildFeed(); }
   else {
     var v=getVideo(current);
-    if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
+    if(v){ v.muted=false; v.play().catch(function(){}); }
   }
 });
 
@@ -959,17 +959,11 @@ function buildFeed(){
   list.forEach(function(vid,idx){
     var slide=document.createElement('div');
     slide.className='slide';
-    var video;
-    if(window._fPreload&&window._fPreload[idx]){
-      video=window._fPreload[idx];
-    } else {
-      video=document.createElement('video');
-      video.setAttribute('playsinline','');
-      video.setAttribute('webkit-playsinline','');
-      video.setAttribute('preload','none');
-    }
-    video.muted=false; video.loop=true;
+    var video=document.createElement('video');
     video.setAttribute('playsinline','');
+    video.setAttribute('webkit-playsinline','');
+    video.setAttribute('preload','none');
+    video.muted=false; video.loop=true;
     slide.appendChild(video);
     feed.appendChild(slide);
     slides.push(slide);
@@ -978,9 +972,9 @@ function buildFeed(){
   loadAround(0);
   var v=getVideo(0);
   if(v){
-    v.src=list[0].url; v.preload='auto';
-    v.muted=true;
-    v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+    v.src=list[0].url;
+    v.muted=false;
+    v.play().catch(function(){});
   }
 }
 
@@ -1306,10 +1300,7 @@ function mLoadAround(idx){
     if(v&&!v.src){
       v.src=mList[i].url;
       v.preload='auto';
-      v.muted=true;
       v.load();
-      // start buffering by playing then immediately pausing
-      v.play().then(function(vid){ return function(){ vid.pause(); vid.currentTime=0; }; }(v)).catch(function(){});
     }
   }
 }
@@ -1329,20 +1320,11 @@ function buildMoviesFeed(){
   mList.forEach(function(vid,idx){
     var slide=document.createElement('div');
     slide.className='slide';
-    var video;
-    // reuse preloaded element if available
-    if(window._mPreload&&window._mPreload[idx]){
-      video=window._mPreload[idx];
-      video.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
-    } else {
-      video=document.createElement('video');
-      video.setAttribute('playsinline','');
-      video.setAttribute('webkit-playsinline','');
-      video.setAttribute('preload','none');
-      video.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
-    }
-    video.muted=false; video.loop=true;
+    var video=document.createElement('video');
     video.setAttribute('playsinline','');
+    video.setAttribute('webkit-playsinline','');
+    video.setAttribute('preload','none');
+    video.muted=false; video.loop=true;
     slide.appendChild(video);
     moviesFeed.appendChild(slide);
     mSlides.push(slide);
@@ -1350,9 +1332,9 @@ function buildMoviesFeed(){
   });
   var v=mGetVideo(0);
   if(v){
-    v.src=mList[0].url; v.preload='auto';
-    v.muted=true;
-    v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+    v.src=mList[0].url;
+    v.muted=false;
+    v.play().catch(function(){});
     mLoadAround(0);
   }
 }
@@ -1388,7 +1370,7 @@ moviesFeed.addEventListener('touchend',function(e){
       var played=false;
       function doPlay(){
         if(played) return; played=true;
-        v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; });
+        v.muted=false; v.play().catch(function(){});
       }
       v.addEventListener('canplay', doPlay, {once:true});
       v.addEventListener('loadeddata', doPlay, {once:true});
@@ -1465,59 +1447,9 @@ document.getElementById('goMovies').addEventListener('click',function(){
     buildMoviesFeed();
   } else {
     var v=mGetVideo(mCurrent);
-    if(v){ v.muted=true; v.play().then(function(){ v.muted=false; }).catch(function(){ v.muted=false; }); }
+    if(v){ v.muted=false; v.play().catch(function(){}); }
   }
 });
-
-// preload first 4 videos as soon as home card is touched — before section opens
-document.getElementById('goMovies').addEventListener('touchstart',function(){
-  if(window.mstarted) return;
-  // shuffle early so we know which videos to preload
-  if(mList.length===0) mList=shuffle(MOVIE_VIDEOS);
-  for(var i=0;i<Math.min(4,mList.length);i++){
-    var tmp=document.createElement('video');
-    tmp.src=mList[i].url;
-    tmp.preload='auto';
-    tmp.muted=true;
-    tmp.load();
-    tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
-    // store so buildMoviesFeed can reuse
-    if(!window._mPreload) window._mPreload=[];
-    window._mPreload[i]=tmp;
-  }
-},{passive:true});
-
-// Preload first 4 movie videos immediately on page load
-(function(){
-  mList=shuffle(MOVIE_VIDEOS);
-  window._mPreload=[];
-  for(var i=0;i<Math.min(4,mList.length);i++){
-    var tmp=document.createElement('video');
-    tmp.src=mList[i].url;
-    tmp.preload='auto';
-    tmp.muted=true;
-    tmp.setAttribute('playsinline','');
-    tmp.load();
-    tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
-    window._mPreload[i]=tmp;
-  }
-})();
-
-// Preload first 4 Rise Up Reels videos immediately on page load
-(function(){
-  list=shuffle(VIDEOS);
-  window._fPreload=[];
-  for(var i=0;i<Math.min(4,list.length);i++){
-    var tmp=document.createElement('video');
-    tmp.src=list[i].url;
-    tmp.preload='auto';
-    tmp.muted=true;
-    tmp.setAttribute('playsinline','');
-    tmp.load();
-    tmp.play().then(function(t){ return function(){ t.pause(); t.currentTime=0; }; }(tmp)).catch(function(){});
-    window._fPreload[i]=tmp;
-  }
-})();
 
 </script>
 </body>
