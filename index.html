@@ -702,8 +702,10 @@ var VIDEOS=[
   {name:"formedinsilence elevationC",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771297395_7607664349242723591.mp4"},
   {name:"formedinsilence elevationD",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771273837_7607563172693740818.mp4"},
   {name:"formedinsilence elevationE",url:"https://ia600702.us.archive.org/0/items/formedinsilence_1764698971_7579324210854628638/elevation.mindset_1771207551_7607278479809219848.mp4"},
-  {name:"you-must-watch-andrew-tate",url:"https://archive.org/download/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie"},
-  {name:"only.living.trust",url:"https://archive.org/download/only.living.trust.book_1764511855_7578520552625687839"}
+  {name:"you-must-watch-andrew-tate",url:"https://ia800605.us.archive.org/2/items/you-must-watch-this-if-you-are-broke-andrew-tate-1-copie"},
+  {name:"only.living.trust",url:"https://ia801609.us.archive.org/12/items/only.living.trust.book_1764511855_7578520552625687839"}
+
+  ,{name:"psych0mera",url:"https://ia800603.us.archive.org/30/items/psych0mera_1748080887_7507950225491791126"}
 ];
 
 // ── REFS ──
@@ -1280,8 +1282,10 @@ function mStartVideo(idx){
       mHideLoader(idx);
       if(idx===mCurrent) v.play().catch(function(){});
     }
-    function onWaiting(){ if(idx===mCurrent) mShowLoader(idx); }
+    var hasPlayed=false;
+    function onWaiting(){ if(idx===mCurrent&&!hasPlayed) mShowLoader(idx); }
     function onPlaying(){
+      hasPlayed=true;
       mHideLoader(idx);
       // After 3s of playback, aggressively preload next 3
       setTimeout(function(){
