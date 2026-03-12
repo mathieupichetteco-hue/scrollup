@@ -1323,16 +1323,19 @@ function buildMoviesFeed(){
     var slide=document.createElement('div');
     slide.className='slide';
     var video;
-    if(idx===0&&window._mFirst){
-      video=window._mFirst; window._mFirst=null;
+    if(window._mCache&&window._mCache[idx]){
+      video=window._mCache[idx];
     } else {
       video=document.createElement('video');
       video.setAttribute('playsinline','');
       video.setAttribute('webkit-playsinline','');
-      video.setAttribute('preload','none');
+      video.src=vid.url;
+      video.preload='auto';
+      video.load();
     }
     video.muted=false; video.loop=true;
     video.setAttribute('playsinline','');
+    video.setAttribute('webkit-playsinline','');
     slide.appendChild(video);
     moviesFeed.appendChild(slide);
     mSlides.push(slide);
@@ -1340,11 +1343,7 @@ function buildMoviesFeed(){
   });
   mLoadAround(0);
   var v=mGetVideo(0);
-  if(v){
-    v.src=mList[0].url;
-    v.muted=false;
-    v.play().catch(function(){});
-  }
+  if(v){ v.muted=false; v.play().catch(function(){}); }
 }
 
 moviesFeed.addEventListener('touchstart',function(e){
@@ -1464,13 +1463,19 @@ document.getElementById('goMovies').addEventListener('click',function(){
   fv.load();
   window._fFirst=fv;
 
-  // Dying Movies — shuffle et précharge vidéo 0
+  // Dying Movies — shuffle et précharge TOUTES les vidéos dès le départ
   mList=shuffle(MOVIE_VIDEOS);
-  var mv=document.createElement('video');
-  mv.src=mList[0].url; mv.preload='auto'; mv.muted=true;
-  mv.setAttribute('playsinline','');
-  mv.load();
-  window._mFirst=mv;
+  window._mCache=[];
+  mList.forEach(function(vid,i){
+    var v=document.createElement('video');
+    v.src=vid.url;
+    v.preload='auto';
+    v.muted=true;
+    v.setAttribute('playsinline','');
+    v.load();
+    window._mCache[i]=v;
+  });
+  window._mFirst=window._mCache[0];
 })();
 
 </script>
