@@ -401,6 +401,27 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
   50%{transform:translateY(-4px);}
 }
 .manga-char{animation:manga-float 3.5s ease-in-out infinite;}
+
+/* ───────── MUSIC FEED ───────── */
+#musicFeed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;touch-action:none;}
+.music-slide{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.music-title{font-family:'Anton',sans-serif;font-size:clamp(1rem,4vw,1.4rem);letter-spacing:3px;color:var(--gold);text-align:center;padding:0 32px;line-height:1.5;text-shadow:0 0 24px rgba(0,206,209,0.4);}
+.music-sub{font-size:0.52rem;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-top:14px;font-style:italic;}
+.music-note{font-size:3rem;margin-bottom:28px;animation:tglow 2.5s ease-in-out infinite;}
+#mstop{position:absolute;top:0;left:0;right:0;z-index:50;padding:14px 18px 12px;background:linear-gradient(rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.6) 80%,transparent 100%);pointer-events:none;text-align:center;}
+#mstop-back{position:absolute;top:14px;left:16px;font-family:'Anton',sans-serif;font-size:0.7rem;letter-spacing:2px;color:rgba(255,255,255,0.8);cursor:pointer;touch-action:manipulation;pointer-events:auto;padding:6px 4px;opacity:0;transition:opacity 0.2s;}
+#mstop-back.show{opacity:1;}
+#mstop-back:active{color:var(--gold);}
+#mstop-brand{font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:3px;color:var(--gold);margin-bottom:5px;}
+#mstop-intent{font-size:0.48rem;color:rgba(255,255,255,0.75);line-height:1.7;font-style:italic;font-weight:300;max-width:340px;margin:0 auto;}
+#msseekbar{position:absolute;bottom:0;left:0;right:0;z-index:60;padding:8px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.88));touch-action:none;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+#msseekbar.show{opacity:1;pointer-events:auto;}
+#msseek-track{position:relative;height:4px;border-radius:2px;background:rgba(255,255,255,0.2);margin-bottom:5px;cursor:pointer;}
+#msseek-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--gold);border-radius:2px;pointer-events:none;}
+#msseek-thumb{position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);pointer-events:none;}
+#msseek-times{display:flex;justify-content:space-between;align-items:center;font-family:'Anton',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:auto;}
+#msseek-btns{display:flex;align-items:center;gap:18px;}
+#msseek-pp{font-size:1.3rem;color:var(--gold);width:34px;height:34px;border-radius:50%;background:rgba(0,206,209,0.15);border:1px solid rgba(0,206,209,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
 </style>
 </head>
 <body>
@@ -458,6 +479,13 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
       
       <div class="hm-text">
         <div class="hm-card-title">Mathieu Pichette.co Best Quotes</div>
+      </div>
+      <div class="hm-arrow">›</div>
+    </div>
+    <div class="hm-card" id="goMusic">
+      
+      <div class="hm-text">
+        <div class="hm-card-title">Mathieu Pichette.co Music</div>
       </div>
       <div class="hm-arrow">›</div>
     </div>
@@ -538,6 +566,41 @@ From 0 to hero, from hell to paradise —<br>the world will be shaped by people 
         <div style="font-family:'Anton',sans-serif;font-size:0.62rem;letter-spacing:2px;color:var(--gold);margin-bottom:10px;">UPCOMING</div>
         <div style="font-size:0.72rem;color:rgba(255,255,255,0.85);line-height:2;">Coming soon — episodes, seasons & series.</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MUSIC FEED ── -->
+<div id="musicFeed">
+  <div id="mstop">
+    <div id="mstop-back" onclick="
+      document.getElementById('musicFeed').style.display='none';
+      document.getElementById('home').style.display='flex';
+      msSlides.forEach(function(s){ var a=s.querySelector('audio'); if(a){ a.pause(); } });
+      msHideBar();
+    ">← MENU</div>
+    <div id="mstop-brand">Mathieu Pichette.co Music</div>
+    <div id="mstop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  </div>
+  <div id="msseekbar">
+    <div id="msseek-track">
+      <div id="msseek-fill"></div>
+      <div id="msseek-thumb"></div>
+    </div>
+    <div id="msseek-times">
+      <span id="msseek-cur">0:00</span>
+      <div id="msseek-btns">
+        <div id="msov-back" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+        <div id="msseek-pp" class="fseek-btn">▶</div>
+        <div id="msov-fwd" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+      </div>
+      <span id="msseek-dur">0:00</span>
     </div>
   </div>
 </div>
@@ -1785,6 +1848,190 @@ document.getElementById('goMovies').addEventListener('click',function(){
   } else {
     var v=mGetVideo(mCurrent);
     if(v){ v.muted=false; v.play().catch(function(){}); }
+  }
+});
+
+// ── MUSIC SECTION ──
+var MUSIC_TRACKS=[
+  {name:"Mathieu Pichette.co - Who Am I (Epic Version)",url:"https://ia600908.us.archive.org/16/items/who-am-i-epic-verison-sans-hz/who%20am%20i%20epic%20verison%20sans%20hz%20.mp3"}
+  ,{name:"Mathieu Pichette.co - Anthem",url:"https://ia903109.us.archive.org/23/items/mathieu-pichette.co-anthem-the-best-one-sans-hz/Mathieu%20Pichette.co%20Anthem%20the%20best%20one%20sans%20hz.mp3"}
+];
+
+var musicFeed=document.getElementById('musicFeed');
+var msseekbar=document.getElementById('msseekbar');
+var msTopBack=document.getElementById('mstop-back');
+var msseekFill=document.getElementById('msseek-fill');
+var msseekThumb=document.getElementById('msseek-thumb');
+var msseekCur=document.getElementById('msseek-cur');
+var msseekDur=document.getElementById('msseek-dur');
+var msseekPP=document.getElementById('msseek-pp');
+var msseekTrack=document.getElementById('msseek-track');
+var msBarTimer=null;
+var msCurrent=0;
+var msList=[];
+var msSlides=[];
+var msSettling=false;
+var msTStartY=0;
+var msDragging=false;
+window.msstarted=false;
+
+function msShowBar(){
+  msseekbar.classList.add('show');
+  msTopBack.classList.add('show');
+  clearTimeout(msBarTimer);
+  msBarTimer=setTimeout(function(){ msseekbar.classList.remove('show'); msTopBack.classList.remove('show'); },3000);
+}
+function msHideBar(){
+  clearTimeout(msBarTimer);
+  msseekbar.classList.remove('show');
+  msTopBack.classList.remove('show');
+}
+function msUpdatePlayIcon(){
+  var a=msGetAudio(msCurrent);
+  msseekPP.textContent=(!a||a.paused)?'▶':'⏸';
+}
+function msGetSlide(i){ return msSlides[i]||null; }
+function msGetAudio(i){ return msSlides[i]?msSlides[i].querySelector('audio'):null; }
+function msSetPos(el,vh){ el.style.transition='none'; el.style.transform='translateY('+vh+'vh)'; }
+function msSetPosPx(el,px){ el.style.transition='none'; el.style.transform='translateY('+px+'px)'; }
+function msAnimateTo(el,vh,cb){
+  el.style.transition='transform 0.38s cubic-bezier(0.16,1,0.3,1)';
+  el.style.transform='translateY('+vh+'vh)';
+  if(cb){
+    var done=function(){ el.removeEventListener('transitionend',done); cb(); };
+    el.addEventListener('transitionend',done);
+  }
+}
+function msSeekRel(sec){
+  var a=msGetAudio(msCurrent);
+  if(!a||!a.duration) return;
+  a.currentTime=Math.min(Math.max(0,a.currentTime+sec),a.duration);
+}
+function msPlayAudio(idx){
+  for(var i=0;i<msSlides.length;i++){
+    var oa=msGetAudio(i);
+    if(oa&&i!==idx) oa.pause();
+  }
+  var a=msGetAudio(idx);
+  if(a){ if(!a.src){ a.src=msList[idx].url; a.load(); } a.play().catch(function(){}); }
+}
+function buildMusicFeed(){
+  msSlides.forEach(function(s){ s.remove(); }); msSlides=[];
+  msList=shuffle(MUSIC_TRACKS);
+  msCurrent=0;
+  msList.forEach(function(track,idx){
+    var slide=document.createElement('div');
+    slide.className='music-slide';
+    var audio=document.createElement('audio');
+    audio.loop=false;
+    audio.preload='none';
+    slide.innerHTML='<div class="music-note">♪</div><div class="music-title">'+track.name+'</div><div class="music-sub">MATHIEU PICHETTE.CO</div>';
+    slide.appendChild(audio);
+    musicFeed.appendChild(slide);
+    msSlides.push(slide);
+    msSetPos(slide, idx===0 ? 0 : 100);
+  });
+  var a=msGetAudio(0);
+  if(a){ a.src=msList[0].url; a.load(); a.play().catch(function(){}); }
+}
+
+musicFeed.addEventListener('touchstart',function(e){
+  if(msSettling||!window.msstarted) return;
+  if(e.target.closest&&e.target.closest('#msseekbar')) return;
+  msTStartY=e.touches[0].clientY; msDragging=true;
+  var ns=msGetSlide(msCurrent+1);
+  if(ns) msSetPos(ns,-100);
+},{passive:true});
+
+musicFeed.addEventListener('touchmove',function(e){
+  if(!msDragging||msSettling) return;
+  if(e.target.closest&&e.target.closest('#msseekbar')) return;
+  var dy=e.touches[0].clientY-msTStartY;
+  if(dy<=0){ var cs=msGetSlide(msCurrent); if(cs) msSetPos(cs,0); return; }
+  var cs=msGetSlide(msCurrent); var ns=msGetSlide(msCurrent+1);
+  if(cs) msSetPosPx(cs,dy);
+  if(ns) msSetPosPx(ns,dy-window.innerHeight);
+},{passive:true});
+
+musicFeed.addEventListener('touchend',function(e){
+  if(!msDragging) return; msDragging=false;
+  var dy=e.changedTouches[0].clientY-msTStartY;
+  if(dy>80&&msCurrent<msList.length-1){
+    msSettling=true; msCurrent++;
+    msHideBar();
+    var prev=msGetSlide(msCurrent-1); var next=msGetSlide(msCurrent);
+    if(prev) msAnimateTo(prev,100,null);
+    if(next){
+      msAnimateTo(next,0,function(){ msSettling=false; msPlayAudio(msCurrent); });
+    } else { msSettling=false; msPlayAudio(msCurrent); }
+  } else {
+    var cs=msGetSlide(msCurrent); var ns=msGetSlide(msCurrent+1);
+    if(cs) msAnimateTo(cs,0,null);
+    if(ns) msAnimateTo(ns,-100,null);
+  }
+},{passive:true});
+
+document.addEventListener('touchmove',function(e){
+  if(musicFeed.style.display==='block'&&window.msstarted) e.preventDefault();
+},{passive:false});
+
+musicFeed.addEventListener('click',function(e){
+  if(msseekbar.classList.contains('show')){ msHideBar(); }
+  else { msUpdatePlayIcon(); msShowBar(); }
+});
+
+msseekPP.addEventListener('click',function(e){
+  e.stopPropagation();
+  var a=msGetAudio(msCurrent); if(!a) return;
+  if(a.paused){ a.play().catch(function(){}); } else { a.pause(); }
+  msUpdatePlayIcon();
+  clearTimeout(msBarTimer);
+  msBarTimer=setTimeout(function(){ msseekbar.classList.remove('show'); msTopBack.classList.remove('show'); },3000);
+});
+document.getElementById('msov-back').addEventListener('click',function(e){
+  e.stopPropagation(); msSeekRel(-10);
+  clearTimeout(msBarTimer);
+  msBarTimer=setTimeout(function(){ msseekbar.classList.remove('show'); msTopBack.classList.remove('show'); },3000);
+});
+document.getElementById('msov-fwd').addEventListener('click',function(e){
+  e.stopPropagation(); msSeekRel(10);
+  clearTimeout(msBarTimer);
+  msBarTimer=setTimeout(function(){ msseekbar.classList.remove('show'); msTopBack.classList.remove('show'); },3000);
+});
+
+msseekTrack.addEventListener('touchstart',function(e){
+  var rect=msseekTrack.getBoundingClientRect();
+  var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));
+  var a=msGetAudio(msCurrent); if(a&&a.duration) a.currentTime=pct*a.duration;
+  e.stopPropagation();
+},{passive:true});
+msseekTrack.addEventListener('touchmove',function(e){
+  var rect=msseekTrack.getBoundingClientRect();
+  var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));
+  var a=msGetAudio(msCurrent); if(a&&a.duration) a.currentTime=pct*a.duration;
+  e.stopPropagation();
+},{passive:true});
+
+setInterval(function(){
+  if(!window.msstarted) return;
+  var a=msGetAudio(msCurrent); if(!a||!a.duration) return;
+  var pct=a.currentTime/a.duration;
+  msseekFill.style.width=(pct*100)+'%';
+  msseekThumb.style.left=(pct*100)+'%';
+  msseekCur.textContent=fmtTime(a.currentTime);
+  msseekDur.textContent=fmtTime(a.duration);
+  msseekPP.textContent=a.paused?'▶':'⏸';
+},250);
+
+document.getElementById('goMusic').addEventListener('click',function(){
+  hide('home'); stopAll();
+  musicFeed.style.display='block';
+  if(!window.msstarted){
+    window.msstarted=true;
+    buildMusicFeed();
+  } else {
+    var a=msGetAudio(msCurrent);
+    if(a){ a.play().catch(function(){}); }
   }
 });
 
