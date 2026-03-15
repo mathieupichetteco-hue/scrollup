@@ -402,6 +402,38 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
 }
 .manga-char{animation:manga-float 3.5s ease-in-out infinite;}
 
+/* ───────── SERIES FEED ───────── */
+#seriesFeed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;touch-action:none;}
+#srtop{position:absolute;top:0;left:0;right:0;z-index:50;padding:14px 18px 12px;background:linear-gradient(rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.6) 80%,transparent 100%);pointer-events:none;text-align:center;}
+#srtop-back{position:absolute;top:14px;left:16px;font-family:'Anton',sans-serif;font-size:0.7rem;letter-spacing:2px;color:rgba(255,255,255,0.8);cursor:pointer;touch-action:manipulation;pointer-events:auto;padding:6px 4px;opacity:0;transition:opacity 0.2s;}
+#srtop-back.show{opacity:1;}
+#srtop-back:active{color:var(--gold);}
+#srtop-brand{font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:3px;color:var(--gold);margin-bottom:5px;}
+#srtop-intent{font-size:0.48rem;color:rgba(255,255,255,0.75);line-height:1.7;font-style:italic;font-weight:300;max-width:340px;margin:0 auto;}
+#srseekbar{position:absolute;bottom:0;left:0;right:0;z-index:60;padding:8px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.88));touch-action:none;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+#srseekbar.show{opacity:1;pointer-events:auto;}
+#srseek-track{position:relative;height:4px;border-radius:2px;background:rgba(255,255,255,0.2);margin-bottom:5px;cursor:pointer;}
+#srseek-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--gold);border-radius:2px;pointer-events:none;}
+#srseek-thumb{position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);pointer-events:none;}
+#srseek-times{display:flex;justify-content:space-between;align-items:center;font-family:'Anton',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:auto;}
+#srseek-btns{display:flex;align-items:center;gap:18px;}
+#srseek-pp{font-size:1.3rem;color:var(--gold);width:34px;height:34px;border-radius:50%;background:rgba(0,206,209,0.15);border:1px solid rgba(0,206,209,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
+/* ───────── ANIME FEED ───────── */
+#animeFeed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;touch-action:none;}
+#antop{position:absolute;top:0;left:0;right:0;z-index:50;padding:14px 18px 12px;background:linear-gradient(rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.6) 80%,transparent 100%);pointer-events:none;text-align:center;}
+#antop-back{position:absolute;top:14px;left:16px;font-family:'Anton',sans-serif;font-size:0.7rem;letter-spacing:2px;color:rgba(255,255,255,0.8);cursor:pointer;touch-action:manipulation;pointer-events:auto;padding:6px 4px;opacity:0;transition:opacity 0.2s;}
+#antop-back.show{opacity:1;}
+#antop-back:active{color:var(--gold);}
+#antop-brand{font-family:'Anton',sans-serif;font-size:0.85rem;letter-spacing:3px;color:var(--gold);margin-bottom:5px;}
+#antop-intent{font-size:0.48rem;color:rgba(255,255,255,0.75);line-height:1.7;font-style:italic;font-weight:300;max-width:340px;margin:0 auto;}
+#aseekbar{position:absolute;bottom:0;left:0;right:0;z-index:60;padding:8px 16px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.88));touch-action:none;opacity:0;pointer-events:none;transition:opacity 0.2s;}
+#aseekbar.show{opacity:1;pointer-events:auto;}
+#aseek-track{position:relative;height:4px;border-radius:2px;background:rgba(255,255,255,0.2);margin-bottom:5px;cursor:pointer;}
+#aseek-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--gold);border-radius:2px;pointer-events:none;}
+#aseek-thumb{position:absolute;top:50%;left:0%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold);pointer-events:none;}
+#aseek-times{display:flex;justify-content:space-between;align-items:center;font-family:'Anton',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);letter-spacing:1px;pointer-events:auto;}
+#aseek-btns{display:flex;align-items:center;gap:18px;}
+#aseek-pp{font-size:1.3rem;color:var(--gold);width:34px;height:34px;border-radius:50%;background:rgba(0,206,209,0.15);border:1px solid rgba(0,206,209,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;}
 /* ───────── MUSIC FEED ───────── */
 #musicFeed{position:fixed;inset:0;background:#000;overflow:hidden;display:none;touch-action:none;}
 .music-slide{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;}
@@ -489,6 +521,20 @@ html,body{background:#000;color:#fff;font-family:'DM Sans',sans-serif;overflow:h
       </div>
       <div class="hm-arrow">›</div>
     </div>
+    <div class="hm-card" id="goSeries">
+      
+      <div class="hm-text">
+        <div class="hm-card-title">Mathieu Pichette.co Series</div>
+      </div>
+      <div class="hm-arrow">›</div>
+    </div>
+    <div class="hm-card" id="goAnime">
+      
+      <div class="hm-text">
+        <div class="hm-card-title">Mathieu Pichette.co Anime</div>
+      </div>
+      <div class="hm-arrow">›</div>
+    </div>
       <div class="hm-arrow">›</div>
     </div>
   </div>
@@ -566,6 +612,76 @@ From 0 to hero, from hell to paradise —<br>the world will be shaped by people 
         <div style="font-family:'Anton',sans-serif;font-size:0.62rem;letter-spacing:2px;color:var(--gold);margin-bottom:10px;">UPCOMING</div>
         <div style="font-size:0.72rem;color:rgba(255,255,255,0.85);line-height:2;">Coming soon — episodes, seasons & series.</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SERIES FEED ── -->
+<div id="seriesFeed">
+  <div id="srtop">
+    <div id="srtop-back" onclick="
+      document.getElementById('seriesFeed').style.display='none';
+      document.getElementById('home').style.display='flex';
+      srSlides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
+      srHideBar();
+    ">← MENU</div>
+    <div id="srtop-brand">Mathieu Pichette.co Series</div>
+    <div id="srtop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  </div>
+  <div id="srseekbar">
+    <div id="srseek-track">
+      <div id="srseek-fill"></div>
+      <div id="srseek-thumb"></div>
+    </div>
+    <div id="srseek-times">
+      <span id="srseek-cur">0:00</span>
+      <div id="srseek-btns">
+        <div id="srov-back" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+        <div id="srseek-pp" class="fseek-btn">▶</div>
+        <div id="srov-fwd" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+      </div>
+      <span id="srseek-dur">0:00</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── ANIME FEED ── -->
+<div id="animeFeed">
+  <div id="antop">
+    <div id="antop-back" onclick="
+      document.getElementById('animeFeed').style.display='none';
+      document.getElementById('home').style.display='flex';
+      anSlides.forEach(function(s){ var v=s.querySelector('video'); if(v) v.pause(); });
+      anHideBar();
+    ">← MENU</div>
+    <div id="antop-brand">Mathieu Pichette.co Anime</div>
+    <div id="antop-intent">My intention eternally is to evolve the energy of life constantly and eternally at my best and in my fastest way. Yes therefore at my best and in my fastest way to evolve the energy of life therefore the entire world therefore all things eternally yes! Yes, eternally!</div>
+  </div>
+  <div id="aseekbar">
+    <div id="aseek-track">
+      <div id="aseek-fill"></div>
+      <div id="aseek-thumb"></div>
+    </div>
+    <div id="aseek-times">
+      <span id="aseek-cur">0:00</span>
+      <div id="aseek-btns">
+        <div id="anov-back" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+        <div id="aseek-pp" class="fseek-btn">▶</div>
+        <div id="anov-fwd" class="fseek-btn">
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+          <span>10s</span>
+        </div>
+      </div>
+      <span id="aseek-dur">0:00</span>
     </div>
   </div>
 </div>
@@ -2035,6 +2151,130 @@ document.getElementById('goMusic').addEventListener('click',function(){
     if(a){ a.play().catch(function(){}); }
   }
 });
+
+// ── SERIES SECTION ──
+var SERIES_VIDEOS=[
+  {name:"10 best moments of LOST",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/10%20best%20moments%20of%20LOST.mp4"}
+  ,{name:"10 mins of Hilarious How I Met Your Mother Moments pt.1",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/10%20mins%20of%20Hilarious%20How%20I%20Met%20Your%20Mother%20Moments%20pt.1.mp4"}
+  ,{name:"20 mins of my favorite funniest moments How I Met Your Mother",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/20%20mins%20of%20my%20favorite%20funniest%20moments%20%2820k%20subs%20milestone%29%20%20%20How%20I%20Met%20Your%20Mother.mp4"}
+  ,{name:"Best of Game of Thrones Most Badass Scenes Compilation",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Best%20of%20Game%20of%20Thrones%20%20%20Most%20Badass%20Scenes%20Compilation.mp4"}
+  ,{name:"Breaking Bad Walter White Best Scenes",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Breaking%20Bad%20-%20Walter%20White%27s%20Best%20Scenes.mp4"}
+  ,{name:"Breaking Bad Most Iconic Scenes",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Breaking%20Bad%27s%20Most%20Iconic%20Scenes.mp4"}
+  ,{name:"Friends Funniest Moments",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Friends%20Funniest%20Moments%21%20%20Friends.mp4"}
+  ,{name:"Frontman Player 001 Best Scenes Squid Game 2 Scenepack 4K 60FPS",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Frontman%20%20%20Player%20001%20Best%20Scenes%20-%20Squid%20Game%202%20%20%20Scenepack%20%20%204K%2060FPS.mp4"}
+  ,{name:"How I Met Your Mother TOP 5 Moments 2",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/How%20I%20Met%20Your%20Mother%20-%20TOP%205%20Moments%20%232.mp4"}
+  ,{name:"How I Met Your Mother TOP 5 Moments",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/How%20I%20Met%20Your%20Mother%20-%20TOP%205%20Moments.mp4"}
+  ,{name:"Money Heist La casa de papel Top 10 best scenes",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Money%20Heist%20%28La%20casa%20de%20papel%29%20-%20Top%2010%20best%20scenes.mp4"}
+  ,{name:"Ross Gets His Teeth Whitened Friends",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/Ross%20Gets%20His%20Teeth%20Whitened%20%20%20Friends.mp4"}
+  ,{name:"SQUID GAME SEASON 3 FINAL SCENE Part 1",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/SQUID%20GAME%20SEASON%203%20%E2%80%93%20FINAL%20SCENE%20%28Part-1%29%20%20%20%23squidgame3%20%23squidgame.mp4"}
+  ,{name:"The Flash Best and Epic Moments from Season 1 to 7 Part 1",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/The%20Flash%20Best%20and%20Epic%20Moments%20from%20Season%201%20to%207%20%20%20Part%201.mp4"}
+  ,{name:"The Ones Where Chandler Monica Sneak Around Friends",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/The%20Ones%20Where%20Chandler%20%26%20Monica%20Sneak%20Around%20%20%20Friends.mp4"}
+  ,{name:"The Ones Where Monica Ross Fight Friends",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/The%20Ones%20Where%20Monica%20%26%20Ross%20Fight%20%20%20Friends.mp4"}
+  ,{name:"The Ones with Joey the Ladies Man Friends",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/The%20Ones%20with%20Joey%20the%20Ladies%27%20Man%20%20%20Friends.mp4"}
+  ,{name:"The Top 5 Most Viewed Friends Clips of 2024",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/The%20Top%205%20Most%20Viewed%20%27Friends%27%20Clips%20of%202024.mp4"}
+  ,{name:"We Were On A Break FRIENDS",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/We%20Were%20On%20A%20Break%20%20%20FRIENDS.mp4"}
+  ,{name:"Barney Stinson being iconic for twelve minutes straight",url:"https://ia600401.us.archive.org/10/items/breaking-bads-most-iconic-scenes_202603/barney%20stinson%20being%20iconic%20for%20twelve%20minutes%20straight.mp4"}
+];
+var seriesFeed=document.getElementById('seriesFeed');
+var srseekbar=document.getElementById('srseekbar');
+var srTopBack=document.getElementById('srtop-back');
+var srseekFill=document.getElementById('srseek-fill');
+var srseekThumb=document.getElementById('srseek-thumb');
+var srseekCur=document.getElementById('srseek-cur');
+var srseekDur=document.getElementById('srseek-dur');
+var srseekPP=document.getElementById('srseek-pp');
+var srseekTrack=document.getElementById('srseek-track');
+var srBarTimer=null;
+var srCurrent=0;
+var srList=[];
+var srSlides=[];
+var srSettling=false;
+var srTStartY=0;
+var srDragging=false;
+window.srstarted=false;
+
+function srShowBar(){srseekbar.classList.add('show');srTopBack.classList.add('show');clearTimeout(srBarTimer);srBarTimer=setTimeout(function(){srseekbar.classList.remove('show');srTopBack.classList.remove('show');},3000);}
+function srHideBar(){clearTimeout(srBarTimer);srseekbar.classList.remove('show');srTopBack.classList.remove('show');}
+function srUpdatePlayIcon(){var v=srGetVideo(srCurrent);srseekPP.textContent=(!v||v.paused)?'▶':'⏸';}
+function srGetSlide(i){return srSlides[i]||null;}
+function srGetVideo(i){return srSlides[i]?srSlides[i].querySelector('video'):null;}
+function srSetPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
+function srSetPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
+function srAnimateTo(el,vh,cb){el.style.transition='transform 0.38s cubic-bezier(0.16,1,0.3,1)';el.style.transform='translateY('+vh+'vh)';if(cb){var done=function(){el.removeEventListener('transitionend',done);cb();};el.addEventListener('transitionend',done);}}
+function srSeekRel(sec){var v=srGetVideo(srCurrent);if(!v||!v.duration)return;v.currentTime=Math.min(Math.max(0,v.currentTime+sec),v.duration);}
+function srPlayVideo(idx){for(var i=0;i<srSlides.length;i++){var ov=srGetVideo(i);if(ov&&i!==idx)ov.pause();}var v=srGetVideo(idx);if(v){if(!v.src){v.src=srList[idx].url;v.preload='auto';v.load();}v.play().catch(function(){});}}
+function buildSeriesFeed(){srSlides.forEach(function(s){s.remove();});srSlides=[];srList=shuffle(SERIES_VIDEOS);srCurrent=0;srList.forEach(function(vid,idx){var slide=document.createElement('div');slide.className='slide';var video=document.createElement('video');video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');video.setAttribute('preload','none');video.muted=false;video.loop=true;slide.appendChild(video);seriesFeed.appendChild(slide);srSlides.push(slide);srSetPos(slide,idx===0?0:100);});if(srList.length>0){var v=srGetVideo(0);if(v){v.src=srList[0].url;v.preload='auto';v.load();v.play().catch(function(){});}}}
+
+seriesFeed.addEventListener('touchstart',function(e){if(srSettling||!window.srstarted)return;if(e.target.closest&&e.target.closest('#srseekbar'))return;srTStartY=e.touches[0].clientY;srDragging=true;var ns=srGetSlide(srCurrent+1);if(ns)srSetPos(ns,-100);},{passive:true});
+seriesFeed.addEventListener('touchmove',function(e){if(!srDragging||srSettling)return;if(e.target.closest&&e.target.closest('#srseekbar'))return;var dy=e.touches[0].clientY-srTStartY;if(dy<=0){var cs=srGetSlide(srCurrent);if(cs)srSetPos(cs,0);return;}var cs=srGetSlide(srCurrent);var ns=srGetSlide(srCurrent+1);if(cs)srSetPosPx(cs,dy);if(ns)srSetPosPx(ns,dy-window.innerHeight);},{passive:true});
+seriesFeed.addEventListener('touchend',function(e){if(!srDragging)return;srDragging=false;var dy=e.changedTouches[0].clientY-srTStartY;if(dy>80&&srCurrent<srList.length-1){srSettling=true;srCurrent++;srHideBar();var prev=srGetSlide(srCurrent-1);var next=srGetSlide(srCurrent);if(prev)srAnimateTo(prev,100,null);if(next){srAnimateTo(next,0,function(){srSettling=false;srPlayVideo(srCurrent);});}else{srSettling=false;srPlayVideo(srCurrent);}}else{var cs=srGetSlide(srCurrent);var ns=srGetSlide(srCurrent+1);if(cs)srAnimateTo(cs,0,null);if(ns)srAnimateTo(ns,-100,null);}},{passive:true});
+document.addEventListener('touchmove',function(e){if(seriesFeed.style.display==='block'&&window.srstarted)e.preventDefault();},{passive:false});
+seriesFeed.addEventListener('click',function(e){if(srseekbar.classList.contains('show')){srHideBar();}else{srUpdatePlayIcon();srShowBar();}});
+srseekPP.addEventListener('click',function(e){e.stopPropagation();var v=srGetVideo(srCurrent);if(!v)return;if(v.paused){v.play().catch(function(){});}else{v.pause();}srUpdatePlayIcon();clearTimeout(srBarTimer);srBarTimer=setTimeout(function(){srseekbar.classList.remove('show');srTopBack.classList.remove('show');},3000);});
+document.getElementById('srov-back').addEventListener('click',function(e){e.stopPropagation();srSeekRel(-10);clearTimeout(srBarTimer);srBarTimer=setTimeout(function(){srseekbar.classList.remove('show');srTopBack.classList.remove('show');},3000);});
+document.getElementById('srov-fwd').addEventListener('click',function(e){e.stopPropagation();srSeekRel(10);clearTimeout(srBarTimer);srBarTimer=setTimeout(function(){srseekbar.classList.remove('show');srTopBack.classList.remove('show');},3000);});
+srseekTrack.addEventListener('touchstart',function(e){var rect=srseekTrack.getBoundingClientRect();var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));var v=srGetVideo(srCurrent);if(v&&v.duration)v.currentTime=pct*v.duration;e.stopPropagation();},{passive:true});
+srseekTrack.addEventListener('touchmove',function(e){var rect=srseekTrack.getBoundingClientRect();var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));var v=srGetVideo(srCurrent);if(v&&v.duration)v.currentTime=pct*v.duration;e.stopPropagation();},{passive:true});
+setInterval(function(){if(!window.srstarted)return;var v=srGetVideo(srCurrent);if(!v||!v.duration)return;var pct=v.currentTime/v.duration;srseekFill.style.width=(pct*100)+'%';srseekThumb.style.left=(pct*100)+'%';srseekCur.textContent=fmtTime(v.currentTime);srseekDur.textContent=fmtTime(v.duration);srseekPP.textContent=v.paused?'▶':'⏸';},250);
+document.getElementById('goSeries').addEventListener('click',function(){hide('home');stopAll();seriesFeed.style.display='block';if(!window.srstarted){window.srstarted=true;buildSeriesFeed();}else{var v=srGetVideo(srCurrent);if(v){v.muted=false;v.play().catch(function(){});}}});
+
+// ── ANIME SECTION ──
+var ANIME_VIDEOS=[
+  {name:"30 Minutes of Dragonball Z Epic Moments Video 1",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/30%20Minutes%20of%20Dragonball%20Z%20Epic%20Moments%20%28Video%20%231%29.mp4"}
+  ,{name:"Attack On Titan Levi VS The Beast Titan English Dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/Attack%20On%20Titan%20Levi%20VS%20The%20Beast%20Titan%20English%20Dub.mp4"}
+  ,{name:"Best of Levi Ackerman Season 3 Eng Dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/Best%20of%20Levi%20Ackerman%20-%20Season%203%20%28Eng%20Dub%29.mp4"}
+  ,{name:"Demon Slayer Funny Moments PART 1 Eng Dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/Demon%20Slayer%20Funny%20Moments%20%5BPART%201%5D%20%20%20Eng%20Dub%20%2B%2015%20Subs.mp4"}
+  ,{name:"Everyone being impressed by killua and gon for 12 minutes straight",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/Everyone%20being%20impressed%20by%20killua%20and%20gon%20for%2012%20minutes%20straight.mp4"}
+  ,{name:"L tests Light deductive reasoning skills",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/L%20tests%20Light%27s%20deductive%20reasoning%20skills.mp4"}
+  ,{name:"Luffy Conqueror's Haki in Fishman Island English Dub FULL HD",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/Luffy%20Conqueror%27s%20Haki%20%20in%20Fishman%20Island%20English%20Dub%20FULL%20HD.mp4"}
+  ,{name:"My Hero Academia Abridged BEST CLASS 1-A MOMENTS",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/My%20Hero%20Academia%20Abridged%20-%20BEST%20CLASS%201-A%20MOMENTS%21.mp4"}
+  ,{name:"One Piece Characters Being Ridiculously Funny PART 1 Eng Dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/One%20Piece%20Characters%20Being%20Ridiculously%20Funny%20%5BPART%201%5D%20%20%20Eng%20Dub%20%2B%2015%20Subs.mp4"}
+  ,{name:"Saitama vs Genos full fight uncut 1080p English Dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/Saitama%20vs%20Genos%20full%20fight%20uncut%201080p%20%20%20English%20Dub.mp4"}
+  ,{name:"One Piece but more out of context dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/one%20piece%20but%20more%20out%20of%20context%20-%20dub.mp4"}
+  ,{name:"One Piece out of context dub",url:"https://ia600906.us.archive.org/29/items/30-minutes-of-dragonball-z-epic-moments-video-1/one%20piece%20out%20of%20context%20-%20dub.mp4"}
+];
+var animeFeed=document.getElementById('animeFeed');
+var aseekbar=document.getElementById('aseekbar');
+var anTopBack=document.getElementById('antop-back');
+var aseekFill=document.getElementById('aseek-fill');
+var aseekThumb=document.getElementById('aseek-thumb');
+var aseekCur=document.getElementById('aseek-cur');
+var aseekDur=document.getElementById('aseek-dur');
+var aseekPP=document.getElementById('aseek-pp');
+var aseekTrack=document.getElementById('aseek-track');
+var anBarTimer=null;
+var anCurrent=0;
+var anList=[];
+var anSlides=[];
+var anSettling=false;
+var anTStartY=0;
+var anDragging=false;
+window.anstarted=false;
+
+function anShowBar(){aseekbar.classList.add('show');anTopBack.classList.add('show');clearTimeout(anBarTimer);anBarTimer=setTimeout(function(){aseekbar.classList.remove('show');anTopBack.classList.remove('show');},3000);}
+function anHideBar(){clearTimeout(anBarTimer);aseekbar.classList.remove('show');anTopBack.classList.remove('show');}
+function anUpdatePlayIcon(){var v=anGetVideo(anCurrent);aseekPP.textContent=(!v||v.paused)?'▶':'⏸';}
+function anGetSlide(i){return anSlides[i]||null;}
+function anGetVideo(i){return anSlides[i]?anSlides[i].querySelector('video'):null;}
+function anSetPos(el,vh){el.style.transition='none';el.style.transform='translateY('+vh+'vh)';}
+function anSetPosPx(el,px){el.style.transition='none';el.style.transform='translateY('+px+'px)';}
+function anAnimateTo(el,vh,cb){el.style.transition='transform 0.38s cubic-bezier(0.16,1,0.3,1)';el.style.transform='translateY('+vh+'vh)';if(cb){var done=function(){el.removeEventListener('transitionend',done);cb();};el.addEventListener('transitionend',done);}}
+function anSeekRel(sec){var v=anGetVideo(anCurrent);if(!v||!v.duration)return;v.currentTime=Math.min(Math.max(0,v.currentTime+sec),v.duration);}
+function anPlayVideo(idx){for(var i=0;i<anSlides.length;i++){var ov=anGetVideo(i);if(ov&&i!==idx)ov.pause();}var v=anGetVideo(idx);if(v){if(!v.src){v.src=anList[idx].url;v.preload='auto';v.load();}v.play().catch(function(){});}}
+function buildAnimeFeed(){anSlides.forEach(function(s){s.remove();});anSlides=[];anList=shuffle(ANIME_VIDEOS);anCurrent=0;anList.forEach(function(vid,idx){var slide=document.createElement('div');slide.className='slide';var video=document.createElement('video');video.setAttribute('playsinline','');video.setAttribute('webkit-playsinline','');video.setAttribute('preload','none');video.muted=false;video.loop=true;slide.appendChild(video);animeFeed.appendChild(slide);anSlides.push(slide);anSetPos(slide,idx===0?0:100);});if(anList.length>0){var v=anGetVideo(0);if(v){v.src=anList[0].url;v.preload='auto';v.load();v.play().catch(function(){});}}}
+
+animeFeed.addEventListener('touchstart',function(e){if(anSettling||!window.anstarted)return;if(e.target.closest&&e.target.closest('#aseekbar'))return;anTStartY=e.touches[0].clientY;anDragging=true;var ns=anGetSlide(anCurrent+1);if(ns)anSetPos(ns,-100);},{passive:true});
+animeFeed.addEventListener('touchmove',function(e){if(!anDragging||anSettling)return;if(e.target.closest&&e.target.closest('#aseekbar'))return;var dy=e.touches[0].clientY-anTStartY;if(dy<=0){var cs=anGetSlide(anCurrent);if(cs)anSetPos(cs,0);return;}var cs=anGetSlide(anCurrent);var ns=anGetSlide(anCurrent+1);if(cs)anSetPosPx(cs,dy);if(ns)anSetPosPx(ns,dy-window.innerHeight);},{passive:true});
+animeFeed.addEventListener('touchend',function(e){if(!anDragging)return;anDragging=false;var dy=e.changedTouches[0].clientY-anTStartY;if(dy>80&&anCurrent<anList.length-1){anSettling=true;anCurrent++;anHideBar();var prev=anGetSlide(anCurrent-1);var next=anGetSlide(anCurrent);if(prev)anAnimateTo(prev,100,null);if(next){anAnimateTo(next,0,function(){anSettling=false;anPlayVideo(anCurrent);});}else{anSettling=false;anPlayVideo(anCurrent);}}else{var cs=anGetSlide(anCurrent);var ns=anGetSlide(anCurrent+1);if(cs)anAnimateTo(cs,0,null);if(ns)anAnimateTo(ns,-100,null);}},{passive:true});
+document.addEventListener('touchmove',function(e){if(animeFeed.style.display==='block'&&window.anstarted)e.preventDefault();},{passive:false});
+animeFeed.addEventListener('click',function(e){if(aseekbar.classList.contains('show')){anHideBar();}else{anUpdatePlayIcon();anShowBar();}});
+aseekPP.addEventListener('click',function(e){e.stopPropagation();var v=anGetVideo(anCurrent);if(!v)return;if(v.paused){v.play().catch(function(){});}else{v.pause();}anUpdatePlayIcon();clearTimeout(anBarTimer);anBarTimer=setTimeout(function(){aseekbar.classList.remove('show');anTopBack.classList.remove('show');},3000);});
+document.getElementById('anov-back').addEventListener('click',function(e){e.stopPropagation();anSeekRel(-10);clearTimeout(anBarTimer);anBarTimer=setTimeout(function(){aseekbar.classList.remove('show');anTopBack.classList.remove('show');},3000);});
+document.getElementById('anov-fwd').addEventListener('click',function(e){e.stopPropagation();anSeekRel(10);clearTimeout(anBarTimer);anBarTimer=setTimeout(function(){aseekbar.classList.remove('show');anTopBack.classList.remove('show');},3000);});
+aseekTrack.addEventListener('touchstart',function(e){var rect=aseekTrack.getBoundingClientRect();var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));var v=anGetVideo(anCurrent);if(v&&v.duration)v.currentTime=pct*v.duration;e.stopPropagation();},{passive:true});
+aseekTrack.addEventListener('touchmove',function(e){var rect=aseekTrack.getBoundingClientRect();var pct=Math.max(0,Math.min(1,(e.touches[0].clientX-rect.left)/rect.width));var v=anGetVideo(anCurrent);if(v&&v.duration)v.currentTime=pct*v.duration;e.stopPropagation();},{passive:true});
+setInterval(function(){if(!window.anstarted)return;var v=anGetVideo(anCurrent);if(!v||!v.duration)return;var pct=v.currentTime/v.duration;aseekFill.style.width=(pct*100)+'%';aseekThumb.style.left=(pct*100)+'%';aseekCur.textContent=fmtTime(v.currentTime);aseekDur.textContent=fmtTime(v.duration);aseekPP.textContent=v.paused?'▶':'⏸';},250);
+document.getElementById('goAnime').addEventListener('click',function(){hide('home');stopAll();animeFeed.style.display='block';if(!window.anstarted){window.anstarted=true;buildAnimeFeed();}else{var v=anGetVideo(anCurrent);if(v){v.muted=false;v.play().catch(function(){});}}});
 
 // Précharge la 1ère vidéo de chaque section dès que l'app ouvre
 (function(){
