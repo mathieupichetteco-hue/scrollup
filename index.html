@@ -1534,107 +1534,14 @@ function mSeekRel(sec){
   if(!v||!v.duration) return;
   v.currentTime=Math.min(Math.max(0,v.currentTime+sec),v.duration);
 }
-function mShowLoader(idx){
-  var s=mGetSlide(idx); if(!s) return;
-  var existing=s.querySelector('.m-loader'); if(existing) return;
-  var loader=document.createElement('div');
-  loader.className='m-loader';
-  loader.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:10;pointer-events:none;';
-  loader.innerHTML='<div style="width:44px;height:44px;border:3px solid rgba(0,206,209,0.2);border-top:3px solid #00CED1;border-radius:50%;animation:mspin 0.8s linear infinite;"></div><div style="font-family:Anton,sans-serif;font-size:0.5rem;letter-spacing:2px;color:rgba(0,206,209,0.7);margin-top:14px;">LOADING</div>';
-  if(!document.getElementById('mspinstyle')){
-    var st=document.createElement('style');
-    st.id='mspinstyle';
-    st.textContent='@keyframes mspin{to{transform:rotate(360deg);}}';
-    document.head.appendChild(st);
-  }
-  s.appendChild(loader);
-}
-function mHideLoader(idx){
-  var s=mGetSlide(idx); if(!s) return;
-  var loader=s.querySelector('.m-loader');
-  if(loader) loader.remove();
-}
-
-function mLoadAround(idx){
-  // Destroy videos more than 2 behind to free memory
-  for(var i=0;i<mSlides.length;i++){
-    if(i<idx-2){
-      var old=mGetVideo(i);
-      if(old&&old.src){ old.pause(); old.removeAttribute('src'); old.load(); }
-    }
-  }
-  // Preload next 3 immediately via mFastLoad cascade
-  for(var j=1;j<=3;j++){
-    (function(offset){
-      var ni=idx+offset;
-      if(!mList[ni]) return;
-      var nv=mGetVideo(ni);
-      if(nv&&!nv.src){
-        mFastLoad(mList[ni].url,function(){
-          if(!nv.src){
-            nv.src=mList[ni].url+'#t=0.1';
-            nv.preload='auto';
-            nv.load();
-          }
-        });
-      }
-    })(j);
-  }
-}
-
-function mFastLoad(url,callback){
-  try{
-    var xhr=new XMLHttpRequest();
-    xhr.open('GET',url,true);
-    xhr.setRequestHeader('Range','bytes=0-524287');
-    xhr.responseType='arraybuffer';
-    xhr.timeout=8000;
-    xhr.onload=function(){callback();};
-    xhr.onerror=function(){callback();};
-    xhr.ontimeout=function(){callback();};
-    xhr.send();
-  }catch(e){callback();}
-}
-
-function mStartVideo(idx){
-  var v=mGetVideo(idx); if(!v) return;
-  mShowLoader(idx);
-  var url=mList[idx].url;
-  var fastUrl=url+'#t=0.1';
-  function attachAndPlay(){
-    if(!v.src){ v.src=fastUrl; v.preload='auto'; v.load(); }
-    function onCanPlay(){
-      v.removeEventListener('canplay',onCanPlay);
-      mHideLoader(idx);
-      if(idx===mCurrent) v.play().catch(function(){});
-    }
-    var hasPlayed=false;
-    function onWaiting(){ if(idx===mCurrent&&!hasPlayed) mShowLoader(idx); }
-    function onPlaying(){
-      hasPlayed=true;
-      mHideLoader(idx);
-      // After 3s of playback, aggressively preload next 3
-      setTimeout(function(){
-        if(mCurrent===idx) mLoadAround(idx);
-      }, 3000);
-    }
-    v.addEventListener('canplay',onCanPlay);
-    v.addEventListener('waiting',onWaiting);
-    v.addEventListener('playing',onPlaying,{once:true});
-    if(v.readyState>=3){ onCanPlay(); }
-  }
-  mFastLoad(url,attachAndPlay);
-}
 
 function mPlayVideo(idx){
   for(var i=0;i<mSlides.length;i++){
-    if(i!==idx){
-      var ov=mGetVideo(i);
-      if(ov) ov.pause();
-    }
+    var ov=mGetVideo(i);
+    if(ov&&i!==idx) ov.pause();
   }
-  mStartVideo(idx);
-  mLoadAround(idx);
+  var v=mGetVideo(idx);
+  if(v){ if(!v.src){ v.src=mList[idx].url; v.preload='auto'; v.load(); } v.play().catch(function(){}); }
 }
 
 function buildMoviesFeed(){
@@ -1654,8 +1561,10 @@ function buildMoviesFeed(){
     mSlides.push(slide);
     mSetPos(slide, idx===0 ? 0 : 100);
   });
-  mStartVideo(0);
-  mLoadAround(0);
+  if(mList.length>0){
+    var v=mGetVideo(0);
+    if(v){ v.src=mList[0].url; v.preload='auto'; v.load(); v.play().catch(function(){}); }
+  }
 }
 
 moviesFeed.addEventListener('touchstart',function(e){
@@ -1664,23 +1573,6 @@ moviesFeed.addEventListener('touchstart',function(e){
   mTStartY=e.touches[0].clientY; mDragging=true;
   var ns=mGetSlide(mCurrent+1);
   if(ns) mSetPos(ns,-100);
-  // Preload next 3 on swipe start
-  for(var _j=1;_j<=3;_j++){
-    (function(off){
-      var _ni=mCurrent+off;
-      if(!mList[_ni]) return;
-      var _vn=mGetVideo(_ni);
-      if(_vn&&!_vn.src){
-        mFastLoad(mList[_ni].url,function(){
-          if(!_vn.src){
-            _vn.src=mList[_ni].url+'#t=0.1';
-            _vn.preload='auto';
-            _vn.load();
-          }
-        });
-      }
-    })(_j);
-  }
 },{passive:true});
 
 moviesFeed.addEventListener('touchmove',function(e){
